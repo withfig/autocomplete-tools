@@ -1,6 +1,6 @@
 {
   "name": "@withfig/autocomplete-tools",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Command line tools for working with fig autocomplete specs",
   "author": "The Fig Team",
   "scripts": {
@@ -13,11 +13,11 @@
     "autocomplete-tooling": "./build/index.js"
   },
   "dependencies": {
-    "commander": "^8.1.0",
-    "typescript": "^4.2.3",
     "chalk": "^4.1.0",
     "chokidar": "^3.5.1",
-    "progress": "^2.0.3"
+    "commander": "^8.1.0",
+    "progress": "^2.0.3",
+    "typescript": "^4.2.3"
   },
   "devDependencies": {
     "@types/commander": "^2.12.2",
