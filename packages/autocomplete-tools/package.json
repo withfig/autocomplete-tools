@@ -7,7 +7,7 @@
     "build": "rm -rf build/ && tsc && cp scripts/*.sh build/scripts && cp -r boilerplate build/boilerplate",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "precommit": "lint-staged"
+    "precommit": "npm run build && lint-staged"
   },
   "bin": {
     "autocomplete-tools": "./build/index.js"
