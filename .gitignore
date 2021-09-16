@@ -4,5 +4,5 @@ dist
 dist-ssr
 *.local
 .eslintcache
-.fig
+.fig/
 build/
