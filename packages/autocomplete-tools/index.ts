@@ -15,7 +15,7 @@ program
     executableFile: "scripts/compile",
   })
   .command("dev", "watch for changes and compile specs", {
-    executableFile: "scripts/dev",
+    executableFile: "scripts/dev.sh",
   });
 
 program.parse(process.argv);
