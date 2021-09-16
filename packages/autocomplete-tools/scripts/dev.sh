@@ -27,6 +27,8 @@ disable_dev_mode() {
 
 trap disable_dev_mode SIGINT SIGTERM SIGQUIT;
 
+echo "${SCRIPT_DIR}"
+
 fig settings autocomplete.developerModeNPM true &&
     fig settings autocomplete.devCompletionsFolder "$(pwd)"/build &&
     node "${SCRIPT_DIR}/compile.js" --watch

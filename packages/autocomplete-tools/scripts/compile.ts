@@ -123,24 +123,24 @@ program.parse(process.argv);
 
 const opts = program.opts();
 
+// Get all files from the the source folder recursively
+const specs: string[] = [];
+walkDir(SOURCE_FOLDER_NAME, (filePath) => {
+  if (filePath === ".DS_STORE") return;
+  specs.push(filePath);
+});
+processFiles(specs);
+
+if (opts.invalidate_cache) {
+  invalidateCache();
+}
+
 if (opts.watch) {
-  const watcher = chokidar.watch(SOURCE_FOLDER_NAME);
+  const watcher = chokidar.watch(`${SOURCE_FOLDER_NAME}/**/*.ts`);
 
   // Process the changed file
   watcher.on("change", (filePath: string) => {
     processFiles([filePath]);
     invalidateCache();
   });
-} else {
-  // Get all files from the the source folder recursively
-  const specs: string[] = [];
-  walkDir(SOURCE_FOLDER_NAME, (filePath) => {
-    if (filePath === ".DS_STORE") return;
-    specs.push(filePath);
-  });
-  processFiles(specs);
-}
-
-if (opts.invalidate_cache) {
-  invalidateCache();
 }
