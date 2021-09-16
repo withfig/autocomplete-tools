@@ -36,7 +36,7 @@ else
   ## Using quotes around EOF will remove expansions
     # https://superuser.com/questions/1436906/need-to-expand-a-variable-in-a-heredoc-that-is-in-quotes
   cat <<EOF >> "$(pwd)/src/$USER_INPUT_CLI_TOOL.ts"
-export const completion: Fig.Spec = {
+const completionSpec: Fig.Spec = {
   name: "$SPEC_NAME",
   description: "",
   subcommands: [],
@@ -44,6 +44,7 @@ export const completion: Fig.Spec = {
   // Only uncomment if $SPEC_NAME takes an argument
   // args: {}
 };
+export default completionSpec;
 EOF
 
   echo
