@@ -10,4 +10,4 @@ cp -r "${SCRIPT_DIR}/../boilerplate/." .
 mkdir -p src
 npm i
 
-"${SCRIPT_DIR}/create-boilerplate.sh" "$@"
+# "${SCRIPT_DIR}/create-boilerplate.sh" "$@"
