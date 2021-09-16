@@ -10,7 +10,7 @@
     "precommit": "lint-staged"
   },
   "bin": {
-    "autocomplete-tooling": "./build/index.js"
+    "autocomplete-tools": "node ./build/index.js"
   },
   "dependencies": {
     "chalk": "^4.1.0",
