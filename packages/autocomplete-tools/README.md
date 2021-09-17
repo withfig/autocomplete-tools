@@ -35,7 +35,7 @@ cli/
 ├── .fig/
 │   └── autocomplete/
 │       ├── src/                # where you edit your completion specs
-│       ├── dist/               # where your specs compile to
+│       ├── build/              # where your specs compile to
 │       ├── .eslintrc.js
 │       ├── README.md
 │       ├── package-lock.json
@@ -56,7 +56,7 @@ npm run create-spec
 # Start dev mode to see live updates to your spec in your terminal as you edit.
 npm run dev
 
-# Compile your specs from the src/ folder to dist/
+# Compile your specs from the src/ folder to build/
 npm run build
 ```
 
