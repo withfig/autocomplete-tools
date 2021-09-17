@@ -45,7 +45,7 @@ cli/
 └── my_cli_tool.sh
 ```
 
-### Creating, testing, and compiling specs
+### Create, test, and compile specs
 
 `cd` into the `.fig/autocomplete/` folder and run the remaining commands as package.json scripts
 
@@ -60,7 +60,7 @@ npm run dev
 npm run build
 ```
 
-### Pushing Specs to Fig's Cloud
+### Push Specs to Fig's Cloud
 Coming soon
 
 
