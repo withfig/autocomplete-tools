@@ -265,6 +265,17 @@ declare global {
       isRequired?: boolean;
       /**
        *
+       * Signals whether an equals sign is required to pass an option. This is
+       * false by default. When true
+       *
+       * @example
+       * When true `--opt=value` is parsed with value as an arg to `--opt` but
+       * `--opt value` is parsed as `--opt` without an arg passed.
+       *
+       */
+      requiresEquals?: boolean;
+      /**
+       *
        * Signals whether an option can be passed multiple times. The default is an
        * option is NOT repeatable, meaning after you pass it, it will not be
        * suggested again.
@@ -382,6 +393,17 @@ declare global {
        * `echo` takes a variadic argument (`echo hello world ...`) and so does `git add`
        */
       isVariadic?: boolean;
+
+      /**
+       * Specifies whether options can interupt variadic arguments. This is
+       * true by default
+       *
+       * @example
+       * `echo`'s variadic argument cannot be broken by options so the `-n` in
+       * `echo hello -n world` will be consumed by the variadic arg and not as
+       * an option.
+       */
+      optionsCanBreakVariadicArg?: boolean;
 
       /**
        * True if an argument is optional. It is important you include this for our parsing. If you don't, Fig will assume the argument is mandatory and will not offer suggestions for a user.
