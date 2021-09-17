@@ -1,6 +1,6 @@
 {
   "name": "@withfig/autocomplete-tools",
-  "version": "1.0.13",
+  "version": "1.0.14",
   "description": "Command line tools for working with fig autocomplete specs",
   "author": "The Fig Team",
   "scripts": {
