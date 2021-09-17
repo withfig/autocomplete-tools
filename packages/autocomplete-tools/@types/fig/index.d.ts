@@ -18,8 +18,19 @@ declare global {
       | "special"
       | "shortcut";
 
-    // A single T object or an array of this T object
+    // A single T object or an array of this T object.
     export type SingleOrArray<T> = T | T[];
+
+    export type GetVersionCommand = (
+      executeShellCommand: ExecuteShellCommandFunction
+    ) => Promise<string>;
+
+    // Context about a current shell session.
+    export type ShellContext = {
+      currentWorkingDirectory: string;
+      currentProcess: string;
+      sshPrefix: string;
+    };
 
     // A function which can have a T argument and a R result, both
     // set to void by default
@@ -32,7 +43,7 @@ declare global {
     // both set to void by default
     export type StringOrFunction<T = void, R = void> = string | Function<T, R>;
 
-    export type Spec = Subcommand;
+    export type Spec = Subcommand | ((version?: string) => Subcommand);
 
     // Execute shell command function inside generators
     export type ExecuteShellCommandFunction = (
@@ -158,7 +169,7 @@ declare global {
        * @example:
        * `commit -m '{cursor}'` is a shortcut for git
        */
-      additionalSuggestions?: Suggestion[] | string[];
+      additionalSuggestions?: (string | Suggestion)[];
       /**
        * Allows Fig to load another completion spec in the `~/.fig/autocomplete` folder.
        * Specify the spec name without `js`.
@@ -232,12 +243,12 @@ declare global {
        * persistence for certain children. Also see
        * https://github.com/spf13/cobra/blob/master/user_guide.md#persistent-flags.
        *
-       * By default this option is false.
+       * By default, this option is false.
        *
        * @example
        * Say the `git` spec had an option at the top level with `{ name: "--help", isPersistent: true }`.
        * Then the spec would recognize both `git --help` and `git commit --help`
-       * as a valid passing of the `--help` option to the `git` subcommand.
+       * as a valid passing the `--help` option to all `git` subcommands.
        *
        */
       isPersistent?: boolean;
@@ -347,7 +358,7 @@ declare global {
        * If suggestions are dependent upon the user's input or tokens, you most likely will
        * want to use a [Generator object](./generator) instead.
        */
-      suggestions?: string[] | Suggestion[];
+      suggestions?: (string | Suggestion)[];
       /**
        * Fig has pre-built generators for common suggestion types. Currently, we support
        * templates for either "filepaths" or "folders". You can do either of these as a string or both in an array.
@@ -523,10 +534,7 @@ declare global {
       custom?: (
         tokens: string[],
         executeShellCommand: ExecuteShellCommandFunction,
-        shellContext?: {
-          currentWorkingDirectory: string;
-          sshPrefix: string;
-        }
+        shellContext?: ShellContext
       ) => Promise<Suggestion[]>;
       /**
        * For commands that take a long time to run, Fig gives you the option to cache their response. You can cache the response globally or just by the directory they were run in
