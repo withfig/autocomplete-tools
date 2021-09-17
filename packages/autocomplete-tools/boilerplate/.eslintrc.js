@@ -7,7 +7,11 @@ module.exports = {
   extends: [
     "plugin:@typescript-eslint/recommended",
     "plugin:@withfig/fig-linter/recommended",
+    "plugin:compat/recommended",
   ],
+  env: {
+    browser: true,
+  },
   plugins: ["@withfig/fig-linter"],
   rules: {
     "@typescript-eslint/explicit-module-boundary-types": 0,
