@@ -9,7 +9,7 @@ program
     executableFile: "scripts/init.sh",
   })
   .command("create-spec [name]", "search with optional query", {
-    executableFile: "scripts/create-boilerplate.sh",
+    executableFile: "scripts/create-spec.sh",
   })
   .command("compile", "compile specs in the current directory", {
     executableFile: "scripts/compile",

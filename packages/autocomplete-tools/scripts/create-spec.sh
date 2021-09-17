@@ -39,8 +39,18 @@ else
 const completionSpec: Fig.Spec = {
   name: "$SPEC_NAME",
   description: "",
-  subcommands: [],
-  options: [],
+  subcommands: [{
+    name: "my_subcommand",
+    description: "example subcommand",
+    subcommands: [{
+      name: "my_nested_subcommand",
+      description: "nested subcommand, example usage: '$SPEC_NAME my_subcommand my_nested_subcommand'"
+    }],
+  }],
+  options: [{
+    name: ["--help", "-h"],
+    description: "Show help for $SPEC_NAME",
+  }],
   // Only uncomment if $SPEC_NAME takes an argument
   // args: {}
 };
