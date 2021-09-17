@@ -73,7 +73,6 @@ Coming soon
 - [Autocomplete for local scripts](https://fig.io/docs/tutorials/autocomplete-for-internal-scripts)
 
 
-
 ## 😊 Need Help?
 
 Email [hello@fig.io](mailto:hello@fig.io)
