@@ -41,10 +41,10 @@ const completionSpec: Fig.Spec = {
   description: "",
   subcommands: [{
     name: "my_subcommand",
-    description: "example subcommand",
+    description: "Example subcommand",
     subcommands: [{
       name: "my_nested_subcommand",
-      description: "nested subcommand, example usage: '$SPEC_NAME my_subcommand my_nested_subcommand'"
+      description: "Nested subcommand, example usage: '$SPEC_NAME my_subcommand my_nested_subcommand'"
     }],
   }],
   options: [{
