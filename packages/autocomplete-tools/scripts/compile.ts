@@ -1,12 +1,9 @@
-import { Command } from "commander";
-import fs from "fs";
-import ts from "typescript";
-import path from "path";
-import ProgressBar from "progress";
+import { build } from "esbuild";
 import { exec } from "child_process";
 import chokidar from "chokidar";
+import { Command } from "commander";
+import glob from "fast-glob";
 import SpecLogger, { Level } from "./log";
-import { specTransformer } from "./transformer";
 
 // Folder names
 const SOURCE_FOLDER_NAME = "src";
@@ -36,81 +33,40 @@ function invalidateCache() {
   );
 }
 
-function walkDir(dir: string, callback: (filePath: string) => void) {
-  fs.readdirSync(dir).forEach((fileName) => {
-    const filePath = path.join(dir, fileName);
-    const isDirectory = fs.statSync(filePath).isDirectory();
-    if (isDirectory) {
-      walkDir(filePath, callback);
-    } else {
-      callback(filePath);
-    }
-  });
-}
-
-/**
- * Process a spec by transpiling it with the TypeScript
- * compiler.
- * @param filePath The file to process
- */
-const processSpec = (filePath: string) => {
-  const source = fs.readFileSync(filePath).toString();
-  const result = ts.transpileModule(source, {
-    compilerOptions: {
-      module: ts.ModuleKind.ESNext,
-    },
-    transformers: {
-      before: [specTransformer],
-    },
-  });
-
-  const relativeFilePath = filePath
-    .replace(`${SOURCE_FOLDER_NAME}/`, "")
-    .replace(".ts", ".js");
-
-  const outFilePath = path.resolve(DESTINATION_FOLDER_NAME, relativeFilePath);
-  const outDirname = path.dirname(outFilePath);
-
-  if (!fs.existsSync(outDirname)) {
-    fs.mkdirSync(outDirname);
-  }
-
-  // Remove unessesary export at the end of js files
-  const jsOutput = result.outputText.replace("export {};", "");
-
-  fs.writeFileSync(outFilePath, jsOutput);
-};
-
 /**
  * Transpiles all passed files and prints the progress
  * @param specs Array of filepaths
  */
-function processFiles(specs: string[]) {
-  // Process all the files in the specs directory
-  SpecLogger.log(`Processing ${specs.length} specs...`);
-
-  const bar = new ProgressBar(":bar :percent", {
-    total: specs.length,
-    complete: "=",
-    head: ">",
-    incomplete: " ",
-  });
-
-  // Make sure that the destination folder exists
-  if (!fs.existsSync(DESTINATION_FOLDER_NAME)) {
-    // if not create it
-    fs.mkdirSync(DESTINATION_FOLDER_NAME);
-  }
-
-  specs.forEach((spec) => {
-    processSpec(spec);
-    bar.tick({ spec });
-  });
-
-  SpecLogger.log(
-    `Specs compiled successfully to /${DESTINATION_FOLDER_NAME} folder!`,
-    Level.SUCCESS
+async function processFiles(files: string[], isDev?: boolean) {
+  const fileName = files.length === 1 ? files[0] : `${files.length} specs`;
+  await build({
+    entryPoints: files,
+    outdir: DESTINATION_FOLDER_NAME,
+    bundle: true,
+    format: "esm",
+    minify: true,
+    ...(isDev && { sourcemap: "inline" }),
+  }).catch((e) =>
+    SpecLogger.log(`Error building ${fileName}: ${e.message}`, Level.ERROR)
   );
+  SpecLogger.log(`Built ${fileName}`);
+  invalidateCache();
+}
+
+async function runCompiler(program: Command) {
+  const SOURCE_FILE_GLOB = `${SOURCE_FOLDER_NAME}/**/*.ts`;
+  const files = await glob(SOURCE_FILE_GLOB);
+  await processFiles(files);
+
+  const opts = program.opts();
+
+  if (opts.watch) {
+    const watcher = chokidar.watch(SOURCE_FILE_GLOB, { ignoreInitial: true });
+
+    // Process the changed file
+    watcher.on("change", (file) => processFiles([file], true));
+    watcher.on("add", (file) => processFiles([file], true));
+  }
 }
 
 const program = new Command();
@@ -121,26 +77,4 @@ program
 
 program.parse(process.argv);
 
-const opts = program.opts();
-
-// Get all files from the the source folder recursively
-const specs: string[] = [];
-walkDir(SOURCE_FOLDER_NAME, (filePath) => {
-  if (filePath === ".DS_STORE") return;
-  specs.push(filePath);
-});
-processFiles(specs);
-
-if (opts.invalidate_cache) {
-  invalidateCache();
-}
-
-if (opts.watch) {
-  const watcher = chokidar.watch(`${SOURCE_FOLDER_NAME}/**/*.ts`);
-
-  // Process the changed file
-  watcher.on("change", (filePath: string) => {
-    processFiles([filePath]);
-    invalidateCache();
-  });
-}
+runCompiler(program);

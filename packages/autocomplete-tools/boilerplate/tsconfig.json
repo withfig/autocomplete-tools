@@ -2,7 +2,7 @@
   "compilerOptions": {
     "moduleResolution": "node",
     "outDir": "./build",
-    "target": "es5",
+    "target": "ESNext",
     "module": "ESNext",
     "lib": ["ESNext"],
     "noImplicitAny": false,

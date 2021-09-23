@@ -11,15 +11,15 @@
   },
   "fig": {
     "dev": {
-      "description": "Watching and compile .ts files in ./dev",
+      "description": "Watching and compile .ts files in ./src",
       "icon": "fig://template?badge=🛠",
       "priority": 100
     },
     "test": {
-      "description": "Typecheck all .ts files in /dev"
+      "description": "Typecheck all .ts files in /src"
     },
     "build": {
-      "description": "Compile all files in /dev"
+      "description": "Compile all files in /src"
     },
     "lint": {
       "description": "Check for linting issues"
