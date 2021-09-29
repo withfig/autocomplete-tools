@@ -320,11 +320,6 @@
     "@typescript-eslint/types" "4.33.0"
     eslint-visitor-keys "^2.0.0"
 
-"@withfig/autocomplete-types@^1.5.0":
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/@withfig/autocomplete-types/-/autocomplete-types-1.5.0.tgz#e4d336abf95c2c9b02ebde7f748e21e4fe78282a"
-  integrity sha512-7KwTpYrQbm4dAx3n7cjc628UI0gW20Hna6yhpcxDVDte1kpZR96XIks5EG4aCGb0uw/PonH/OJgWMV+KruTOsg==
-
 acorn-jsx@^5.3.1:
   version "5.3.2"
   resolved "https://registry.yarnpkg.com/acorn-jsx/-/acorn-jsx-5.3.2.tgz#7ed5bb55908b3b2f1bc55c6af1653bada7f07937"
