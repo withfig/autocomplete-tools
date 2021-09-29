@@ -16,6 +16,8 @@ program
   })
   .command("dev", "watch for changes and compile specs", {
     executableFile: "scripts/dev.sh",
+  })
+  .command("merge <oldspec> <newspec> [updatedspec]", "update the contents of a spec", {
+    executableFile: "scripts/merge",
   });
-
 program.parse(process.argv);
