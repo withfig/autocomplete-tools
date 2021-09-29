@@ -2,7 +2,12 @@ module.exports = {
   env: {
     es2021: true,
   },
-  ignorePatterns: ["/node_modules/", "/dist/"],
+  ignorePatterns: [
+    "node_modules/",
+    "dist/",
+    "build/",
+    "eslint-plugin-fig-linter/",
+  ],
   extends: [
     "airbnb/base",
     "eslint:recommended",

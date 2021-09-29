@@ -6,7 +6,7 @@ module.exports = {
     let hasExport = false;
 
     return {
-      ExportDefaultDeclaration(node) {
+      ExportDefaultDeclaration() {
         hasExport = true;
       },
       'ExportSpecifier[exported.name="default"]': function (node) {

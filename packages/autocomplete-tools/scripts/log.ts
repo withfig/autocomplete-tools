@@ -1,8 +1,8 @@
-/* eslint-disable no-console */
 import chalk from "chalk";
 
 // An enum representing the log level and the color to use
 // in chalk to render this level.
+// eslint-disable-next-line no-shadow
 export enum Level {
   INFO = "blue",
   ERROR = "red",
