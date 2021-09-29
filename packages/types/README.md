@@ -1,1 +1,0 @@
-Typings for fig autocomplete specs and other tools

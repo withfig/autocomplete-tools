@@ -1,8 +1,0 @@
-{
-  "name": "@withfig/autocomplete-types",
-  "description": "Typings for fig autocomplete specs and other tools",
-  "version": "2.0.1",
-  "author": "The Fig Team",
-  "types": "index.d.ts",
-  "license": "MIT"
-}
