@@ -8,7 +8,7 @@ module.exports = {
   meta: {
     type: "problem",
   },
-  create: function (context) {
+  create(context) {
     return {
       Property(node) {
         if (node.key.name === "options" || node.key.name === "subcommand") {

@@ -4,64 +4,28 @@
   "description": "Command line tools for working with fig autocomplete specs",
   "author": "The Fig Team",
   "scripts": {
-    "build": "rm -rf build/ && tsc && cp scripts/*.sh build/scripts && cp -r boilerplate build/boilerplate",
-    "lint": "eslint . --ignore-pattern build/",
-    "lint:fix": "eslint . --ignore-pattern build/ --fix",
-    "precommit": "npm run build && lint-staged"
+    "build": "rm -rf build/ && tsc && cp scripts/*.sh build/scripts && cp -r boilerplate build/boilerplate"
   },
-  "bin": {
-    "autocomplete-tools": "./build/index.js"
-  },
+  "license": "MIT",
+  "bin": "./build/index.js",
   "dependencies": {
     "chalk": "^4.1.0",
     "chokidar": "^3.5.1",
     "commander": "^8.1.0",
     "esbuild": "^0.12.15",
     "fast-glob": "^3.2.7",
-    "progress": "^2.0.3",
     "typescript": "^4.2.3"
   },
   "devDependencies": {
-    "@types/commander": "^2.12.2",
-    "@types/inquirer": "^7.3.1",
-    "@types/node": "^14.14.33",
-    "@types/progress": "^2.0.3",
-    "@typescript-eslint/eslint-plugin": "^4.18.0",
-    "@typescript-eslint/parser": "^4.18.0",
-    "@withfig/eslint-plugin-fig-linter": "^1.0.2",
-    "danger": "^10.6.4",
-    "eslint": "^7.22.0",
-    "eslint-config-airbnb": "^18.2.1",
-    "eslint-config-prettier": "^8.1.0",
-    "eslint-plugin-compat": "^3.13.0",
-    "eslint-plugin-fig-linter": "file:scripts/eslint-plugin-fig-linter",
-    "eslint-plugin-import": "^2.23.4",
-    "eslint-plugin-jest": "^24.3.6",
-    "eslint-plugin-prettier": "^3.3.1",
-    "husky": "^6.0.0",
-    "lint-staged": "^10.5.4",
-    "prettier": "2.2.1",
-    "pretty-quick": "^3.1.0"
+    "@types/node": "^14.14.33"
   },
   "fig": {
     "build": {
       "description": "Typecheck and build the project",
       "icon": "🛠"
-    },
-    "lint": {
-      "description": "Lint the code and find errors",
-      "icon": "🔍"
-    },
-    "lint:fix": {
-      "description": "Lint the code and fix errors",
-      "icon": "🧰"
     }
-  },
-  "lint-staged": {
-    "*.{ts,js,tsx}": "eslint --cache --fix"
   },
   "publishConfig": {
     "access": "public"
-  },
-  "gitHead": "e0ababf160af39d3731a151c0b4906fa2b6ca09c"
+  }
 }

@@ -5,7 +5,7 @@ on:
     branches:
       - "main"
     paths:
-      - "packages/autocomplete-tools/@types/fig/index.d.ts"
+      - "packages/types/index.d.ts"
 
 jobs:
   update_page:

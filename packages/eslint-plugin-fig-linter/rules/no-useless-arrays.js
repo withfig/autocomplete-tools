@@ -3,9 +3,9 @@ module.exports = {
     type: "problem",
     fixable: "code",
   },
-  create: function (context) {
+  create(context) {
     return {
-      "ObjectExpression > Property"(node) {
+      "ObjectExpression > Property": function (node) {
         const propName = node.key.name;
         const propValue = node.value;
         if (
@@ -16,9 +16,9 @@ module.exports = {
           propValue.elements.length === 1
         ) {
           context.report({
-            node: node,
+            node,
             message: `If \`${propName}\` is a single value it should not be enclosed in square brackets.`,
-            fix: function (fixer) {
+            fix(fixer) {
               const [wrapperStart, wrapperEnd] = propValue.range;
               // it doesn't take into account `[...elem]`
               const [itemStart, itemEnd] = propValue.elements[0].range;

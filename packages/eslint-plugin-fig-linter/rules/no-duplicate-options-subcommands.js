@@ -14,9 +14,9 @@ module.exports = {
   meta: {
     type: "problem",
   },
-  create: function (context) {
+  create(context) {
     return {
-      'ObjectExpression > Property[key.type="Identifier"]'(node) {
+      'ObjectExpression > Property[key.type="Identifier"]': function (node) {
         if (node.key.name === "options" || node.key.name === "subcommands") {
           const set = new Set();
           if (node.value.type !== "ArrayExpression") return;

@@ -8,12 +8,12 @@
     "noImplicitAny": false,
     "baseUrl": "./",
     "paths": {
-      "*": ["*", "node_modules/@withfig/autocomplete-tools/@types/*"]
+      "*": ["*", "node_modules/@withfig/types/*"]
     },
     "typeRoots": [
       "./node_modules/@types",
-      "./node_modules/@withfig/autocomplete-tools/@types"
+      "./node_modules/@withfig/types/"
     ]
   },
-  "include": ["./src/**/*", "dangerfile.ts"],
+  "include": ["./src/**/*"],
 }

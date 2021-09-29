@@ -1,12 +1,10 @@
 module.exports = {
   env: {
-    browser: true,
     es2021: true,
-    "jest/globals": true,
   },
   ignorePatterns: ["/node_modules/", "/dist/"],
   extends: [
-    "airbnb",
+    "airbnb/base",
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
     "prettier",
@@ -14,25 +12,15 @@ module.exports = {
   ],
   parser: "@typescript-eslint/parser",
   parserOptions: {
-    ecmaFeatures: {
-      jsx: true,
-    },
     ecmaVersion: 12,
     sourceType: "module",
   },
-  plugins: ["@typescript-eslint", "jest", "prettier"],
+  plugins: ["@typescript-eslint", "prettier"],
   rules: {
-    "prettier/prettier": [
-      "error",
-      {},
-      {
-        usePrettierrc: true,
-      },
-    ],
+    "prettier/prettier": "error",
     "no-shadow": "off",
     "@typescript-eslint/no-shadow": ["error"],
     "no-console": "off",
-    "react/jsx-filename-extension": ["error", { extensions: [".tsx"] }],
     "no-use-before-define": "off",
     "@typescript-eslint/no-use-before-define": ["error"],
     "import/extensions": "off",
