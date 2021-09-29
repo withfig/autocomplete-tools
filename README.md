@@ -1,17 +1,18 @@
 # Fig Autocomplete-Tooling Repo
 
-
-This repo contains the source for all of Fig's publicly available NPM packages.
+This repo contains the source for all of Fig tools related with [autocomplete](https://github.com/withfig/autocomplete).
 
 1. You can see the list of Fig's packages on the NPM registry here: https://www.npmjs.com/~withfig
 
-2. You can see the source code and related readme for each package in the `./packages` folder
+2. You can see the source code and related README for each package in the `./packages` folder
 
+### To publish a package:
 
-This repo currently uses [lerna](https://lerna.js.org/) for working with multiple packages.
+Run `yarn workspace <workspace name> publish`
 
+e.g.
+```bash
+yarn workspace @withfig/autocomplete-types publish
+```
 
-
-(Sept 16 2021) Brendan: Any reason we aren't using Yarn workspaces? I feel like a lot of our users use it. Dogfooding the tools our users use will help us make Fig better. Just a thought
-
-
+> Note: `<workspace name>` is not the name of the folder, but the name specified inside the package.json of the package to publish.
