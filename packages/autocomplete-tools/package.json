@@ -5,8 +5,8 @@
   "author": "The Fig Team",
   "scripts": {
     "build": "rm -rf build/ && tsc && cp scripts/*.sh build/scripts && cp -r boilerplate build/boilerplate",
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
+    "lint": "eslint . --ignore-pattern build/",
+    "lint:fix": "eslint . --ignore-pattern build/ --fix",
     "precommit": "npm run build && lint-staged"
   },
   "bin": {

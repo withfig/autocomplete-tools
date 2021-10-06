@@ -2,14 +2,39 @@
 export {};
 
 declare global {
-  namespace Fig {
+  export namespace Fig {
     // All the available templates
-    export type TemplateStrings = "filepaths" | "folders";
+    type TemplateStrings = "filepaths" | "folders";
 
-    export type Template = TemplateStrings | TemplateStrings[];
+    type Template = TemplateStrings | TemplateStrings[];
+
+    const enum SpecLocationSource {
+      GLOBAL = "global",
+      LOCAL = "local",
+    }
+
+    // Fig attempts to resolve global specs first in Fig's cloud of public + private specs,
+    // while local specs are resolved locally on the user's device as a path.
+    type SpecLocation =
+      | {
+          type: SpecLocationSource.LOCAL;
+          path?: string;
+          name: string;
+        }
+      | {
+          type: SpecLocationSource.GLOBAL;
+          name: string;
+        };
+
+    type LoadSpec =
+      | string
+      | ((
+          token: string,
+          executeShellCommand: ExecuteShellCommandFunction
+        ) => SpecLocation | SpecLocation[]);
 
     // The type of suggestion to use
-    export type SuggestionType =
+    type SuggestionType =
       | "folder"
       | "file"
       | "arg"
@@ -19,14 +44,14 @@ declare global {
       | "shortcut";
 
     // A single T object or an array of this T object.
-    export type SingleOrArray<T> = T | T[];
+    type SingleOrArray<T> = T | T[];
 
-    export type GetVersionCommand = (
+    type GetVersionCommand = (
       executeShellCommand: ExecuteShellCommandFunction
     ) => Promise<string>;
 
     // Context about a current shell session.
-    export type ShellContext = {
+    type ShellContext = {
       currentWorkingDirectory: string;
       currentProcess: string;
       sshPrefix: string;
@@ -34,23 +59,23 @@ declare global {
 
     // A function which can have a T argument and a R result, both
     // set to void by default
-    export type Function<T = void, R = void> = (param?: T) => R;
+    type Function<T = void, R = void> = (param?: T) => R;
 
     // A utility type to modify a property type
-    export type Modify<T, R> = Omit<T, keyof R> & R;
+    type Modify<T, R> = Omit<T, keyof R> & R;
 
     // A string or a function which can have a T argument and a R result,
     // both set to void by default
-    export type StringOrFunction<T = void, R = void> = string | Function<T, R>;
+    type StringOrFunction<T = void, R = void> = string | Function<T, R>;
 
-    export type Spec = Subcommand | ((version?: string) => Subcommand);
+    type Spec = Subcommand | ((version?: string) => Subcommand);
 
     // Execute shell command function inside generators
-    export type ExecuteShellCommandFunction = (
+    type ExecuteShellCommandFunction = (
       commandToExecute: string
     ) => Promise<string>;
 
-    export interface BaseSuggestion {
+    interface BaseSuggestion {
       /**
        * The string that is displayed in the UI for a given suggestion. This overrides the name property.
        *
@@ -116,7 +141,7 @@ declare global {
       hidden?: boolean;
     }
 
-    export interface Suggestion extends BaseSuggestion {
+    interface Suggestion extends BaseSuggestion {
       /**
        * The text that’s rendered in each row of Fig's popup. displayName will override this.
        *  The `name` props of suggestion, subcommand, options, and args objects are all different. It's important to read them all carefully.
@@ -130,7 +155,7 @@ declare global {
       type?: SuggestionType;
     }
 
-    export interface Subcommand extends BaseSuggestion {
+    interface Subcommand extends BaseSuggestion {
       /**
        * The exact name of the subcommand. It is important to get this right for parsing purposes.
        *
@@ -184,7 +209,7 @@ declare global {
        * (e.g. python, node) and you would like Fig to continue to provide completions for this
        * script, see `isCommand` and `isScript` in @link https://fig.io/docs/reference/arg | Arg}.
        */
-      loadSpec?: string;
+      loadSpec?: LoadSpec;
       /**
        * Dynamically generate a completion spec to be merged in at the same level as the current subcommand. This is useful when a CLI is generated dynamically.
        * This function takes two params:
@@ -217,7 +242,7 @@ declare global {
       };
     }
 
-    export interface Option extends BaseSuggestion {
+    interface Option extends BaseSuggestion {
       /**
        * The exact name(s) of the option represented as a string or array of strings. Do NOT include an = sign here as it will mess up the parsing. Fig handles this logic for you.
        *
@@ -336,7 +361,7 @@ declare global {
       dependsOn?: string[];
     }
 
-    export interface Arg {
+    interface Arg {
       /**
        * The name of an argument. This is different to the `name` prop for subcommands, options, and suggestion objects so please read carefully.
        * This is a normal, human readable string that signals to the user the type of argument they are inserting if there are no available suggestions.
@@ -447,12 +472,20 @@ declare global {
        *
        */
       default?: string;
+
+      loadSpec?: LoadSpec;
+
+      parserDirectives?: {
+        alias?:
+          | string
+          | ((token: string, exec: ExecuteShellCommandFunction) => string);
+      };
     }
 
     /**
      * @see https://fig.io/docs/reference/generator
      */
-    export interface Generator {
+    interface Generator {
       /**
        * Fig has pre-built generators for common suggestion types. Currently, we support
        * templates for either "filepaths" or "folders". You can do either of these as a string or both in an array.
@@ -570,7 +603,7 @@ declare global {
       cache?: Cache;
     }
 
-    export interface Cache {
+    interface Cache {
       /**
        * Time to live for the cache in milliseconds
        *

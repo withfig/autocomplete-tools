@@ -29,6 +29,8 @@ module.exports = {
         usePrettierrc: true,
       },
     ],
+    "no-shadow": "off",
+    "@typescript-eslint/no-shadow": ["error"],
     "no-console": "off",
     "react/jsx-filename-extension": ["error", { extensions: [".tsx"] }],
     "no-use-before-define": "off",

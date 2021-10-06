@@ -17,7 +17,7 @@ export enum Level {
  * @param level The level to log
  */
 export default abstract class SpecLogger {
-  static log(message: string, level: Level = Level.INFO) {
+  static log(message: string, level: Level = Level.INFO): void {
     console.log(chalk[level](message));
   }
 }
