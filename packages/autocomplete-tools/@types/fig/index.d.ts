@@ -8,23 +8,11 @@ declare global {
 
     type Template = TemplateStrings | TemplateStrings[];
 
-    const enum SpecLocationSource {
-      GLOBAL = "global",
-      LOCAL = "local",
-    }
-
     // Fig attempts to resolve global specs first in Fig's cloud of public + private specs,
     // while local specs are resolved locally on the user's device as a path.
     type SpecLocation =
-      | {
-          type: SpecLocationSource.LOCAL;
-          path?: string;
-          name: string;
-        }
-      | {
-          type: SpecLocationSource.GLOBAL;
-          name: string;
-        };
+      | { type: "local"; path?: string; name: string }
+      | { type: "global"; name: string };
 
     type LoadSpec =
       | string
