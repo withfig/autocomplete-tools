@@ -5,6 +5,8 @@
   "scripts": {
     "dev": "npx @withfig/autocomplete-tools dev",
     "create-spec": "npx @withfig/autocomplete-tools create-spec",
+    "copy-to-global": "npm run build && rsync -a --include '*/' --include '*.js' --exclude '*' $(pwd)/specs/ ~/.fig/autocomplete/",
+    "copy-to-global:mixins": "npm run build && rsync -a --include '*/' --include '*.js' --exclude '*' $(pwd)/specs/ ~/.fig/user/autocomplete/",
     "test": "tsc --noEmit && echo 'All specs passed validation.",
     "build": "npx @withfig/autocomplete-tools compile",
     "lint": "eslint '**/*.ts' && npx prettier --check '**/*.ts'",
@@ -18,13 +20,19 @@
       "priority": 100
     },
     "create-spec": {
-      "description": "Create a new spec with the provided name in src/"
+      "description": "Create a new spec with the provided name in ./src"
+    },
+    "copy-to-global": {
+      "description": "Compile all specs in ./src and copy the result to ~/.fig/autocomplete"
+    },
+    "copy-to-global:mixins": {
+      "description": "Compile all specs in ./src and copy the result to ~/.fig/user/autocomplete"
     },
     "test": {
-      "description": "Typecheck all .ts files in src/"
+      "description": "Typecheck all .ts files in ./src"
     },
     "build": {
-      "description": "Compile all files in src/"
+      "description": "Compile all files in ./src"
     },
     "lint": {
       "description": "Check for linting issues"
