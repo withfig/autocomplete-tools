@@ -19,7 +19,7 @@ declare global {
       | ((
           token: string,
           executeShellCommand: ExecuteShellCommandFunction
-        ) => SpecLocation | SpecLocation[]);
+        ) => Promise<SpecLocation | SpecLocation[]>);
 
     // The type of suggestion to use
     type SuggestionType =
@@ -466,7 +466,10 @@ declare global {
       parserDirectives?: {
         alias?:
           | string
-          | ((token: string, exec: ExecuteShellCommandFunction) => string);
+          | ((
+              token: string,
+              exec: ExecuteShellCommandFunction
+            ) => Promise<string>);
       };
     }
 
