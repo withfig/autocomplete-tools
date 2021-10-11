@@ -16,8 +16,17 @@ function runFixtures() {
     const newSpecPath = path.join(fixtureDirPath, "new.ts");
     const updatedSpecPath = path.join(fixtureDirPath, "updated.ts"); // gitignored
     const expectedSpecPath = path.join(fixtureDirPath, "expected.ts");
+    const configPath = path.join(fixtureDirPath, "config.json");
 
-    const cmd = `node -r ts-node/register ${cliPath} merge ${oldSpecPath} ${newSpecPath} ${updatedSpecPath}`;
+    let configString = "";
+    if (fs.existsSync(configPath)) {
+      const { ignoreProps } = JSON.parse(fs.readFileSync(configPath, "utf8"));
+      if (ignoreProps && Array.isArray(ignoreProps)) {
+        configString = `--ignore-props ${ignoreProps.join(",")}`;
+      }
+    }
+
+    const cmd = `node -r ts-node/register ${cliPath} merge ${oldSpecPath} ${newSpecPath} ${updatedSpecPath} ${configString}`;
     try {
       child.execSync(cmd);
     } catch (error) {

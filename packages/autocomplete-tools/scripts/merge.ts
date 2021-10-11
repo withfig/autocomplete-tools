@@ -12,7 +12,6 @@ import {
 import { Command } from "commander";
 import prettier from "prettier";
 
-// TODO: allow the user to select which props should not be overridden instead.
 const PRESERVED_PROPS = new Set([
   // generic props
   "icon",
@@ -214,8 +213,16 @@ function traverseSpecs(statement: Node<ts.Statement>, destination: SourceFile) {
   });
 }
 
+function setupIgnoredProps(ignoredProps: string[]) {
+  for (const prop of ignoredProps) {
+    PRESERVED_PROPS.delete(prop);
+  }
+}
+
 function runProgram(program: Command) {
   program.parse();
+  const { ignoreProps: ignoredProps = [] } = program.opts();
+  setupIgnoredProps(ignoredProps);
   const [oldSpecPath, newSpecPath, updatedSpecPath] = program.args;
 
   function printToFile(ast: SourceFile) {
@@ -274,4 +281,7 @@ function runProgram(program: Command) {
 
 const program = new Command();
 program.arguments("<oldspec> <newspec> [updatedspec]");
+program.option("-i, --ignore-props <props>", "The props that should not be preserved.", (value) =>
+  value.split(",")
+);
 runProgram(program);
