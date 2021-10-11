@@ -51,17 +51,25 @@ function parseFile(filePath: string, input: string): SourceFile {
   return project.createSourceFile(filePath, input, { overwrite: true });
 }
 
-function setupFile(path: string): [sourceFile: SourceFile, defaultExport: TSMSymbol] {
+function setupFile(
+  path: string,
+  getDefaultExport?: true
+): [sourceFile: SourceFile, defaultExport: TSMSymbol];
+function setupFile(path: string, getDefaultExport: false): [sourceFile: SourceFile];
+function setupFile(path: string, getDefaultExport = true) {
   const fileContent = fs.readFileSync(path, {
     encoding: "utf8",
   });
   const sourceFile = parseFile(path, fileContent);
-  const sourceFileDefaultExport = sourceFile.getDefaultExportSymbol();
-  if (!sourceFileDefaultExport)
-    throw new Error(
-      `A Fig spec file should default as default a completion spec object\nRaised at: ${path}`
-    );
-  return [sourceFile, sourceFileDefaultExport];
+  if (getDefaultExport) {
+    const sourceFileDefaultExport = sourceFile.getDefaultExportSymbol();
+    if (!sourceFileDefaultExport)
+      throw new Error(
+        `A Fig spec file should default as default a completion spec object\nRaised at: ${path}`
+      );
+    return [sourceFile, sourceFileDefaultExport];
+  }
+  return [sourceFile];
 }
 
 function isSpecObject(statement: Node<ts.Statement>, name: string): boolean {
@@ -90,22 +98,35 @@ function resolveArrayLiteral(path: ts.Node[], arrayNode: ArrayLiteralExpression)
   const newPath = path.slice(0, -1);
   const currentPathItem = newPath[newPath.length - 1];
   const elements = arrayNode.getElements();
-  // switch currentNodeType, we should expect an ObjectLiteral the most of the times
-  // TODO(important): check if exists a name property
+
+  // The assertion below is an identity, we just use it for type casting
   if (ts.isObjectLiteralExpression(currentPathItem)) {
+    // Check if the object has a name property and get its value
     const nameToFind = currentPathItem.properties.filter(
       (prop): prop is ts.PropertyAssignment =>
         ts.isPropertyAssignment(prop) && ts.isIdentifier(prop.name) && prop.name.text === "name"
     )[0]?.initializer;
-    for (const element of elements) {
-      if (Node.isObjectLiteralExpression(element)) {
-        const nameProp = element.getProperty("name");
-        if (nameProp && Node.isPropertyAssignment(nameProp)) {
-          const initializer = nameProp.getInitializer()!;
-          if (initializer.getText() === nameToFind.getText()) {
-            return resolve(newPath, element);
+
+    if (nameToFind) {
+      for (const element of elements) {
+        if (Node.isObjectLiteralExpression(element)) {
+          const nameProp = element.getProperty("name");
+          if (nameProp && Node.isPropertyAssignment(nameProp)) {
+            const initializer = nameProp.getInitializer()!;
+            if (initializer.getText() === nameToFind.getText()) {
+              return resolve(newPath, element);
+            }
           }
         }
+      }
+    } else {
+      // check which is the index of currentPathItem in the parent ArrayExpression
+      const foundIndex = (currentPathItem.parent as ts.ArrayLiteralExpression).elements.findIndex(
+        (arrayElement) => arrayElement === currentPathItem
+      );
+      const element = elements[foundIndex];
+      if (element && Node.isObjectLiteralExpression(element)) {
+        return resolve(newPath, element);
       }
     }
   }
@@ -162,8 +183,7 @@ function resolveAndUpdateNodePath(
   const statementInitializer = statement.getInitializer();
   if (statementInitializer && Node.isObjectLiteralExpression(statementInitializer)) {
     const out = resolve(path, statementInitializer);
-    if (!out) return false;
-    if (Node.isObjectLiteralExpression(out)) {
+    if (out && Node.isObjectLiteralExpression(out)) {
       out.addPropertyAssignment(nodeToAdd);
       return true;
     }
@@ -179,14 +199,16 @@ function resolveAndUpdateNodePath(
 function traverseSpecs(statement: Node<ts.Statement>, destination: SourceFile) {
   statement.transform((traversal) => {
     const node = traversal.visitChildren();
-    if (ts.isPropertyAssignment(node)) {
-      if (ts.isIdentifier(node.name) && PRESERVED_PROPS.has(node.name.text)) {
-        const nodePath = generateNodePath(node);
-        resolveAndUpdateNodePath(nodePath, destination, {
-          name: node.name.text,
-          initializer: node.initializer.getText(),
-        });
-      }
+    if (
+      ts.isPropertyAssignment(node) &&
+      ts.isIdentifier(node.name) &&
+      PRESERVED_PROPS.has(node.name.text)
+    ) {
+      const nodePath = generateNodePath(node);
+      resolveAndUpdateNodePath(nodePath, destination, {
+        name: node.name.text,
+        initializer: node.initializer.getText(),
+      });
     }
     return node;
   });
@@ -208,7 +230,7 @@ function runProgram(program: Command) {
   }
 
   const [oldSourceFile, oldSourceFileDefaultExport] = setupFile(oldSpecPath);
-  const [newSourceFile, newSourceFileDefaultExport] = setupFile(newSpecPath);
+  const [newSourceFile] = setupFile(newSpecPath, false);
 
   /// MARK: Work on old source file by extracting top level statements
   let specNodeName: string;
