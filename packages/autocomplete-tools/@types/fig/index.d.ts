@@ -108,6 +108,20 @@ declare global {
       isDangerous?: boolean;
 
       /**
+       * Specifies a suggestion should be considered an "intent" or shortcut
+       * for an action. Intents are plain text descriptions of a series of
+       * actions. E.g. you could have an intent "add, commit and push" which
+       * would insert `git add . && git commit -m '{cursor}' && git push`.
+       * Intents can be searched by a custom prefix (default is ?) so by typing
+       * git ? you will be displayed a list of intents only, without the normal
+       * subcommand suggestions.
+       *
+       * Defaults to false.
+       *
+       */
+      isIntent?: boolean;
+
+      /**
        * The priority between 0-100 for a given suggestion determines its ranking in the Fig popup. A higher ranked priority will be listed first. The default priority is 50.
        * If a given suggestion has a priority between 50-75 inclusive AND has been selected by the user before, the priority will be replaced with 75 + the timestamp of when that suggestion was selected as a decimal.
        *
