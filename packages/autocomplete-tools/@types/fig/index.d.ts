@@ -4,7 +4,7 @@ export {};
 declare global {
   export namespace Fig {
     // All the available templates
-    type TemplateStrings = "filepaths" | "folders";
+    type TemplateStrings = "filepaths" | "folders" | "history";
 
     type Template = TemplateStrings | TemplateStrings[];
 
