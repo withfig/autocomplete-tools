@@ -26,7 +26,7 @@ function runFixtures() {
       }
     }
 
-    const cmd = `node -r ts-node/register ${cliPath} merge ${oldSpecPath} ${newSpecPath} ${updatedSpecPath} ${configString}`;
+    const cmd = `node -r ts-node/register ${cliPath} merge ${oldSpecPath} ${newSpecPath} -n ${updatedSpecPath} ${configString}`;
     try {
       child.execSync(cmd);
     } catch (error) {
