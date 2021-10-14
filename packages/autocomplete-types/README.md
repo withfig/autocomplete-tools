@@ -6,10 +6,9 @@ Configure the global Fig namespace in your `tsconfig.json`:
 {
   "compilerOptions": {
     ...
-    "typeRoots": [
-      "node_modules/@types",
-      "node_modules/@withfig/autocomplete-types/"
-    ]
+    // you may get some typecheck errors if you are using some node packages like "fs"
+    // just include "node" in the below array. Same for "jest", "chai"...and so on
+    "types": ["@withfig/autocomplete-types"]
   },
   ...
 }
