@@ -8,7 +8,7 @@
   },
   "keywords": [],
   "author": "The fig team",
-  "license": "ISC",
+  "license": "MIT",
   "publishConfig": {
     "access": "public"
   }

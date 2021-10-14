@@ -3,7 +3,7 @@ module.exports = {
     type: "problem",
     fixable: "code",
   },
-  create: function (context) {
+  create(context) {
     return {
       Property(node) {
         const keyName = node.key.name;
@@ -24,10 +24,10 @@ module.exports = {
           if (node.value && node.value.type === "ArrayExpression") {
             if (node.value.elements.length === 0) {
               context.report({
-                node: node,
+                node,
                 message:
                   "Empty arrays don't have any effect and can be omitted",
-                fix: function (fixer) {
+                fix(fixer) {
                   const [start, end] = node.range;
                   return fixer.removeRange([start, end + 1]);
                 },

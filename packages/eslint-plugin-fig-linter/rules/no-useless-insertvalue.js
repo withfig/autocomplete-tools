@@ -3,7 +3,7 @@ module.exports = {
     type: "problem",
     fixable: "code",
   },
-  create: function (context) {
+  create(context) {
     return {
       Property(node) {
         const keyName = node.key.name;
@@ -21,10 +21,10 @@ module.exports = {
             if (!insertValue || !nameValue) return;
             if (insertValue.trim() === nameValue.trim()) {
               context.report({
-                node: node,
+                node,
                 message:
                   "The insertValue prop can be omitted if the value is the same as name",
-                fix: function (fixer) {
+                fix(fixer) {
                   const [start, end] = node.range;
                   return fixer.removeRange([start, end + 1]);
                 },

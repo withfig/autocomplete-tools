@@ -6,3 +6,4 @@ dist-ssr
 .eslintcache
 .fig/
 build/
+.yarn/

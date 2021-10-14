@@ -6,13 +6,13 @@ module.exports = {
     let hasExport = false;
 
     return {
-      ExportDefaultDeclaration(node) {
+      ExportDefaultDeclaration() {
         hasExport = true;
       },
-      'ExportSpecifier[exported.name="default"]'(node) {
+      'ExportSpecifier[exported.name="default"]': function (node) {
         hasExport = true;
       },
-      "Program:exit"(node) {
+      "Program:exit": function (node) {
         if (!hasExport) {
           context.report({
             node,
