@@ -7,7 +7,7 @@
     "lib": ["ESNext"],
     "noImplicitAny": false,
     "baseUrl": "./",
-    "types": ["@withfig/autocomplete-types"],
+    "types": ["@withfig/autocomplete-types", "node"],
   },
   "include": ["./src/**/*"],
 }
