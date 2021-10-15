@@ -5,7 +5,7 @@ declare namespace Fig {
   /**
    * A template which is a single TemplateString or an array of TemplateStrings.
    *
-   * @remark
+   * @remarks
    * Templates are generators prebuilt by Fig. Here are the three templates:
    * * filepaths: show folders and filepaths. Allow autoexecute on filepaths
    * * folders: show folders only. Allow autoexecute on folders
@@ -51,7 +51,7 @@ declare namespace Fig {
    * @param executeShellCommand - an async function that allows you to execute a shell command on the user's system and get the output as a string.
    * @returns A SpecLocation object or an array of SpecLocation obejcts.
    *
-   * @remark
+   * @remarks
    * **When is this used?**
    * * For very very large specs (e.g. aws or gcloud) where loading the full completion spec would be slow. Instead, we load up the list of subcommands then dynamically load up the sub-subcommands using loadSpec.
    * * For CLI tools that take a command as an argument e.g. time <cmd> or builtin <cmd>. loadSpec will load up the completion spec for the CLI the user inputs. e.g. if the user types `time git` we should load up the git spec
@@ -124,7 +124,7 @@ declare namespace Fig {
    * `1.0.22`
    *
    * @example
-   * v26`
+   * `v26`
    *
    */
   type GetVersionCommand = (
@@ -194,7 +194,7 @@ declare namespace Fig {
     /**
      * The value that's inserted into the terminal when a user presses enter/tab or clicks on a menu item.
      *
-     * @remark
+     * @remarks
      * You can use `\n` to insert a newline or `\b` to insert a backspace.
      * You can also optionally specify {cursor} in the string and Fig will automatically place the cursor there after insert.
      *
@@ -214,7 +214,7 @@ declare namespace Fig {
     /**
      * The icon that is rendered is based on the type.
      *
-     * @remark
+     * @remarks
      * Icons can be a 1 character string, a URL, or Fig's [icon protocol](https://fig.io/docs/reference/suggestion/icon-api) (fig://) which lets you generate
      * colorful and fun systems icons.
      *
@@ -230,7 +230,7 @@ declare namespace Fig {
     /**
      * Specifies whether the suggestion is "dangerous".
      *
-     * @remark
+     * @remarks
      * If true, Fig will not enable its autoexecute functionality. Autoexecute means if a user selects a suggestion it will insert the text and run the command. We signal this by changing the icon to red.
      * Turning on isDangerous will make it harder for a user to accidentally run a dangerous command.
      *
@@ -245,7 +245,7 @@ declare namespace Fig {
      * The number used to rank suggestions in autocomplete. Number must be from 0-100. Higher priorities rank higher.
      *
      * @default 50
-     * @remark
+     * @remarks
      * Fig ranks suggestions by recency. To do this, we check if a suggestion has been selected before. If yes and the suggestions has:
      * * a priority between 50-75, the priority will be replaced with 75, then we will add the timestamp of when that suggestion was selected as a decimal.
      * * a priority ourside of 50-75, the priority will be increased by the timestamp of when that suggestion was selected as a decimal.
@@ -272,6 +272,7 @@ declare namespace Fig {
     /**
      * Specifies whether a suggestion should be hidden from results. Fig will only show it if the user exactly types the name.
      *
+     * @default false
      * @example
      * The "-" suggestion is hidden in the `cd` spec. You will only see it if you type exactly  `cd -`
      */
@@ -349,7 +350,7 @@ declare namespace Fig {
     /**
      * An array of arg objects or a single arg object
      *
-     * @remark
+     * @remarks
      * **Important**
      * If a subcommand takes an argument, please at least include an empty Arg Object. (e.g. `{}`). Why? If you don't, Fig will assume the subcommand does not take an argument. When the user types their argument
      * If the argument is optional, signal this by saying isOptiona
@@ -376,7 +377,7 @@ declare namespace Fig {
      * @param executeShellCommand -an async function that allows you to execute a shell command on the user's system and get the output as a string.
      * @returns A SpecLocation object or an array of SpecLocation obejcts.
      *
-     * @remark
+     * @remarks
      * **When is this used?**
      * * For very very large specs (e.g. aws or gcloud) where loading the full completion spec would be slow. Instead, we load up the list of subcommands then dynamically load up the sub-subcommands using loadSpec.
      * * For CLI tools that take a command as an argument e.g. time <cmd> or builtin <cmd>. loadSpec will load up the completion spec for the CLI the user inputs. e.g. if the user types `time git` we should load up the git spec
@@ -435,7 +436,7 @@ declare namespace Fig {
     /**
      * Flags that allow customization of how Fig parses tokens.
      *
-     * @remark
+     * @remarks
      * Currently, the only parser option that exists is flagsArePosixNoncompliant. When flagsArePosixNoncompliant is true, options with one hyphen tohave multiple characters .
      *
      *
@@ -475,7 +476,7 @@ declare namespace Fig {
     /**
      * An array of arg objects or a single arg object
      *
-     * @remark
+     * @remarks
      * **Important**
      * If a subcommand takes an argument, please at least include an empty Arg Object. (e.g. `{}`). Why? If you don't, Fig will assume the subcommand does not take an argument. When the user types their argument
      * If the argument is optional, signal this by saying isOptiona
@@ -493,7 +494,7 @@ declare namespace Fig {
      * Signals whether an option is persistent, meaning that it will still be available
      * as an option for all child subcommands.
      *
-     * @remark
+     * @remarks
      * As of now there is no way to disable this
      * persistence for certain children. Also see
      * https://github.com/spf13/cobra/blob/master/user_guide.md#persistent-flags.
@@ -537,7 +538,7 @@ declare namespace Fig {
      * @default false - This means an option is NOT repeatable, meaning after you pass it, it will not be
      * suggested again.
      *
-     * @remark
+     * @remarks
      * Passing `isRepeatable: true` will allow an option to be passed any number
      * of times, while passing `isRepeatable: 2` will allow it to be passed
      * twice, etc. Passing `isRepeatable: false` is the same as passing
@@ -572,7 +573,7 @@ declare namespace Fig {
      * Signals whether an option is mutually exclusive with other options ie if the user has this option, Fig should not show the options.
      * @default false - this means that an option is NOT mutually exclusive with any other options.
      *
-     * @remark
+     * @remarks
      * Options that are mutually exclusive with flags the user has already passed will not be shown in the suggestions list.
      *
      * @example
@@ -588,7 +589,7 @@ declare namespace Fig {
      *
      * @default false - This means that an option does NOT depend on any other options.
      *
-     * @remark
+     * @remarks
      * If the user has an unmet dependency for a flag they've already typed, this dependency will have boosted priority in the suggestion list.
      *
      * @example
@@ -627,7 +628,7 @@ declare namespace Fig {
     /**
      * Specifies whether the suggestions generated for this argument are "dangerous".
      *
-     * @remark
+     * @remarks
      * If true, Fig will not enable its autoexecute functionality. Autoexecute means if a user selects a suggestion it will insert the text and run the command. We signal this by changing the icon to red.
      * Turning on isDangerous will make it harder for a user to accidentally run a dangerous command.
      *
@@ -641,7 +642,7 @@ declare namespace Fig {
     /**
      * A list of Suggestion objects that are shown when a user is typing an argument.
      *
-     * @remark
+     * @remarks
      * These suggestions are static meaning you know them beforehand and they are not generated at runtime. If you want to generate suggestions at runtime, use a generator
      *
      * @example
@@ -649,9 +650,9 @@ declare namespace Fig {
      */
     suggestions?: (string | Suggestion)[];
     /**
-     * A template which is a single TemplateString or an array of TemplateStrings.
+     * A template which is a single TemplateString or an array of TemplateStrings
      *
-     * @remark
+     * @remarks
      * Templates are generators prebuilt by Fig. Here are the three templates:
      * * filepaths: show folders and filepaths. Allow autoexecute on filepaths
      * * folders: show folders only. Allow autoexecute on folders
@@ -660,7 +661,7 @@ declare namespace Fig {
      * @example
      * `cd` uses the "folders" template
      * @example
-     * `ls` useed  ["filepaths", "folders"]. Why both? Because if I `ls` a directory, we want to enable a user to autoexecute on this directory. If we just did "filepaths" they couldn't autoexecute.
+     * `ls` used  ["filepaths", "folders"]. Why both? Because if I `ls` a directory, we want to enable a user to autoexecute on this directory. If we just did "filepaths" they couldn't autoexecute.
      *
      */
     template?: Template;
@@ -674,7 +675,7 @@ declare namespace Fig {
     /**
      * Specifies that the argument is variadic and therefore repeats infinitely.
      *
-     * @remark
+     * @remarks
      * Man pages represent variadic arguments with an ellipsis e.g. `git add <pathspec...>`
      *
      * @example
@@ -705,7 +706,7 @@ declare namespace Fig {
     /**
      * True if an argument is optional ie the CLI spec says it is not mandatory to include an argument, but you can if you want to.
      *
-     * @remark
+     * @remarks
      * NOTE: It is important you include this for our parsing. If you don't, Fig will assume the argument is mandatory. When we assume an argument is mandatory, we force the user to input the argument and hide all other suggestions.
      *
      * @example
@@ -751,7 +752,7 @@ declare namespace Fig {
     /**
      * The default value for an optional argument.
      *
-     * @remark
+     * @remarks
      * Note: This is currently not used anywhere in Fig's autocomplete popup, but will be soon.
      *
      */
@@ -809,7 +810,7 @@ declare namespace Fig {
     /**
      * A template which is a single TemplateString or an array of TemplateStrings.
      *
-     * @remark
+     * @remarks
      * Templates are generators prebuilt by Fig. Here are the three templates:
      * * filepaths: show folders and filepaths. Allow autoexecute on filepaths
      * * folders: show folders only. Allow autoexecute on folders
@@ -874,7 +875,7 @@ declare namespace Fig {
      *
      * A function run on every keystroke that determines whether Fig should invalidate its cached list of suggestions and instead regenerate its list of suggestions.
      *
-     * @remark
+     * @remarks
      * A note on how Fig works: Suggestions vs Filtered Suggestions
      * Suggestions: Whenever you type a space indicating the start of a new token, Fig will regenerate a new list of suggestions e.g. "git[space]" will generate a list of suggestions for every subcommand, option, and arg
      * Filtered Suggestions: When you type within the same token (e.g. "git c" -> "git ch"), Fig takes the token you are currently typing in and uses it to filter over the list of suggestions you have cached. e.g. "git c". The list of suggestions is the same as before, but the filtered suggestions are now "commit", "clean", "clone, and "checkout".
@@ -920,7 +921,7 @@ declare namespace Fig {
      * @returns The query term that Fig will use to filter over suggestions
      *
      *
-     * @remark
+     * @remarks
      * Read the note above on how triggers work. Triggers and query term may seem similar but are actually different.
      *
      * The trigger function defines when to regenerate new suggestions.
@@ -937,7 +938,7 @@ declare namespace Fig {
     /**
      * An async function that is similar to the function version of `script`, however, it gives you full control.
      *
-     * @remark
+     * @remarks
      * This function is effectively `script` and `postProcess` combined. It is very useful in combination with `trigger` and `getQueryTerm` to generate suggestions as the user is typing inside a token. Read the description of `trigger` for more.
      *
      *
@@ -973,7 +974,7 @@ declare namespace Fig {
      *
      * Cache the response of generators for a specific period time and optionally by directory the commands were executed in.
      *
-     * @remark
+     * @remarks
      * For commands that take a long time to run, Fig gives you the option to cache their response. You can cache the response globally or just by the directory they were run in
      * You just need to specify a `ttl` (time to live) for how long the cache will last (this is a number)
      * You can also optionally turn on the ability to just cache by directory (`cacheByDirectory: true`)
