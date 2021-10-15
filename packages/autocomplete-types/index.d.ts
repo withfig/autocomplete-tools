@@ -3,7 +3,7 @@ declare namespace Fig {
   type TemplateStrings = "filepaths" | "folders" | "history";
 
   /**
-   * A template which is a single TemplateString or an array of TemplateStrings.
+   * A template which is a single TemplateString or an array of TemplateStrings
    *
    * @remarks
    * Templates are generators prebuilt by Fig. Here are the three templates:
@@ -13,7 +13,7 @@ declare namespace Fig {
    *
    * @example
    * `cd` uses the "folders" template
-   * `ls` useed  ["filepaths", "folders"]. Why both? Because if I `ls` a directory, we want to enable a user to autoexecute on this directory. If we just did "filepaths" they couldn't autoexecute.
+   * `ls` used  ["filepaths", "folders"]. Why both? Because if I `ls` a directory, we want to enable a user to autoexecute on this directory. If we just did "filepaths" they couldn't autoexecute.
    *
    */
   type Template = TemplateStrings | TemplateStrings[];
@@ -240,7 +240,6 @@ declare namespace Fig {
      * This is used in the `rm` spec. Why? Because we don't want users to accidentally delete their files so we make it just a little bit harder...
      */
     isDangerous?: boolean;
-
     /**
      * The number used to rank suggestions in autocomplete. Number must be from 0-100. Higher priorities rank higher.
      *
@@ -277,6 +276,19 @@ declare namespace Fig {
      * The "-" suggestion is hidden in the `cd` spec. You will only see it if you type exactly  `cd -`
      */
     hidden?: boolean;
+    /**
+     *
+     * Specifies whether a suggestion is deprecated.
+     * It is possible to specify a suggestion to replace the deprecated one.
+     * @remarks
+     * - The `description` of the deprecated object (e.g `deprecated: { description: 'The --no-ansi option has been deprecated in v2'}`) is used to provide infos about the deprecation.
+     * - `deprecated: true` and `deprecated: { }` behave the same and will just display the suggestion as deprecated.
+     * @example
+     * ```js
+     * deprecated: { insertValue: '--ansi never', description: 'The --no-ansi option has been deprecated in v2' }
+     * ```
+     */
+    deprecated?: boolean | Omit<BaseSuggestion, "deprecated">;
   }
 
   /**
