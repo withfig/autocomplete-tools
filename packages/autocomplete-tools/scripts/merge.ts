@@ -18,7 +18,7 @@ function runProgram(program: Command) {
 
 const program = new Command();
 program.arguments("<oldspec> <newspec>");
-program.option("-n, --new <path>", "Create a new spec file instead of updating the old one");
+program.option("-n, --new-file <path>", "Create a new spec file instead of updating the old one");
 program.option("-i, --ignore-props <props>", "The props that should not be preserved.", (value) =>
   value.split(",")
 );
