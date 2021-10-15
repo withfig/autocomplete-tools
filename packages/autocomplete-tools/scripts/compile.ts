@@ -9,9 +9,9 @@ import SpecLogger, { Level } from "./log";
 const SOURCE_FOLDER_NAME = "src";
 const DESTINATION_FOLDER_NAME = "build";
 
-function execWithError(command: string) {
+function execWithError(command: string, logNodeErrors = false) {
   exec(command, (error, stdout, stderr) => {
-    if (error) {
+    if (logNodeErrors && error) {
       SpecLogger.log(
         `node error running "${command}": ${error.message}`,
         Level.ERROR
@@ -71,9 +71,7 @@ async function runCompiler(program: Command) {
 
 const program = new Command();
 
-program
-  .option("-w, --watch", "Watch files and re-compile on change")
-  .option("-i, --invalidate-cache", "Invalidate spec cache");
+program.option("-w, --watch", "Watch files and re-compile on change");
 
 program.parse(process.argv);
 

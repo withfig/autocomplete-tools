@@ -3,6 +3,46 @@
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
 clear
+
+# Checks if user is on macOS
+if [[ "$OSTYPE" == "darwin"* ]] 1> /dev/null 2> /dev/null; then
+    # Check if Fig app is installed
+    if !([[ -d /Applications/Fig.app ]] || [[ -d ~/Applications/Fig.app ]]) 1> /dev/null 2> /dev/null; then
+        echo
+        echo
+        echo "$(tput setaf 7)******";
+        echo "******";
+        echo "$(tput setaf 3)$(tput bold) WARNING: Fig App is not installed";
+        echo
+        echo "$(tput setaf 6) Get access to download fig by joining the fig community at:"; 
+        echo " https://fig.io/community"
+        echo "$(tput setaf 7)******";
+        echo "******";
+
+    # Checks if CLI is installed
+    elif ! command -v fig 1> /dev/null 2> /dev/null; then
+        echo
+        echo
+        echo "$(tput setaf 7)******";
+        echo "******";
+        echo "$(tput setaf 3)$(tput bold) WARNING: Fig CLI is not installed";
+        echo
+        echo "$(tput setaf 6) 1. Run the install and update script ( ◧ > Integrations > Developer > Run install and update script)";
+        echo " 2. Create a new terminal session";
+        echo "$(tput setaf 7)******";
+        echo "******";
+    fi
+
+else
+    echo
+    echo "$(tput setaf 1)******";
+    echo "******";
+    echo "$(tput setaf 1)$(tput bold) WARNING: Looks like you're not on macOS. We're working on linux / windows builds!";
+    echo "$(tput setaf 3)$(tput bold) You can still build and contribute to completion specs, but you won't be able to test them unless you are on a mac or a macosVM";
+    echo "$(tput setaf 1)******"
+    echo "******";
+fi
+
 echo 
 echo "Welcome to $(tput bold)$(tput setaf 5)Fig Dev Mode$(tput sgr0)";
 echo 
@@ -18,8 +58,8 @@ disable_dev_mode() {
     echo 'Fig dev mode disabled';
     echo
 
-    fig settings autocomplete.developerModeNPM false;
-    fig settings autocomplete.developerModeNPMInvalidateCache false;
+    fig settings autocomplete.developerModeNPM false 2> /dev/null;
+    fig settings autocomplete.developerModeNPMInvalidateCache false 2> /dev/null;
 
     trap - SIGINT SIGTERM SIGQUIT;
     exit 0
@@ -27,6 +67,6 @@ disable_dev_mode() {
 
 trap disable_dev_mode SIGINT SIGTERM SIGQUIT;
 
-fig settings autocomplete.developerModeNPM true &&
-    fig settings autocomplete.devCompletionsFolder "$(pwd)"/build &&
+fig settings autocomplete.developerModeNPM true 2> /dev/null &&
+    fig settings autocomplete.devCompletionsFolder "$(pwd)"/build 2> /dev/null &&
     node "${SCRIPT_DIR}/compile.js" --watch
