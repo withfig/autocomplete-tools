@@ -6,4 +6,3 @@ See Fig's docs for how to integrate: [https://fig.io/docs/guides/autocomplete-fo
 
 ### Contributors
 This integration was built by [Matt Schrage](https://github.com/mschrage/). Please see his repo for the git history: [https://github.com/withfig/oclif-plugin](https://github.com/withfig/oclif-plugin)
-
