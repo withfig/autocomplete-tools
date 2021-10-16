@@ -21,7 +21,11 @@
     "pre-commit": "lint-staged"
   },
   "workspaces": [
-    "packages/*"
+    "packages/autocomplete-tools",
+    "packages/autocomplete-types",
+    "packages/eslint-plugin-fig-linter",
+    "packages/oclif",
+    "packages/commander"
   ],
   "lint-staged": {
     "*.{ts,js,tsx}": "eslint --fix"
