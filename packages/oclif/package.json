@@ -1,7 +1,7 @@
 {
   "name": "@withfig/oclif",
   "description": "Generate Fig completion spec from oclif",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "author": "Matt Schrage @mattschrage",
   "bugs": "https://github.com/withfig/autocomplete-tools/issues",
   "dependencies": {
