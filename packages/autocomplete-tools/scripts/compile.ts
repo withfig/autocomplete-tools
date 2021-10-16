@@ -12,25 +12,17 @@ const DESTINATION_FOLDER_NAME = "build";
 function execWithError(command: string, logNodeErrors = false) {
   exec(command, (error, stdout, stderr) => {
     if (logNodeErrors && error) {
-      SpecLogger.log(
-        `node error running "${command}": ${error.message}`,
-        Level.ERROR
-      );
+      SpecLogger.log(`node error running "${command}": ${error.message}`, Level.ERROR);
       return;
     }
     if (stderr) {
-      SpecLogger.log(
-        `shell error running "${command}": ${stderr}`,
-        Level.ERROR
-      );
+      SpecLogger.log(`shell error running "${command}": ${stderr}`, Level.ERROR);
     }
   });
 }
 
 function invalidateCache() {
-  execWithError(
-    "fig settings autocomplete.developerModeNPMInvalidateCache true"
-  );
+  execWithError("fig settings autocomplete.developerModeNPMInvalidateCache true");
 }
 
 /**
@@ -46,9 +38,7 @@ async function processFiles(files: string[], isDev?: boolean) {
     format: "esm",
     minify: true,
     ...(isDev && { sourcemap: "inline" }),
-  }).catch((e) =>
-    SpecLogger.log(`Error building ${fileName}: ${e.message}`, Level.ERROR)
-  );
+  }).catch((e) => SpecLogger.log(`Error building ${fileName}: ${e.message}`, Level.ERROR));
   SpecLogger.log(`Built ${fileName}`);
   invalidateCache();
 }

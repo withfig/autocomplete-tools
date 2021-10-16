@@ -5,13 +5,9 @@ const program = new Command();
 
 program
   .version("1.0.0")
-  .command(
-    "init",
-    "initialize fig custom spec boilerplate in current directory",
-    {
-      executableFile: "scripts/init.sh",
-    }
-  )
+  .command("init", "initialize fig custom spec boilerplate in current directory", {
+    executableFile: "scripts/init.sh",
+  })
   .command("create-spec [name]", "create spec with given name", {
     executableFile: "scripts/create-spec.sh",
   })

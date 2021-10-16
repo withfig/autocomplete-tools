@@ -127,9 +127,7 @@ declare namespace Fig {
    * `v26`
    *
    */
-  type GetVersionCommand = (
-    executeShellCommand: ExecuteShellCommandFunction
-  ) => Promise<string>;
+  type GetVersionCommand = (executeShellCommand: ExecuteShellCommandFunction) => Promise<string>;
 
   /**
    * Context about a current shell session.
@@ -173,9 +171,7 @@ declare namespace Fig {
    * @example
    * `ExecuteShellCommandFunction("echo hello world")` will return `hello world`
    */
-  type ExecuteShellCommandFunction = (
-    commandToExecute: string
-  ) => Promise<string>;
+  type ExecuteShellCommandFunction = (commandToExecute: string) => Promise<string>;
 
   /**
    * The BaseSuggestion object is the root of the Suggestion, Subcommand, and Option objects. It is where key properties like description, icon, and displayName are found
@@ -793,12 +789,7 @@ declare namespace Fig {
       /**
        * See documentation for arg.parserDirective above for full description
        */
-      alias?:
-        | string
-        | ((
-            token: string,
-            exec: ExecuteShellCommandFunction
-          ) => Promise<string>);
+      alias?: string | ((token: string, exec: ExecuteShellCommandFunction) => Promise<string>);
     };
   }
 
@@ -833,10 +824,7 @@ declare namespace Fig {
        * @example
        * The python spec has an arg object which has a template for "filepaths". However, we don't want to suggest non `.py` files. Therefore, we take the output of the template, filter out all files that don't end in `.py`, keep all folders that end with `/` and return the list of suggetsions.
        */
-    filterTemplateSuggestions?: Function<
-      Modify<Suggestion, { name?: string }>[],
-      Suggestion[]
-    >;
+    filterTemplateSuggestions?: Function<Modify<Suggestion, { name?: string }>[], Suggestion[]>;
     /**
      *
      * The script / shell command you wish to run on the user's device at their shell session's current working directory.
