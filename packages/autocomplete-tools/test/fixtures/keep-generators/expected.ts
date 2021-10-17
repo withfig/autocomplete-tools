@@ -8,9 +8,7 @@ const spec: Fig.Spec = {
         name: 'push',
         generators: {
           script: 'foo',
-          postProcess: (out) => {
-            return []
-          },
+          postProcess: (out) => [],
         },
       },
     },
