@@ -32,4 +32,3 @@ The transition is as simple as installing the new package and changing an entry 
   ...
 }
 ```
-```

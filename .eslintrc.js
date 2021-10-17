@@ -10,6 +10,7 @@ module.exports = {
     "eslint-plugin-fig-linter/",
     "commander/fixtures/*/updated.ts",
     "commander/fixtures/*/expected.ts",
+    "packages/autocomplete-tools/test/fixtures/*/expected.ts",
   ],
   extends: [
     "airbnb/base",

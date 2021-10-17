@@ -18,20 +18,22 @@ function runFixtures() {
     const expectedSpecPath = path.join(fixtureDirPath, "expected.ts");
     const configPath = path.join(fixtureDirPath, "config.json");
 
-    let configString = "";
+    let configString = `-n ${updatedSpecPath}`;
     if (fs.existsSync(configPath)) {
       const { ignoreProps } = JSON.parse(fs.readFileSync(configPath, "utf8"));
       if (ignoreProps && Array.isArray(ignoreProps)) {
-        configString = `--ignore-props ${ignoreProps.join(",")}`;
+        configString += ` --ignore-props ${ignoreProps.join(",")}`;
       }
     }
 
-    const cmd = `node -r ts-node/register ${cliPath} merge ${oldSpecPath} ${newSpecPath} -n ${updatedSpecPath} ${configString}`;
+    const cmd = `node -r ts-node/register ${cliPath} merge ${oldSpecPath} ${newSpecPath} ${configString}`;
+
     try {
       child.execSync(cmd);
     } catch (error) {
       console.warn(`- Encounterd an error when running fixture ${fixtureDirPath}.\n${error}`);
     }
+
     if (process.env.OVERWRITE || !fs.existsSync(expectedSpecPath)) {
       fs.copyFileSync(updatedSpecPath, expectedSpecPath);
     } else {

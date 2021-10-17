@@ -4,7 +4,7 @@ import merge from "../merge";
 
 function runProgram(program: Command) {
   program.parse();
-  const { ignoreProps = [], new: updatedSpecPath } = program.opts();
+  const { ignoreProps = [], newFile: updatedSpecPath } = program.opts();
   const [oldSpecPath, newSpecPath] = program.args;
 
   const output = merge(
