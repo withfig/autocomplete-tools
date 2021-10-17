@@ -1,20 +1,11 @@
 /* eslint-disable no-continue */
-/* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable no-restricted-syntax */
 import path from "path";
 import fs from "fs";
 import child from "child_process";
-import chalk from "chalk";
+import { report } from "./utils";
 
 const fixturesPath = path.resolve("test/fixtures/");
-
-function report(fixture: string, successful: boolean) {
-  console.log(
-    successful
-      ? chalk.bgGreen(` ✓ Successfully run ${chalk.underline(fixture)} `)
-      : chalk.bgRed(` × Failed running ${chalk.underline(fixture)} `)
-  );
-}
 
 function runFixtures() {
   let hadErrors = false;
@@ -26,29 +17,29 @@ function runFixtures() {
     const command = path.resolve(fixturePath, "command.ts");
     const expected = path.resolve(fixturePath, "expected.ts");
     const output = path.resolve(fixturePath, "output.ts");
+    const options = path.resolve(fixturePath, "options.json");
+    let args = "";
+    if (fs.existsSync(options)) {
+      const parsedOptions = JSON.parse(fs.readFileSync(options, { encoding: "utf8" }));
+      args = parsedOptions.args;
+    }
 
     if (!fs.existsSync(command)) {
       hadErrors = true;
       continue;
     }
     try {
-      const cmd = `node -r ts-node/register ${command}`;
+      const cmd = `node -r ts-node/register ${command} ${args}`;
       child.execSync(cmd);
     } catch {
-      console.warn(chalk.bgBlackBright(` - Encountered error when trying to run ${fixture.name}`));
+      report(fixture.name, "errored");
       hadErrors = true;
       continue;
     }
 
     if (!fs.existsSync(expected) || process.env.OVERWRITE) {
       fs.copyFileSync(output, expected);
-      console.log(
-        chalk.bgYellow(
-          ` - ${process.env.OVERWRITE ? "Regenerated" : "Generated"} ${chalk.underline(
-            fixture.name
-          )} `
-        )
-      );
+      report(fixture.name, process.env.OVERWRITE ? "regenerated" : "generated");
       continue;
     }
 
@@ -59,7 +50,7 @@ function runFixtures() {
     if (!successful) {
       hadErrors = true;
     }
-    report(fixture.name, successful);
+    report(fixture.name, successful ? "successful" : "failed");
   }
 
   if (hadErrors) {

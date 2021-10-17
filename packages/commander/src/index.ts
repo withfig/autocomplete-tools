@@ -6,6 +6,7 @@ import prettier from "prettier";
 
 export interface Options {
   cwd?: string;
+  figSpecCommandName?: string
 }
 
 function convertDefaultValue(v: unknown) {
@@ -122,7 +123,7 @@ function helpOption({
   };
 }
 
-function generateCommand(_command: Command & Record<string, any>): Fig.Subcommand {
+function generateCommand(_command: Command & Record<string, any>, figSpecCommandName: string): Fig.Subcommand | undefined {
   const {
     _name,
     _description,
@@ -134,13 +135,18 @@ function generateCommand(_command: Command & Record<string, any>): Fig.Subcomman
     _hasHelpOption,
   } = _command as ExtendedCommand;
 
+  if (_name === figSpecCommandName) return undefined;
   const name = _aliases.length > 0 ? [_name, ..._aliases] : _name;
   const command: Fig.Subcommand = { name };
 
   if (_description) command.description = _description;
   // Subcommands
   if (commands.length) {
-    command.subcommands = commands.map(generateCommand);
+    command.subcommands = []
+    for (const cmd of commands) {
+      const subcommand = generateCommand(cmd, figSpecCommandName);
+      if (subcommand) command.subcommands.push(subcommand)
+    }
     if (_addImplicitHelpCommandL !== false) {
       command.subcommands.push(helpSubcommand(_command as ExtendedCommand));
     }
@@ -160,9 +166,9 @@ function generateCommand(_command: Command & Record<string, any>): Fig.Subcomman
   return command;
 }
 
-export function generateFigSpec(command: Command, filename: string, options?: Options): Command {
+export function generateFigSpec(command: Command, filename: string, options?: Options) {
   const cwd = options?.cwd || process.cwd();
-  const spec = generateCommand(command);
+  const figSpecCommandName = options?.figSpecCommandName || 'generateFigSpec'
+  const spec = generateCommand(command, figSpecCommandName)!;
   writeFileSync(path.resolve(cwd, filename), getTemplate(spec));
-  return command;
 }
