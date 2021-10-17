@@ -12,6 +12,7 @@ program
   .description("Generate a fig spec for the current program")
   .action(() => {
     generateFigSpec(program, "output.ts", { cwd: __dirname });
-  });
+  })
+  .command("remove", "Remove user"); // this should not appear since it is added after `generateFigSpec` command
 
 program.parse();
