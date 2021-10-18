@@ -1,3 +1,3 @@
-import FigCompletionsCommand from "./commands/genFigSpec";
+import { GenerateFigSpecCommand } from "./commands/GenerateFigSpecCommand";
 
-export = FigCompletionsCommand;
+export = GenerateFigSpecCommand;
