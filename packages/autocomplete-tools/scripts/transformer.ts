@@ -23,20 +23,14 @@ const EXPORT_KEYWORD = SyntaxKind.ExportKeyword;
  *
  * @param context The current context
  */
-export const specTransformer: TransformerFactory<SourceFile> = (context) => (
-  sourceFile
-) => {
+export const specTransformer: TransformerFactory<SourceFile> = (context) => (sourceFile) => {
   let updated = false;
   const visitor = (node: Node): Node => {
     if (!updated && isVariableStatement(node)) {
       const { declarationList, modifiers } = node as VariableStatement;
       // Only process if there is a modifier, and if this modifier
       // is an export.
-      if (
-        modifiers &&
-        modifiers.length === 1 &&
-        modifiers[0].kind === EXPORT_KEYWORD
-      ) {
+      if (modifiers && modifiers.length === 1 && modifiers[0].kind === EXPORT_KEYWORD) {
         const variableNode = declarationList.declarations[0];
 
         updated = true;
@@ -48,10 +42,9 @@ export const specTransformer: TransformerFactory<SourceFile> = (context) => (
           variableNode.type,
           variableNode.initializer
         );
-        const newDeclarationlist = updateVariableDeclarationList(
-          declarationList,
-          [newVariableNode]
-        );
+        const newDeclarationlist = updateVariableDeclarationList(declarationList, [
+          newVariableNode,
+        ]);
 
         // Remove the export keyword
         return updateVariableStatement(node, [], newDeclarationlist);

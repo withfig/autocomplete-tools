@@ -1,4 +1,5 @@
 module.exports = {
+  root: true,
   env: {
     es2021: true,
   },
@@ -7,13 +8,15 @@ module.exports = {
     "dist/",
     "build/",
     "eslint-plugin-fig-linter/",
+    "commander/fixtures/*/output.ts",
+    "commander/fixtures/*/output.ts",
   ],
   extends: [
     "airbnb/base",
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
-    "prettier",
     "plugin:import/typescript",
+    "prettier",
   ],
   parser: "@typescript-eslint/parser",
   parserOptions: {
