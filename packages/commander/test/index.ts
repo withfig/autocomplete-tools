@@ -1,5 +1,3 @@
-/* eslint-disable no-continue */
-/* eslint-disable no-restricted-syntax */
 import path from "path";
 import fs from "fs";
 import child from "child_process";

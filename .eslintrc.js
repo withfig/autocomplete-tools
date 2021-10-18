@@ -8,8 +8,8 @@ module.exports = {
     "dist/",
     "build/",
     "eslint-plugin-fig-linter/",
-    "commander/fixtures/*/output.ts",
-    "commander/fixtures/*/output.ts",
+    "commander/fixtures/*/updated.ts",
+    "commander/fixtures/*/expected.ts",
   ],
   extends: [
     "airbnb/base",
@@ -26,6 +26,8 @@ module.exports = {
   plugins: ["@typescript-eslint", "prettier"],
   rules: {
     "prettier/prettier": "error",
+    "no-restricted-syntax": "off",
+    "no-continue": "off",
     "no-shadow": "off",
     "@typescript-eslint/no-shadow": ["error"],
     "no-console": "off",

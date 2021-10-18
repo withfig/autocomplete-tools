@@ -97,3 +97,6 @@ program.parse()
 ---
 
 _p.s. this tool has been written for `commander@8`, but should work in the most of the previous versions too._
+
+## Contributors
+This integration was built by [Federico Ciardi](https://github.com/fedeci/). Please see his repo for previous git history: [https://github.com/fedeci/commander-to-fig](https://github.com/fedeci/commander-to-fig).
