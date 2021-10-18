@@ -15,7 +15,7 @@
   },
   "fig": {
     "dev": {
-      "description": "Watching and compile .ts files in src/",
+      "description": "Watching and compile .ts files in ./src",
       "icon": "fig://template?badge=🛠",
       "priority": 100
     },

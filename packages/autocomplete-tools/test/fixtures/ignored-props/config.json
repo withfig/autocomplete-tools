@@ -1,0 +1,6 @@
+{
+  "ignoreProps": [
+    "default",
+    "displayName"
+  ]
+}

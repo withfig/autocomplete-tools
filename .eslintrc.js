@@ -10,6 +10,7 @@ module.exports = {
     "eslint-plugin-fig-linter/",
     "commander/fixtures/*/updated.ts",
     "commander/fixtures/*/expected.ts",
+    "packages/autocomplete-tools/test/fixtures/*/expected.ts",
   ],
   extends: [
     "airbnb/base",
@@ -31,6 +32,7 @@ module.exports = {
     "no-shadow": "off",
     "@typescript-eslint/no-shadow": ["error"],
     "no-console": "off",
+    "no-restricted-syntax": "off",
     "no-use-before-define": "off",
     "@typescript-eslint/no-use-before-define": ["error"],
     "import/extensions": "off",
