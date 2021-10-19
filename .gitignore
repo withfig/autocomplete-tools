@@ -7,3 +7,4 @@ dist-ssr
 .fig/
 build/
 .yarn/
+*.log

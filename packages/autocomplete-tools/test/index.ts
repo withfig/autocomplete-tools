@@ -6,7 +6,7 @@ const cliPath = path.join(__dirname, "..", "index.ts");
 const fixturesPath = path.join(__dirname, "fixtures");
 const dirs = fs
   .readdirSync(fixturesPath, { withFileTypes: true })
-  .filter((file) => file.isDirectory() && file.name !== '.DS_Store');
+  .filter((file) => file.isDirectory() && file.name !== ".DS_Store");
 
 function runFixtures() {
   let hadErrors = false;

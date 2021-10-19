@@ -6,10 +6,11 @@ module.exports = {
   ignorePatterns: [
     "node_modules/",
     "dist/",
+    "lib/",
     "build/",
     "eslint-plugin-fig-linter/",
-    "commander/fixtures/*/updated.ts",
-    "commander/fixtures/*/expected.ts",
+    "commander/test/fixtures/*/updated.ts",
+    "commander/test/fixtures/*/expected.ts",
     "packages/autocomplete-tools/test/fixtures/*/expected.ts",
   ],
   extends: [
@@ -37,5 +38,6 @@ module.exports = {
     "@typescript-eslint/no-use-before-define": ["error"],
     "import/extensions": "off",
     "import/prefer-default-export": "off",
+    "import/no-extraneous-dependencies": ["error", { devDependencies: ["**/test/*"] }],
   },
 };

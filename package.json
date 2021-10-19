@@ -18,7 +18,8 @@
     "lint": "eslint .",
     "lint:fix": "npm run lint -- --fix",
     "prepare": "husky install",
-    "pre-commit": "lint-staged"
+    "pre-commit": "lint-staged",
+    "clean": "git clean -Xf ."
   },
   "workspaces": [
     "packages/autocomplete-tools",
