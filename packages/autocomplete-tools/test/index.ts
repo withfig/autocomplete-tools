@@ -20,9 +20,12 @@ function runFixtures() {
 
     let configString = `-n ${updatedSpecPath}`;
     if (fs.existsSync(configPath)) {
-      const { ignoreProps } = JSON.parse(fs.readFileSync(configPath, "utf8"));
+      const { ignoreProps, preset } = JSON.parse(fs.readFileSync(configPath, "utf8"));
       if (ignoreProps && Array.isArray(ignoreProps)) {
         configString += ` --ignore-props ${ignoreProps.join(",")}`;
+      }
+      if (preset) {
+        configString += ` --preset ${preset}`;
       }
     }
 

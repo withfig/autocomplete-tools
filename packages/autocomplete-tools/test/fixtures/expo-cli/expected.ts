@@ -7,13 +7,7 @@ const _gen: Record<string, Fig.Generator> = {
     },
     postProcess(script: string) {
       try {
-        const results: {
-          package: {
-            name: string
-            description: string
-          }
-          searchScore: number
-        }[] = JSON.parse(script).results
+        const { results } = JSON.parse(script)
         return results.map((item) => ({
           name: item.package.name,
           description: item.package.description,
@@ -1739,7 +1733,7 @@ const completionSpec: Fig.Spec = {
         isVariadic: true,
         name: 'packages',
         debounce: true,
-        generators: _gen[`npm`],
+        generators: _gen.npm,
       },
       options: [
         {

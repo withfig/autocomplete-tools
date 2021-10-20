@@ -9,38 +9,8 @@ import {
   ObjectLiteralExpression,
 } from "ts-morph";
 import prettier from "prettier";
-
-const PRESERVED_PROPS = new Set([
-  // generic props
-  "icon",
-  "displayName",
-  "insertValue",
-  "isDangerous",
-  "priority",
-  "hidden",
-  // subcommand props
-  "generators",
-  "additionalSuggestions",
-  "loadSpec",
-  "generateSpec",
-  "parserDirectives",
-  // option props
-  "isPersistent",
-  "requiresEquals",
-  "isRepeatable",
-  "exclusiveOn",
-  "dependsOn",
-  // argument props
-  "suggestions", // We may want to disable this
-  "template", // We may want to disable this
-  "generators",
-  "optionsCanBreakVariadicArg",
-  "isCommand",
-  "isModule",
-  "isScript",
-  "debounce",
-  "default", // We may want to disable this
-]);
+import { defaultPreset, presets } from "./presets";
+import type { PresetName } from "./presets";
 
 const project = new Project();
 
@@ -191,13 +161,17 @@ function resolveAndUpdateNodePath(
 }
 
 // `statement` can only be one of the top-level statements
-function traverseSpecs(statement: Node<ts.Statement>, destination: SourceFile) {
+function traverseSpecs(
+  statement: Node<ts.Statement>,
+  destination: SourceFile,
+  preservedProps: Set<string>
+) {
   statement.transform((traversal) => {
     const node = traversal.visitChildren();
     if (
       ts.isPropertyAssignment(node) &&
       ts.isIdentifier(node.name) &&
-      PRESERVED_PROPS.has(node.name.text)
+      preservedProps.has(node.name.text)
     ) {
       const nodePath = generateNodePath(node);
       resolveAndUpdateNodePath(nodePath, destination, {
@@ -211,12 +185,20 @@ function traverseSpecs(statement: Node<ts.Statement>, destination: SourceFile) {
 
 export interface MergeOptions {
   ignoreProps?: string[];
+  preset?: PresetName;
 }
 
-function applyOptions({ ignoreProps = [] }: MergeOptions) {
-  for (const prop of ignoreProps) {
-    PRESERVED_PROPS.delete(prop);
+function generatePreservedProps({
+  ignoreProps = [],
+  preset: presetName,
+}: MergeOptions): Set<string> {
+  if (!presetName) {
+    for (const prop of ignoreProps) {
+      defaultPreset.delete(prop);
+    }
+    return defaultPreset;
   }
+  return presets[presetName];
 }
 
 export default function merge(
@@ -224,7 +206,7 @@ export default function merge(
   newFileContent: string,
   options: MergeOptions = {}
 ): string {
-  applyOptions(options);
+  const preservedProps = generatePreservedProps(options);
 
   const [oldSourceFile, oldSourceFileDefaultExport] = setupFile("oldfile.ts", oldFileContent);
   const [newSourceFile] = setupFile("newfile.ts", newFileContent);
@@ -251,7 +233,7 @@ export default function merge(
   let state = 0;
   for (const statement of statements) {
     if (isSpecObject(statement, specNodeName)) {
-      traverseSpecs(statement, newSourceFile);
+      traverseSpecs(statement, newSourceFile, preservedProps);
       state += 1;
     } else if (statement === exportDeclaration) {
       state += 1;
