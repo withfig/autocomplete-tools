@@ -175,41 +175,33 @@ function getFirstParentProperty(nodePath: ts.Node[]): ts.PropertyAssignment | un
 function traverseSpecs(
   statement: Node<ts.Statement>,
   destination: SourceFile,
-  updatableProps?: Preset
+  updatableProps: Preset
 ) {
   statement.transform((traversal) => {
     const node = traversal.visitChildren();
     if (ts.isPropertyAssignment(node) && ts.isIdentifier(node.name)) {
-      if (updatableProps) {
-        let observedSet: Set<string> | null = null;
-        const nodePath = generateNodePath(node);
-        // look for the first property assignment in the path. If no one is found, then assume we are handling a top level command prop
-        const parentProperty = getFirstParentProperty(nodePath);
-        if (!parentProperty) {
-          observedSet = updatableProps.commandProps;
-        } else if (ts.isIdentifier(parentProperty.name)) {
-          const parentPropText = parentProperty.name.text;
-          switch (parentPropText) {
-            case "subcommands":
-              observedSet = updatableProps.commandProps;
-              break;
-            case "options":
-              observedSet = updatableProps.optionProps;
-              break;
-            case "args":
-              observedSet = updatableProps.argProps;
-              break;
-            default:
-          }
+      let observedSet: Set<string> | null = null;
+      const nodePath = generateNodePath(node);
+      // look for the first property assignment in the path. If no one is found, then assume we are handling a top level command prop
+      const parentProperty = getFirstParentProperty(nodePath);
+      if (!parentProperty) {
+        observedSet = updatableProps.commandProps;
+      } else if (ts.isIdentifier(parentProperty.name)) {
+        const parentPropText = parentProperty.name.text;
+        switch (parentPropText) {
+          case "subcommands":
+            observedSet = updatableProps.commandProps;
+            break;
+          case "options":
+            observedSet = updatableProps.optionProps;
+            break;
+          case "args":
+            observedSet = updatableProps.argProps;
+            break;
+          default:
         }
-        if (observedSet && !observedSet.has(node.name.text)) {
-          resolveAndUpdateNodePath(nodePath, destination, {
-            name: node.name.text,
-            initializer: node.initializer.getText(),
-          });
-        }
-      } else if (defaultPreset.has(node.name.text)) {
-        const nodePath = generateNodePath(node);
+      }
+      if (observedSet && !observedSet.has(node.name.text)) {
         resolveAndUpdateNodePath(nodePath, destination, {
           name: node.name.text,
           initializer: node.initializer.getText(),
@@ -221,23 +213,46 @@ function traverseSpecs(
 }
 
 export interface MergeOptions {
-  ignoreProps?: string[];
+  ignore?: {
+    commandProps?: string[];
+    optionProps?: string[];
+    argProps?: string[];
+    commonProps?: string[];
+  };
   preset?: PresetName;
+}
+
+function getPreset({ preset, ignore = {} }: MergeOptions): Preset {
+  // Props updated by the eventual CLI tool integration (preset)
+  let updatableProps = preset ? presets[preset] : undefined;
+  // If not preset was specified we default to the defaultPreset excluding all props the user ignored
+  if (!updatableProps) {
+    const { commandProps = [], optionProps = [], argProps = [], commonProps = [] } = ignore;
+    for (const commandProp of commandProps) {
+      defaultPreset.commandProps.add(commandProp);
+    }
+    for (const optionProp of optionProps) {
+      defaultPreset.optionProps.add(optionProp);
+    }
+    for (const argProp of argProps) {
+      defaultPreset.argProps.add(argProp);
+    }
+    for (const commonProp of commonProps) {
+      defaultPreset.commandProps.add(commonProp);
+      defaultPreset.optionProps.add(commonProp);
+      defaultPreset.argProps.add(commonProp);
+    }
+    updatableProps = defaultPreset;
+  }
+  return updatableProps;
 }
 
 export default function merge(
   oldFileContent: string,
   newFileContent: string,
-  options: MergeOptions = {}
+  options: MergeOptions
 ): string {
-  // Props updated by the eventual CLI tool integration (preset)
-  const updatableProps = options.preset ? presets[options.preset] : undefined;
-  // If not preset was specified we default to the defaultPreset excluding all props the user ignored
-  if (!updatableProps) {
-    for (const prop of options.ignoreProps || []) {
-      defaultPreset.delete(prop);
-    }
-  }
+  const updatableProps = getPreset(options);
 
   const [oldSourceFile, oldSourceFileDefaultExport] = setupFile("oldfile.ts", oldFileContent);
   const [newSourceFile] = setupFile("newfile.ts", newFileContent);
