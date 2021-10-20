@@ -37,17 +37,26 @@ export const defaultPreset = new Set([
   "default",
 ]);
 
-export const presets = {
+export const presets: Record<string, Preset> = {
   // this is a new Set identical to the default one that automatically excludes all the properties specified
-  commander: difference(defaultPreset, [
-    "description",
-    "isOptional",
-    "isVariadic",
-    "default",
-    "isRequired",
-    "suggestions",
-    "args",
-  ]),
+  commander: {
+    commandProps: new Set(["name", "description", "subcommands", "options", "args"]),
+    optionProps: new Set(["name", "description", "isRequired", "args"]),
+    argProps: new Set([
+      "name",
+      "description",
+      "isOptional",
+      "isVariadic",
+      "suggestions",
+      "default",
+    ]),
+  },
+};
+
+export type Preset = {
+  commandProps: Set<string>;
+  optionProps: Set<string>;
+  argProps: Set<string>;
 };
 
 export type PresetName = keyof typeof presets;

@@ -10,7 +10,7 @@ import {
 } from "ts-morph";
 import prettier from "prettier";
 import { defaultPreset, presets } from "./presets";
-import type { PresetName } from "./presets";
+import type { PresetName, Preset } from "./presets";
 
 const project = new Project();
 
@@ -160,24 +160,61 @@ function resolveAndUpdateNodePath(
   );
 }
 
+function getFirstParentProperty(nodePath: ts.Node[]): ts.PropertyAssignment | undefined {
+  const i = nodePath.length - 2; // exclude the last element as we know it is a property
+  while (i >= 0) {
+    const node = nodePath[i];
+    if (ts.isPropertyAssignment(node)) {
+      return node;
+    }
+  }
+  return undefined;
+}
+
 // `statement` can only be one of the top-level statements
 function traverseSpecs(
   statement: Node<ts.Statement>,
   destination: SourceFile,
-  preservedProps: Set<string>
+  updatableProps?: Preset
 ) {
   statement.transform((traversal) => {
     const node = traversal.visitChildren();
-    if (
-      ts.isPropertyAssignment(node) &&
-      ts.isIdentifier(node.name) &&
-      preservedProps.has(node.name.text)
-    ) {
-      const nodePath = generateNodePath(node);
-      resolveAndUpdateNodePath(nodePath, destination, {
-        name: node.name.text,
-        initializer: node.initializer.getText(),
-      });
+    if (ts.isPropertyAssignment(node) && ts.isIdentifier(node.name)) {
+      if (updatableProps) {
+        let observedSet: Set<string> | null = null;
+        const nodePath = generateNodePath(node);
+        // look for the first property assignment in the path. If no one is found, then assume we are handling a top level command prop
+        const parentProperty = getFirstParentProperty(nodePath);
+        if (!parentProperty) {
+          observedSet = updatableProps.commandProps;
+        } else if (ts.isIdentifier(parentProperty.name)) {
+          const parentPropText = parentProperty.name.text;
+          switch (parentPropText) {
+            case "subcommands":
+              observedSet = updatableProps.commandProps;
+              break;
+            case "options":
+              observedSet = updatableProps.optionProps;
+              break;
+            case "args":
+              observedSet = updatableProps.argProps;
+              break;
+            default:
+          }
+        }
+        if (observedSet && !observedSet.has(node.name.text)) {
+          resolveAndUpdateNodePath(nodePath, destination, {
+            name: node.name.text,
+            initializer: node.initializer.getText(),
+          });
+        }
+      } else if (defaultPreset.has(node.name.text)) {
+        const nodePath = generateNodePath(node);
+        resolveAndUpdateNodePath(nodePath, destination, {
+          name: node.name.text,
+          initializer: node.initializer.getText(),
+        });
+      }
     }
     return node;
   });
@@ -188,25 +225,19 @@ export interface MergeOptions {
   preset?: PresetName;
 }
 
-function generatePreservedProps({
-  ignoreProps = [],
-  preset: presetName,
-}: MergeOptions): Set<string> {
-  if (!presetName) {
-    for (const prop of ignoreProps) {
-      defaultPreset.delete(prop);
-    }
-    return defaultPreset;
-  }
-  return presets[presetName];
-}
-
 export default function merge(
   oldFileContent: string,
   newFileContent: string,
   options: MergeOptions = {}
 ): string {
-  const preservedProps = generatePreservedProps(options);
+  // Props updated by the eventual CLI tool integration (preset)
+  const updatableProps = options.preset ? presets[options.preset] : undefined;
+  // If not preset was specified we default to the defaultPreset excluding all props the user ignored
+  if (!updatableProps) {
+    for (const prop of options.ignoreProps || []) {
+      defaultPreset.delete(prop);
+    }
+  }
 
   const [oldSourceFile, oldSourceFileDefaultExport] = setupFile("oldfile.ts", oldFileContent);
   const [newSourceFile] = setupFile("newfile.ts", newFileContent);
@@ -233,7 +264,7 @@ export default function merge(
   let state = 0;
   for (const statement of statements) {
     if (isSpecObject(statement, specNodeName)) {
-      traverseSpecs(statement, newSourceFile, preservedProps);
+      traverseSpecs(statement, newSourceFile, updatableProps);
       state += 1;
     } else if (statement === exportDeclaration) {
       state += 1;
