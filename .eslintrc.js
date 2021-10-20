@@ -33,7 +33,6 @@ module.exports = {
     "no-shadow": "off",
     "@typescript-eslint/no-shadow": ["error"],
     "no-console": "off",
-    "no-restricted-syntax": "off",
     "no-use-before-define": "off",
     "@typescript-eslint/no-use-before-define": ["error"],
     "import/extensions": "off",

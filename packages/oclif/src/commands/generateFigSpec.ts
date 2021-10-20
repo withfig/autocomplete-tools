@@ -1,7 +1,7 @@
 import { Command, flags } from "@oclif/command";
 import { Command as ICommand } from "@oclif/config";
-import fs from "fs";
-import prettier from "prettier";
+import * as fs from "fs";
+import * as prettier from "prettier";
 
 function getArgs(args: ICommand.Arg[]): Fig.Arg[] {
   const figArgs: Fig.Arg[] = [];
@@ -46,7 +46,8 @@ function getOptions(options: [string, ICommand.Flag][]): Fig.Option[] {
 function getFigSubcommands(commands: ICommand.Plugin[]): Fig.Subcommand[] {
   const subcommands: Fig.Subcommand[] = [];
   for (const command of commands) {
-    if (command.hidden) continue;
+    // skip this command or hidden commands
+    if (command.id === "generateFigSpec" || command.hidden) continue;
     const options: Fig.Option[] = getOptions(Object.entries(command.flags));
     const args: Fig.Arg[] = getArgs(command.args);
     subcommands.push({
@@ -61,9 +62,6 @@ function getFigSubcommands(commands: ICommand.Plugin[]): Fig.Subcommand[] {
 
 export class GenerateFigSpecCommand extends Command {
   static description = "Generate a Fig completion spec";
-
-  // We mark this command hidden so it won't appear in the generated spec
-  static hidden = true;
 
   static flags = {
     help: flags.help({ char: "h" }),

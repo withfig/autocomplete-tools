@@ -1,3 +1,3 @@
-import { GenerateFigSpecCommand } from "./commands/GenerateFigSpecCommand";
+import { GenerateFigSpecCommand } from "./commands/generateFigSpec";
 
 export = GenerateFigSpecCommand;

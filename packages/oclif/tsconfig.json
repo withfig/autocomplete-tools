@@ -2,7 +2,6 @@
   "compilerOptions": {
     "declaration": true,
     "importHelpers": true,
-    "allowSyntheticDefaultImports": true,
     "module": "commonjs",
     "outDir": "lib/",
     "rootDir": "src/",
