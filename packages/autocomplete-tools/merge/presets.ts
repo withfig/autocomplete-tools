@@ -78,4 +78,9 @@ export const presets: Record<string, Preset> = {
     ]),
     argProps: new Set(["name", "description", "template", "default"]),
   },
+  clap: {
+    commandProps: new Set(["name", "description", "subcommands", "options", "args"]),
+    optionProps: new Set(["name", "description", "args"]),
+    argProps: new Set(["name", "isVariadic", "isOptional", "suggestions", "template", "isCommand"]),
+  },
 };
