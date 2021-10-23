@@ -17,37 +17,6 @@ export const defaultPreset: Preset = {
   argProps: new Set(["name", "description"]),
 };
 
-// export const defaultPreset = new Set([
-//   "icon",
-//   "displayName",
-//   "insertValue",
-//   "isDangerous",
-//   "priority",
-//   "hidden",
-//   // subcommand props
-//   "generators",
-//   "additionalSuggestions",
-//   "loadSpec",
-//   "generateSpec",
-//   "parserDirectives",
-//   // option props
-//   "isPersistent",
-//   "requiresEquals",
-//   "isRepeatable",
-//   "exclusiveOn",
-//   "dependsOn",
-//   // argument props
-//   "suggestions",
-//   "template",
-//   "generators",
-//   "optionsCanBreakVariadicArg",
-//   "isCommand",
-//   "isModule",
-//   "isScript",
-//   "debounce",
-//   "default",
-// ]);
-
 export const presets: Record<string, Preset> = {
   commander: {
     commandProps: new Set(["name", "description", "subcommands", "options", "args"]),
