@@ -9,7 +9,7 @@ program
     executableFile: "scripts/init.sh",
   })
   .command("create-spec [name]", "create spec with given name", {
-    executableFile: "scripts/create-spec.sh",
+    executableFile: "scripts/create-spec",
   })
   .command("compile", "compile specs in the current directory", {
     executableFile: "scripts/compile",
