@@ -54,7 +54,6 @@ if (process.env.NODE_ENV === 'development') {
 }
 program.parse()
 ```
-> _NOTE: the `generateFigSpec` subcommand must be the last one added to the program otherwise any command added after it won't be included in the generated spec_
 
 > _NOTE: the command can be called whatever you want, but if you specify a name different from `'generateFigSpec'` you should set the [`figSpecCommandName`](#specify-the-fig-command-name) option._
 
