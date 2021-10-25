@@ -3,7 +3,7 @@ import { Command as ICommand } from "@oclif/config";
 import * as fs from "fs";
 import * as prettier from "prettier";
 
-function getArgs(args: ICommand.Arg[]): Fig.Arg[] {
+function getFigArgs(args: ICommand.Arg[]): Fig.Arg[] {
   const figArgs: Fig.Arg[] = [];
   for (const arg of args) {
     if (arg.hidden) continue;
@@ -18,7 +18,7 @@ function getArgs(args: ICommand.Arg[]): Fig.Arg[] {
   return figArgs;
 }
 
-function getOptions(options: [string, ICommand.Flag][]): Fig.Option[] {
+function getFigOptions(options: [string, ICommand.Flag][]): Fig.Option[] {
   const figOptions: Fig.Option[] = [];
   for (const [name, flag] of options) {
     if (flag.hidden) continue;
@@ -48,8 +48,8 @@ function getFigSubcommands(commands: ICommand.Plugin[]): Fig.Subcommand[] {
   for (const command of commands) {
     // skip this command or hidden commands
     if (command.id === "generateFigSpec" || command.hidden) continue;
-    const options: Fig.Option[] = getOptions(Object.entries(command.flags));
-    const args: Fig.Arg[] = getArgs(command.args);
+    const options: Fig.Option[] = getFigOptions(Object.entries(command.flags));
+    const args: Fig.Arg[] = getFigArgs(command.args);
     subcommands.push({
       name: command.aliases.length > 0 ? [command.id, ...command.aliases] : command.id,
       ...(command.description && { description: command.description }),
