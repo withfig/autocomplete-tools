@@ -43,10 +43,9 @@ function createSpec(cliName: string) {
       "\n",
       chalk.green(`Successfully created the new Spec ${baseName}`),
       "\n\n",
-      `Start editing it at ${chalk.bold(`src/${baseName}.ts`)}... We're opening it for you now!`,
+      `Start editing it at ${chalk.bold(`src/${baseName}.ts`)}!`,
       "\n"
     );
-    fs.openSync(filePath, "r+");
   }
 }
 
