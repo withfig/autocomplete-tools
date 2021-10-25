@@ -109,6 +109,9 @@ func (spec *Spec) toTypescript() string {
 	if len(spec.options) > 0 {
 		sb.WriteString(fmt.Sprintf(`options: %v,`, spec.options.toTypescript()))
 	}
+	if len(spec.args) > 0 {
+		sb.WriteString(fmt.Sprintf(`args: %v,`, spec.args.toTypescript()))
+	}
 	sb.WriteString("}; export default completionSpec;")
 	return sb.String()
 }
@@ -134,6 +137,9 @@ func (subcommand *Subcommand) toTypescript() string {
 	if len(subcommand.options) > 0 {
 		sb.WriteString(fmt.Sprintf(`options: %v,`, subcommand.options.toTypescript()))
 	}
+	if len(subcommand.args) > 0 {
+		sb.WriteString(fmt.Sprintf(`args: %v,`, subcommand.args.toTypescript()))
+	}
 	sb.WriteString("}")
 	return sb.String()
 }
@@ -156,11 +162,14 @@ func (option *Option) toTypescript() string {
 	if option.isRepeatable {
 		sb.WriteString(fmt.Sprintf(`isRepeatable: %t,`, option.isRepeatable))
 	}
+	if option.displayName != "" {
+		sb.WriteString(fmt.Sprintf(`displayName: "%v",`, sanitize(option.displayName)))
+	}
 	if len(option.args) > 0 {
 		sb.WriteString(fmt.Sprintf(`args: %v,`, option.args.toTypescript()))
 	}
 	if option.isRequired {
-		sb.WriteString(fmt.Sprintf(`isRequired: true,`))
+		sb.WriteString(`isRequired: true,`)
 	}
 	sb.WriteString("}")
 	return sb.String()
@@ -187,16 +196,16 @@ func (arg *Arg) toTypescript() string {
 		sb.WriteString(fmt.Sprintf(`default: "%v",`, arg.defaultVal))
 	}
 	if len(arg.template) > 0 {
-		sb.WriteString(fmt.Sprintf(`template: [`))
+		sb.WriteString(`template: [`)
 		for _, val := range arg.template {
 			switch val {
 			case FOLDERS:
-				sb.WriteString(fmt.Sprintf(`"folders",`))
+				sb.WriteString(`"folders",`)
 			case FILEPATHS:
-				sb.WriteString(fmt.Sprintf(`"filepaths",`))
+				sb.WriteString(`"filepaths",`)
 			}
 		}
-		sb.WriteString(fmt.Sprintf(`],`))
+		sb.WriteString(`],`)
 	}
 	sb.WriteString("}")
 	return sb.String()
