@@ -5,6 +5,17 @@ const completionSpec: Fig.Spec = {
   description: "example program for argument",
   subcommands: [
     {
+      name: "remove",
+      description: "Remove user",
+      options: [
+        {
+          name: ["-h", "--help"],
+          description: "display help for command",
+          priority: 49,
+        },
+      ],
+    },
+    {
       name: "help",
       description: "display help for command",
       priority: 49,
