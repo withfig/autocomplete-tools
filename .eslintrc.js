@@ -9,9 +9,10 @@ module.exports = {
     "lib/",
     "build/",
     "eslint-plugin-fig-linter/",
-    "commander/test/fixtures/*/updated.ts",
+    "commander/test/fixtures/*/output.ts",
     "commander/test/fixtures/*/expected.ts",
     "packages/autocomplete-tools/test/fixtures/*/expected.ts",
+    "packages/autocomplete-tools/test/fixtures/*/updated.ts",
   ],
   extends: [
     "airbnb/base",
