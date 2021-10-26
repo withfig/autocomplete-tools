@@ -4,7 +4,7 @@
   "description": "Command line tools for working with fig autocomplete specs",
   "author": "The Fig Team",
   "scripts": {
-    "build": "rm -rf build/ && tsc && cp scripts/*.sh build/scripts && cp -r boilerplate build/boilerplate",
+    "build": "rm -rf build/ && tsc && cp -r boilerplate build/boilerplate",
     "prepack": "npm run build",
     "test": "ts-node test/index.ts"
   },
