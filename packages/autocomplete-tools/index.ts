@@ -15,7 +15,7 @@ program
     executableFile: "scripts/compile",
   })
   .command("dev", "watch for changes and compile specs", {
-    executableFile: "scripts/dev.sh",
+    executableFile: "scripts/dev",
   })
   .command("merge <oldspec> <newspec>", "deep merge new spec into old spec", {
     executableFile: "scripts/merge",
