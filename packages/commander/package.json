@@ -1,6 +1,6 @@
 {
   "name": "@withfig/commander",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Export commander command as a Fig spec",
   "main": "lib/index.js",
   "scripts": {
@@ -22,7 +22,9 @@
     "plugin",
     "integration"
   ],
-  "files": ["lib/"],
+  "files": [
+    "lib/"
+  ],
   "author": "Federico Ciardi <fed.ciardi@gmail.com>",
   "license": "MIT",
   "bugs": {
