@@ -49,9 +49,7 @@ function createSpec(cliName: string) {
   }
 }
 
-function runProgram(program: Command) {
-  program.parse();
-  const [cliName] = program.args;
+function runProgram(cliName: string | undefined) {
   if (!cliName) {
     const rInterface = readline.createInterface({
       input: process.stdin,
@@ -68,6 +66,8 @@ function runProgram(program: Command) {
   }
 }
 
-const program = new Command();
-program.arguments("[name]");
-runProgram(program);
+const program = new Command("create-spec")
+  .description("create spec with given name")
+  .arguments("[name]")
+  .action(runProgram);
+export default program;

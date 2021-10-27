@@ -43,14 +43,12 @@ async function processFiles(files: string[], isDev?: boolean) {
   invalidateCache();
 }
 
-async function runCompiler(program: Command) {
+async function runCompiler(options: Record<string, any>) {
   const SOURCE_FILE_GLOB = `${SOURCE_FOLDER_NAME}/**/*.ts`;
   const files = await glob(SOURCE_FILE_GLOB);
   await processFiles(files);
 
-  const opts = program.opts();
-
-  if (opts.watch) {
+  if (options.watch) {
     const watcher = chokidar.watch(SOURCE_FILE_GLOB, { ignoreInitial: true });
 
     // Process the changed file
@@ -59,10 +57,9 @@ async function runCompiler(program: Command) {
   }
 }
 
-const program = new Command();
+const program = new Command("compile")
+  .description("compile specs in the current directory")
+  .option("-w, --watch", "Watch files and re-compile on change")
+  .action(runCompiler);
 
-program.option("-w, --watch", "Watch files and re-compile on change");
-
-program.parse(process.argv);
-
-runCompiler(program);
+export default program;

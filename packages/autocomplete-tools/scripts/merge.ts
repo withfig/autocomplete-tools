@@ -3,8 +3,7 @@ import { Command, Option } from "commander";
 import merge from "../merge";
 import { presets } from "../merge/presets";
 
-function runProgram(program: Command) {
-  program.parse();
+function runProgram(oldSpecPath: string, newSpecPath: string, options: Record<string, any>) {
   const {
     ignoreProps = [],
     ignoreCommandProps = [],
@@ -12,8 +11,7 @@ function runProgram(program: Command) {
     ignoreArgProps = [],
     newFile: updatedSpecPath,
     preset,
-  } = program.opts();
-  const [oldSpecPath, newSpecPath] = program.args;
+  } = options;
 
   const output = merge(
     fs.readFileSync(oldSpecPath, { encoding: "utf8" }),
@@ -32,32 +30,33 @@ function runProgram(program: Command) {
   fs.writeFileSync(updatedSpecPath || oldSpecPath, output);
 }
 
-const program = new Command();
-program.arguments("<oldspec> <newspec>");
-program.option("-n, --new-file <path>", "Create a new spec file instead of updating the old one");
-program.option(
-  "-i, --ignore-props <props>",
-  "The props that should always be overridden.",
-  (value) => value.split(",")
-);
-program.option(
-  "--ignore-command-props <props>",
-  "The command props that should always be overridden.",
-  (value) => value.split(",")
-);
-program.option(
-  "--ignore-option-props <props>",
-  "The option props that should always be overridden.",
-  (value) => value.split(",")
-);
-program.option(
-  "--ignore-arg-props <props>",
-  "The arg props that should always be overridden.",
-  (value) => value.split(",")
-);
+const program = new Command("merge")
+  .arguments("<oldspec> <newspec>")
+  .description("deep merge new spec into old spec")
+  .option("-n, --new-file <path>", "Create a new spec file instead of updating the old one")
+  .option("-i, --ignore-props <props>", "The props that should always be overridden.", (value) =>
+    value.split(",")
+  )
+  .option(
+    "--ignore-command-props <props>",
+    "The command props that should always be overridden.",
+    (value) => value.split(",")
+  )
+  .option(
+    "--ignore-option-props <props>",
+    "The option props that should always be overridden.",
+    (value) => value.split(",")
+  )
+  .option(
+    "--ignore-arg-props <props>",
+    "The arg props that should always be overridden.",
+    (value) => value.split(",")
+  );
+
 const presetOption = new Option("-p, --preset <name>", "Use a preset").choices(
   Object.keys(presets)
 );
 program.addOption(presetOption);
+program.action(runProgram);
 
-runProgram(program);
+export default program;
