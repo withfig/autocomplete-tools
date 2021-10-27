@@ -22,6 +22,7 @@
     "plugin",
     "integration"
   ],
+  "files": ["lib/"],
   "author": "Federico Ciardi <fed.ciardi@gmail.com>",
   "license": "MIT",
   "bugs": {
