@@ -78,7 +78,9 @@ function resolveArrayLiteral(path: ts.Node[], arrayNode: ArrayLiteralExpression)
           const nameProp = element.getProperty("name");
           if (nameProp && Node.isPropertyAssignment(nameProp)) {
             const initializer = nameProp.getInitializer()!;
-            if (initializer.getText() === nameToFind.getText()) {
+            if (
+              initializer.getText().replace(/"/g, "'") === nameToFind.getText().replace(/"/g, "'")
+            ) {
               return resolve(newPath, element);
             }
           }
@@ -161,12 +163,13 @@ function resolveAndUpdateNodePath(
 }
 
 function getFirstParentProperty(nodePath: ts.Node[]): ts.PropertyAssignment | undefined {
-  const i = nodePath.length - 2; // exclude the last element as we know it is a property
-  while (i >= 0) {
+  let i = 1; // exclude the first element as we know it is a property (the leaf property)
+  while (i <= nodePath.length - 1) {
     const node = nodePath[i];
     if (ts.isPropertyAssignment(node)) {
       return node;
     }
+    i += 1;
   }
   return undefined;
 }

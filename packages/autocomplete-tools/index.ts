@@ -1,22 +1,27 @@
 import { Command } from "commander";
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { generateFigSpec } from "@withfig/commander";
+import merge from "./scripts/merge";
+import dev from "./scripts/dev";
+import createSpec from "./scripts/create-spec";
+import compile from "./scripts/compile";
+import init from "./scripts/init";
 
 const program = new Command();
 
 program
-  .version("1.0.0")
-  .command("init", "initialize fig custom spec boilerplate in current directory", {
-    executableFile: "scripts/init",
-  })
-  .command("create-spec [name]", "create spec with given name", {
-    executableFile: "scripts/create-spec",
-  })
-  .command("compile", "compile specs in the current directory", {
-    executableFile: "scripts/compile",
-  })
-  .command("dev", "watch for changes and compile specs", {
-    executableFile: "scripts/dev",
-  })
-  .command("merge <oldspec> <newspec>", "deep merge new spec into old spec", {
-    executableFile: "scripts/merge",
+  .name("@withfig/autocomplete-tools")
+  .description("Dev tools for fig's autocomplete")
+  .version("1.0.0");
+program.addCommand(init);
+program.addCommand(createSpec);
+program.addCommand(compile);
+program.addCommand(dev);
+program.addCommand(merge);
+
+if (process.env.NODE_ENV === "development") {
+  program.command("generateFigSpec").action(() => {
+    generateFigSpec(program, "generated/autocomplete-tools-spec-new.ts");
   });
+}
 program.parse(process.argv);

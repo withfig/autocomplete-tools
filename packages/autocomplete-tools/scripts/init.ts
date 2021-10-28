@@ -3,8 +3,7 @@ import { execSync } from "child_process";
 import path from "path";
 import fs from "fs";
 
-function runProgram(program: Command) {
-  program.parse();
+function runProgram() {
   const boilerplateDir = path.resolve(__dirname, "..", "boilerplate");
   for (const dir of [
     path.join(process.cwd(), ".fig", "autocomplete"),
@@ -20,5 +19,8 @@ function runProgram(program: Command) {
   }
 }
 
-const program = new Command();
-runProgram(program);
+const program = new Command("init")
+  .description("initialize fig custom spec boilerplate in current directory")
+  .action(runProgram);
+
+export default program;

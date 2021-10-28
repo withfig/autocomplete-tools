@@ -6,7 +6,9 @@
   "scripts": {
     "build": "rm -rf build/ && tsc && cp -r boilerplate build/boilerplate",
     "prepack": "npm run build",
-    "test": "ts-node test/index.ts"
+    "test": "ts-node test/index.ts",
+    "generate-spec": "npm run build && NODE_ENV=development node build/index.js generateFigSpec && npm run merge-specs",
+    "merge-specs": "node build/index.js merge generated/autocomplete-tools-spec.ts generated/autocomplete-tools-spec-new.ts --preset commander"
   },
   "license": "MIT",
   "bin": "./build/index.js",
@@ -24,7 +26,7 @@
     "build/"
   ],
   "devDependencies": {
-    "@types/deep-diff": "^1.0.1",
+    "@withfig/commander": "^1.0.1",
     "@types/node": "^14.14.33",
     "@types/prettier": "^2.4.1",
     "ts-node": "^10.2.1"

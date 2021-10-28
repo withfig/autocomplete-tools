@@ -21,8 +21,7 @@ function disableDevMode() {
   process.exit(0);
 }
 
-function runProgram(program: Command) {
-  program.parse();
+function runProgram() {
   console.clear();
   const isMacOS = os.type() === "Darwin";
 
@@ -99,5 +98,8 @@ function runProgram(program: Command) {
   }
 }
 
-const program = new Command();
-runProgram(program);
+const program = new Command("dev")
+  .description("watch for changes and compile specs")
+  .action(runProgram);
+
+export default program;
