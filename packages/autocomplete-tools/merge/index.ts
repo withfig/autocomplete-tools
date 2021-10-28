@@ -183,9 +183,6 @@ function traverseSpecs(
       let observedSet: Set<string> | null = null;
       const nodePath = generateNodePath(node);
       // look for the first property assignment in the path. If no one is found, then assume we are handling a top level command prop
-      if (node.name.escapedText === "exclusiveOn") {
-        debugger;
-      }
       const parentProperty = getFirstParentProperty(nodePath);
       if (!parentProperty) {
         observedSet = updatableProps.commandProps;
