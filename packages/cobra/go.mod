@@ -1,4 +1,4 @@
-module github.com/EthanOrlander/genFigSpec
+module github.com/withfig/autocomplete-tools/packages/cobra
 
 go 1.17
 

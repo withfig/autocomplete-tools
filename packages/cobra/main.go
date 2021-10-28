@@ -36,7 +36,8 @@ type Opts struct {
 }
 
 func NewCmdGenFigSpec(options ...Opts) *cobra.Command {
-	Use := "genFigSpec"
+	Use := "generateFigSpec"
+	Aliases := []string{"genFigSpec"}
 	Short := "Generate a fig spec"
 	Hidden := true
 	Long := `
@@ -63,6 +64,7 @@ Fig autocomplete spec for your Cobra CLI.
 	}
 	var cmd = &cobra.Command{
 		Use:    Use,
+		Aliases: Aliases,
 		Short:  Short,
 		Hidden: Hidden,
 		Long:   Long,
