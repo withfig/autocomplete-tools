@@ -8,7 +8,10 @@ import compile from "./scripts/compile";
 
 const program = new Command();
 
-program.name("@withfig/autocomplete-tools").version("1.0.0");
+program
+  .name("@withfig/autocomplete-tools")
+  .description("Dev tools for fig's autocomplete")
+  .version("1.0.0");
 program.command("init", "initialize fig custom spec boilerplate in current directory", {
   executableFile: "scripts/init",
 });
@@ -19,7 +22,7 @@ program.addCommand(merge);
 
 if (process.env.NODE_ENV === "development") {
   program.command("generateFigSpec").action(() => {
-    generateFigSpec(program, "autocomplete-tools.ts");
+    generateFigSpec(program, "generated/autocomplete-tools-spec-new.ts");
   });
 }
 program.parse(process.argv);

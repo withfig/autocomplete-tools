@@ -13,6 +13,7 @@ module.exports = {
     "commander/test/fixtures/*/expected.ts",
     "packages/autocomplete-tools/test/fixtures/*/expected.ts",
     "packages/autocomplete-tools/test/fixtures/*/updated.ts",
+    "packages/autocomplete-tools/generated/",
   ],
   extends: [
     "airbnb/base",
