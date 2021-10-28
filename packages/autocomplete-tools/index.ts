@@ -5,6 +5,7 @@ import merge from "./scripts/merge";
 import dev from "./scripts/dev";
 import createSpec from "./scripts/create-spec";
 import compile from "./scripts/compile";
+import init from "./scripts/init";
 
 const program = new Command();
 
@@ -12,9 +13,7 @@ program
   .name("@withfig/autocomplete-tools")
   .description("Dev tools for fig's autocomplete")
   .version("1.0.0");
-program.command("init", "initialize fig custom spec boilerplate in current directory", {
-  executableFile: "scripts/init",
-});
+program.addCommand(init);
 program.addCommand(createSpec);
 program.addCommand(compile);
 program.addCommand(dev);
