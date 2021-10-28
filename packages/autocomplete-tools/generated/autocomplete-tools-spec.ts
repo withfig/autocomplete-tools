@@ -124,5 +124,6 @@ const completionSpec: Fig.Spec = {
       priority: 49,
     },
   ],
+  icon: 'https://fig.io/icons/fig-light.png',
 }
 export default completionSpec
