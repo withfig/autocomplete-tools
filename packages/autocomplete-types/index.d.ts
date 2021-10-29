@@ -26,6 +26,23 @@ declare namespace Fig {
    */
   type Template = TemplateStrings | TemplateStrings[];
 
+  type HistoryContext = {
+    currentWorkingDirectory: string;
+    time: number;
+    exitCode: number;
+    shell: string;
+  };
+
+  type TemplateSuggestionContext =
+    | { templateType: "filepaths" }
+    | { templateType: "folders" }
+    | ({ templateType: "history" } & Partial<HistoryContext>);
+
+  type TemplateSuggestion = Modify<
+    Suggestion,
+    { name?: string; context: TemplateSuggestionContext }
+  >;
+
   /**
    *
    * The SpecLocation object defines well... the location of the completion spec we want to load.
@@ -842,7 +859,7 @@ declare namespace Fig {
      * @example
      * The python spec has an arg object which has a template for "filepaths". However, we don't want to suggest non `.py` files. Therefore, we take the output of the template, filter out all files that don't end in `.py`, keep all folders that end with `/` and return the list of suggetsions.
      */
-    filterTemplateSuggestions?: Function<Modify<Suggestion, { name?: string }>[], Suggestion[]>;
+    filterTemplateSuggestions?: Function<TemplateSuggestion[], Suggestion[]>;
     /**
      *
      * The script / shell command you wish to run on the user's device at their shell session's current working directory.
