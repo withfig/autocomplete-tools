@@ -7,9 +7,9 @@ declare namespace Fig {
    *
    * @remarks
    * Templates are generators prebuilt by Fig. Here are the three templates:
-   * * filepaths: show folders and filepaths. Allow autoexecute on filepaths
-   * * folders: show folders only. Allow autoexecute on folders
-   * * history: show suggestions for all items in history matching this pattern
+   * - filepaths: show folders and filepaths. Allow autoexecute on filepaths
+   * - folders: show folders only. Allow autoexecute on folders
+   * - history: show suggestions for all items in history matching this pattern
    *
    * @example
    * `cd` uses the "folders" template
@@ -53,10 +53,10 @@ declare namespace Fig {
    *
    * @remarks
    * **When is this used?**
-   * * For very very large specs (e.g. aws or gcloud) where loading the full completion spec would be slow. Instead, we load up the list of subcommands then dynamically load up the sub-subcommands using loadSpec.
-   * * For CLI tools that take a command as an argument e.g. time <cmd> or builtin <cmd>. loadSpec will load up the completion spec for the CLI the user inputs. e.g. if the user types `time git` we should load up the git spec
-   * * For CLI tools that take a local script as an argument e.g. python <script> or node <script>. loadSpec will load up the completion spec for the script the user inputs. e.g. if the user types `python main.py` we should load up the main.py completion spec.
-   * * For CLI tools that have modules that function like their own CLI tools. e.g. python -m <module>. LoadSpec will load up the completion spec for the module e.g. the http.server completion spec
+   * - For very very large specs (e.g. aws or gcloud) where loading the full completion spec would be slow. Instead, we load up the list of subcommands then dynamically load up the sub-subcommands using loadSpec.
+   * - For CLI tools that take a command as an argument e.g. time <cmd> or builtin <cmd>. loadSpec will load up the completion spec for the CLI the user inputs. e.g. if the user types `time git` we should load up the git spec
+   * - For CLI tools that take a local script as an argument e.g. python <script> or node <script>. loadSpec will load up the completion spec for the script the user inputs. e.g. if the user types `python main.py` we should load up the main.py completion spec.
+   * - For CLI tools that have modules that function like their own CLI tools. e.g. python -m <module>. LoadSpec will load up the completion spec for the module e.g. the http.server completion spec
    *
    * **The SpecLocation Object**
    * The SpecLocation object defines well... the location of the completion spec we want to load.
@@ -83,7 +83,7 @@ declare namespace Fig {
    * **Syntactic Sugar**
    * We have three bits of syntactic sugar that can make this easier:
    * 1. Pass a single string to loadSpec instead of a function. We interpret this string as the "name" prop of global SpecLocation object
-   *    * e.g. "python/http.server: compiles to { type: "global", name: "python/http.server"}
+   *    e.g. "python/http.server: compiles to { type: "global", name: "python/http.server"}
    * 2. `isCommand` (See {@link https://fig.io/docs/reference/arg#iscommand | Arg Object}.
    * 3. `isScript` See {@link https://fig.io/docs/reference/arg#isscript | Arg Object}.
    *
@@ -96,9 +96,9 @@ declare namespace Fig {
       ) => Promise<SpecLocation | SpecLocation[]>);
 
   /**
-   * The type of a suggestion object. The type determines
-   * * the default icon Fig uses (e.g. a file or folder searches for the system icon, a subcommand has a specific icon etc)
-   * * whether we allow users to auto-execute a command
+   * The type of a suggestion object. The type determines:
+   * - the default icon Fig uses (e.g. a file or folder searches for the system icon, a subcommand has a specific icon etc)
+   * - whether we allow users to auto-execute a command
    */
   type SuggestionType =
     | "folder"
@@ -173,13 +173,12 @@ declare namespace Fig {
    */
   type ExecuteShellCommandFunction = (commandToExecute: string) => Promise<string>;
 
-  /**
-   * The BaseSuggestion object is the root of the Suggestion, Subcommand, and Option objects. It is where key properties like description, icon, and displayName are found
-   */
+  // The BaseSuggestion object is the root of the Suggestion, Subcommand, and Option objects.
+  // It is where key properties like description, icon, and displayName are found
   interface BaseSuggestion {
     /**
      * The string that is displayed in the UI for a given suggestion.
-     * @default is the `name` prop
+     * @defaultValue is the `name` prop
      *
      * @example
      * The npm CLI has a subcommand called `install`. If we wanted
@@ -194,7 +193,7 @@ declare namespace Fig {
      * You can use `\n` to insert a newline or `\b` to insert a backspace.
      * You can also optionally specify {cursor} in the string and Fig will automatically place the cursor there after insert.
      *
-     * @default The value of the name prop.
+     * @defaultValue The value of the name prop.
      *
      * @example
      * For the `git commit` subcommand, the `-m` option has an insert value of `-m '{cursor}'`
@@ -214,12 +213,16 @@ declare namespace Fig {
      * Icons can be a 1 character string, a URL, or Fig's [icon protocol](https://fig.io/docs/reference/suggestion/icon-api) (fig://) which lets you generate
      * colorful and fun systems icons.
      *
-     * @default is what is set by the type
+     * @defaultValue is what is set by the type
      *
-     * @example `A`
-     * @example `😊`
-     * @example `https://www.herokucdn.com/favicon.ico`
-     * @example `fig://icon?type=file`
+     * @example
+     * `A`
+     * @example
+     * `😊`
+     * @example
+     * `https://www.herokucdn.com/favicon.ico`
+     * @example
+     * `fig://icon?type=file`
      *
      */
     icon?: string;
@@ -230,7 +233,7 @@ declare namespace Fig {
      * If true, Fig will not enable its autoexecute functionality. Autoexecute means if a user selects a suggestion it will insert the text and run the command. We signal this by changing the icon to red.
      * Turning on isDangerous will make it harder for a user to accidentally run a dangerous command.
      *
-     * @default false
+     * @defaultValue false
      *
      * @example
      * This is used in the `rm` spec. Why? Because we don't want users to accidentally delete their files so we make it just a little bit harder...
@@ -239,11 +242,11 @@ declare namespace Fig {
     /**
      * The number used to rank suggestions in autocomplete. Number must be from 0-100. Higher priorities rank higher.
      *
-     * @default 50
+     * @defaultValue 50
      * @remarks
      * Fig ranks suggestions by recency. To do this, we check if a suggestion has been selected before. If yes and the suggestions has:
-     * * a priority between 50-75, the priority will be replaced with 75, then we will add the timestamp of when that suggestion was selected as a decimal.
-     * * a priority ourside of 50-75, the priority will be increased by the timestamp of when that suggestion was selected as a decimal.
+     * - a priority between 50-75, the priority will be replaced with 75, then we will add the timestamp of when that suggestion was selected as a decimal.
+     * - a priority ourside of 50-75, the priority will be increased by the timestamp of when that suggestion was selected as a decimal.
      * If it has not been selected before, Fig will keep the same priority as was set in the completion spec
      * If it was not set in the spec, it will default to 50.
      *
@@ -251,23 +254,23 @@ declare namespace Fig {
      * @example
      * **Previously selected suggestions**
      * Let's say a user has previously selected a suggestion at unix timestamp 1634087677
-     * * If completion spec did not set a priority (Fig treats this as priority 50), its priority would change to 75 + 0.1634087677 = 75.1634087677
-     * * If completion spec set a priority of 49 or less, its priority would change to 49 + 0.1634087677 = 49.1634087677
-     * * If completion spec set a priority of 76 or more, its priority would change to 76 + 0.1634087677 = 76.1634087677
+     * - If completion spec did not set a priority (Fig treats this as priority 50), its priority would change to 75 + 0.1634087677 = 75.1634087677
+     * - If completion spec set a priority of 49 or less, its priority would change to 49 + 0.1634087677 = 49.1634087677
+     * - If completion spec set a priority of 76 or more, its priority would change to 76 + 0.1634087677 = 76.1634087677
      *
      * If a user had never selected a suggestion, then its priority would just stay as is (or if not set, deafult to 50)
      *
      * @example
      * **Other examples**
      * If you want your suggestions to always be:
-     * * at the top order, rank them 76 or above.
-     * * at the bottom, rank them 49 or below
+     * - at the top order, rank them 76 or above.
+     * - at the bottom, rank them 49 or below
      */
     priority?: number;
     /**
      * Specifies whether a suggestion should be hidden from results. Fig will only show it if the user exactly types the name.
      *
-     * @default false
+     * @defaultValue false
      * @example
      * The "-" suggestion is hidden in the `cd` spec. You will only see it if you type exactly  `cd -`
      */
@@ -307,8 +310,8 @@ declare namespace Fig {
     name?: SingleOrArray<string>;
     /**
      * The type of a suggestion object. The type determines
-     * * the default icon Fig uses (e.g. a file or folder searches for the system icon, a subcommand has a specific icon etc)
-     * * whether we allow users to auto-execute a command
+     * - the default icon Fig uses (e.g. a file or folder searches for the system icon, a subcommand has a specific icon etc)
+     * - whether we allow users to auto-execute a command
      */
     type?: SuggestionType;
   }
@@ -364,11 +367,11 @@ declare namespace Fig {
      * If the argument is optional, signal this by saying isOptiona
      *
      * @example:
-     * * `npm run` takes one mandatory argument. This can be represented by `args: {}`
+     * `npm run` takes one mandatory argument. This can be represented by `args: {}`
      * @example
-     * * `git push` takes two mandatory arguments. This can be represented by: `args: [{isOptional: true}, {isOptional: true}]`
+     * `git push` takes two mandatory arguments. This can be represented by: `args: [{isOptional: true}, {isOptional: true}]`
      * @example
-     * * `git clone` takes two optional arguments. This can be represented by: `args: [{isOptional: true}, {}]`
+     * `git clone` takes two optional arguments. This can be represented by: `args: [{isOptional: true}, {}]`
      */
 
     args?: SingleOrArray<Arg>;
@@ -387,10 +390,10 @@ declare namespace Fig {
      *
      * @remarks
      * **When is this used?**
-     * * For very very large specs (e.g. aws or gcloud) where loading the full completion spec would be slow. Instead, we load up the list of subcommands then dynamically load up the sub-subcommands using loadSpec.
-     * * For CLI tools that take a command as an argument e.g. time <cmd> or builtin <cmd>. loadSpec will load up the completion spec for the CLI the user inputs. e.g. if the user types `time git` we should load up the git spec
-     * * For CLI tools that take a local script as an argument e.g. python <script> or node <script>. loadSpec will load up the completion spec for the script the user inputs. e.g. if the user types `python main.py` we should load up the main.py completion spec.
-     * * For CLI tools that have modules that function like their own CLI tools. e.g. python -m <module>. LoadSpec will load up the completion spec for the module e.g. the http.server completion spec
+     * - For very very large specs (e.g. aws or gcloud) where loading the full completion spec would be slow. Instead, we load up the list of subcommands then dynamically load up the sub-subcommands using loadSpec.
+     * - For CLI tools that take a command as an argument e.g. time <cmd> or builtin <cmd>. loadSpec will load up the completion spec for the CLI the user inputs. e.g. if the user types `time git` we should load up the git spec
+     * - For CLI tools that take a local script as an argument e.g. python <script> or node <script>. loadSpec will load up the completion spec for the script the user inputs. e.g. if the user types `python main.py` we should load up the main.py completion spec.
+     * - For CLI tools that have modules that function like their own CLI tools. e.g. python -m <module>. LoadSpec will load up the completion spec for the module e.g. the http.server completion spec
      *
      * **The SpecLocation Object**
      * The SpecLocation object defines well... the location of the completion spec we want to load.
@@ -417,7 +420,7 @@ declare namespace Fig {
      * **Syntactic Sugar**
      * We have three bits of syntactic sugar that can make this easier:
      * 1. Pass a single string to loadSpec instead of a function. We interpret this string as the "name" prop of global SpecLocation object
-     *    * e.g. "python/http.server: compiles to { type: "global", name: "python/http.server"}
+     *    e.g. "python/http.server: compiles to { type: "global", name: "python/http.server"}
      * 2. `isCommand` (See {@link https://fig.io/docs/reference/arg#iscommand | Arg Object}.
      * 3. `isScript` See {@link https://fig.io/docs/reference/arg#isscript | Arg Object}.
      *
@@ -490,11 +493,11 @@ declare namespace Fig {
      * If the argument is optional, signal this by saying isOptiona
      *
      * @example:
-     * * `npm run` takes one mandatory argument. This can be represented by `args: {}`
+     * `npm run` takes one mandatory argument. This can be represented by `args: {}`
      * @example
-     * * `git push` takes two mandatory arguments. This can be represented by: `args: [{isOptional: true}, {isOptional: true}]`
+     * `git push` takes two mandatory arguments. This can be represented by: `args: [{isOptional: true}, {isOptional: true}]`
      * @example
-     * * `git clone` takes two optional arguments. This can be represented by: `args: [{isOptional: true}, {}]`
+     * `git clone` takes two optional arguments. This can be represented by: `args: [{isOptional: true}, {}]`
      */
     args?: SingleOrArray<Arg>;
     /**
@@ -507,7 +510,7 @@ declare namespace Fig {
      * persistence for certain children. Also see
      * https://github.com/spf13/cobra/blob/master/user_guide.md#persistent-flags.
      *
-     * @default false.
+     * @defaultValue false.
      *
      * @example
      * Say the `git` spec had an option at the top level with `{ name: "--help", isPersistent: true }`.
@@ -520,7 +523,7 @@ declare namespace Fig {
      *
      * Signals whether an option is required.
      *
-     * @default is false meaning an option is NOT required.
+     * @defaultValue is false meaning an option is NOT required.
      *
      *
      * @example
@@ -532,7 +535,7 @@ declare namespace Fig {
      *
      * Signals whether an equals sign is required to pass an argument to an option e.g. git commit --message="msg"
      *
-     * @default false - This means the option does NOT require an equal sign to pass an arg to an option.
+     * @defaultValue false - This means the option does NOT require an equal sign to pass an arg to an option.
      *
      * @example
      * When `requiresEqual: true` the user MUST do `--opt=value` and cannot do `--opt value`
@@ -543,7 +546,7 @@ declare namespace Fig {
      *
      * Signals whether an option can be passed multiple times.
      *
-     * @default false - This means an option is NOT repeatable, meaning after you pass it, it will not be
+     * @defaultValue false - This means an option is NOT repeatable, meaning after you pass it, it will not be
      * suggested again.
      *
      * @remarks
@@ -579,7 +582,7 @@ declare namespace Fig {
     /**
      *
      * Signals whether an option is mutually exclusive with other options ie if the user has this option, Fig should not show the options.
-     * @default false - this means that an option is NOT mutually exclusive with any other options.
+     * @defaultValue false - this means that an option is NOT mutually exclusive with any other options.
      *
      * @remarks
      * Options that are mutually exclusive with flags the user has already passed will not be shown in the suggestions list.
@@ -595,7 +598,7 @@ declare namespace Fig {
      *
      * Signals whether an option depends on other options ie if the user has this option, Fig should only show these options until they are all inserted.
      *
-     * @default false - This means that an option does NOT depend on any other options.
+     * @defaultValue false - This means that an option does NOT depend on any other options.
      *
      * @remarks
      * If the user has an unmet dependency for a flag they've already typed, this dependency will have boosted priority in the suggestion list.
@@ -640,7 +643,7 @@ declare namespace Fig {
      * If true, Fig will not enable its autoexecute functionality. Autoexecute means if a user selects a suggestion it will insert the text and run the command. We signal this by changing the icon to red.
      * Turning on isDangerous will make it harder for a user to accidentally run a dangerous command.
      *
-     * @default false
+     * @defaultValue false
      *
      * @example
      * This is used for all arguments in the `rm` spec.
@@ -662,9 +665,9 @@ declare namespace Fig {
      *
      * @remarks
      * Templates are generators prebuilt by Fig. Here are the three templates:
-     * * filepaths: show folders and filepaths. Allow autoexecute on filepaths
-     * * folders: show folders only. Allow autoexecute on folders
-     * * history: show suggestions for all items in history matching this pattern
+     * - filepaths: show folders and filepaths. Allow autoexecute on filepaths
+     * - folders: show folders only. Allow autoexecute on folders
+     * - history: show suggestions for all items in history matching this pattern
      *
      * @example
      * `cd` uses the "folders" template
@@ -696,7 +699,7 @@ declare namespace Fig {
     /**
      * Specifies whether options can interupt variadic arguments.
      *
-     * @default true
+     * @defaultValue true
      *
      * @example
      * When true:
@@ -733,7 +736,7 @@ declare namespace Fig {
     /**
        * The same as the `isCommand` prop, except Fig will look for a completion spec in the `.fig/autocomplete/build` folder in the user's current working directory.
        *
-       * * See our docs for more on building completion specs for local scripts {@link https://fig.io/docs/ | Fig for Teams}
+       * *See our docs for more on building completion specs for local scripts {@link https://fig.io/docs/ | Fig for Teams}*
        * @example
        * `python` take one argument which is a `.py` file. If I have a `main.py` file on my desktop and my current working directory is my desktop, if I type `python main.py[space]` Fig will look for a completion spec in `~/Desktop/.fig/autocomplete/build/main.py.js`
        *
@@ -815,9 +818,9 @@ declare namespace Fig {
      *
      * @remarks
      * Templates are generators prebuilt by Fig. Here are the three templates:
-     * * filepaths: show folders and filepaths. Allow autoexecute on filepaths
-     * * folders: show folders only. Allow autoexecute on folders
-     * * history: show suggestions for all items in history matching this pattern
+     * - filepaths: show folders and filepaths. Allow autoexecute on filepaths
+     * - folders: show folders only. Allow autoexecute on folders
+     * - history: show suggestions for all items in history matching this pattern
      *
      * @example
      * `cd` uses the "folders" template
@@ -897,7 +900,7 @@ declare namespace Fig {
      * @param oldToken - The old token that was there before e.g. "desktop"
      * @returns A boolean of whether or not we should regenerate suggestions
      *
-     * @default false - This means that the function returns false ie we do not regenerate suggestion on each keystroke and instead, keep our cached list of suggestions while the user is editing the current token.
+     * @defaultValue false - This means that the function returns false ie we do not regenerate suggestion on each keystroke and instead, keep our cached list of suggestions while the user is editing the current token.
      *
      * @example
      * `chmod`. If I type `chmod u` we should generate suggestions for `u+x`, `u+r`, `u-w` etc. Whereas if I typed `chmod 7` we should generate suggestions for `755` or `777` etc.
@@ -1000,7 +1003,7 @@ declare namespace Fig {
     /**
      * Whether the cache should be based on the directory the user was currently in or not
      *
-     * @default false
+     * @defaultValue false
      */
     cacheByDirectory?: boolean;
   }
