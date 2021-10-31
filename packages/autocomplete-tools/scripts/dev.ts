@@ -3,7 +3,8 @@ import fs from "fs";
 import path from "path";
 import chalk from "chalk";
 import { Command } from "commander";
-import { execSync, exec } from "child_process";
+import { execSync, exec, spawn } from "child_process";
+import { runCompiler } from "./compile";
 
 function commandStatus(cmd: string): boolean {
   try {
@@ -21,7 +22,7 @@ function disableDevMode() {
   process.exit(0);
 }
 
-function runProgram() {
+async function runProgram() {
   console.clear();
   const isMacOS = os.type() === "Darwin";
 
@@ -88,13 +89,7 @@ function runProgram() {
     commandStatus(
       `fig settings autocomplete.devCompletionsFolder ${path.join(process.cwd(), "build")}`
     );
-    const child = exec(`node ${path.join(__dirname, "compile.js")} --watch`);
-    child.stdout?.pipe(process.stdout);
-    child.stderr?.pipe(process.stderr);
-
-    child.on("exit", () => {
-      process.exit();
-    });
+    await runCompiler({ watch: true });
   }
 }
 
