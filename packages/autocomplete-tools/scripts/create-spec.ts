@@ -5,7 +5,7 @@ import path from "path";
 import chalk from "chalk";
 
 const fileContent = (name: string) => `const completionSpec: Fig.Spec = {
-  name: ${name},
+  name: "${name}",
   description: "",
   subcommands: [{
     name: "my_subcommand",
