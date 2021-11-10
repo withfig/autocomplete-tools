@@ -54,9 +54,9 @@ declare namespace Fig {
    * @remarks
    * **When is this used?**
    * - For very very large specs (e.g. aws or gcloud) where loading the full completion spec would be slow. Instead, we load up the list of subcommands then dynamically load up the sub-subcommands using loadSpec.
-   * - For CLI tools that take a command as an argument e.g. time <cmd> or builtin <cmd>. loadSpec will load up the completion spec for the CLI the user inputs. e.g. if the user types `time git` we should load up the git spec
-   * - For CLI tools that take a local script as an argument e.g. python <script> or node <script>. loadSpec will load up the completion spec for the script the user inputs. e.g. if the user types `python main.py` we should load up the main.py completion spec.
-   * - For CLI tools that have modules that function like their own CLI tools. e.g. python -m <module>. LoadSpec will load up the completion spec for the module e.g. the http.server completion spec
+   * - For CLI tools that take a command as an argument e.g. `time <cmd>` or `builtin <cmd>`. loadSpec will load up the completion spec for the CLI the user inputs. e.g. if the user types `time git` we should load up the git spec
+   * - For CLI tools that take a local script as an argument e.g. `python <script>` or `node <script>`. loadSpec will load up the completion spec for the script the user inputs. e.g. if the user types `python main.py` we should load up the main.py completion spec.
+   * - For CLI tools that have modules that function like their own CLI tools. e.g. `python -m <module>`. LoadSpec will load up the completion spec for the module e.g. the http.server completion spec
    *
    * **The SpecLocation Object**
    * The SpecLocation object defines well... the location of the completion spec we want to load.
@@ -391,9 +391,9 @@ declare namespace Fig {
      * @remarks
      * **When is this used?**
      * - For very very large specs (e.g. aws or gcloud) where loading the full completion spec would be slow. Instead, we load up the list of subcommands then dynamically load up the sub-subcommands using loadSpec.
-     * - For CLI tools that take a command as an argument e.g. time <cmd> or builtin <cmd>. loadSpec will load up the completion spec for the CLI the user inputs. e.g. if the user types `time git` we should load up the git spec
-     * - For CLI tools that take a local script as an argument e.g. python <script> or node <script>. loadSpec will load up the completion spec for the script the user inputs. e.g. if the user types `python main.py` we should load up the main.py completion spec.
-     * - For CLI tools that have modules that function like their own CLI tools. e.g. python -m <module>. LoadSpec will load up the completion spec for the module e.g. the http.server completion spec
+     * - For CLI tools that take a command as an argument e.g. `time <cmd>` or `builtin <cmd>`. loadSpec will load up the completion spec for the CLI the user inputs. e.g. if the user types `time git` we should load up the git spec
+     * - For CLI tools that take a local script as an argument e.g. `python <script>` or `node <script>`. loadSpec will load up the completion spec for the script the user inputs. e.g. if the user types `python main.py` we should load up the main.py completion spec.
+     * - For CLI tools that have modules that function like their own CLI tools. e.g. `python -m <module>`. LoadSpec will load up the completion spec for the module e.g. the http.server completion spec
      *
      * **The SpecLocation Object**
      * The SpecLocation object defines well... the location of the completion spec we want to load.
@@ -480,7 +480,7 @@ declare namespace Fig {
      * @example
      * For `git commit -m` in the, message option nested beneath `commit` would have `name: "["-m", "--message"]`
      * @example
-     * For `ls -l` the `-l` option would have `name: "["-m", "--message"]`
+     * For `ls -l` the `-l` option would have `name: ["-m", "--message"]`
      */
     name: SingleOrArray<string>;
 
@@ -736,7 +736,7 @@ declare namespace Fig {
     /**
        * The same as the `isCommand` prop, except Fig will look for a completion spec in the `.fig/autocomplete/build` folder in the user's current working directory.
        *
-       * *See our docs for more on building completion specs for local scripts {@link https://fig.io/docs/ | Fig for Teams}*
+       * See our docs for more on building completion specs for local scripts {@link https://fig.io/docs/ | Fig for Teams}*
        * @example
        * `python` take one argument which is a `.py` file. If I have a `main.py` file on my desktop and my current working directory is my desktop, if I type `python main.py[space]` Fig will look for a completion spec in `~/Desktop/.fig/autocomplete/build/main.py.js`
        *
@@ -794,7 +794,7 @@ declare namespace Fig {
      * git takes git aliases. These aliases are defined in a user's gitconfig file. Let's say a user has an alias for p=push, then if a user typed `git p[space]`, this function would take the `p` token, return `push` and then offer suggestions as if the user had typed `git push[space]`
      *
      * @example
-     * npm run <script> also takes an arg called "script". This arg is technically an alias for another shell command that is specified in the package.json.
+     * `npm run <script>` also takes an arg called "script". This arg is technically an alias for another shell command that is specified in the package.json.
      * If the user typed `npm run start[space]`, the package.json had script `start=node index.js`, then Fig would start offerring suggestions for as if you had just typed `node index.js[space]`
      *
      * Note: In both cases, the alias function is only used to expand a given alias NOT to generate the list of aliases. To generate a list of aliases, scripts etc, use a generator.
@@ -809,7 +809,7 @@ declare namespace Fig {
   }
 
   /**
-   * The genreator object is used to generate suggestions for an arg object. To do this, it runs a defined shell command on the user's device, gets the output, and returns a list of Suggestion obejcts.
+   * The generator object is used to generate suggestions for an arg object. To do this, it runs a defined shell command on the user's device, gets the output, and returns a list of Suggestion obejcts.
    *
    */
   interface Generator {
@@ -957,9 +957,8 @@ declare namespace Fig {
      * if the user was currently in their home directory and typed "cd desktop/my_folder/second_folder/aaaaa", then the custom function would return a list of directories at the `~/desktop/my_folder/second_folder` directory
      * if the user was currently in their home directory and typed "cd /usr/bin/", then the custom function would return a list of directories at the `/usr/bin/` directory
      *
-     *
      * @example
-     * ```
+     * ```ts
      * const generator: Fig.Generator = {
      *   custom: async (tokens, executeShellCommand) => {
      *     const out = await executeShellCommand("ls");
