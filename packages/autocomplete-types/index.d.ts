@@ -84,8 +84,8 @@ declare namespace Fig {
    * We have three bits of syntactic sugar that can make this easier:
    * 1. Pass a single string to loadSpec instead of a function. We interpret this string as the "name" prop of global SpecLocation object
    *    e.g. "python/http.server: compiles to { type: "global", name: "python/http.server"}
-   * 2. `isCommand` (See {@link https://fig.io/docs/reference/arg#iscommand | Arg Object}.
-   * 3. `isScript` See {@link https://fig.io/docs/reference/arg#isscript | Arg Object}.
+   * 2. `isCommand` (See [Arg Object](https://fig.io/docs/reference/arg#iscommand)).
+   * 3. `isScript` (See [Arg Object](https://fig.io/docs/reference/arg#isscript)).
    *
    */
   type LoadSpec =
@@ -366,7 +366,7 @@ declare namespace Fig {
      * If a subcommand takes an argument, please at least include an empty Arg Object. (e.g. `{}`). Why? If you don't, Fig will assume the subcommand does not take an argument. When the user types their argument
      * If the argument is optional, signal this by saying isOptiona
      *
-     * @example:
+     * @example
      * `npm run` takes one mandatory argument. This can be represented by `args: {}`
      * @example
      * `git push` takes two mandatory arguments. This can be represented by: `args: [{isOptional: true}, {isOptional: true}]`
@@ -421,8 +421,8 @@ declare namespace Fig {
      * We have three bits of syntactic sugar that can make this easier:
      * 1. Pass a single string to loadSpec instead of a function. We interpret this string as the "name" prop of global SpecLocation object
      *    e.g. "python/http.server: compiles to { type: "global", name: "python/http.server"}
-     * 2. `isCommand` (See {@link https://fig.io/docs/reference/arg#iscommand | Arg Object}.
-     * 3. `isScript` See {@link https://fig.io/docs/reference/arg#isscript | Arg Object}.
+     * 2. `isCommand` (See [Arg Object](https://fig.io/docs/reference/arg#iscommand)).
+     * 3. `isScript` (See [Arg Object](https://fig.io/docs/reference/arg#isscript)).
      *
      */
     loadSpec?: LoadSpec;
@@ -492,7 +492,7 @@ declare namespace Fig {
      * If a subcommand takes an argument, please at least include an empty Arg Object. (e.g. `{}`). Why? If you don't, Fig will assume the subcommand does not take an argument. When the user types their argument
      * If the argument is optional, signal this by saying isOptiona
      *
-     * @example:
+     * @example
      * `npm run` takes one mandatory argument. This can be represented by `args: {}`
      * @example
      * `git push` takes two mandatory arguments. This can be represented by: `args: [{isOptional: true}, {isOptional: true}]`
@@ -736,7 +736,7 @@ declare namespace Fig {
     /**
        * The same as the `isCommand` prop, except Fig will look for a completion spec in the `.fig/autocomplete/build` folder in the user's current working directory.
        *
-       * See our docs for more on building completion specs for local scripts {@link https://fig.io/docs/ | Fig for Teams}*
+       * See our docs for more on building completion specs for local scripts [Fig for Teams](https://fig.io/docs/)
        * @example
        * `python` take one argument which is a `.py` file. If I have a `main.py` file on my desktop and my current working directory is my desktop, if I type `python main.py[space]` Fig will look for a completion spec in `~/Desktop/.fig/autocomplete/build/main.py.js`
        *
@@ -770,11 +770,11 @@ declare namespace Fig {
     default?: string;
     /**
      *
-     * See {@link https://fig.io/docs/reference/subcommand#loadspec | LoadSpec in Subcommand Object}.
+     * See [LoadSpec in Subcommand Object](https://fig.io/docs/reference/subcommand#loadspec).
      *
      * There is a very high chance you want to use one of the following:
-     * 1. `isCommand` (See {@link https://fig.io/docs/reference/arg#iscommand | Arg Object}.
-     * 2. `isScript` See {@link https://fig.io/docs/reference/arg#isscript | Arg Object}.
+     * 1. `isCommand` (See [Arg Object](https://fig.io/docs/reference/arg#iscommand))
+     * 2. `isScript` (See [Arg Object](https://fig.io/docs/reference/arg#isscript))
      *
      */
     loadSpec?: LoadSpec;
