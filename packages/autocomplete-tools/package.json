@@ -7,7 +7,7 @@
     "build": "rm -rf build/ && tsc && cp -r boilerplate build/boilerplate",
     "prepack": "npm run build",
     "test": "ts-node test/index.ts",
-    "generate-spec": "npm run build && NODE_ENV=development node build/index.js generateFigSpec && npm run merge-specs",
+    "generate-spec": "npm run build && GENERATE_SPEC=true node build/index.js generateFigSpec && npm run merge-specs",
     "merge-specs": "node build/index.js merge generated/autocomplete-tools-spec.ts generated/autocomplete-tools-spec-new.ts --preset commander"
   },
   "license": "MIT",

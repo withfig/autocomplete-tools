@@ -18,7 +18,7 @@ program.addCommand(compile);
 program.addCommand(dev);
 program.addCommand(merge);
 
-if (process.env.NODE_ENV === "development") {
+if (process.env.GENERATE_SPEC) {
   // eslint-disable-next-line import/no-extraneous-dependencies
   import("@withfig/commander").then((module) => {
     program.command("generateFigSpec").action(() => {
