@@ -7,6 +7,8 @@ import {
   Symbol as TSMSymbol,
   ArrayLiteralExpression,
   ObjectLiteralExpression,
+  Expression,
+  ObjectLiteralElementLike,
 } from "ts-morph";
 import prettier from "prettier";
 import { defaultPreset, presets } from "./presets";
@@ -59,6 +61,64 @@ function generateNodePath(node: ts.PropertyAssignment | ts.ShorthandPropertyAssi
   return path;
 }
 
+function compareObjectLiteralElementLike(
+  nodeA: ts.ObjectLiteralElementLike,
+  nodeB: ObjectLiteralElementLike
+): boolean {
+  if (nodeA.kind !== nodeB.getKind()) return false;
+  if (Node.isPropertyAssignment(nodeB)) {
+    return compareExpressions((nodeA as ts.PropertyAssignment).initializer, nodeB.getInitializer());
+  }
+  // true for ShorthandPropertyAssignment, SpreadAssignment
+  return true;
+}
+
+function compareExpressions(
+  expressionA?: ts.Expression,
+  expressionB?: Expression<ts.Expression>
+): boolean {
+  if (!expressionA || !expressionB) return false;
+  if (expressionA.kind !== expressionB.getKind()) return false;
+  if (Node.isArrayLiteralExpression(expressionB)) {
+    const elementsA = (expressionA as ts.ArrayLiteralExpression).elements;
+    const elementsB = expressionB.getElements();
+    return (
+      elementsA.length === elementsB.length &&
+      elementsA.every((element, index) => compareExpressions(element, elementsB[index]))
+    );
+  }
+  if (
+    Node.isStringLiteral(expressionB) ||
+    Node.isNoSubstitutionTemplateLiteral(expressionB) ||
+    Node.isNumericLiteral(expressionB)
+  ) {
+    // @ts-expect-error
+    return expressionB.getLiteralText() === expressionA.text;
+  }
+  if (Node.isObjectLiteralExpression(expressionB)) {
+    const propertiesA = (expressionA as ts.ObjectLiteralExpression).properties;
+    const propertiesB = expressionB.getProperties();
+    return (
+      propertiesA.length === propertiesB.length &&
+      propertiesA.every((property, index) => {
+        const propertyText = property.name?.getText();
+        // if the properties at the same index has the same name we avoid an useless search
+        if (propertyText === propertiesB[index].compilerNode.name?.getText()) {
+          return compareObjectLiteralElementLike(property, propertiesB[index]);
+        }
+        // otherwise we need to search an eventual property with the same name
+        const foundProperty = propertiesB.find(
+          (prop) => propertyText === prop.compilerNode.name?.getText()
+        );
+        if (!foundProperty) return false;
+        return compareObjectLiteralElementLike(property, foundProperty);
+      })
+    );
+  }
+  // fallback for all other nodes that should just have the same kind e.g. FalseNode and TrueNode
+  return true;
+}
+
 function resolveArrayLiteral(path: ts.Node[], arrayNode: ArrayLiteralExpression): Node | undefined {
   const newPath = path.slice(0, -1);
   const currentPathItem = newPath[newPath.length - 1];
@@ -78,9 +138,7 @@ function resolveArrayLiteral(path: ts.Node[], arrayNode: ArrayLiteralExpression)
           const nameProp = element.getProperty("name");
           if (nameProp && Node.isPropertyAssignment(nameProp)) {
             const initializer = nameProp.getInitializer()!;
-            if (
-              initializer.getText().replace(/"/g, "'") === nameToFind.getText().replace(/"/g, "'")
-            ) {
+            if (compareExpressions(nameToFind, initializer)) {
               return resolve(newPath, element);
             }
           }
@@ -174,6 +232,23 @@ function getFirstParentProperty(nodePath: ts.Node[]): ts.PropertyAssignment | un
   return undefined;
 }
 
+function getObservedSet(
+  updatable: Preset,
+  parentProperty?: ts.PropertyAssignment
+): Set<string> | undefined {
+  if (!parentProperty) return updatable.commandProps; // we are handling a top-level command
+  if (ts.isIdentifier(parentProperty.name)) {
+    const parentPropText = parentProperty.name.text;
+    // eslint-disable-next-line no-nested-ternary
+    return parentPropText === "subcommands"
+      ? updatable.commandProps
+      : parentPropText === "options"
+      ? updatable.optionProps
+      : updatable.argProps; // parentPropText === "args"
+  }
+  return undefined;
+}
+
 // `statement` can only be one of the top-level statements
 function traverseSpecs(
   statement: Node<ts.Statement>,
@@ -183,27 +258,9 @@ function traverseSpecs(
   statement.transform((traversal) => {
     const node = traversal.visitChildren();
     if (ts.isPropertyAssignment(node) && ts.isIdentifier(node.name)) {
-      let observedSet: Set<string> | null = null;
       const nodePath = generateNodePath(node);
-      // look for the first property assignment in the path. If no one is found, then assume we are handling a top level command prop
       const parentProperty = getFirstParentProperty(nodePath);
-      if (!parentProperty) {
-        observedSet = updatableProps.commandProps;
-      } else if (ts.isIdentifier(parentProperty.name)) {
-        const parentPropText = parentProperty.name.text;
-        switch (parentPropText) {
-          case "subcommands":
-            observedSet = updatableProps.commandProps;
-            break;
-          case "options":
-            observedSet = updatableProps.optionProps;
-            break;
-          case "args":
-            observedSet = updatableProps.argProps;
-            break;
-          default:
-        }
-      }
+      const observedSet = getObservedSet(updatableProps, parentProperty);
       if (observedSet && !observedSet.has(node.name.text)) {
         resolveAndUpdateNodePath(nodePath, destination, {
           name: node.name.text,
