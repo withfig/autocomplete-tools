@@ -37,6 +37,7 @@ module.exports = {
     "no-console": "off",
     "no-use-before-define": "off",
     "@typescript-eslint/no-use-before-define": ["error"],
+    "@typescript-eslint/ban-ts-comment": "off",
     "import/extensions": "off",
     "import/prefer-default-export": "off",
     "import/no-extraneous-dependencies": ["error", { devDependencies: ["**/test/*"] }],
