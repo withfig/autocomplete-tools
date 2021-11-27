@@ -52,4 +52,9 @@ export const presets: Record<string, Preset> = {
     optionProps: new Set(["name", "description", "args"]),
     argProps: new Set(["name", "isVariadic", "isOptional", "suggestions", "template", "isCommand"]),
   },
+  "swift-argument-parser": {
+    commandProps: new Set(["name", "description", "subcommands", "options", "args"]),
+    optionProps: new Set(["name", "isRequired", "isRepeatable", "description", "hidden"]),
+    argProps: new Set(["name", "description", "default", "isVariadic", "isOptional"]),
+  },
 };
