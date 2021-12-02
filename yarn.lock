@@ -330,13 +330,6 @@
     "@typescript-eslint/types" "4.33.0"
     eslint-visitor-keys "^2.0.0"
 
-"@withfig/commander@^1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@withfig/commander/-/commander-1.0.1.tgz#4ce62965551f845f4581f41d1e9db47c3d798339"
-  integrity sha512-RZ68kGTuS8+AWz1I4HE+hnkCgpvWaXUUtvJV2Gjpi5TrbiE/vgwgxzvWxC4ljjTLoJ3ekCyMqlEGoHAF/uyVqg==
-  dependencies:
-    prettier "^2.3.2"
-
 acorn-jsx@^5.3.1:
   version "5.3.2"
   resolved "https://registry.yarnpkg.com/acorn-jsx/-/acorn-jsx-5.3.2.tgz#7ed5bb55908b3b2f1bc55c6af1653bada7f07937"
