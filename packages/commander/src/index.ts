@@ -123,7 +123,7 @@ function helpOption({
   };
 }
 
-function generateCommand(
+export function generateCommand(
   _command: Command & Record<string, any>,
   figSpecCommandName: string
 ): Fig.Subcommand | undefined {
