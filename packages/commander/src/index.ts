@@ -93,6 +93,7 @@ interface ExtendedCommand extends Command {
   _helpCommandnameAndArgs: string;
   _helpCommandDescription: string;
   _hasHelpOption: boolean;
+  _hidden: boolean;
 }
 
 function helpSubcommand({
@@ -136,6 +137,7 @@ function generateCommand(
     options,
     _addImplicitHelpCommandL,
     _hasHelpOption,
+    _hidden,
   } = _command as ExtendedCommand;
 
   if (_name === figSpecCommandName) return undefined;
@@ -143,6 +145,7 @@ function generateCommand(
   const command: Fig.Subcommand = { name };
 
   if (_description) command.description = _description;
+  if (_hidden) command.hidden = true;
   // Subcommands
   if (commands.length) {
     command.subcommands = [];
