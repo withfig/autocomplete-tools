@@ -63,8 +63,6 @@ npm run build
 ### Push Specs to Fig's Cloud
 Coming soon
 
-
-
 ## Documentation
 
 - [Building your first autocomplete spec](https://fig.io/docs/)
