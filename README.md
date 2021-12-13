@@ -6,7 +6,18 @@ This repo contains the source for all of Fig tools related with [autocomplete](h
 
 2. You can see the source code and related README for each package in the `./packages` folder
 
-### To publish a package:
+## Packages
+
+- [`@withfig/autocomplete-tools`](packages/autocomplete-tools/README.md)
+- [`@withfig/autocomplete-types`](packages/autocomplete-types/README.md)
+- [`@withfig/clap`](packages/clap/README.md)
+- [`@withfig/cobra`](packages/cobra/README.md)
+- [`@withfig/commander`](packages/commander/README.md)
+- [`@withfig/eslint-plugin-fig-linter`](packages/eslint-plugin-fig-linter/README.md)
+- [`@withfig/oclif`](packages/oclif/README.md)
+- [`@withfig/swift-argument-parser`](packages/swift-argument-parser/README.md)
+
+## To publish a package:
 
 Run `yarn workspace <workspace name> publish`
 
@@ -16,19 +27,3 @@ yarn workspace @withfig/autocomplete-types publish
 ```
 
 > Note: `<workspace name>` is not the name of the folder, but the name specified inside the package.json of the package to publish.
-
-### Migration from `@withfig/autocomplete-tools@1` to `@withfig/autocomplete-tools@2`
-
-In v2 we moved our types to a separate package called `@withfig/autocomplete-types`.
-The transition is as simple as installing the new package and changing an entry in your `tsconfig.json`:
-```json
-{
-  "compilerOptions": {
-    ...
-    // you may get some typecheck errors if you are using some node packages like "fs"
-    // just include "node" in the below array. Same for "jest", "chai"...and so on
-    "types": ["@withfig/autocomplete-types"]
-  },
-  ...
-}
-```
