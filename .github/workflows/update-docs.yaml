@@ -14,6 +14,6 @@ jobs:
     - name: Repository Dispatch
       uses: peter-evans/repository-dispatch@v1
       with:
-        token: ${{ secrets.FIG_BOT_AUTOCOMPLETE_DOCS_TOKEN }}
+        token: ${{ secrets.FIG_BOT_TOKEN }}
         repository: withfig/public-site-nextjs
         event-type: autocomplete-docs
