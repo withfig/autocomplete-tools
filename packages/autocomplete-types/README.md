@@ -6,7 +6,7 @@ This is the package providing types for our autocomplete app.
 
 Configure the global Fig namespace in your `tsconfig.json`:
 
-```json
+```jsonc
 {
   "compilerOptions": {
     // you may get some typecheck errors if you are using some node packages like "fs"
