@@ -56,7 +56,8 @@ const completionSpec: Fig.Spec = {
     },
     {
       name: ["--no-highlight-code"],
-      description: "Enable or disable ANSI syntax highlighting of code frames. (on by default)",
+      description:
+        "Enable or disable ANSI syntax highlighting of code frames. (on by default)",
     },
     {
       name: ["--no-comments"],
@@ -68,7 +69,8 @@ const completionSpec: Fig.Spec = {
     },
     {
       name: ["--compact"],
-      description: "Do not include superfluous whitespace characters and line terminators.",
+      description:
+        "Do not include superfluous whitespace characters and line terminators.",
       args: { name: "true|false|auto", isOptional: true },
     },
     {
@@ -126,7 +128,8 @@ const completionSpec: Fig.Spec = {
     },
     {
       name: ["-d", "--out-dir"],
-      description: "Compile an input directory of modules into an output directory.",
+      description:
+        "Compile an input directory of modules into an output directory.",
       args: { name: "out", isOptional: true },
     },
     {
@@ -140,7 +143,8 @@ const completionSpec: Fig.Spec = {
     },
     {
       name: ["--include-dotfiles"],
-      description: "Include dotfiles when compiling and copying non-compilable files.",
+      description:
+        "Include dotfiles when compiling and copying non-compilable files.",
     },
     {
       name: ["--no-copy-ignored"],

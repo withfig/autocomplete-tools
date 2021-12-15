@@ -10,7 +10,10 @@ const completionSpec: Fig.Spec = {
       priority: 49,
     },
   ],
-  args: [{ name: "utility" }, { name: "args", isOptional: true, isVariadic: true }],
+  args: [
+    { name: "utility" },
+    { name: "args", isOptional: true, isVariadic: true },
+  ],
 };
 
 export default completionSpec;
