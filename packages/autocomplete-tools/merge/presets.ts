@@ -19,7 +19,7 @@ export const defaultPreset: Preset = {
 
 export const presets: Record<string, Preset> = {
   commander: {
-    commandProps: new Set(["name", "description", "subcommands", "options", "args"]),
+    commandProps: new Set(["name", "description", "subcommands", "options", "args", "hidden"]),
     optionProps: new Set(["name", "description", "isRequired", "args"]),
     argProps: new Set([
       "name",
