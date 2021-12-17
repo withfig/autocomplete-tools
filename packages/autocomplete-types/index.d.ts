@@ -718,18 +718,38 @@ declare namespace Fig {
     isVariadic?: boolean;
 
     /**
-     * Specifies whether options can interupt variadic arguments.
+     * Specifies whether options can interupt variadic arguments. There is
+     * slightly different behavior when this is used on an option argument and
+     * on a subcommand argument:
+     *
+     * - When an option breaks a *variadic subcommand argument*, after the option
+     * and any arguments are parsed, the parser will continue parsing variadic
+     * arguments to the subcommand
+     * - When an option breaks a *variadic option argument*, after the breaking
+     * option and any arguments are parsed, the original variadic options
+     * arguments will be terminated. See the second examples below for details.
+     *
      *
      * @defaultValue true
      *
      * @example
-     * When true:
-     * `git add file1 file2 -v` will interpret `-v` as an option NOT an argument
+     * When true for git add's argument:
+     * `git add file1 -v file2` will interpret `-v` as an option NOT an
+     * argument, and will continue interpreting file2 as a variadic argument to
+     * add after
+     *
+     * @example
+     * When true for -T's argument, where -T is a variadic list of tags:
+     * `cmd -T tag1 tag2 -p project tag3` will interpret `-p` as an option, but
+     * will then terminate the list of tags. So tag3 is not parsed as an
+     * argument to `-T`, but rather as a subcommand argument to `cmd` if `cmd`
+     * takes any arguments.
      *
      * @example
      * When false:
-     * `echo hello world -n` will treat -n as an argument NOT an option.
-     * However, in `echo -n hello world` it will treat -n as an option as variadic arguments haven't started yet
+     * `echo hello -n world` will treat -n as an argument NOT an option.
+     * However, in `echo -n hello world` it will treat -n as an option as
+     * variadic arguments haven't started yet
      *
      */
     optionsCanBreakVariadicArg?: boolean;
