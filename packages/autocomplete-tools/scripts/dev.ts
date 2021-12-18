@@ -3,7 +3,7 @@ import fs from "fs";
 import path from "path";
 import chalk from "chalk";
 import { Command } from "commander";
-import { execSync, exec, spawn } from "child_process";
+import { execSync } from "child_process";
 import { runCompiler } from "./compile";
 
 function commandStatus(cmd: string): boolean {

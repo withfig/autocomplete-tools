@@ -41,7 +41,9 @@
     "build": "tsc",
     "postpack": "rm -f oclif.manifest.json",
     "prepack": "npm run build && oclif-dev manifest && oclif-dev readme",
-    "version": "oclif-dev readme && git add README.md"
+    "version": "oclif-dev readme && git add README.md",
+    "postinstall": "cd ./test-cli && npm install",
+    "test": "npm run test --prefix ./test-cli"
   },
   "publishConfig": {
     "access": "public"
