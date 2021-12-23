@@ -1,8 +1,6 @@
 export interface FilepathsOptions {
   /** Show suggestions with any of these extensions. Do not include the leading dot. */
   extensions?: string[];
-  /** Show suggestions that include this string */
-  includes?: string;
   /** Show suggestions where the name exactly matches one of these strings */
   equals?: string | string[];
   /** Show suggestions where the name matches this expression */
@@ -40,7 +38,6 @@ export interface FilepathsOptions {
 export function filepaths(options: FilepathsOptions): Fig.Generator {
   const {
     extensions = [],
-    includes,
     equals = [],
     matches,
     suggestFolders = "always",
@@ -57,8 +54,8 @@ export function filepaths(options: FilepathsOptions): Fig.Generator {
           return suggestFolders === "always";
         }
         if (equalsSet.has(name)) return true;
-        if (matches && matches.test(name)) return true;
-        if (includes && name.includes(includes)) return true;
+        // We need to explicitly create a new Regexp object here or it will not work. Why?
+        if (matches && new RegExp(matches.source, matches.flags).test(name)) return true;
         // handle extensions
         const [_, ...suggestionExtensions] = name.split(".");
         if (suggestionExtensions.length >= 1) {
