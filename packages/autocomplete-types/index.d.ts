@@ -475,13 +475,14 @@ declare namespace Fig {
      * Flags that allow customization of how Fig parses tokens.
      *
      * @remarks
-     * Currently, the only parser option that exists is `flagsArePosixNoncompliant`. When `flagsArePosixNoncompliant` is true, options with one hyphen to have multiple characters .
-     *
+     * - `flagsArePosixNoncompliant`: when `flagsArePosixNoncompliant` is true, options with one hyphen to have multiple characters.
+     * - `optionsMustPrecedeArguments`: when `optionsMustPrecedeArguments` is true, options will not be suggested after a subcommand arg is typed.
      * @example
      * The `-work` option from the go spec is parsed as a single flag when `parserDirectives.flagsArePosixNoncompliant` is set to true. Normally, this would be chained and parsed as `-w -o -r -k` if `flagsArePosixNoncompliant` is not set to true.
      */
     parserDirectives?: {
       flagsArePosixNoncompliant?: boolean;
+      optionsMustPrecedeArguments?: boolean;
     };
   }
 
