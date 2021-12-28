@@ -7,8 +7,9 @@ declare namespace Fig {
    * - filepaths: show folders and filepaths. Allow autoexecute on filepaths
    * - folders: show folders only. Allow autoexecute on folders
    * - history: show suggestions for all items in history matching this pattern
+   * - help: show suggestions for all the subcommands siblings to the parent one
    */
-  type TemplateStrings = "filepaths" | "folders" | "history";
+  type TemplateStrings = "filepaths" | "folders" | "history" | "help";
 
   /**
    * A template which is a single TemplateString or an array of TemplateStrings
@@ -18,6 +19,7 @@ declare namespace Fig {
    * - filepaths: show folders and filepaths. Allow autoexecute on filepaths
    * - folders: show folders only. Allow autoexecute on folders
    * - history: show suggestions for all items in history matching this pattern
+   * - help: show suggestions for all the subcommands siblings to the parent one
    *
    * @example
    * `cd` uses the "folders" template
@@ -36,6 +38,7 @@ declare namespace Fig {
   type TemplateSuggestionContext =
     | { templateType: "filepaths" }
     | { templateType: "folders" }
+    | { templateType: "help" }
     | ({ templateType: "history" } & Partial<HistoryContext>);
 
   type TemplateSuggestion = Modify<
@@ -690,6 +693,7 @@ declare namespace Fig {
      * - filepaths: show folders and filepaths. Allow autoexecute on filepaths
      * - folders: show folders only. Allow autoexecute on folders
      * - history: show suggestions for all items in history matching this pattern
+     * - help: show suggestions for all the subcommands siblings to the parent one
      *
      * @example
      * `cd` uses the "folders" template
@@ -862,6 +866,7 @@ declare namespace Fig {
      * - filepaths: show folders and filepaths. Allow autoexecute on filepaths
      * - folders: show folders only. Allow autoexecute on folders
      * - history: show suggestions for all items in history matching this pattern
+     * - help: show suggestions for all the subcommands siblings to the parent one
      *
      * @example
      * `cd` uses the "folders" template
