@@ -7,7 +7,7 @@ declare namespace Fig {
    * - filepaths: show folders and filepaths. Allow autoexecute on filepaths
    * - folders: show folders only. Allow autoexecute on folders
    * - history: show suggestions for all items in history matching this pattern
-   * - help: show suggestions for all the subcommands siblings to the parent one
+   * - help: show subcommands. Only includes the 'siblings' of the nearest 'parent' subcommand.    
    */
   type TemplateStrings = "filepaths" | "folders" | "history" | "help";
 
