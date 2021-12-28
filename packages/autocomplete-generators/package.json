@@ -1,5 +1,5 @@
 {
-  "name": "@withfig/autocomplete-generators",
+  "name": "@fig/autocomplete-generators",
   "version": "1.0.0",
   "description": "A set of prebuilt generators for Fig Autocomplete",
   "main": "lib/index.js",
