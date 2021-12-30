@@ -831,7 +831,7 @@ declare namespace Fig {
      * The `arg.parserDirective.alias` prop defines whether Fig's tokenizer should expand out an alias into separate tokens then offer completions accordingly.
      *
      * @remarks
-     * This is similar to how Fig is able to offer autocompelte for user defined shell aliases, but occurs at the completion spec level.
+     * This is similar to how Fig is able to offer autocomplete for user defined shell aliases, but occurs at the completion spec level.
      *
      * @param token - The token that the user has just typed that is an alias for something else
      * @param executeShellCommand -an async function that allows you to execute a shell command on the user's system and get the output as a string.
