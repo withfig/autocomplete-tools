@@ -5,8 +5,8 @@
   "scripts": {
     "dev": "npx @withfig/autocomplete-tools dev",
     "create-spec": "npx @withfig/autocomplete-tools create-spec",
-    "copy-to-global": "npm run build && rsync -a --include '*/' --include '*.js' --exclude '*' $(pwd)/specs/ ~/.fig/autocomplete/",
-    "copy-to-global:mixins": "npm run build && rsync -a --include '*/' --include '*.js' --exclude '*' $(pwd)/specs/ ~/.fig/user/autocomplete/",
+    "copy-to-global": "npm run build && rsync -a --include '*/' --include '*.js' --exclude '*' $(pwd)/specs/ ~/.fig/autocomplete/build",
+    "copy-to-global:mixins": "npm run build && rsync -a --include '*/' --include '*.js' --exclude '*' $(pwd)/specs/ ~/.fig/user/autocomplete/build",
     "test": "tsc --noEmit && echo 'All specs passed validation.",
     "build": "npx @withfig/autocomplete-tools compile",
     "lint": "eslint '**/*.ts' && npx prettier --check '**/*.ts'",
