@@ -98,7 +98,7 @@ func (names *Names) toTypescript() string {
 	return sb.String()
 }
 
-func (spec *Spec) toTypescript() string {
+func (spec *Spec) ToTypescript() string {
 	var sb strings.Builder
 	sb.WriteString("const completionSpec: Fig.Spec = {")
 	sb.WriteString(fmt.Sprintf(`name: "%v",`, spec.name))
