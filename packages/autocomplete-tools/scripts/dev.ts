@@ -6,7 +6,7 @@ import { Command } from "commander";
 import { execSync } from "child_process";
 import { runCompiler } from "./compile";
 
-const AUTOCOMPLETE_LOG_FILE = path.join(os.homedir(), ".fig", "logs", "autocomplete.log");
+const AUTOCOMPLETE_LOG_FILE = path.join(os.homedir(), ".fig", "logs", "specs.log");
 
 function commandStatus(cmd: string): boolean {
   try {
@@ -98,7 +98,7 @@ async function runProgram() {
     );
     fs.writeFileSync(AUTOCOMPLETE_LOG_FILE, "", { encoding: "utf8" });
     let previousLogContent = "";
-    fs.watch(AUTOCOMPLETE_LOG_FILE, (event, filename) => {
+    fs.watch(AUTOCOMPLETE_LOG_FILE, (event) => {
       if (event === "change") {
         const currentContent = fs.readFileSync(AUTOCOMPLETE_LOG_FILE, { encoding: "utf8" }).trim();
         const message = previousLogContent
