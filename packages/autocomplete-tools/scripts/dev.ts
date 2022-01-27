@@ -3,8 +3,10 @@ import fs from "fs";
 import path from "path";
 import chalk from "chalk";
 import { Command } from "commander";
-import { execSync, exec, spawn } from "child_process";
+import { execSync } from "child_process";
 import { runCompiler } from "./compile";
+
+const AUTOCOMPLETE_LOG_FILE = path.join(os.homedir(), ".fig", "logs", "autocomplete.log");
 
 function commandStatus(cmd: string): boolean {
   try {
@@ -22,6 +24,11 @@ function disableDevMode() {
   process.exit(0);
 }
 
+function cleanup() {
+  disableDevMode();
+  fs.unwatchFile(AUTOCOMPLETE_LOG_FILE);
+}
+
 async function runProgram() {
   console.clear();
   const isMacOS = os.type() === "Darwin";
@@ -35,8 +42,8 @@ async function runProgram() {
         "\n******\n\n",
         chalk.bold(chalk.yellow(" WARNING: Fig App is not installed")),
         "\n\n",
-        chalk.bold(chalk.cyan(" Get access to download fig by joining the fig community at:")),
-        "\n https://fig.io/community",
+        chalk.bold(chalk.cyan(" Download Fig at:")),
+        "\n https://fig.io/",
         "\n\n******\n"
       );
     } else if (!commandStatus("fig --version")) {
@@ -81,14 +88,26 @@ async function runProgram() {
   );
   if (isMacOS) {
     // We are on macos and the fig script exists
-    process.addListener("SIGTERM", disableDevMode);
-    process.addListener("SIGINT", disableDevMode);
-    process.addListener("SIGQUIT", disableDevMode);
+    process.addListener("SIGTERM", cleanup);
+    process.addListener("SIGINT", cleanup);
+    process.addListener("SIGQUIT", cleanup);
 
     commandStatus("fig settings autocomplete.developerModeNPM true");
     commandStatus(
       `fig settings autocomplete.devCompletionsFolder ${path.join(process.cwd(), "build")}`
     );
+    fs.writeFileSync(AUTOCOMPLETE_LOG_FILE, "", { encoding: "utf8" });
+    let previousLogContent = "";
+    fs.watch(AUTOCOMPLETE_LOG_FILE, (event, filename) => {
+      if (event === "change") {
+        const currentContent = fs.readFileSync(AUTOCOMPLETE_LOG_FILE, { encoding: "utf8" }).trim();
+        const message = previousLogContent
+          ? currentContent.split("\n").slice(previousLogContent.split("\n").length).join("\n")
+          : currentContent;
+        console.log(chalk.yellow(message));
+        previousLogContent = currentContent;
+      }
+    });
     await runCompiler({ watch: true });
   }
 }
