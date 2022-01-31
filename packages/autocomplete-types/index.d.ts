@@ -710,6 +710,10 @@ declare namespace Fig {
      */
     generators?: SingleOrArray<Generator>;
     /**
+     * Provide a suggestion at the top of the list with the current token that is being typed by the user.
+     */
+    suggestCurrentToken?: boolean;
+    /**
      * Specifies that the argument is variadic and therefore repeats infinitely.
      *
      * @remarks
