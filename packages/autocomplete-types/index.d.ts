@@ -900,6 +900,13 @@ declare namespace Fig {
      */
     script?: StringOrFunction<string[], string>;
     /**
+     * Set the execution timeout of the command specified in the `script` prop.
+     * @defaultValue 5000
+     * @example
+     * `script: `
+     */
+    scriptTimeout?: number;
+    /**
      *
      * Process the string output from the `script` prop and return a list of suggestions
      *
