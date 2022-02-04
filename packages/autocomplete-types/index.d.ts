@@ -902,8 +902,6 @@ declare namespace Fig {
     /**
      * Set the execution timeout of the command specified in the `script` prop.
      * @defaultValue 5000
-     * @example
-     * `script: `
      */
     scriptTimeout?: number;
     /**
