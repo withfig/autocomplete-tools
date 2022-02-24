@@ -88,7 +88,7 @@ func sanitize(str string) string {
 	return sanitized
 }
 
-func (names *Names) toTypescript() string {
+func (names *Names) ToTypescript() string {
 	var sb strings.Builder
 	sb.WriteString("[")
 	for _, name := range *names {
@@ -104,60 +104,60 @@ func (spec *Spec) ToTypescript() string {
 	sb.WriteString(fmt.Sprintf(`name: "%v",`, spec.name))
 	sb.WriteString(fmt.Sprintf(`description: "%v",`, sanitize(spec.description)))
 	if len(spec.subcommands) > 0 {
-		sb.WriteString(fmt.Sprintf(`subcommands: %v,`, spec.subcommands.toTypescript()))
+		sb.WriteString(fmt.Sprintf(`subcommands: %v,`, spec.subcommands.ToTypescript()))
 	}
 	if len(spec.options) > 0 {
-		sb.WriteString(fmt.Sprintf(`options: %v,`, spec.options.toTypescript()))
+		sb.WriteString(fmt.Sprintf(`options: %v,`, spec.options.ToTypescript()))
 	}
 	if len(spec.args) > 0 {
-		sb.WriteString(fmt.Sprintf(`args: %v,`, spec.args.toTypescript()))
+		sb.WriteString(fmt.Sprintf(`args: %v,`, spec.args.ToTypescript()))
 	}
 	sb.WriteString("}; export default completionSpec;")
 	return sb.String()
 }
 
-func (subcommands *Subcommands) toTypescript() string {
+func (subcommands *Subcommands) ToTypescript() string {
 	var sb strings.Builder
 	sb.WriteString("[")
 	for _, subcommand := range *subcommands {
-		sb.WriteString(fmt.Sprintf(`%v,`, subcommand.toTypescript()))
+		sb.WriteString(fmt.Sprintf(`%v,`, subcommand.ToTypescript()))
 	}
 	sb.WriteString("]")
 	return sb.String()
 }
 
-func (subcommand *Subcommand) toTypescript() string {
+func (subcommand *Subcommand) ToTypescript() string {
 	var sb strings.Builder
 	sb.WriteString("{")
-	sb.WriteString(fmt.Sprintf(`name: %v,`, subcommand.name.toTypescript()))
+	sb.WriteString(fmt.Sprintf(`name: %v,`, subcommand.name.ToTypescript()))
 	sb.WriteString(fmt.Sprintf(`description: "%v",`, sanitize(subcommand.description)))
 	if len(subcommand.subcommands) > 0 {
-		sb.WriteString(fmt.Sprintf(`subcommands: %v,`, subcommand.subcommands.toTypescript()))
+		sb.WriteString(fmt.Sprintf(`subcommands: %v,`, subcommand.subcommands.ToTypescript()))
 	}
 	if len(subcommand.options) > 0 {
-		sb.WriteString(fmt.Sprintf(`options: %v,`, subcommand.options.toTypescript()))
+		sb.WriteString(fmt.Sprintf(`options: %v,`, subcommand.options.ToTypescript()))
 	}
 	if len(subcommand.args) > 0 {
-		sb.WriteString(fmt.Sprintf(`args: %v,`, subcommand.args.toTypescript()))
+		sb.WriteString(fmt.Sprintf(`args: %v,`, subcommand.args.ToTypescript()))
 	}
 	sb.WriteString("}")
 	return sb.String()
 }
 
-func (options *Options) toTypescript() string {
+func (options *Options) ToTypescript() string {
 	var sb strings.Builder
 	sb.WriteString("[")
 	for _, option := range *options {
-		sb.WriteString(fmt.Sprintf(`%v,`, option.toTypescript()))
+		sb.WriteString(fmt.Sprintf(`%v,`, option.ToTypescript()))
 	}
 	sb.WriteString("]")
 	return sb.String()
 }
 
-func (option *Option) toTypescript() string {
+func (option *Option) ToTypescript() string {
 	var sb strings.Builder
 	sb.WriteString("{")
-	sb.WriteString(fmt.Sprintf(`name: %v,`, option.name.toTypescript()))
+	sb.WriteString(fmt.Sprintf(`name: %v,`, option.name.ToTypescript()))
 	sb.WriteString(fmt.Sprintf(`description: "%v",`, sanitize(option.description)))
 	if option.isRepeatable {
 		sb.WriteString(fmt.Sprintf(`isRepeatable: %t,`, option.isRepeatable))
@@ -166,7 +166,7 @@ func (option *Option) toTypescript() string {
 		sb.WriteString(fmt.Sprintf(`displayName: "%v",`, sanitize(option.displayName)))
 	}
 	if len(option.args) > 0 {
-		sb.WriteString(fmt.Sprintf(`args: %v,`, option.args.toTypescript()))
+		sb.WriteString(fmt.Sprintf(`args: %v,`, option.args.ToTypescript()))
 	}
 	if option.isRequired {
 		sb.WriteString(`isRequired: true,`)
@@ -175,17 +175,17 @@ func (option *Option) toTypescript() string {
 	return sb.String()
 }
 
-func (args *Args) toTypescript() string {
+func (args *Args) ToTypescript() string {
 	var sb strings.Builder
 	sb.WriteString("[")
 	for _, arg := range *args {
-		sb.WriteString(fmt.Sprintf(`%v,`, arg.toTypescript()))
+		sb.WriteString(fmt.Sprintf(`%v,`, arg.ToTypescript()))
 	}
 	sb.WriteString("]")
 	return sb.String()
 }
 
-func (arg *Arg) toTypescript() string {
+func (arg *Arg) ToTypescript() string {
 	var sb strings.Builder
 	sb.WriteString("{")
 	sb.WriteString(fmt.Sprintf(`name: "%v",`, arg.name))

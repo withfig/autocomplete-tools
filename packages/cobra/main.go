@@ -71,7 +71,7 @@ Fig autocomplete spec for your Cobra CLI.
 		Run: func(cmd *cobra.Command, args []string) {
 			root := cmd.Root()
 			spec := MakeFigSpec(root)
-			fmt.Println(spec.toTypescript())
+			fmt.Println(spec.ToTypescript())
 		},
 	}
 	cmd.Flags().BoolVar(
