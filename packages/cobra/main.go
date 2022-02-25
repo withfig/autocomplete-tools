@@ -9,6 +9,7 @@ import (
 )
 
 var includeHidden bool
+var figGenCmdUse string = ""
 
 var generateCommandArgs func(*cobra.Command) Args
 
@@ -47,6 +48,7 @@ Fig autocomplete spec for your Cobra CLI.
 			generateCommandArgs = options[0].commandArgGenerator
 		}
 	}
+	figGenCmdUse = Use
 	var cmd = &cobra.Command{
 		Use:    Use,
 		Aliases: Aliases,
@@ -85,7 +87,7 @@ func MakeFigSpec(root *cobra.Command) Spec {
 func subcommands(cmd *cobra.Command, overrideOptions bool, overrides Options) Subcommands {
 	var subs []Subcommand
 	for _, sub := range cmd.Commands() {
-		if sub.Name() == "help" || (!includeHidden && sub.Hidden) {
+		if sub.Name() == "help" || (!includeHidden && sub.Hidden) || (sub.Use == figGenCmdUse) {
 			continue
 		}
 		var opts Options
