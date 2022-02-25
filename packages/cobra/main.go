@@ -1,18 +1,3 @@
-/*
-Copyright © 2021 NAME HERE <EMAIL ADDRESS>
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
 package genFigSpec
 
 import (
@@ -81,8 +66,8 @@ Fig autocomplete spec for your Cobra CLI.
 }
 
 func MakeFigSpec(root *cobra.Command) Spec {
-	opts := append(options(root.InheritedFlags()), options(root.NonInheritedFlags())...)
-	opts = append(opts, makeHelpOption(root.Name()))
+	opts := append(options(root.LocalNonPersistentFlags(), false), options(root.PersistentFlags(), true)...)
+	opts = append(opts, makeHelpOption())
 	spec := Spec{
 		Subcommand: &Subcommand{
 			BaseSuggestion: &BaseSuggestion{
@@ -111,9 +96,8 @@ func _subcommands(cmd *cobra.Command, overrideOptions bool, overrides Options) S
 		if overrideOptions {
 			opts = overrides
 		} else {
-			opts = append(options(sub.InheritedFlags()), options(sub.NonInheritedFlags())...)
+			opts = append(options(sub.LocalNonPersistentFlags(), false), options(sub.PersistentFlags(), true)...)
 		}
-		opts = append(opts, makeHelpOption(sub.Name())) // We assume every command has access to the default --help flag
 		subs = append(subs, Subcommand{
 			BaseSuggestion: &BaseSuggestion{
 				description: sub.Short,
@@ -127,7 +111,7 @@ func _subcommands(cmd *cobra.Command, overrideOptions bool, overrides Options) S
 	return subs
 }
 
-func options(flagSet *pflag.FlagSet) []Option {
+func options(flagSet *pflag.FlagSet, persistent bool) []Option {
 	var opts []Option
 	attachFlags := func(flag *pflag.Flag) {
 
@@ -140,6 +124,9 @@ func options(flagSet *pflag.FlagSet) []Option {
 		}
 		if flag.Shorthand != "" {
 			option.name = append(option.name, fmt.Sprintf("-%v", flag.Shorthand))
+		}
+		if persistent != false {
+			option.isPersistent = true
 		}
 		requiredAnnotation, found := flag.Annotations[cobra.BashCompOneRequiredFlag]
 		if found && requiredAnnotation[0] == "true" {
@@ -195,17 +182,16 @@ func makeHelpCommand(root *cobra.Command) Subcommand {
 			description: "Help about any command",
 		},
 		name:        []string{"help"},
-		options:     append(options(root.PersistentFlags()), makeHelpOption("help")),
-		subcommands: _subcommands(root, true, options(root.PersistentFlags())),
+		subcommands: _subcommands(root, true, []Option{}),
 	}
 }
 
-func makeHelpOption(commandName string) Option {
+func makeHelpOption() Option {
 	return Option{
 		BaseSuggestion: &BaseSuggestion{
-			displayName: "help",
-			description: fmt.Sprintf("help for %v", commandName),
+			description: fmt.Sprintf("Display help"),
 		},
+		isPersistent: true,
 		name: []string{"--help", "-h"},
 	}
 }

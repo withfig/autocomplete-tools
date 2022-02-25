@@ -55,6 +55,7 @@ type Option struct {
 	args         Args
 	isRequired   bool
 	isRepeatable bool
+	isPersistent bool
 	exclusiveOn  []string
 	dependsOn    []string
 }
@@ -159,6 +160,9 @@ func (option *Option) ToTypescript() string {
 	sb.WriteString("{")
 	sb.WriteString(fmt.Sprintf(`name: %v,`, option.name.ToTypescript()))
 	sb.WriteString(fmt.Sprintf(`description: "%v",`, sanitize(option.description)))
+	if option.isPersistent {
+		sb.WriteString(fmt.Sprintf(`isPersistent: %t,`, option.isPersistent))
+	}
 	if option.isRepeatable {
 		sb.WriteString(fmt.Sprintf(`isRepeatable: %t,`, option.isRepeatable))
 	}
