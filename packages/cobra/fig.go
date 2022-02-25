@@ -132,6 +132,9 @@ func (subcommand *Subcommand) ToTypescript() string {
 	sb.WriteString("{")
 	sb.WriteString(fmt.Sprintf(`name: %v,`, subcommand.name.ToTypescript()))
 	sb.WriteString(fmt.Sprintf(`description: "%v",`, sanitize(subcommand.description)))
+	if subcommand.hidden {
+		sb.WriteString(fmt.Sprintf(`hidden: %t,`, subcommand.hidden))
+	}
 	if len(subcommand.subcommands) > 0 {
 		sb.WriteString(fmt.Sprintf(`subcommands: %v,`, subcommand.subcommands.ToTypescript()))
 	}
@@ -162,6 +165,9 @@ func (option *Option) ToTypescript() string {
 	sb.WriteString(fmt.Sprintf(`description: "%v",`, sanitize(option.description)))
 	if option.isPersistent {
 		sb.WriteString(fmt.Sprintf(`isPersistent: %t,`, option.isPersistent))
+	}
+	if option.hidden {
+		sb.WriteString(fmt.Sprintf(`hidden: %t,`, option.hidden))
 	}
 	if option.isRepeatable {
 		sb.WriteString(fmt.Sprintf(`isRepeatable: %t,`, option.isRepeatable))

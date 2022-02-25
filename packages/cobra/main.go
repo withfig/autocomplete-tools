@@ -74,7 +74,7 @@ func MakeFigSpec(root *cobra.Command) Spec {
 				description: root.Short,
 			},
 			options:     opts,
-			subcommands: append(subcommands(root), makeHelpCommand(root)), // We assume CLI is using default help command
+			subcommands: append(subcommands(root, false, Options{}), makeHelpCommand(root)), // We assume CLI is using default help command
 			args:        commandArguments(root),
 		},
 		name: root.Name(),
@@ -82,11 +82,7 @@ func MakeFigSpec(root *cobra.Command) Spec {
 	return spec
 }
 
-func subcommands(cmd *cobra.Command) Subcommands {
-	return _subcommands(cmd, false, []Option{})
-}
-
-func _subcommands(cmd *cobra.Command, overrideOptions bool, overrides Options) Subcommands {
+func subcommands(cmd *cobra.Command, overrideOptions bool, overrides Options) Subcommands {
 	var subs []Subcommand
 	for _, sub := range cmd.Commands() {
 		if sub.Name() == "help" || (!includeHidden && sub.Hidden) {
@@ -101,10 +97,11 @@ func _subcommands(cmd *cobra.Command, overrideOptions bool, overrides Options) S
 		subs = append(subs, Subcommand{
 			BaseSuggestion: &BaseSuggestion{
 				description: sub.Short,
+				hidden: sub.Hidden,
 			},
 			name:        append(sub.Aliases, sub.Name()),
 			options:     opts,
-			subcommands: subcommands(sub),
+			subcommands: subcommands(sub, overrideOptions, overrides),
 			args:        commandArguments(sub),
 		})
 	}
@@ -118,6 +115,7 @@ func options(flagSet *pflag.FlagSet, persistent bool) []Option {
 		option := Option{
 			BaseSuggestion: &BaseSuggestion{
 				description: flag.Usage,
+				hidden: flag.Hidden,
 			},
 			name:         []string{fmt.Sprintf("--%v", flag.Name)},
 			isRepeatable: strings.Contains(strings.ToLower(flag.Value.Type()), "array"),
@@ -182,7 +180,7 @@ func makeHelpCommand(root *cobra.Command) Subcommand {
 			description: "Help about any command",
 		},
 		name:        []string{"help"},
-		subcommands: _subcommands(root, true, []Option{}),
+		subcommands: subcommands(root, true, []Option{}),
 	}
 }
 
