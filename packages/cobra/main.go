@@ -133,7 +133,6 @@ func options(flagSet *pflag.FlagSet) []Option {
 
 		option := Option{
 			BaseSuggestion: &BaseSuggestion{
-				displayName: flag.Name,
 				description: flag.Usage,
 			},
 			name:         []string{fmt.Sprintf("--%v", flag.Name)},
