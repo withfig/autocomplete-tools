@@ -59,6 +59,7 @@ function runProgram(cliName: string | undefined) {
       "What's the name of the CLI tool you want to create an autocomplete spec for: ",
       async (answer) => {
         createSpec(answer);
+        rInterface.close();
       }
     );
   } else {
