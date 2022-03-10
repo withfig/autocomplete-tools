@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "lib": ["es2015"],
+    "outDir": "./lib",
+    "declaration": true,
+    "esModuleInterop": true,
+    "strict": true,
+    "module": "commonjs",
+    "moduleResolution": "node",
+  },
+}

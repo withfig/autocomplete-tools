@@ -23,6 +23,7 @@
   },
   "workspaces": [
     "packages/autocomplete-generators",
+    "packages/autocomplete-merge",
     "packages/autocomplete-tools",
     "packages/autocomplete-types",
     "packages/eslint-plugin-fig-linter",

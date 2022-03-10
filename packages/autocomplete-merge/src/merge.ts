@@ -10,7 +10,7 @@ import {
   Expression,
   ObjectLiteralElementLike,
 } from "ts-morph";
-import prettier from "prettier";
+import * as prettier from "prettier";
 import { defaultPreset, presets } from "./presets";
 import type { PresetName, Preset } from "./presets";
 
@@ -307,7 +307,7 @@ function getPreset({ preset, ignore = {} }: MergeOptions): Preset {
   return updatableProps;
 }
 
-export default function merge(
+export function merge(
   oldFileContent: string,
   newFileContent: string,
   options: MergeOptions

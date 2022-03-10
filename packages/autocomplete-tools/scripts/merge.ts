@@ -1,7 +1,6 @@
 import fs from "fs";
 import { Command, Option } from "commander";
-import merge from "../merge";
-import { presets } from "../merge/presets";
+import { merge, presets } from "@fig/autocomplete-merge";
 
 function runProgram(oldSpecPath: string, newSpecPath: string, options: Record<string, any>) {
   const {
