@@ -1,6 +1,6 @@
 {
   "name": "@fig/autocomplete-merge",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "Package to merge two specs together",
   "author": "The Fig Team",
   "scripts": {
@@ -8,7 +8,7 @@
     "prepack": "npm run build"
   },
   "license": "MIT",
-  "bin": "./lib/index.js",
+  "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
   "dependencies": {
     "prettier": "^2.4.1",
