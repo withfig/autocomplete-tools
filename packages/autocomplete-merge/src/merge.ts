@@ -261,6 +261,7 @@ function traverseSpecs(
       const nodePath = generateNodePath(node);
       const parentProperty = getFirstParentProperty(nodePath);
       const observedSet = getObservedSet(updatableProps, parentProperty);
+      // if (node.name.text === "displayName") debugger
       if (observedSet && !observedSet.has(node.name.text)) {
         resolveAndUpdateNodePath(nodePath, destination, {
           name: node.name.text,
@@ -285,24 +286,24 @@ export interface MergeOptions {
 function getPreset({ preset, ignore = {} }: MergeOptions): Preset {
   // Props updated by the eventual CLI tool integration (preset)
   let updatableProps = preset ? presets[preset] : undefined;
-  // If not preset was specified we default to the defaultPreset excluding all props the user ignored
+  // If no preset was specified we default to the defaultPreset adding all props the user ignored
   if (!updatableProps) {
+    updatableProps = defaultPreset();
     const { commandProps = [], optionProps = [], argProps = [], commonProps = [] } = ignore;
     for (const commandProp of commandProps) {
-      defaultPreset.commandProps.add(commandProp);
+      updatableProps.commandProps.add(commandProp);
     }
     for (const optionProp of optionProps) {
-      defaultPreset.optionProps.add(optionProp);
+      updatableProps.optionProps.add(optionProp);
     }
     for (const argProp of argProps) {
-      defaultPreset.argProps.add(argProp);
+      updatableProps.argProps.add(argProp);
     }
     for (const commonProp of commonProps) {
-      defaultPreset.commandProps.add(commonProp);
-      defaultPreset.optionProps.add(commonProp);
-      defaultPreset.argProps.add(commonProp);
+      updatableProps.commandProps.add(commonProp);
+      updatableProps.optionProps.add(commonProp);
+      updatableProps.argProps.add(commonProp);
     }
-    updatableProps = defaultPreset;
   }
   return updatableProps;
 }

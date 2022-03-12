@@ -11,8 +11,8 @@ module.exports = {
     "packages/eslint-plugin-fig-linter/",
     "packages/commander/test/fixtures/*/output.ts",
     "packages/commander/test/fixtures/*/expected.ts",
-    "packages/autocomplete-tools/test/fixtures/",
-    "packages/autocomplete-tools/test/fixtures/",
+    "packages/autocomplete-merge/test/fixtures/",
+    "packages/autocomplete-merge/test/fixtures/",
     "packages/autocomplete-tools/generated/",
   ],
   extends: [

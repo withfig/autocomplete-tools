@@ -1,8 +1,7 @@
 import fs from "fs";
-import child from "child_process";
 import path from "path";
+import { merge } from "../src/merge";
 
-const cliPath = path.join(__dirname, "..", "index.ts");
 const fixturesPath = path.join(__dirname, "fixtures");
 const dirs = fs
   .readdirSync(fixturesPath, { withFileTypes: true })
@@ -18,31 +17,27 @@ function runFixtures() {
     const expectedSpecPath = path.join(fixtureDirPath, "expected.ts");
     const configPath = path.join(fixtureDirPath, "config.json");
 
-    let configString = `-n ${updatedSpecPath}`;
+    let ignoreProps;
+    let preset;
     if (fs.existsSync(configPath)) {
-      const { ignoreProps, preset } = JSON.parse(fs.readFileSync(configPath, "utf8"));
-      if (ignoreProps && Array.isArray(ignoreProps)) {
-        configString += ` --ignore-props ${ignoreProps.join(",")}`;
-      }
-      if (preset) {
-        configString += ` --preset ${preset}`;
-      }
+      const config = JSON.parse(fs.readFileSync(configPath, "utf8"));
+      preset = config.preset;
+      ignoreProps = config.ignoreProps;
     }
 
-    const cmd = `node -r ts-node/register ${cliPath} merge ${oldSpecPath} ${newSpecPath} ${configString}`;
-
-    try {
-      child.execSync(cmd);
-    } catch (error) {
-      console.warn(`- Encounterd an error when running fixture ${fixtureDirPath}.\n${error}`);
-    }
+    const oldSpec = fs.readFileSync(oldSpecPath, { encoding: "utf-8" });
+    const newSpec = fs.readFileSync(newSpecPath, { encoding: "utf-8" });
+    const updatedSpec = merge(oldSpec, newSpec, {
+      ...(preset && { preset }),
+      ...(ignoreProps && Array.isArray(ignoreProps) && { ignore: { commonProps: ignoreProps } }),
+    });
+    fs.writeFileSync(updatedSpecPath, updatedSpec);
 
     if (process.env.OVERWRITE || !fs.existsSync(expectedSpecPath)) {
       fs.copyFileSync(updatedSpecPath, expectedSpecPath);
     } else {
-      const updateSpec = fs.readFileSync(updatedSpecPath);
       const expectedSpec = fs.readFileSync(expectedSpecPath);
-      if (!updateSpec.equals(expectedSpec)) {
+      if (!Buffer.from(updatedSpec).equals(expectedSpec)) {
         hadErrors = true;
         console.error(`- Fixture ${fixtureDirPath} is failing.`);
       }

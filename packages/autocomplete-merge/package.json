@@ -5,7 +5,8 @@
   "author": "The Fig Team",
   "scripts": {
     "build": "tsc",
-    "prepack": "npm run build"
+    "prepack": "npm run build",
+    "test": "ts-node test/index.ts"
   },
   "license": "MIT",
   "main": "./lib/index.js",
@@ -21,7 +22,7 @@
   "devDependencies": {
     "@types/node": "^14.14.33",
     "@types/prettier": "^2.4.1",
-    "ts-node": "^10.2.1"
+    "ts-node": "^10.7.0"
   },
   "fig": {
     "build": {

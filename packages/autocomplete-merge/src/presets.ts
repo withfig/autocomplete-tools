@@ -9,11 +9,13 @@ export type Preset = {
   argProps: Set<string>;
 };
 
-export const defaultPreset: Preset = {
-  commandProps: new Set(["name", "description", "args", "subcommands", "options"]),
-  optionProps: new Set(["name", "description", "args"]),
-  argProps: new Set(["name", "description"]),
-};
+export function defaultPreset(): Preset {
+  return {
+    commandProps: new Set(["name", "description", "args", "subcommands", "options"]),
+    optionProps: new Set(["name", "description", "args"]),
+    argProps: new Set(["name", "description"]),
+  };
+}
 
 export type PresetName = "commander" | "oclif" | "cobra" | "clap" | "swift-argument-parser";
 
