@@ -26,6 +26,7 @@
     "packages/autocomplete-merge",
     "packages/autocomplete-tools",
     "packages/autocomplete-types",
+    "packages/eslint-config-autocomplete",
     "packages/eslint-plugin-fig-linter",
     "packages/oclif",
     "packages/commander"

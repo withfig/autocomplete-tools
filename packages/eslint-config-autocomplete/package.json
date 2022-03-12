@@ -1,0 +1,26 @@
+{
+  "name": "@fig/eslint-config-autocomplete",
+  "version": "1.0.0",
+  "description": "Shared ESlint configuration for autocomplete repos",
+  "author": "The Fig Team",
+  "keywords": [
+    "eslint",
+    "eslintconfig",
+    "fig",
+    "autocomplete"
+  ],
+  "license": "MIT",
+  "main": "./index.js",
+  "dependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.14.0",
+    "@typescript-eslint/parser": "^5.14.0",
+    "@withfig/eslint-plugin-fig-linter": "^1.0.2",
+    "eslint-plugin-compat": "^4.0.2"
+  },
+  "peerDependencies": {
+    "eslint": ">= 7"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
