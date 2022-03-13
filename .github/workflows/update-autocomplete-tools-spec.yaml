@@ -3,6 +3,7 @@ on:
   push:
     tags:        
       - '@withfig/autocomplete-tools@*'
+  workflow_dispatch:
 
 jobs:
   push-to-fig-autocomplete:
@@ -10,12 +11,12 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v2
-      - run:
-        echo '{"extends":"@fig/autocomplete"}' > .tmp-eslintrc
-        npm i @fig/eslint-config-autocomplete 
-        npx eslint@latest --config .tmp-eslintrc --fix packages/autocomplete-tools/generated/autocomplete-tools-spec.ts
+      - run: |
+          echo '{"extends":"@fig/autocomplete"}' > .tmp-eslintrc
+          npm i @fig/eslint-config-autocomplete 
+          npx eslint@latest --config .tmp-eslintrc --fix packages/autocomplete-tools/generated/autocomplete-tools-spec.ts
       - name: 'Create Autocomplete PR'
-        uses: withfig/publish-to-fig-autocomplete@v1
+        uses: withfig/push-to-fig-autocomplete-action@v1.0.0-alpha.0
         with:
           token: ${{ secrets.FIG_BOT_TOKEN }}
           autocomplete-spec-name: '@withfig/autocomplete-tools'
