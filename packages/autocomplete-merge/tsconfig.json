@@ -9,4 +9,5 @@
     "module": "commonjs",
     "moduleResolution": "node",
   },
+  "exclude": ["node_modules", "test", "lib"]
 }

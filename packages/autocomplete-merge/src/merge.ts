@@ -348,7 +348,5 @@ export function merge(
 
   return prettier.format(ts.createPrinter().printFile(newSourceFile.compilerNode), {
     parser: "typescript",
-    semi: false,
-    singleQuote: true,
   });
 }
