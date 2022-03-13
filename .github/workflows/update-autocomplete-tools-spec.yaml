@@ -11,10 +11,10 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v2
-      - run:
-        echo eyJleHRlbmRzIjoiQGZpZy9hdXRvY29tcGxldGUifQ== | base64 -d > .tmp-eslintrc
-        npm i @fig/eslint-config-autocomplete 
-        npx eslint@latest --config .tmp-eslintrc --fix packages/autocomplete-tools/generated/autocomplete-tools-spec.ts
+      - run: |
+          echo '{"extends":"@fig/autocomplete"}' > .tmp-eslintrc
+          npm i @fig/eslint-config-autocomplete 
+          npx eslint@latest --config .tmp-eslintrc --fix packages/autocomplete-tools/generated/autocomplete-tools-spec.ts
       - name: 'Create Autocomplete PR'
         uses: withfig/publish-to-fig-autocomplete@v1
         with:
