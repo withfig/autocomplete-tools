@@ -1,6 +1,6 @@
 {
   "name": "@fig/autocomplete-merge",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Package to merge two specs together",
   "author": "The Fig Team",
   "scripts": {
