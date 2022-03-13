@@ -1,0 +1,23 @@
+name: 'Update @withfig/autocomplete-tools spec'
+on:
+  push:
+    tags:        
+      - '@withfig/autocomplete-tools@*'
+
+jobs:
+  push-to-fig-autocomplete:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v2
+      - run:
+        echo '{"extends":"@fig/autocomplete"}' > .tmp-eslintrc
+        npm i @fig/eslint-config-autocomplete 
+        npx eslint@latest --config .tmp-eslintrc --fix packages/autocomplete-tools/generated/autocomplete-tools-spec.ts
+      - name: 'Create Autocomplete PR'
+        uses: withfig/publish-to-fig-autocomplete@v1
+        with:
+          token: ${{ secrets.FIG_BOT_TOKEN }}
+          autocomplete-spec-name: '@withfig/autocomplete-tools'
+          spec-path: packages/autocomplete-tools/generated/autocomplete-tools-spec.ts
+          integration: commander
