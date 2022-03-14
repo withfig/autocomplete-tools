@@ -16,7 +16,7 @@ jobs:
           npm i @fig/eslint-config-autocomplete 
           npx eslint@latest --config .tmp-eslintrc --fix packages/autocomplete-tools/generated/autocomplete-tools-spec.ts
       - name: 'Create Autocomplete PR'
-        uses: withfig/push-to-fig-autocomplete-action@v1.0.0-alpha.0
+        uses: withfig/push-to-fig-autocomplete-action@v1
         with:
           token: ${{ secrets.FIG_BOT_TOKEN }}
           autocomplete-spec-name: '@withfig/autocomplete-tools'
