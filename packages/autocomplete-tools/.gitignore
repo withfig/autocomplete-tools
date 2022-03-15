@@ -1,4 +1,4 @@
 build/
 node_modules/
 .fig/
-generated/autocomplete-tools-spec-new.ts
+generated/

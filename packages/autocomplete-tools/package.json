@@ -6,13 +6,12 @@
   "scripts": {
     "build": "rm -rf build/ && tsc && cp -r boilerplate build/boilerplate",
     "prepack": "npm run build",
-    "generate-spec": "npm run build && GENERATE_SPEC=true node build/index.js generateFigSpec && npm run merge-specs",
-    "merge-specs": "node build/index.js merge generated/autocomplete-tools-spec.ts generated/autocomplete-tools-spec-new.ts --preset commander"
+    "generate-spec": "npm run build && GENERATE_SPEC=true node build/index.js generateFigSpec"
   },
   "license": "MIT",
   "bin": "./build/index.js",
   "dependencies": {
-    "@fig/autocomplete-merge": "^1.0.0",
+    "@fig/autocomplete-merge": "latest",
     "chalk": "^4.1.0",
     "chokidar": "^3.5.1",
     "commander": "^8.1.0",
