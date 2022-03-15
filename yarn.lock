@@ -489,11 +489,6 @@
   resolved "https://registry.yarnpkg.com/@ungap/promise-all-settled/-/promise-all-settled-1.1.2.tgz#aa58042711d6e3275dd37dc597e5d31e8c290a44"
   integrity sha512-sL/cEvJWAnClXw0wHk85/2L0G6Sj8UB0Ctc1TEMbKSsmpRosqhwj9gWgFRZSrBr2f9tiXISwNhCPmlfqUqyb9Q==
 
-"@withfig/autocomplete-types@latest":
-  version "1.10.0"
-  resolved "https://registry.yarnpkg.com/@withfig/autocomplete-types/-/autocomplete-types-1.10.0.tgz#2a5fba87ce6b56b87916c06359a5553f27dc96ff"
-  integrity sha512-/VhDzHPyEyqGdHkBulcBFN4I0mmZAfeILSQkiTO9tmorPVDSrQ8BJyYleMewaKH8KvQwM+e4jmc4MBUJMT+MjQ==
-
 "@withfig/commander@latest":
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/@withfig/commander/-/commander-1.1.1.tgz#45055b7981066c8f8dd6f699ead5043ebeb6c5d0"

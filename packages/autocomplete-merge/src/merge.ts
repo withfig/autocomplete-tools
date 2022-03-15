@@ -278,6 +278,7 @@ export interface MergeOptions {
     commonProps?: string[];
   };
   preset?: PresetName;
+  prettifyOutput?: boolean;
 }
 
 function getPreset({ preset, ignore = {} }: MergeOptions): Preset {
@@ -346,7 +347,9 @@ export function merge(
   newSourceFile.insertStatements(1, diffTopLevelNodes[1]);
   newSourceFile.insertStatements(0, diffTopLevelNodes[0]);
 
-  return prettier.format(ts.createPrinter().printFile(newSourceFile.compilerNode), {
-    parser: "typescript",
-  });
+  const outputFile = ts.createPrinter().printFile(newSourceFile.compilerNode);
+  if (options.prettifyOutput ?? true) {
+    return prettier.format(outputFile, { parser: "typescript" });
+  }
+  return outputFile;
 }
