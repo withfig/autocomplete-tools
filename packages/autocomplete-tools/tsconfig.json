@@ -11,6 +11,7 @@
     "module": "commonjs",
     "moduleResolution": "node",
     "outDir": "./build/",
+    "types": ["@withfig/autocomplete-types", "node"]
   },
   "include": ["index.ts", "scripts/*.ts"],
 }

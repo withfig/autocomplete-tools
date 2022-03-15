@@ -22,7 +22,7 @@ if (process.env.GENERATE_SPEC) {
   // eslint-disable-next-line import/no-extraneous-dependencies
   import("@withfig/commander").then((module) => {
     program.command("generateFigSpec").action(() => {
-      module.generateFigSpec(program, "generated/autocomplete-tools-spec-new.ts");
+      module.generateFigSpec(program, "generated/autocomplete-tools-spec.ts");
     });
     program.parse(process.argv);
   });
