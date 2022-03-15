@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type { Argument, Command, Option } from "commander";
-import { writeFileSync } from "fs";
+import { mkdirSync, writeFileSync } from "fs";
 import path from "path";
 import prettier from "prettier";
 
@@ -176,5 +176,7 @@ export function generateFigSpec(command: Command, filename: string, options?: Op
   const cwd = options?.cwd || process.cwd();
   const figSpecCommandName = options?.figSpecCommandName || "generateFigSpec";
   const spec = generateCommand(command, figSpecCommandName)!;
+  const directories = path.dirname(filename);
+  mkdirSync(path.resolve(cwd, directories), { recursive: true });
   writeFileSync(path.resolve(cwd, filename), getTemplate(spec));
 }
