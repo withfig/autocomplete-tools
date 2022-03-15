@@ -13,7 +13,7 @@ jobs:
       - uses: actions/setup-node@v2
       - run: |
           npm --prefix packages/autocomplete-tools install
-          npm --prefix packages/autocomplete-tools generate-spec
+          npm --prefix packages/autocomplete-tools run generate-spec
           echo '{"extends":"@fig/autocomplete"}' > .tmp-eslintrc
           npm i @fig/eslint-config-autocomplete 
           npx eslint@latest --config .tmp-eslintrc --fix packages/autocomplete-tools/generated/autocomplete-tools-spec.ts
