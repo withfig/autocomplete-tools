@@ -50,8 +50,16 @@ export const presets: Record<string, Preset> = {
     argProps: new Set(["name", "description", "template", "default"]),
   },
   clap: {
-    commandProps: new Set(["name", "description", "subcommands", "options", "args"]),
-    optionProps: new Set(["name", "description", "args"]),
+    commandProps: new Set(["name", "description", "subcommands", "options", "args", "hidden"]),
+    optionProps: new Set([
+      "name",
+      "description",
+      "args",
+      "isRepeatable",
+      "exclusiveOn",
+      "hidden",
+      "requiresEquals",
+    ]),
     argProps: new Set(["name", "isVariadic", "isOptional", "suggestions", "template", "isCommand"]),
   },
   "swift-argument-parser": {
