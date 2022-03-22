@@ -19,6 +19,7 @@ function commandStatus(cmd: string): boolean {
 
 function disableDevMode() {
   console.log("\n\nFig dev mode disabled\n");
+  commandStatus("fig settings autocomplete.developerMode false");
   commandStatus("fig settings autocomplete.developerModeNPM false");
   commandStatus("fig settings autocomplete.developerModeNPMInvalidateCache false");
   process.exit(0);
