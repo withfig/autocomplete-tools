@@ -175,7 +175,14 @@ declare namespace Fig {
    */
   type ExecuteShellCommandFunction = (commandToExecute: string) => Promise<string>;
 
+  type CacheStrategy = "stale-while-revalidate" | "max-age";
+
   type Cache = {
+    /**
+     * The Cache strategy to use for this generator.
+     * @defaultValue 'max-age'
+     */
+    strategy?: CacheStrategy;
     /**
      * The time to live for the cache in milliseconds.
      * @example
@@ -183,7 +190,7 @@ declare namespace Fig {
      */
     ttl: number;
     /**
-     * Whether the cache should be based on the directory the user was currently in or not
+     * Whether the cache should be based on the directory the user was currently in or not.
      * @defaultValue false
      */
     cacheByDirectory?: boolean;
