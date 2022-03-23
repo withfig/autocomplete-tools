@@ -176,7 +176,7 @@ declare namespace Fig {
   type ExecuteShellCommandFunction = (commandToExecute: string) => Promise<string>;
 
   type CacheMaxAge = {
-    stategy?: "max-age";
+    strategy?: "max-age";
     /**
      * The time to live for the cache in milliseconds.
      * @example
