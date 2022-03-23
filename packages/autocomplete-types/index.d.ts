@@ -175,19 +175,34 @@ declare namespace Fig {
    */
   type ExecuteShellCommandFunction = (commandToExecute: string) => Promise<string>;
 
-  type Cache = {
+  type CacheMaxAge = {
+    strategy?: "max-age";
     /**
      * The time to live for the cache in milliseconds.
      * @example
      * 3600
      */
     ttl: number;
+  };
+
+  type CacheStaleWhileRevalidate = {
+    strategy: "stale-while-revalidate";
     /**
-     * Whether the cache should be based on the directory the user was currently in or not
+     * The time to live for the cache in milliseconds.
+     * @example
+     * 3600
+     */
+    ttl?: number;
+  };
+
+  type Cache = (CacheMaxAge | CacheStaleWhileRevalidate) & {
+    /**
+     * Whether the cache should be based on the directory the user was currently in or not.
      * @defaultValue false
      */
     cacheByDirectory?: boolean;
   };
+
   /**
    * The BaseSuggestion object is the root of the Suggestion, Subcommand, and Option objects.
    * It is where key properties like description, icon, and displayName are found
