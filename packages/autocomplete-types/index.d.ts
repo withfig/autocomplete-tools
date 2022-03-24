@@ -526,7 +526,7 @@ declare namespace Fig {
      * @example
      * For `git commit -m` in the, message option nested beneath `commit` would have `name: ["-m", "--message"]`
      * @example
-     * For `ls -l` the `-l` option would have `name: ["-m", "--message"]`
+     * For `ls -l` the `-l` option would have `name: "-l"`
      */
     name: SingleOrArray<string>;
 
@@ -535,7 +535,7 @@ declare namespace Fig {
      *
      * @remarks
      * If a subcommand takes an argument, please at least include an empty Arg Object. (e.g. `{ }`). Why? If you don't, Fig will assume the subcommand does not take an argument. When the user types their argument
-     * If the argument is optional, signal this by saying isOptiona
+     * If the argument is optional, signal this by saying `isOptional: true`.
      *
      * @example
      * `npm run` takes one mandatory argument. This can be represented by `args: { }`
@@ -1046,11 +1046,11 @@ declare namespace Fig {
      * Cache the response of generators for a specific period time and optionally by directory the commands were executed in.
      *
      * @remarks
-     * For commands that take a long time to run, Fig gives you the option to cache their response. You can cache the response globally or just by the directory they were run in
-     * You just need to specify a `ttl` (time to live) for how long the cache will last (this is a number)
+     * For commands that take a long time to run, Fig gives you the option to cache their response. You can cache the response globally or just by the directory they were run in.
+     * We currently have two cache stategies:
+     * - `max-age` (default): you just need to specify a `ttl` (time to live) for how long the cache will last (this is a number)
+     * - `stale-while-revalidate`: when cache becomes stale fig will return the stale data while fetching the updated one. This stategy also accepts a `ttl` to configure how long it takes for the cache to become stale.
      * You can also optionally turn on the ability to just cache by directory (`cacheByDirectory: true`)
-     *
-     * > **Note:** This may not work. We haven't touched this in a while as Fig has become much faster and there hasn't been a need
      *
      * @example
      * The kubernetes spec makes use of this.
