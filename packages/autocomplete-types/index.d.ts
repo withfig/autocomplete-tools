@@ -158,10 +158,28 @@ declare namespace Fig {
    */
   type StringOrFunction<T = void, R = void> = string | Function<T, R>;
 
+  type ArgDiff = Modify<Fig.Arg, { remove?: true }>;
+  type OptionDiff = Modify<
+    Fig.Option,
+    {
+      args?: ArgDiff | ArgDiff[];
+      remove?: true;
+    }
+  >;
+  type SubcommandDiff = Modify<
+    Fig.Subcommand,
+    {
+      subcommands?: SubcommandDiff[];
+      options?: OptionDiff[];
+      args?: ArgDiff | ArgDiff[];
+      remove?: true;
+    }
+  >;
+  type SpecDiff = Omit<SubcommandDiff, "name" | "remove">;
+  type VersionDiffMap = Record<string, SpecDiff>;
+
   /**
-   * A spec object
-   * @param param - A param of type `R`
-   * @returns Something of type `R`
+   * A spec object. Can be either a subcommand, or a function that dynamically computes a subcommand
    */
   type Spec = Subcommand | ((version?: string) => Subcommand);
 
