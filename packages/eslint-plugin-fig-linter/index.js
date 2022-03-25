@@ -10,6 +10,7 @@ module.exports = {
     "no-missing-default-export": require("./rules/no-missing-default-export"),
     "no-useless-arrays": require("./rules/no-useless-arrays"),
     "conventional-descriptions": require("./rules/conventional-descriptions"),
+    "no-default-value-props": require("./rules/no-default-value-props"),
   },
   configs: {
     recommended: {
@@ -19,6 +20,7 @@ module.exports = {
         "@withfig/fig-linter/no-useless-insertvalue": "error",
         "@withfig/fig-linter/no-empty-array-values": "error",
         "@withfig/fig-linter/no-name-equals": "error",
+        "@withfig/fig-linter/no-default-value-props": ["error", [{path: "options.[*].isRequired", defaultValue: false}, {path: "args.[*]?.isOptional", defaultValue: false}]],
         // TODO: Re-Enable Rule if we got a proper flag for that
         "@withfig/fig-linter/no-invalid-option": "off",
         "@withfig/fig-linter/no-invalid-name": "error",

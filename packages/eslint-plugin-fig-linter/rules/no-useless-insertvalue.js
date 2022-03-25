@@ -26,6 +26,7 @@ module.exports = {
                   "The insertValue prop can be omitted if the value is the same as name",
                 fix(fixer) {
                   const [start, end] = node.range;
+                  // TODO: check if there is a comma after the prop before removing end + 1
                   return fixer.removeRange([start, end + 1]);
                 },
               });
