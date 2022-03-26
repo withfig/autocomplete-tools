@@ -190,7 +190,7 @@ declare namespace Fig {
     | ((version?: string) => Subcommand)
     | ((version?: string) => {
         versionedSpecPath: string;
-        version: string;
+        version?: string;
       });
 
   /**
