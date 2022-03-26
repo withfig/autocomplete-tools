@@ -179,9 +179,19 @@ declare namespace Fig {
   type VersionDiffMap = Record<string, SpecDiff>;
 
   /**
-   * A spec object. Can be either a subcommand, or a function that dynamically computes a subcommand
+   * A spec object.
+   * Can be one of
+   * 1. A subcommand
+   * 2. A function that dynamically computes a subcommand
+   * 3. A function that returns the path to a versioned spec files (that exports a base subcommand and { versions: VersionDiffMap }
    */
-  type Spec = Subcommand | ((version?: string) => Subcommand);
+  type Spec =
+    | Subcommand
+    | ((version?: string) => Subcommand)
+    | ((version?: string) => {
+        versionedSpecPath: string;
+        version: string;
+      });
 
   /**
    * An async function to execute a shell command

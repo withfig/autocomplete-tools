@@ -4,5 +4,8 @@
   "version": "1.13.0",
   "author": "The Fig Team",
   "types": "index.d.ts",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "eslint-plugin-prettier": "^4.0.0"
+  }
 }
