@@ -1,0 +1,19 @@
+{
+  "extends": "@tsconfig/recommended",
+  "exclude": ["node_modules/", "dist/"],
+  "include": ["./"],
+  "compilerOptions": {
+    "lib": ["ESNext", "DOM"],
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "sourceMap": true,
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": "./",
+    "declaration": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "types": ["@withfig/autocomplete-types", "node"]
+  }
+}
