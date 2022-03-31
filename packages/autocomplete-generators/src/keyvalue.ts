@@ -18,30 +18,26 @@ export interface KeyValueListInit extends KeyValueInit {
   delim: string;
 }
 
-function getKeyValueGeneratorFunction({ key, sep, value }: KeyValueInit): Fig.Generator["custom"] {
-  return async (tokens, executeShellCommand) => {
-    const finalToken = tokens[tokens.length - 1];
-    const isKey = !finalToken.includes(sep);
-
-    if (isKey) {
-      if (typeof key === "function") {
-        return key(tokens, executeShellCommand);
-      }
-      return key;
-    }
-
-    if (typeof value === "function") {
-      return value(tokens, executeShellCommand);
-    }
-    return value;
-  };
-}
-
-export function keyvalue(init: KeyValueInit): Fig.Generator {
+export function keyvalue({ key, sep, value }: KeyValueInit): Fig.Generator {
   return {
-    trigger: init.sep,
-    getQueryTerm: init.sep,
-    custom: getKeyValueGeneratorFunction(init),
+    trigger: (newToken, oldToken) => newToken.indexOf(sep) !== oldToken?.indexOf(sep),
+    getQueryTerm: (token) => (token as string).slice((token as string).indexOf(sep) + 1),
+    custom: async (tokens, executeShellCommand) => {
+      const finalToken = tokens[tokens.length - 1];
+      const isKey = !finalToken.includes(sep);
+
+      if (isKey) {
+        if (typeof key === "function") {
+          return key(tokens, executeShellCommand);
+        }
+        return key;
+      }
+
+      if (typeof value === "function") {
+        return value(tokens, executeShellCommand);
+      }
+      return value;
+    },
   };
 }
 
@@ -59,9 +55,25 @@ export function keyvaluelist({ key, sep, value, delim }: KeyValueListInit): Fig.
       return newTokenIdx !== oldTokenIdx;
     },
     getQueryTerm: (token) => {
-      const lastPunctuationIdx = getFinalSepDelimIndex(sep, delim, token as string);
-      return (token as string).slice(lastPunctuationIdx + 1);
+      const index = getFinalSepDelimIndex(sep, delim, token as string);
+      return (token as string).slice(index + 1);
     },
-    custom: getKeyValueGeneratorFunction({ key, sep, value }),
+    custom: async (tokens, executeShellCommand) => {
+      const finalToken = tokens[tokens.length - 1];
+      const index = getFinalSepDelimIndex(sep, delim, finalToken);
+      const isKey = index === -1 || finalToken.slice(index, index + sep.length) !== sep;
+
+      if (isKey) {
+        if (typeof key === "function") {
+          return key(tokens, executeShellCommand);
+        }
+        return key;
+      }
+
+      if (typeof value === "function") {
+        return value(tokens, executeShellCommand);
+      }
+      return value;
+    },
   };
 }
