@@ -245,13 +245,13 @@ export const getVersionFromVersionedSpec = (
   return { spec, version: versionNames[versionIndex] };
 };
 
-export const createVersionedSpec =
-  (specName: string, versionFiles: string[]): Fig.Spec =>
-  async (version?: string) => {
-    const versionFileIndex = getBestVersionIndex(versionFiles, version);
-    const versionFile = versionFiles[versionFileIndex];
-    return {
-      versionedSpecPath: `${specName}/${versionFile}`,
-      version,
-    };
+export const createVersionedSpec = (specName: string, versionFiles: string[]): Fig.Spec => async (
+  version?: string
+) => {
+  const versionFileIndex = getBestVersionIndex(versionFiles, version);
+  const versionFile = versionFiles[versionFileIndex];
+  return {
+    versionedSpecPath: `${specName}/${versionFile}`,
+    version,
   };
+};

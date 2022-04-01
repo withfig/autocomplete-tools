@@ -31,8 +31,6 @@ const findInFile = <T>(source: ts.SourceFile, predicate: (node: ts.Node) => T | 
 const formatSource = (source: string | string[]) =>
   prettier.format(Array.isArray(source) ? source.join("\n") : source, {
     parser: "typescript",
-    semi: false,
-    singleQuote: true,
   });
 
 const loadTypescriptModule = (path: string) => {
@@ -66,7 +64,7 @@ const loadVersionedSpec = async (
 
   const imports = loadTypescriptModule(path);
   if (!imports.versions) {
-    throw new Error("Path does not contains versioned spec");
+    throw new Error("Path does not contain versioned spec");
   }
   return {
     source: fs.readFileSync(path).toString(),
