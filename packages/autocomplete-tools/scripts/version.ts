@@ -5,6 +5,25 @@ import { importFromStringSync } from "module-from-string";
 import prettier from "prettier";
 import fs from "fs";
 import ts from "typescript";
+import path from "path";
+
+export const copyDirectorySync = (oldPath: string, newPath: string) => {
+  if (!fs.existsSync(newPath)) {
+    fs.mkdirSync(newPath, { recursive: true });
+  }
+
+  for (const dirent of fs.readdirSync(oldPath, { withFileTypes: true })) {
+    if (dirent.isDirectory()) {
+      copyDirectorySync(path.resolve(oldPath, dirent.name), path.resolve(newPath, dirent.name));
+    } else if (dirent.isFile()) {
+      fs.writeFileSync(
+        path.resolve(newPath, dirent.name),
+        fs.readFileSync(path.resolve(oldPath, dirent.name)),
+        { encoding: "utf8" }
+      );
+    }
+  }
+};
 
 const visitFileNodes = (source: ts.SourceFile, visitor: ts.Visitor): ts.Node =>
   ts.transform(source, [
@@ -33,8 +52,8 @@ const formatSource = (source: string | string[]) =>
     parser: "typescript",
   });
 
-const loadTypescriptModule = (path: string) => {
-  const contents = fs.readFileSync(path).toString();
+const loadTypescriptModule = (modulePath: string) => {
+  const contents = fs.readFileSync(modulePath).toString();
   const jsString = ts.transpile(contents);
   return importFromStringSync(jsString, {
     dirname: process.cwd(),
@@ -42,14 +61,15 @@ const loadTypescriptModule = (path: string) => {
 };
 
 const loadVersionedSpec = async (
-  path: string,
+  specPath: string,
   defaultSpec: Fig.Subcommand
 ): Promise<{
   source: string;
   spec: Fig.Subcommand;
   versions: Fig.VersionDiffMap;
 }> => {
-  if (!fs.existsSync(path)) {
+  if (!fs.existsSync(specPath)) {
+    // TODO: change the way the spec is printed, it would not support js variables
     return {
       source: formatSource([
         `const completion: Fig.Subcommand = ${JSON.stringify(defaultSpec, null, 4)}\n`,
@@ -62,21 +82,21 @@ const loadVersionedSpec = async (
     };
   }
 
-  const imports = loadTypescriptModule(path);
+  const imports = loadTypescriptModule(specPath);
   if (!imports.versions) {
     throw new Error("Path does not contain versioned spec");
   }
   return {
-    source: fs.readFileSync(path).toString(),
+    source: fs.readFileSync(specPath).toString(),
     spec: imports.default,
     versions: imports.versions,
   };
 };
 
-async function addVersionToIndex(path: string, version: string) {
-  const source = fs.readFileSync(path).toString();
+async function addVersionToIndex(sourcePath: string, version: string) {
+  const source = fs.readFileSync(sourcePath).toString();
   let didUpdate = false;
-  const sourceFile = ts.createSourceFile(path, source, ts.ScriptTarget.ES2015, true);
+  const sourceFile = ts.createSourceFile(sourcePath, source, ts.ScriptTarget.ES2015, true);
   const newSource = visitFileNodes(
     sourceFile,
     (node: ts.Node): ts.Node => {
@@ -102,18 +122,29 @@ async function addVersionToIndex(path: string, version: string) {
 
   const printer = ts.createPrinter({ newLine: ts.NewLineKind.LineFeed });
   const result = printer.printNode(ts.EmitHint.Unspecified, newSource, sourceFile);
-  fs.writeFileSync(path, formatSource(result));
+  fs.writeFileSync(sourcePath, formatSource(result));
 }
 
-const cleanPath = (path: string) => path.replace(/[^a-zA-Z0-9_\-/.]/, "");
+const cleanPath = (p: string) => p.replace(/[^a-zA-Z0-9_\-/.]/, "");
 
 async function addDiffAction(
-  specNameRaw: string,
+  specName: string,
   newSpecPath: string,
   diffVersion: string,
-  options: { newFile?: string; useMinorBase?: boolean }
+  options: { newPath?: string; useMinorBase?: boolean }
 ) {
-  const specName = cleanPath(specNameRaw);
+  let folderSpecPath = path.resolve(cleanPath(specName));
+  if (options.newPath) {
+    const newPath = cleanPath(path.resolve(options.newPath));
+    // check that the new path is not a child of the old
+    const relative = path.relative(folderSpecPath, newPath);
+    const isSubdirectory = relative && !relative.startsWith("..") && !path.isAbsolute(relative);
+    if (isSubdirectory)
+      throw new Error(`--new-path must not be a sub-directory of the old spec directory`);
+    copyDirectorySync(folderSpecPath, newPath);
+    folderSpecPath = newPath;
+  }
+
   const version = semver.parse(diffVersion);
   let versionFileName: string;
   if (version === null) {
@@ -124,7 +155,7 @@ async function addDiffAction(
       : `${version.major}.0.0`;
   }
 
-  const currentSpecPath = `./${specName}/${versionFileName}.ts`;
+  const currentSpecPath = path.resolve(folderSpecPath, `${versionFileName}.ts`);
   const newSpec = loadTypescriptModule(newSpecPath).default as Fig.Subcommand;
   const { source, spec, versions } = await loadVersionedSpec(currentSpecPath, newSpec);
   const versionNames = Object.keys(versions).sort(semver.compare);
@@ -151,10 +182,10 @@ async function addDiffAction(
   }
   const insertIdx = versionExports[versionExports.length - 1].getStart();
   if (!fs.existsSync(currentSpecPath)) {
-    addVersionToIndex(`./${specName}/index.ts`, versionFileName);
+    addVersionToIndex(path.resolve(folderSpecPath, "index.ts"), versionFileName);
   }
   fs.writeFileSync(
-    options?.newFile ?? currentSpecPath,
+    currentSpecPath,
     formatSource([
       source.slice(0, insertIdx),
       `\nversions["${diffVersion}"] = ${JSON.stringify(diff, null, 4)}\n`,
@@ -163,9 +194,9 @@ async function addDiffAction(
   );
 }
 
-async function initVersionedSpec(path: string) {
-  fs.mkdirSync(path, { recursive: true });
-  const pathClean = cleanPath(path);
+async function initVersionedSpec(specPath: string) {
+  fs.mkdirSync(specPath, { recursive: true });
+  const pathClean = cleanPath(specPath);
   fs.writeFileSync(
     `${pathClean}/index.ts`,
     formatSource(
@@ -194,7 +225,10 @@ export default new Command("version")
     new Command("add-diff")
       .arguments("<specName> <newSpecFile> <diffVersion>")
       .description("generate version diff from  new spec and add into old spec")
-      .option("-n, --new-file <path>", "Create a new spec instead of overwriting the old one")
+      .option(
+        "-n, --new-path <path>",
+        "Create a new spec folder instead of overwriting the old one"
+      )
       .option("--use-minor-base", "Create a new version file per minor version")
       .action(addDiffAction)
   )
