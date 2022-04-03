@@ -5,6 +5,7 @@
   "author": "The Fig Team",
   "scripts": {
     "build": "rm -rf build/ && tsc && cp -r boilerplate build/boilerplate",
+    "test": "ts-node test/index.ts",
     "prepack": "npm run build",
     "generate-spec": "npm run build && GENERATE_SPEC=true node build/index.js generateFigSpec"
   },
@@ -17,12 +18,11 @@
     "chalk": "^4.1.0",
     "chokidar": "^3.5.1",
     "commander": "^8.1.0",
-    "esbuild": "^0.12.15",
+    "esbuild": "^0.14.30",
     "fast-glob": "^3.2.7",
     "module-from-string": "^3.1.4",
     "prettier": "^2.4.1",
     "semver": "^7.3.5",
-    "ts-morph": "^12.0.0",
     "typescript": "^4.2.3"
   },
   "types": "build/index.d.ts",
@@ -33,7 +33,8 @@
     "@types/node": "^14.14.33",
     "@types/prettier": "^2.4.1",
     "@withfig/autocomplete-types": "^1.10.0",
-    "@withfig/commander": "latest"
+    "@withfig/commander": "latest",
+    "ts-node": "^10.7.0"
   },
   "fig": {
     "build": {

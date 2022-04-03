@@ -14,6 +14,7 @@ module.exports = {
     "packages/autocomplete-merge/test/fixtures/",
     "packages/autocomplete-merge/test/fixtures/",
     "packages/autocomplete-tools/generated/",
+    "packages/autocomplete-tools/test/*/fixtures/",
   ],
   extends: [
     "airbnb/base",
