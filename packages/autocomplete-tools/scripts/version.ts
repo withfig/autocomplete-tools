@@ -5,6 +5,7 @@ import { importFromStringSync } from "module-from-string";
 import prettier from "prettier";
 import fs from "fs";
 import ts from "typescript";
+import { build } from "esbuild";
 import path from "path";
 
 export const copyDirectorySync = (oldPath: string, newPath: string) => {
@@ -52,9 +53,20 @@ const formatSource = (source: string | string[]) =>
     parser: "typescript",
   });
 
-const loadTypescriptModule = (modulePath: string) => {
-  const contents = fs.readFileSync(modulePath).toString();
-  const jsString = ts.transpile(contents);
+const loadTypescriptModule = async (modulePath: string) => {
+  const jsString = (
+    await build({
+      entryPoints: [modulePath],
+      bundle: true,
+      write: false,
+      sourcemap: false,
+      loader: { ".ts": "ts" },
+      keepNames: true,
+      target: "esnext",
+      minify: false,
+      format: "esm",
+    })
+  ).outputFiles[0].text;
   return importFromStringSync(jsString, {
     dirname: process.cwd(),
   });
@@ -69,7 +81,7 @@ const loadVersionedSpec = async (
   versions: Fig.VersionDiffMap;
 }> => {
   if (!fs.existsSync(specPath)) {
-    // TODO: change the way the spec is printed, it would not support js variables
+    // TODO: change the way the spec is printed, currently it won't support js variables
     return {
       source: formatSource([
         `const completion: Fig.Subcommand = ${JSON.stringify(defaultSpec, null, 4)}\n`,
@@ -82,7 +94,7 @@ const loadVersionedSpec = async (
     };
   }
 
-  const imports = loadTypescriptModule(specPath);
+  const imports = await loadTypescriptModule(specPath);
   if (!imports.versions) {
     throw new Error("Path does not contain versioned spec");
   }
@@ -140,7 +152,7 @@ async function addDiffAction(
     const relative = path.relative(folderSpecPath, newPath);
     const isSubdirectory = relative && !relative.startsWith("..") && !path.isAbsolute(relative);
     if (isSubdirectory)
-      throw new Error(`--new-path must not be a sub-directory of the old spec directory`);
+      throw new Error("'--new-path' must not be a sub-directory of the old spec directory");
     copyDirectorySync(folderSpecPath, newPath);
     folderSpecPath = newPath;
   }
@@ -156,7 +168,7 @@ async function addDiffAction(
   }
 
   const currentSpecPath = path.resolve(folderSpecPath, `${versionFileName}.ts`);
-  const newSpec = loadTypescriptModule(newSpecPath).default as Fig.Subcommand;
+  const newSpec = (await loadTypescriptModule(newSpecPath)).default as Fig.Subcommand;
   const { source, spec, versions } = await loadVersionedSpec(currentSpecPath, newSpec);
   const versionNames = Object.keys(versions).sort(semver.compare);
   const lastVersion = versionNames[versionNames.length - 1];
