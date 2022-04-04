@@ -188,7 +188,9 @@ declare namespace Fig {
   type Spec =
     | Subcommand
     | ((version?: string) => Subcommand)
-    | ((version?: string) => {
+    | ((
+        version?: string
+      ) => {
         versionedSpecPath: string;
         version?: string;
       });
@@ -609,8 +611,22 @@ declare namespace Fig {
      * @example
      * When `requiresEqual: true` the user MUST do `--opt=value` and cannot do `--opt value`
      *
+     * @deprecated use `requiresSeparator` instead
+     *
      */
     requiresEquals?: boolean;
+    /**
+     *
+     * Signals whether a separator is required to pass an argument to an option (e.g. `git commit --message="msg"`)
+     * The default behaviour when `requiresSeparator: true` is to require an equal, otherwise if a character is passed it will be the required separator.
+     * If nothing is passed the option won't require a separator
+     * @defaultValue false (does NOT require an equal)
+     *
+     * @example
+     * When `requiresEqual: true` the user MUST do `--opt=value` and cannot do `--opt value`
+     *
+     */
+    requiresSeparator?: boolean | string;
     /**
      *
      * Signals whether an option can be passed multiple times.
