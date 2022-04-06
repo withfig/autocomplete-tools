@@ -188,7 +188,9 @@ declare namespace Fig {
   type Spec =
     | Subcommand
     | ((version?: string) => Subcommand)
-    | ((version?: string) => {
+    | ((
+        version?: string
+      ) => {
         versionedSpecPath: string;
         version?: string;
       });
