@@ -620,11 +620,14 @@ declare namespace Fig {
     /**
      *
      * Signals whether one of the separators specified in parserDirectives is required to pass an argument to an option (e.g. `git commit --message[separator]"msg"`)
+     * If set to true this will automatically insert an equal after the option name.
+     * If set to a separator (string) this will automatically insert the separator specified after the option name.
      * @defaultValue false (does NOT require a separator)
      *
      * @example
-     * When `requiresSeparator: true` the user MUST do `--opt[separator]value` and cannot do `--opt value`
-     *
+     * When `requiresSeparator: true` the user MUST do `--opt=value` and cannot do `--opt value`
+     * @example
+     * When `requiresSeparator: ':'` the user MUST do `--opt:value` and cannot do `--opt value`
      */
     requiresSeparator?: boolean | string;
     /**
