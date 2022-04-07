@@ -525,12 +525,14 @@ declare namespace Fig {
      * @remarks
      * - `flagsArePosixNoncompliant`: when `flagsArePosixNoncompliant` is true, options with one hyphen to have multiple characters.
      * - `optionsMustPrecedeArguments`: when `optionsMustPrecedeArguments` is true, options will not be suggested after a subcommand arg is typed.
+     * - `optionArgSeparators`: when `optionArgSeparators` is set, options will accept or require one of the separators between the verbose option name and the argument.
      * @example
      * The `-work` option from the go spec is parsed as a single flag when `parserDirectives.flagsArePosixNoncompliant` is set to true. Normally, this would be chained and parsed as `-w -o -r -k` if `flagsArePosixNoncompliant` is not set to true.
      */
     parserDirectives?: {
       flagsArePosixNoncompliant?: boolean;
       optionsMustPrecedeArguments?: boolean;
+      optionArgSeparators?: SingleOrArray<string>;
     };
   }
 
@@ -617,13 +619,11 @@ declare namespace Fig {
     requiresEquals?: boolean;
     /**
      *
-     * Signals whether a separator is required to pass an argument to an option (e.g. `git commit --message="msg"`)
-     * The default behaviour when `requiresSeparator: true` is to require an equal, otherwise if a character is passed it will be the required separator.
-     * If nothing is passed the option won't require a separator
-     * @defaultValue false (does NOT require an equal)
+     * Signals whether one of the separators specified in parserDirectives is required to pass an argument to an option (e.g. `git commit --message[separator]"msg"`)
+     * @defaultValue false (does NOT require a separator)
      *
      * @example
-     * When `requiresEqual: true` the user MUST do `--opt=value` and cannot do `--opt value`
+     * When `requiresSeparator: true` the user MUST do `--opt[separator]value` and cannot do `--opt value`
      *
      */
     requiresSeparator?: boolean | string;
