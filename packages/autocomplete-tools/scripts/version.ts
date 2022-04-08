@@ -139,22 +139,44 @@ async function addVersionToIndex(sourcePath: string, version: string) {
 
 const cleanPath = (p: string) => p.replace(/[^a-zA-Z0-9_\-/.]/, "");
 
+async function initVersionedSpec(specName: string, options: { cwd?: string }) {
+  const cleanedSpecName = cleanPath(specName);
+  const rootSpecPath = path.resolve(options.cwd ?? process.cwd(), specName);
+  fs.mkdirSync(rootSpecPath, { recursive: true });
+  fs.writeFileSync(
+    `${rootSpecPath}/index.ts`,
+    formatSource(
+      [
+        `import { createVersionedSpec } from "@fig/autocomplete-helpers";\n`,
+        `const versionFiles = [];\n`,
+        `export default createVersionedSpec("${cleanedSpecName}", versionFiles);\n`,
+      ].join("\n")
+    )
+  );
+}
+
 async function addDiffAction(
   specName: string,
   newSpecPath: string,
   diffVersion: string,
-  options: { newPath?: string; useMinorBase?: boolean }
+  options: { newPath?: string; useMinorBase?: boolean; cwd?: string }
 ) {
-  let folderSpecPath = path.resolve(cleanPath(specName));
+  let folderSpecPath = path.resolve(options.cwd ?? process.cwd(), specName);
   if (options.newPath) {
-    const newPath = cleanPath(path.resolve(options.newPath));
-    // check that the new path is not a child of the old
-    const relative = path.relative(folderSpecPath, newPath);
-    const isSubdirectory = relative && !relative.startsWith("..") && !path.isAbsolute(relative);
-    if (isSubdirectory)
-      throw new Error("'--new-path' must not be a sub-directory of the old spec directory");
-    copyDirectorySync(folderSpecPath, newPath);
+    const newPath = path.resolve(options.newPath, specName);
+    if (fs.existsSync(folderSpecPath)) {
+      // check that the new path is not a child of the old
+      const relative = path.relative(folderSpecPath, newPath);
+      const isSubdirectory = relative && !relative.startsWith("..") && !path.isAbsolute(relative);
+      if (isSubdirectory)
+        throw new Error("'--new-path' must not be a sub-directory of the old spec directory");
+      copyDirectorySync(folderSpecPath, newPath);
+    } else {
+      await initVersionedSpec(specName, { cwd: options.newPath });
+    }
     folderSpecPath = newPath;
+  } else if (!fs.existsSync(folderSpecPath)) {
+    await initVersionedSpec(specName, { cwd: options.cwd });
   }
 
   const version = semver.parse(diffVersion);
@@ -206,21 +228,6 @@ async function addDiffAction(
   );
 }
 
-async function initVersionedSpec(specPath: string) {
-  fs.mkdirSync(specPath, { recursive: true });
-  const pathClean = cleanPath(specPath);
-  fs.writeFileSync(
-    `${pathClean}/index.ts`,
-    formatSource(
-      [
-        `import { createVersionedSpec } from "@fig/autocomplete-helpers";\n`,
-        `const versionFiles = [];\n`,
-        `export default createVersionedSpec("${pathClean}", versionFiles);\n`,
-      ].join("\n")
-    )
-  );
-}
-
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 async function precomputeAction(files: string[]) {
   /*
@@ -235,19 +242,21 @@ async function precomputeAction(files: string[]) {
 export default new Command("version")
   .addCommand(
     new Command("add-diff")
-      .arguments("<specName> <newSpecFile> <diffVersion>")
-      .description("generate version diff from  new spec and add into old spec")
+      .arguments("<specName> <newSpecFilePath> <diffVersion>")
+      .description("generate version diff from new spec and add into old spec")
       .option(
         "-n, --new-path <path>",
-        "Create a new spec folder instead of overwriting the old one"
+        "The root folder where the updated spec will be saved. Note: this must NOT include the folder spec name"
       )
+      .option("--cwd <path>", "Resolve the spec name relative to this directory")
       .option("--use-minor-base", "Create a new version file per minor version")
       .action(addDiffAction)
   )
   .addCommand(
     new Command("init-spec")
-      .arguments("<path>")
-      .description("generate versioned spec in folder specified by path")
+      .arguments("<name>")
+      .option("--cwd <path>", "Generate the spec relative to this directory")
+      .description("Generate versioned spec in folder specified by path")
       .action(initVersionedSpec)
   )
   .addCommand(

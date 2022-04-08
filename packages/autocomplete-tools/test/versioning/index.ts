@@ -42,7 +42,6 @@ export function runFixtures() {
   let hadErrors = false;
   for (const dir of dirs) {
     const fixtureDirPath = path.join(fixturesPath, dir.name);
-    const oldSpecName = path.join(fixtureDirPath, "old-spec");
     const newSpecPath = path.resolve(fixtureDirPath, "new-spec.ts");
     const updatedSpecPath = path.join(fixtureDirPath, "updated-spec"); // gitignored
     const expectedSpecPath = path.join(fixtureDirPath, "expected-spec");
@@ -58,7 +57,8 @@ export function runFixtures() {
       throw new Error(`You must provide a config.json file for fixture at ${fixtureDirPath}`);
     }
 
-    const cmd = `node -r ts-node/register ${cliPath} version add-diff ${oldSpecName} ${newSpecPath} ${newVersion} --new-path ${updatedSpecPath}`;
+    fs.rmSync(updatedSpecPath, { recursive: true, force: true });
+    const cmd = `node -r ts-node/register ${cliPath} version add-diff old-spec ${newSpecPath} ${newVersion} --cwd ${fixtureDirPath} --new-path ${updatedSpecPath}`;
 
     try {
       child.execSync(cmd);
