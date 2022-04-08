@@ -72,6 +72,15 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
+"@fig/autocomplete-helpers@latest":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@fig/autocomplete-helpers/-/autocomplete-helpers-1.0.0.tgz#3e58e2f0acc3e6ff39147fc5918fa6b68d9c9e83"
+  integrity sha512-tNKIZbOk9FjYF4Zr7mdD+Ak7JzBGAdekcMcSWIhLBpqCdxBA6WW39h6Z+//Go/KUXXexhsozKDjSt0UvMdHs2Q==
+  dependencies:
+    lint-staged "^12.3.5"
+    semver "^7.3.5"
+    typescript "^4.6.3"
+
 "@fig/autocomplete-merge@latest":
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/@fig/autocomplete-merge/-/autocomplete-merge-1.0.3.tgz#6da12d942755a8289c1fec5b109e637a9c9fca09"

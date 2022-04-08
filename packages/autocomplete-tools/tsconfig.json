@@ -14,5 +14,5 @@
     "types": ["@withfig/autocomplete-types", "node"]
   },
   "include": ["*.ts", "scripts/*.ts"],
-  "exclude": ["**/fixtures/**/*.ts"]
+  "exclude": ["**/fixtures/**/*.ts", "**/node_modules"]
 }
