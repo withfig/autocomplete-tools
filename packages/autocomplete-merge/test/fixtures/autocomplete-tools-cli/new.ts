@@ -87,7 +87,7 @@ const completionSpec: Fig.Spec = {
           description: "Use a preset",
           args: {
             name: "name",
-            suggestions: ["commander", "oclif", "cobra", "clap"],
+            suggestions: ["commander", "oclif", "cobra", "clap", "swift-argument-parser"],
           },
         },
         {
@@ -97,6 +97,70 @@ const completionSpec: Fig.Spec = {
         },
       ],
       args: [{ name: "oldspec" }, { name: "newspec" }],
+    },
+    {
+      name: "version",
+      subcommands: [
+        {
+          name: "add-diff",
+          description: "generate version diff from  new spec and add into old spec",
+          options: [
+            {
+              name: ["-n", "--new-path"],
+              description: "Create a new spec folder instead of overwriting the old one",
+              args: { name: "path" },
+            },
+            {
+              name: ["--use-minor-base"],
+              description: "Create a new version file per minor version",
+            },
+            {
+              name: ["-h", "--help"],
+              description: "display help for command",
+              priority: 49,
+            },
+          ],
+          args: [{ name: "specName" }, { name: "newSpecFile" }, { name: "diffVersion" }],
+        },
+        {
+          name: "init-spec",
+          description: "generate versioned spec in folder specified by path",
+          options: [
+            {
+              name: ["-h", "--help"],
+              description: "display help for command",
+              priority: 49,
+            },
+          ],
+          args: [{ name: "path" }],
+        },
+        {
+          name: "precompute-specs",
+          description:
+            "[Unimplemented] Precompute versioned specs before publishing the specs repo (unimplemented)",
+          options: [
+            {
+              name: ["-h", "--help"],
+              description: "display help for command",
+              priority: 49,
+            },
+          ],
+          args: [{ name: "files", isVariadic: true }],
+        },
+        {
+          name: "help",
+          description: "display help for command",
+          priority: 49,
+          args: { name: "command", isOptional: true },
+        },
+      ],
+      options: [
+        {
+          name: ["-h", "--help"],
+          description: "display help for command",
+          priority: 49,
+        },
+      ],
     },
     {
       name: "help",

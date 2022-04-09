@@ -1,9 +1,9 @@
 const spec: Fig.Spec = {
-  name: 'foo',
-  description: 'An updated description',
+  name: "foo",
+  description: "An updated description",
   options: [
     {
-      name: '-a',
+      name: "-a",
       args: [
         {},
         {
@@ -13,9 +13,9 @@ const spec: Fig.Spec = {
           isCommand: true,
         },
       ],
-      displayName: '-aaa',
+      displayName: "-aaa",
     },
   ],
-  subcommands: [{ name: 'bar', displayName: 'barbar' }, { name: 'baz' }],
-}
-export default spec
+  subcommands: [{ name: "bar", displayName: "barbar" }, { name: "baz" }],
+};
+export default spec;

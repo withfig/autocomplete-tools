@@ -1,17 +1,17 @@
 function foo() {
-  return 1
+  return 1;
 }
-const a = 100
+const a = 100;
 const spec: Fig.Spec = {
-  name: 'foo',
-  description: 'An updated description',
-  options: [{ name: '-a' }],
-  subcommands: [{ name: 'bar', displayName: 'barbar' }, { name: 'foo' }],
-}
+  name: "foo",
+  description: "An updated description",
+  options: [{ name: "-a" }],
+  subcommands: [{ name: "bar", displayName: "barbar" }, { name: "foo" }],
+};
 function bar() {
-  return 'hello'
+  return "hello";
 }
-export default spec
+export default spec;
 function zoo() {
-  return {}
+  return {};
 }

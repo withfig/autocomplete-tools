@@ -66,13 +66,37 @@ function compareObjectLiteralElementLike(
 ): boolean {
   if (nodeA.kind !== nodeB.getKind()) return false;
   if (Node.isPropertyAssignment(nodeB)) {
-    return compareExpressions((nodeA as ts.PropertyAssignment).initializer, nodeB.getInitializer());
+    return expressionsAreEqual(
+      (nodeA as ts.PropertyAssignment).initializer,
+      nodeB.getInitializer()
+    );
   }
   // true for ShorthandPropertyAssignment, SpreadAssignment
   return true;
 }
 
-function compareExpressions(
+/**
+ * Checks if A is a literal contained in B (ArrayLiteral)
+ * @param expressionA
+ * @param expressionB
+ */
+function expressionAIsSubsetOfB(expressionA?: ts.Expression, expressionB?: ts.Expression): boolean {
+  if (!expressionA || !expressionB) return false;
+  if (
+    expressionB.kind === ts.SyntaxKind.ArrayLiteralExpression &&
+    (expressionA.kind === ts.SyntaxKind.StringLiteral ||
+      expressionA.kind === ts.SyntaxKind.NoSubstitutionTemplateLiteral ||
+      expressionA.kind === ts.SyntaxKind.NumericLiteral)
+  ) {
+    const expressionAText = expressionA.getText();
+    return (expressionB as ts.ArrayLiteralExpression).elements.some(
+      (node) => node.getText() === expressionAText
+    );
+  }
+  return false;
+}
+
+function expressionsAreEqual(
   expressionA?: ts.Expression,
   expressionB?: Expression<ts.Expression>
 ): boolean {
@@ -83,7 +107,7 @@ function compareExpressions(
     const elementsB = expressionB.getElements();
     return (
       elementsA.length === elementsB.length &&
-      elementsA.every((element, index) => compareExpressions(element, elementsB[index]))
+      elementsA.every((element, index) => expressionsAreEqual(element, elementsB[index]))
     );
   }
   if (
@@ -137,7 +161,13 @@ function resolveArrayLiteral(path: ts.Node[], arrayNode: ArrayLiteralExpression)
           const nameProp = element.getProperty("name");
           if (nameProp && Node.isPropertyAssignment(nameProp)) {
             const initializer = nameProp.getInitializer()!;
-            if (compareExpressions(nameToFind, initializer)) {
+            if (
+              expressionsAreEqual(nameToFind, initializer) ||
+              // if nameToFind is StringLiteral and initializer is ArrayLiteralExpression
+              // e.g. '--name' and ['--name', '-n']
+              expressionAIsSubsetOfB(nameToFind, initializer.compilerNode) ||
+              expressionAIsSubsetOfB(initializer.compilerNode, nameToFind)
+            ) {
               return resolve(newPath, element);
             }
           }

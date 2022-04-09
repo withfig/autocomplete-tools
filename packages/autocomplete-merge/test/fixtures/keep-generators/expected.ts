@@ -1,18 +1,18 @@
 const spec: Fig.Spec = {
-  name: 'foo',
-  description: 'An updated description',
+  name: "foo",
+  description: "An updated description",
   options: [
     {
-      name: '-a',
+      name: "-a",
       args: {
-        name: 'push',
+        name: "push",
         generators: {
-          script: 'foo',
+          script: "foo",
           postProcess: (out) => [],
         },
       },
     },
   ],
-  subcommands: [{ name: 'bar', displayName: 'barbar' }, { name: 'foo' }],
-}
-export default spec
+  subcommands: [{ name: "bar", displayName: "barbar" }, { name: "foo" }],
+};
+export default spec;
