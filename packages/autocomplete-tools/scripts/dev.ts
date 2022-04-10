@@ -97,6 +97,9 @@ async function runProgram() {
     commandStatus(
       `fig settings autocomplete.devCompletionsFolder ${path.join(process.cwd(), "build")}`
     );
+    if (!fs.existsSync(path.dirname(AUTOCOMPLETE_LOG_FILE))) {
+      fs.mkdirSync(path.dirname(AUTOCOMPLETE_LOG_FILE), { recursive: true });
+    }
     fs.writeFileSync(AUTOCOMPLETE_LOG_FILE, "", { encoding: "utf8" });
     let previousLogContent = "";
     fs.watch(AUTOCOMPLETE_LOG_FILE, (event) => {
