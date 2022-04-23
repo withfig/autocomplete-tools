@@ -20,7 +20,11 @@ module.exports = {
         "@withfig/fig-linter/no-useless-insertvalue": "error",
         "@withfig/fig-linter/no-empty-array-values": "error",
         "@withfig/fig-linter/no-name-equals": "error",
-        "@withfig/fig-linter/no-default-value-props": ["error", [{path: "options.[*].isRequired", defaultValue: false}, {path: "args.[*]?.isOptional", defaultValue: false}]],
+        "@withfig/fig-linter/no-default-value-props": ["error", [
+          {path: "options.[*].isRequired", defaultValue: false},
+          {path: "args.[*]?.isOptional", defaultValue: false},
+          {path: "args.[*]?.isVariadic", defaultValue: false},
+        ]],
         // TODO: Re-Enable Rule if we got a proper flag for that
         "@withfig/fig-linter/no-invalid-option": "off",
         "@withfig/fig-linter/no-invalid-name": "error",
