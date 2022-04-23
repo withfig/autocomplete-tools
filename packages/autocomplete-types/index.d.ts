@@ -525,12 +525,14 @@ declare namespace Fig {
      * @remarks
      * - `flagsArePosixNoncompliant`: when `flagsArePosixNoncompliant` is true, options with one hyphen to have multiple characters.
      * - `optionsMustPrecedeArguments`: when `optionsMustPrecedeArguments` is true, options will not be suggested after a subcommand arg is typed.
+     * - `optionArgSeparators`: when `optionArgSeparators` is set, options will accept or require one of the separators between the verbose option name and the argument.
      * @example
      * The `-work` option from the go spec is parsed as a single flag when `parserDirectives.flagsArePosixNoncompliant` is set to true. Normally, this would be chained and parsed as `-w -o -r -k` if `flagsArePosixNoncompliant` is not set to true.
      */
     parserDirectives?: {
       flagsArePosixNoncompliant?: boolean;
       optionsMustPrecedeArguments?: boolean;
+      optionArgSeparators?: SingleOrArray<string>;
     };
   }
 
@@ -611,8 +613,23 @@ declare namespace Fig {
      * @example
      * When `requiresEqual: true` the user MUST do `--opt=value` and cannot do `--opt value`
      *
+     * @deprecated use `requiresSeparator` instead
+     *
      */
     requiresEquals?: boolean;
+    /**
+     *
+     * Signals whether one of the separators specified in parserDirectives is required to pass an argument to an option (e.g. `git commit --message[separator]"msg"`)
+     * If set to true this will automatically insert an equal after the option name.
+     * If set to a separator (string) this will automatically insert the separator specified after the option name.
+     * @defaultValue false (does NOT require a separator)
+     *
+     * @example
+     * When `requiresSeparator: true` the user MUST do `--opt=value` and cannot do `--opt value`
+     * @example
+     * When `requiresSeparator: ':'` the user MUST do `--opt:value` and cannot do `--opt value`
+     */
+    requiresSeparator?: boolean | string;
     /**
      *
      * Signals whether an option can be passed multiple times.
