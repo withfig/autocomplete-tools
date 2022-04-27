@@ -51,6 +51,7 @@ module.exports = {
           files: "src/**/+([0-9]).+([0-9]).+([0-9]).ts",
           rules: {
             "@withfig/fig-linter/no-missing-versions-export": "error",
+            "@withfig/fig-linter/no-default-value-props": "off" // disable this since diff-versioned specs may change isOptional to a default value
           }
         },
       ],
