@@ -211,12 +211,10 @@ const subcommandProcessor: Processor<Fig.SubcommandDiff, Fig.Subcommand> = makeN
   args: argArrayProcessor,
 });
 
-const getBestVersionIndex = (versions: string[], target?: string): number => {
-  const versionNames = [...versions].sort(semver.compare);
-  return target
-    ? versionNames.findIndex((version) => semver.compare(target, version) >= 0)
-    : versionNames.length - 1;
-};
+const getBestVersionIndex = (versions: string[], target?: string): number =>
+  target
+    ? versions.findIndex((version) => semver.compare(version, target) >= 0)
+    : versions.length - 1;
 
 export const applySpecDiff = (spec: Fig.Subcommand, diff: Fig.SpecDiff): Fig.Subcommand =>
   subcommandProcessor.merge(spec, { ...diff, name: spec.name });
@@ -237,7 +235,7 @@ export const getVersionFromVersionedSpec = (
   target?: string
 ): { version: string; spec: Fig.Subcommand } => {
   const versionNames = Object.keys(versions).sort(semver.compare);
-  const versionIndex = getBestVersionIndex(Object.keys(versions), target);
+  const versionIndex = getBestVersionIndex(versionNames, target);
   const spec = versionNames
     .slice(0, versionIndex)
     .map((name) => versions[name])
@@ -248,7 +246,8 @@ export const getVersionFromVersionedSpec = (
 export const createVersionedSpec = (specName: string, versionFiles: string[]): Fig.Spec => async (
   version?: string
 ) => {
-  const versionFileIndex = getBestVersionIndex(versionFiles, version);
+  const versionNames = versionFiles.sort(semver.compare);
+  const versionFileIndex = getBestVersionIndex(versionNames, version);
   const versionFile = versionFiles[versionFileIndex];
   return {
     versionedSpecPath: `${specName}/${versionFile}`,
