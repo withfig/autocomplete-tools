@@ -1,5 +1,5 @@
 import { Command } from "commander";
-import { generateFigSpec } from "../../../src";
+import { addCompletionSpecCommand } from "../../../src";
 
 const program = new Command();
 
@@ -12,4 +12,4 @@ program
   .addCommand(
     new Command("search").argument("[query]").description("search with optional query").alias("s")
   );
-generateFigSpec(program, "output.ts", { cwd: __dirname });
+addCompletionSpecCommand(program);

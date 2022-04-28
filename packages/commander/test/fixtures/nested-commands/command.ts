@@ -1,5 +1,5 @@
 import commander from "commander";
-import { generateFigSpec } from "../../../src";
+import { addCompletionSpecCommand } from "../../../src";
 
 const program = new commander.Command();
 
@@ -15,4 +15,4 @@ function makeHeatCommand() {
 }
 program.addCommand(makeHeatCommand());
 
-generateFigSpec(program, "output.ts", { cwd: __dirname });
+addCompletionSpecCommand(program);
