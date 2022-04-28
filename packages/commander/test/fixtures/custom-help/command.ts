@@ -1,5 +1,5 @@
 import { Command } from "commander";
-import { generateFigSpec } from "../../../src";
+import { addCompletionSpecCommand } from "../../../src";
 
 const program = new Command();
 
@@ -10,4 +10,4 @@ program
 
 program.command("child").option("--gender", "specific gender of child");
 
-generateFigSpec(program, "output.ts", { cwd: __dirname });
+addCompletionSpecCommand(program);

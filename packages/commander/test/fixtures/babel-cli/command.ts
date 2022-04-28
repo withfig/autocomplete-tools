@@ -1,5 +1,5 @@
 import { program } from "commander";
-import { generateFigSpec } from "../../../src";
+import { addCompletionSpecCommand } from "../../../src";
 
 program.option(
   "-f, --filename [filename]",
@@ -87,4 +87,4 @@ program.option("--out-file-extension [string]", "Use a specific extension for th
 program.version("7.15.0");
 program.usage("[options] <files ...>");
 
-generateFigSpec(program, "output.ts", { cwd: __dirname });
+addCompletionSpecCommand(program);

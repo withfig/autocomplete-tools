@@ -1,5 +1,5 @@
 import commander from "commander";
-import { generateFigSpec } from "../../../src";
+import { addCompletionSpecCommand } from "../../../src";
 
 const program = new commander.Command();
 
@@ -12,4 +12,4 @@ program
   .description("launch web server")
   .option("-p,--port <port_number>", "web port");
 
-generateFigSpec(program, "output.ts", { cwd: __dirname });
+addCompletionSpecCommand(program);

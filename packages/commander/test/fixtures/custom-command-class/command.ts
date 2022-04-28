@@ -1,6 +1,6 @@
 /* eslint-disable class-methods-use-this */
 import { Command } from "commander";
-import { generateFigSpec } from "../../../src";
+import { addCompletionSpecCommand } from "../../../src";
 
 class CommandWithTrace extends Command {
   createCommand(name: string) {
@@ -17,4 +17,4 @@ program.command("serve [params...]").option("-p, --port <number>", "port number"
 
 program.command("build <target>");
 
-generateFigSpec(program, "output.ts", { cwd: __dirname });
+addCompletionSpecCommand(program);

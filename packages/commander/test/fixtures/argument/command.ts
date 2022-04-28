@@ -1,5 +1,5 @@
 import { Command } from "commander";
-import { generateFigSpec } from "../../../src";
+import { addCompletionSpecCommand } from "../../../src";
 
 const program = new Command();
 
@@ -9,4 +9,4 @@ program
   .argument("[password]", "password for user, if required", "no password given")
   .description("example program for argument");
 
-generateFigSpec(program, "output.ts", { cwd: __dirname });
+addCompletionSpecCommand(program);

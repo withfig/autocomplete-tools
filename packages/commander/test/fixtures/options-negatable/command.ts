@@ -1,5 +1,5 @@
 import commander from "commander";
-import { generateFigSpec } from "../../../src";
+import { addCompletionSpecCommand } from "../../../src";
 
 const program = new commander.Command();
 
@@ -8,4 +8,4 @@ program
   .option("--cheese <flavour>", "cheese flavour", "mozzarella")
   .option("--no-cheese", "plain with no cheese");
 
-generateFigSpec(program, "output.ts", { cwd: __dirname });
+addCompletionSpecCommand(program);

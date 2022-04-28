@@ -1,5 +1,5 @@
 import { Command } from "commander";
-import { generateFigSpec } from "../../../src";
+import { addCompletionSpecCommand } from "../../../src";
 
 const program = new Command();
 
@@ -8,4 +8,4 @@ program
   .description("Application simple description")
   .option("-f, --foo", "enable some foo");
 
-generateFigSpec(program, "output.ts", { cwd: __dirname });
+addCompletionSpecCommand(program);
