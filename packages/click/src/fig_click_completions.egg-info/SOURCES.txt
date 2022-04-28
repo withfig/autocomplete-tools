@@ -1,0 +1,11 @@
+LICENSE
+README.md
+pyproject.toml
+setup.cfg
+src/fig_click_completions/__init__.py
+src/fig_click_completions/fig.py
+src/fig_click_completions.egg-info/PKG-INFO
+src/fig_click_completions.egg-info/SOURCES.txt
+src/fig_click_completions.egg-info/dependency_links.txt
+src/fig_click_completions.egg-info/requires.txt
+src/fig_click_completions.egg-info/top_level.txt
