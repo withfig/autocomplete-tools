@@ -237,7 +237,7 @@ export const getVersionFromVersionedSpec = (
   const versionNames = Object.keys(versions).sort(semver.compare);
   const versionIndex = getBestVersionIndex(versionNames, target);
   const spec = versionNames
-    .slice(0, versionIndex)
+    .slice(0, versionIndex + 1)
     .map((name) => versions[name])
     .reduce(applySpecDiff, base);
   return { spec, version: versionNames[versionIndex] };

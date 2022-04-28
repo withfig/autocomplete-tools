@@ -1,6 +1,6 @@
 {
   "extends": "@tsconfig/recommended",
-  "exclude": ["node_modules/", "dist/"],
+  "exclude": ["node_modules/", "dist/", "test/"],
   "include": ["./"],
   "compilerOptions": {
     "lib": ["ESNext", "DOM"],
