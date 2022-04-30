@@ -56,8 +56,8 @@ The functions exported from the integration can:
 - Create a new framework subcommand which will print the spec when invoked
 - Generate a spec and return it
 
-In both cases the names are standardized and SHOULD be:
-- `addCompletionSpecCommand` of `createCompletionSpecCommand` for function creating a new subcommand
+In all the cases the names are standardized and SHOULD be:
+- `addCompletionSpecCommand` or `createCompletionSpecCommand` for functions creating a new subcommand
 - `generateCompletionSpec` for functions that return the spec as a string
 
 According to language conventions these function names can be transformed to snake case, etc...

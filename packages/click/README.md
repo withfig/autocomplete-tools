@@ -4,23 +4,21 @@
 Add the integration to your CLI tool:
 
 ```bash
-pip install fig-click-completions
+pip install click_complete_fig
 ```
 
 Add new subcommand to your CLI tool.
 - You must pass in the root level CLI.
-- Note: make sure you use the name `generate_fig_spec`.
+- The `add_completion_spec_command` function will add a new `generate-fig-spec` to the passed in `cli`
 
 ```python
-from fig_click_completions import fig
+from click_complete_fig import fig
 
-...
+@click.group()
+def cli():
+    pass
 
-@cli.command()
-def generate_fig_spec():
-    fig.print_completion_spec(cli)
-
-cli.add_command(generate_fig_spec)
+fig.add_completion_spec_command(cli)
 ```
 
 You can now automatically generate the completion spec skeleton by running the following command:
@@ -28,23 +26,3 @@ You can now automatically generate the completion spec skeleton by running the f
 ```bash
 $CLI generate-fig-spec > $CLI.ts
 ```
-
-### Updating
-
-Prereqs:
-- Create a ~/.pypirc
-```toml
-[testpypi]
-  username = __token__
-  password = ...
-```
-(Note that `__token__` is NOT a placeholder)
-
-- Install `twine`
-```bash
-python3 -m pip install --upgrade twine
-```
-
-1. Bump the version in `setup.cfg`
-2. `python3 -m build`
-3. `twine upload dist/*`
