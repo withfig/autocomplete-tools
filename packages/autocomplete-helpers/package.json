@@ -9,14 +9,12 @@
     "require": "./dist/cjs/index.js",
     "import": "./dist/esm/index.js"
   },
+  "files": ["dist/"],
   "scripts": {
     "clean": "rm -rf dist/",
     "build": "yarn clean && yarn build:cjs && yarn build:esm",
     "build:cjs": "tsc --declaration --outDir dist/cjs",
     "build:esm": "tsc --declaration --module esnext --outDir dist/esm",
-    "lint": "eslint src",
-    "lint:fix": "yarn lint --fix",
-    "precommit": "lint-staged",
     "prepack": "yarn build",
     "test": "ts-node test/index.ts"
   },
