@@ -248,7 +248,7 @@ export const createVersionedSpec = (specName: string, versionFiles: string[]): F
 ) => {
   const versionNames = versionFiles.sort(semver.compare);
   const versionFileIndex = getBestVersionIndex(versionNames, version);
-  const versionFile = versionFiles[versionFileIndex];
+  const versionFile = versionNames[versionFileIndex];
   return {
     versionedSpecPath: `${specName}/${versionFile}`,
     version,
