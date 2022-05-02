@@ -213,7 +213,7 @@ const subcommandProcessor: Processor<Fig.SubcommandDiff, Fig.Subcommand> = makeN
 
 const getBestVersionIndex = (versions: string[], target?: string): number =>
   target
-    ? versions.findIndex((version) => semver.compare(version, target) >= 0)
+    ? versions.findIndex((version) => semver.compare(version, target) <= 0)
     : versions.length - 1;
 
 export const applySpecDiff = (spec: Fig.Subcommand, diff: Fig.SpecDiff): Fig.Subcommand =>
