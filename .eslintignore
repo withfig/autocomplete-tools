@@ -1,0 +1,12 @@
+node_modules/
+dist/
+lib/
+build/
+packages/eslint-plugin-fig-linter/
+packages/commander/test/fixtures/*/output.ts
+packages/commander/test/fixtures/*/expected.ts
+packages/autocomplete-merge/test/fixtures/
+packages/autocomplete-tools/generated/
+packages/autocomplete-tools/test/*/fixtures/
+package/autocomplete-helpers/test/fixtures/**/spec
+packages/create-completion-spec/bin/

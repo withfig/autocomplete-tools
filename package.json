@@ -30,7 +30,8 @@
     "packages/eslint-config-autocomplete",
     "packages/eslint-plugin-fig-linter",
     "packages/oclif",
-    "packages/commander"
+    "packages/commander",
+    "packages/create-completion-spec"
   ],
   "lint-staged": {
     "*.{ts,js,tsx}": "eslint --fix"

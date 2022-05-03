@@ -1,0 +1,39 @@
+{
+  "name": "create-completion-spec",
+  "version": "1.0.0",
+  "description": "Initialize a Fig custom spec boilerplate in the current directory",
+  "bin": "./bin/index.js",
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "tsc",
+    "prepack": "npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/withfig/autocomplete-tools.git"
+  },
+  "keywords": [
+    "fig",
+    "spec",
+    "completion"
+  ],
+  "files": [
+    "lib",
+    "boilerplate"
+  ],
+  "author": "Federico Ciardi <fed.ciardi@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/withfig/autocomplete-tools/issues"
+  },
+  "homepage": "https://github.com/withfig/autocomplete-tools#readme",
+  "dependencies": {
+    "picocolors": "^1.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^4.6.4"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
