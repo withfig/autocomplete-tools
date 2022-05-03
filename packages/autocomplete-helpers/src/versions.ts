@@ -253,7 +253,6 @@ export const getVersionFromVersionedSpec = (
 export const createVersionedSpec = (specName: string, versionFiles: string[]): Fig.Spec => async (
   version?: string
 ) => {
-  debugger;
   const versionNames = versionFiles.sort(semver.compare);
   const versionFileIndex = getBestVersionIndex(versionNames, version);
   const versionFile = versionNames[versionFileIndex];
