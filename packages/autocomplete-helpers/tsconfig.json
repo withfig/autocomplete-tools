@@ -14,6 +14,6 @@
     "noFallthroughCasesInSwitch": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "types": ["@withfig/autocomplete-types", "node"]
+    "types": ["@withfig/autocomplete-types", "node", "@types/jest"]
   }
 }

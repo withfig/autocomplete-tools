@@ -1,6 +1,6 @@
 {
   "name": "@fig/autocomplete-helpers",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Helper functions for fig completion specs",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
@@ -18,7 +18,7 @@
     "build:cjs": "tsc --declaration --outDir dist/cjs",
     "build:esm": "tsc --declaration --module esnext --outDir dist/esm",
     "prepack": "yarn build",
-    "test": "ts-node test/index.ts"
+    "test": "ts-node test/index.ts && jest"
   },
   "author": "Fig Team",
   "dependencies": {
@@ -27,10 +27,13 @@
   },
   "devDependencies": {
     "@tsconfig/recommended": "^1.0.1",
+    "@types/jest": "^27.5.0",
     "@types/prettier": "^2.6.0",
     "@types/semver": "^7.3.9",
     "@withfig/autocomplete-types": "^1.15.0",
+    "jest": "^28.0.3",
     "prettier": "^2.6.2",
+    "ts-jest": "^28.0.0",
     "ts-node": "^10.4.0"
   },
   "publishConfig": {

@@ -211,10 +211,17 @@ const subcommandProcessor: Processor<Fig.SubcommandDiff, Fig.Subcommand> = makeN
   args: argArrayProcessor,
 });
 
-const getBestVersionIndex = (versions: string[], target?: string): number =>
-  target
-    ? versions.findIndex((version) => semver.compare(version, target) <= 0)
-    : versions.length - 1;
+const getBestVersionIndex = (versions: string[], target?: string): number => {
+  if (!target) return versions.length - 1;
+  // find the last element minor or equal to the target
+  for (let i = versions.length - 1; i >= 0; i -= 1) {
+    const version = versions[i];
+    if (semver.compare(version, target) <= 0) {
+      return i;
+    }
+  }
+  return versions.length - 1;
+};
 
 export const applySpecDiff = (spec: Fig.Subcommand, diff: Fig.SpecDiff): Fig.Subcommand =>
   subcommandProcessor.merge(spec, { ...diff, name: spec.name });
@@ -246,6 +253,7 @@ export const getVersionFromVersionedSpec = (
 export const createVersionedSpec = (specName: string, versionFiles: string[]): Fig.Spec => async (
   version?: string
 ) => {
+  debugger;
   const versionNames = versionFiles.sort(semver.compare);
   const versionFileIndex = getBestVersionIndex(versionNames, version);
   const versionFile = versionNames[versionFileIndex];
