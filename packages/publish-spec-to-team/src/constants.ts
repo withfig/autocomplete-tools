@@ -3,7 +3,7 @@ import { existsSync } from "fs";
 import { mkdir, rm } from "fs/promises";
 import path from "path";
 
-export const API_BASE = process.env.BASE_URL || "https://node-backend-mkoj.onrender.com";
+export const API_BASE = process.env.BASE_URL || "https://api.fig.io";
 
 // * TEMP DIR
 const TEMP_DIR = path.resolve(randomUUID());
