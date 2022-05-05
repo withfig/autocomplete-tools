@@ -90,7 +90,7 @@ export const run = async (options: RunOptions) => {
   try {
     await fetch(`${API_BASE}/cdn`, {
       headers: {
-        Authorization: `API ${token}`,
+        Authorization: `Bearer ${token}`,
       },
       method: "PUT",
       body: formData,
