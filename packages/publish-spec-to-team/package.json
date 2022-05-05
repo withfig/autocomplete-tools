@@ -1,0 +1,46 @@
+{
+  "name": "@fig/publish-spec-to-team",
+  "version": "1.0.0",
+  "description": "Publish a spec to fig team",
+  "bin": "./lib/index.js",
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "tsc",
+    "prepack": "npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/withfig/autocomplete-tools.git"
+  },
+  "keywords": [
+    "fig",
+    "team",
+    "spec",
+    "plugin",
+    "integration",
+    "completion"
+  ],
+  "files": [
+    "lib/"
+  ],
+  "author": "Federico Ciardi <fed.ciardi@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/withfig/autocomplete-tools/issues"
+  },
+  "homepage": "https://github.com/withfig/autocomplete-tools#readme",
+  "dependencies": {
+    "@types/node-fetch": "^2.6.1",
+    "commander": "^9.2.0",
+    "esbuild": "^0.14.38",
+    "node-fetch": "^3.2.4",
+    "prettier": "^2.3.2"
+  },
+  "devDependencies": {
+    "@types/node": "^16.7.2",
+    "typescript": "^4.4.2"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

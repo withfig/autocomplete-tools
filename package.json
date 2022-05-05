@@ -31,7 +31,8 @@
     "packages/eslint-plugin-fig-linter",
     "packages/oclif",
     "packages/commander",
-    "packages/create-completion-spec"
+    "packages/create-completion-spec",
+    "packages/publish-spec-to-team"
   ],
   "lint-staged": {
     "*.{ts,js,tsx}": "eslint --fix"
