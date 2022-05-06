@@ -1,8 +1,8 @@
 {
   "name": "create-completion-spec",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "Initialize a Fig custom spec boilerplate in the current directory",
-  "bin": "./bin/index.js",
+  "bin": "lib/bin.js",
   "main": "lib/index.js",
   "scripts": {
     "build": "tsc",
@@ -28,6 +28,7 @@
   },
   "homepage": "https://github.com/withfig/autocomplete-tools#readme",
   "dependencies": {
+    "commander": "^9.2.0",
     "picocolors": "^1.0.0"
   },
   "devDependencies": {
