@@ -1,10 +1,10 @@
 {
   "name": "@withfig/autocomplete-tools",
-  "version": "2.7.1",
+  "version": "2.7.2",
   "description": "Command line tools for working with fig autocomplete specs",
   "author": "The Fig Team",
   "scripts": {
-    "build": "rm -rf build/ && tsc && cp -r boilerplate build/boilerplate",
+    "build": "rm -rf build/ && tsc",
     "test": "ts-node test/index.ts",
     "prepack": "npm run build",
     "generate-spec": "npm run build && GENERATE_SPEC=true node build/index.js generateFigSpec"
@@ -18,7 +18,7 @@
     "chalk": "^4.1.0",
     "chokidar": "^3.5.1",
     "commander": "^8.1.0",
-    "create-completion-spec": "^1.0.0",
+    "create-completion-spec": "^1.1.0",
     "esbuild": "^0.14.30",
     "fast-glob": "^3.2.7",
     "module-from-string": "^3.1.4",
