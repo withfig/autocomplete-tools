@@ -9,7 +9,8 @@ import packageJSON from "../package.json";
 import { BuildError, GenericErrorEnum, PublishError, ValidationError } from "./errors";
 
 export interface RunOptions {
-  name: string;
+  name?: string;
+  namespace?: string;
   token: string;
   specPath?: string;
   binaryPath?: string;
@@ -23,8 +24,9 @@ const program = new Command()
   .description("Publish a spec to fig teams");
 
 program
-  .requiredOption("-n, --name <string>", "Set the name of the published spec")
   .requiredOption("-t, --token <string>", "A fig token")
+  .option("-c, --namespace", "Set the namespace of the published spec")
+  .option("-n, --name <string>", "Set the name of the published spec")
   .option("-p, --spec-path <path>", "The local path of the spec to publish")
   .option("-b, --binary-path <path>", "The path of the binary to run to generate the spec")
   .option(
@@ -35,7 +37,27 @@ program
   .option("-f, --framework <string>", "Framework used to build the CLI");
 
 export const run = async (options: RunOptions) => {
-  const { name, token, specPath, binaryPath, subcommandName, framework } = options;
+  const {
+    name: optionalName,
+    token,
+    specPath,
+    binaryPath,
+    subcommandName,
+    framework,
+    namespace,
+  } = options;
+
+  let name = optionalName;
+  if (!name) {
+    // if name is missing we extract it from the optional spec-name
+    // NOTE: this won't work correctly for spec names that require being nested under a subfolder
+    // e.g. `@withfig/autocomplete-tools.ts`
+    if (specPath) {
+      name = path.basename(specPath, ".ts");
+    } else {
+      throw new ValidationError(GenericErrorEnum.missingName);
+    }
+  }
 
   validateSpecName(name);
 
@@ -86,6 +108,7 @@ export const run = async (options: RunOptions) => {
 
   formData.append("name", name);
   if (framework) formData.append("framework", framework);
+  if (namespace) formData.append("namespace", namespace);
 
   try {
     await fetch(`${API_BASE}/cdn`, {
