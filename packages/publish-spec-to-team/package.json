@@ -8,7 +8,7 @@
   "scripts": {
     "build": "tsc",
     "prepack": "npm run build",
-    "test": "TEST_PORT=3005 BASE_URL=http://localhost:3005 ts-node test/server.ts & SERVER_PID=$!; ts-node test/index.ts; kill $SERVER_PID"
+    "test": "TEST_PORT=3005 ts-node test/server.ts & SERVER_PID=$!; BASE_URL=http://localhost:3005 ts-node test/index.ts; kill $SERVER_PID"
   },
   "repository": {
     "type": "git",

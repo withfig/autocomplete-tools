@@ -1,9 +1,10 @@
-import fetch, { FormData, fileFrom } from "node-fetch";
+import { FormData } from "node-fetch";
+import { fetch } from "./node-fetch.js";
 import path from "path";
 import esbuild from "esbuild";
-import { createFile, exec, validateSpecName } from "./utils.js";
-import { API_BASE, cleanTempDir, tempDir } from "./constants.js";
-import { BuildError, GenericErrorEnum, PublishError, ValidationError } from "./errors.js";
+import { createFile, exec, validateSpecName, createTempDir, createFileFrom } from "./utils.js";
+import { API_BASE } from "./constants.js";
+import { BuildError, GenerationError, GenericErrorEnum, PublishError, ValidationError } from "./errors.js";
 
 export interface RunOptions {
   name?: string;
@@ -53,38 +54,45 @@ export const run = async (options: RunOptions) => {
     try {
       specOutput = (await exec(cmd)).trim();
     } catch (error) {
-      throw new ValidationError(`${cmd} exited with errors.\n${(error as Error).message}`);
+      const { message } = error as Error
+      throw new GenerationError(`"${cmd}" exited with errors.\n${message}`);
     }
   }
   const formData = new FormData();
 
   if (specPath) {
     const tsSpecPath = path.resolve(specPath);
-    const tmpDir = await tempDir();
+    const [tempDir, removeTempDir] = await createTempDir(path.dirname(tsSpecPath))
 
     try {
       await esbuild.build({
         entryPoints: {
           [name]: tsSpecPath,
         },
-        outdir: tmpDir,
+        outdir: tempDir,
         bundle: true,
         format: "esm",
         minify: true,
+        logLevel: 'silent',
       });
-      formData.append("tsSpec", await fileFrom(tsSpecPath));
-      formData.append("jsSpec", await fileFrom(path.resolve(tmpDir, `${name}.js`)));
+  
+      const jsSpecPath = path.resolve(tempDir, `${name}.js`)
+      formData.append("tsSpec", await createFileFrom(tsSpecPath, `${name}.ts`));
+      formData.append("jsSpec", await createFileFrom(jsSpecPath, `${name}.js`));
     } catch (error) {
       throw new BuildError((error as Error).message);
+    } finally {
+      await removeTempDir()
     }
   } else if (specOutput) {
     try {
       const builtSpec = await esbuild.transform(specOutput, {
         format: "esm",
         minify: true,
+        logLevel: 'silent',
       });
       formData.append("jsSpec", createFile(builtSpec.code, `${name}.js`));
-      formData.append("tsSpec", createFile(specOutput, `${name}.js`));
+      formData.append("tsSpec", createFile(specOutput, `${name}.ts`));
     } catch (error) {
       throw new BuildError((error as Error).message);
     }
@@ -107,5 +115,4 @@ export const run = async (options: RunOptions) => {
   } catch (error) {
     throw new PublishError((error as Error).message);
   }
-  await cleanTempDir();
 };

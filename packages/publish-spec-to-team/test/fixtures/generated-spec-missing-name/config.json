@@ -1,0 +1,6 @@
+{
+  "$schema": "../config.schema.json",
+  "options": {
+    "binaryPath": "./cli.sh"
+  }
+}

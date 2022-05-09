@@ -3,7 +3,7 @@ export enum ValidationErrorEnum {
 }
 
 export enum GenericErrorEnum {
-  noSpecPassed = "`specPath` option was not defined and the binary did not send any completion spec to stdout",
+  noSpecPassed = "`spec-path` option was not defined and the binary did not send any completion spec to stdout",
   missingName = "Either the `name` option or the `spec-path` option need to be passed to the program",
 }
 
@@ -15,6 +15,7 @@ const createErrorClass = (name: string) =>
     }
   };
 
+export const GenerationError = createErrorClass("GenerationError");
 export const ValidationError = createErrorClass("ValidationError");
-export const BuildError = createErrorClass("ValidationError");
-export const PublishError = createErrorClass("ValidationError");
+export const BuildError = createErrorClass("BuildError");
+export const PublishError = createErrorClass("PublishError");

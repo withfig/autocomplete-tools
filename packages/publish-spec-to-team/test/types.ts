@@ -1,13 +1,18 @@
 import { RunOptions } from "../src";
 
-export interface CheckData extends Record<string, any> {
-  files: {
-    js: string;
-    ts: string;
+export interface AssertFileData {
+  name?: string
+  content?: string
+}
+
+export interface AssertRequest extends Record<string, any> {
+  files?: {
+    jsSpec?: AssertFileData;
+    tsSpec?: AssertFileData;
   };
 }
 
 export interface Config {
   options: Omit<RunOptions, "token">;
-  checkData: CheckData;
+  assert: AssertRequest;
 }

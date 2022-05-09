@@ -1,0 +1,7 @@
+{
+  "$schema": "../config.schema.json",
+  "options": {
+    "name": "some-spec",
+    "specPath": "./spec.ts"
+  }
+}

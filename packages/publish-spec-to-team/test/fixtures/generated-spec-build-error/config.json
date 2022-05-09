@@ -1,0 +1,12 @@
+{
+  "$schema": "../config.schema.json",
+  "options": {
+    "name": "some-spec",
+    "binaryPath": "./cli.sh",
+    "framework": "commander"
+  },
+  "assert": {
+    "name": "some-spec",
+    "framework": "commander"
+  }
+}

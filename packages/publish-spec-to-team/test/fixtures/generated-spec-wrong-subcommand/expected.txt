@@ -1,0 +1,1 @@
+ValidationError: `spec-path` option was not defined and the binary did not send any completion spec to stdout

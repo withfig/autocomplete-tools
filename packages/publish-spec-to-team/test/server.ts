@@ -1,7 +1,7 @@
 import assert from "assert";
 import express from "express";
 import multer from "multer";
-import { CheckData } from "./types.js";
+import { AssertFileData, AssertRequest } from "./types.js";
 import pc from "picocolors"
 
 const PORT = process.env.TEST_PORT || 3005;
@@ -45,21 +45,38 @@ app.put(
   ]),
   async (req, res) => {
     const [_, encodedData] = req.headers.authorization!.split(" ");
-    const { files, ...rest }: CheckData = JSON.parse(
+    const { files, ...rest }: AssertRequest = JSON.parse(
       Buffer.from(encodedData, "base64").toString("utf-8")
     );
     assert(req.files && !Array.isArray(req.files));
 
+    const errors: string[] = []
+
     // expect ...rest to be exactly equal to body;
     if (!deepEqual(rest, req.body)) {
-      return res.status(400).send("Received data and checkData do not match");
+      errors.push("Received data and assert do not match");
     }
-    // expect files content to be exactly the same as the passed in files
-    if (req.files.tsSpec[0].buffer.equals(Buffer.from(files.ts))) {
-      return res.status(400).send("Received TS spec and expected TS spec do not match");
+
+    if (files) {
+      // expect files content to be exactly the same as the passed in files
+      const specFieldIndexes = ["tsSpec", "jsSpec"] as (keyof typeof files)[]
+      for (const specFieldIndex of specFieldIndexes) {
+        const assertFileData: AssertFileData | undefined = files[specFieldIndex]
+        if (assertFileData) {
+          const { name, content } = assertFileData
+          const multerFile = req.files[specFieldIndex][0] as Express.Multer.File
+          if (name && name !== multerFile.originalname) {
+            errors.push(`Expected filename "${multerFile.originalname}" for "${specFieldIndex}" and instead received "${name}"`);
+          }
+          if (content && !multerFile.buffer.equals(Buffer.from(content))) {
+            errors.push(`Received content was different from the expected one for "${specFieldIndex}`);
+          }
+        }
+      }
     }
-    if (req.files.jsSpec[0].buffer.equals(Buffer.from(files.js))) {
-      return res.status(400).send("Received JS spec and expected JS spec do not match");
+
+    if (errors.length) {
+      return res.status(400).send(errors.join("\n"))
     }
 
     return res.sendStatus(200);
@@ -68,8 +85,8 @@ app.put(
 
 const server = app.listen(PORT, () => {
   console.log(pc.yellow(`Started listening on ${PORT}`));
-});
+})
 
 server.on('close', () => {
   console.log(pc.yellow(`Stopped listening on ${PORT}`));
-});
+})

@@ -1,8 +1,22 @@
 {
+  "$schema": "../config.schema.json",
   "options": {
     "name": "spec",
     "specPath": "spec.ts",
-    "framework": ""
+    "team": "team-name",
+    "framework": "cobra"
   },
-  "checkData": {}
+  "assert": {
+    "name": "spec",
+    "team": "team-name",
+    "framework": "cobra",
+    "files": {
+      "tsSpec": {
+        "name": "spec.ts"
+      },
+      "jsSpec": {
+        "name": "spec.js"
+      }
+    }
+  }
 }
