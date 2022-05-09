@@ -10,3 +10,4 @@ packages/autocomplete-tools/generated/
 packages/autocomplete-tools/test/*/fixtures/
 package/autocomplete-helpers/test/fixtures/**/spec
 packages/create-completion-spec/bin/
+packages/publish-spec-to-team/test/fixtures/**

@@ -1,6 +1,6 @@
 import { exec as execCallback } from "child_process";
-import { File } from "node-fetch";
-import { ValidationError, ValidationErrorEnum } from "./errors";
+import { File, Blob } from "node-fetch";
+import { ValidationError, ValidationErrorEnum } from "./errors.js";
 
 export async function exec(cmd: string): Promise<string> {
   return new Promise((resolve, reject) => {

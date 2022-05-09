@@ -1,16 +1,13 @@
-import { Command } from "commander";
-import fetch, { fileFrom, FormData } from "node-fetch";
+import fetch, { FormData, fileFrom } from "node-fetch";
 import path from "path";
 import esbuild from "esbuild";
-import { createFile, exec, validateSpecName } from "./utils";
-import { API_BASE, cleanTempDir, tempDir } from "./constants";
-// @ts-ignore package.json is always in '../' as long as we build src/ to lib/
-import packageJSON from "../package.json";
-import { BuildError, GenericErrorEnum, PublishError, ValidationError } from "./errors";
+import { createFile, exec, validateSpecName } from "./utils.js";
+import { API_BASE, cleanTempDir, tempDir } from "./constants.js";
+import { BuildError, GenericErrorEnum, PublishError, ValidationError } from "./errors.js";
 
 export interface RunOptions {
   name?: string;
-  namespace?: string;
+  team?: string;
   token: string;
   specPath?: string;
   binaryPath?: string;
@@ -18,23 +15,9 @@ export interface RunOptions {
   framework?: string;
 }
 
-const program = new Command()
-  .name(packageJSON.name)
-  .version(packageJSON.version)
-  .description("Publish a spec to fig teams");
-
-program
-  .requiredOption("-t, --token <string>", "A fig token")
-  .option("-c, --namespace", "Set the namespace of the published spec")
-  .option("-n, --name <string>", "Set the name of the published spec")
-  .option("-p, --spec-path <path>", "The local path of the spec to publish")
-  .option("-b, --binary-path <path>", "The path of the binary to run to generate the spec")
-  .option(
-    "-s, --subcommand-name <string>",
-    "The subcommand of the binary used to generate the spec",
-    "generate-fig-spec"
-  )
-  .option("-f, --framework <string>", "Framework used to build the CLI");
+const DEFAULT_OPTION = {
+  subcommandName: "generate-fig-spec",
+} as const;
 
 export const run = async (options: RunOptions) => {
   const {
@@ -44,7 +27,7 @@ export const run = async (options: RunOptions) => {
     binaryPath,
     subcommandName,
     framework,
-    namespace,
+    team,
   } = options;
 
   let name = optionalName;
@@ -63,7 +46,10 @@ export const run = async (options: RunOptions) => {
 
   let specOutput: string | undefined;
   if (binaryPath) {
-    const cmd = !subcommandName ? `${binaryPath} ${subcommandName}` : binaryPath;
+    const cmd =
+      framework || subcommandName
+        ? `${binaryPath} ${subcommandName ?? DEFAULT_OPTION.subcommandName}`
+        : binaryPath;
     try {
       specOutput = (await exec(cmd)).trim();
     } catch (error) {
@@ -108,7 +94,7 @@ export const run = async (options: RunOptions) => {
 
   formData.append("name", name);
   if (framework) formData.append("framework", framework);
-  if (namespace) formData.append("namespace", namespace);
+  if (team) formData.append("team", team);
 
   try {
     await fetch(`${API_BASE}/cdn`, {
@@ -123,7 +109,3 @@ export const run = async (options: RunOptions) => {
   }
   await cleanTempDir();
 };
-
-program.action(run);
-
-program.parse(process.argv);

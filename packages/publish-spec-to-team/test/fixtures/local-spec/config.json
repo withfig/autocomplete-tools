@@ -1,0 +1,8 @@
+{
+  "options": {
+    "name": "spec",
+    "specPath": "spec.ts",
+    "framework": ""
+  },
+  "checkData": {}
+}

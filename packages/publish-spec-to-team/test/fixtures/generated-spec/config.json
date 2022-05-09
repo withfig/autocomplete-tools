@@ -1,0 +1,8 @@
+{
+  "options": {
+    "name": "some-spec",
+    "subcommandName": "generate-fig-spec",
+    "binaryPath": "./cli.sh"
+  },
+  "checkData": {}
+}
