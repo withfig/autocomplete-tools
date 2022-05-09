@@ -87,6 +87,7 @@ const server = app.listen(PORT, () => {
   console.log(pc.yellow(`Started listening on ${PORT}`));
 })
 
-server.on('close', () => {
+process.on('SIGTERM', () => {
   console.log(pc.yellow(`Stopped listening on ${PORT}`));
+  server.close()
 })

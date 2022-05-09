@@ -1,4 +1,5 @@
 /* eslint-disable no-await-in-loop */
+import { spawn } from "child_process";
 import fs from "fs";
 import path from "path";
 import pc from "picocolors";
@@ -78,4 +79,4 @@ async function runFixtures() {
   }
 }
 
-await runFixtures();
+await runFixtures()
