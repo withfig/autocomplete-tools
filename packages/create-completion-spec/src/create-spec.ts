@@ -1,6 +1,5 @@
 import path from "path";
 import fs from "fs";
-import readline from "readline";
 import pc from "picocolors";
 
 const fileContent = (name: string) => `const completionSpec: Fig.Spec = {

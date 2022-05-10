@@ -1195,13 +1195,6 @@
   resolved "https://registry.yarnpkg.com/@ungap/promise-all-settled/-/promise-all-settled-1.1.2.tgz#aa58042711d6e3275dd37dc597e5d31e8c290a44"
   integrity sha512-sL/cEvJWAnClXw0wHk85/2L0G6Sj8UB0Ctc1TEMbKSsmpRosqhwj9gWgFRZSrBr2f9tiXISwNhCPmlfqUqyb9Q==
 
-"@withfig/commander@latest":
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/@withfig/commander/-/commander-1.1.1.tgz#45055b7981066c8f8dd6f699ead5043ebeb6c5d0"
-  integrity sha512-f4sYZZpbxG7z7UHijEemq1u6BGa8MybzVqkFn3YSsuXXlI1d0S+V8Fnjmd7K6DWjPz2v8SyBaQPz+Xmeekxrhg==
-  dependencies:
-    prettier "^2.3.2"
-
 accepts@~1.3.8:
   version "1.3.8"
   resolved "https://registry.yarnpkg.com/accepts/-/accepts-1.3.8.tgz#0bf0be125b67014adcb0b0921e62db7bffe16b2e"
@@ -5827,10 +5820,10 @@ yargs@^17.3.1:
     y18n "^5.0.5"
     yargs-parser "^21.0.0"
 
-yarn@^2.4.3:
-  version "2.4.3"
-  resolved "https://registry.yarnpkg.com/yarn/-/yarn-2.4.3.tgz#f6f3ca06dd47eb47db34a80bd461fc936db31f04"
-  integrity sha512-HQ8VJL8v1Tlq+VVzcohmYw7dHtZ6VUB4/b2oHRGQc6Xv00AQjVk4C6cyqu4iHRI4esfgIi8S9doOm1d3Z3MlPA==
+yarn@^1.22.18:
+  version "1.22.18"
+  resolved "https://registry.yarnpkg.com/yarn/-/yarn-1.22.18.tgz#05b822ade8c672987bab8858635145da0850f78a"
+  integrity sha512-oFffv6Jp2+BTUBItzx1Z0dpikTX+raRdqupfqzeMKnoh7WD6RuPAxcqDkMUy9vafJkrB0YaV708znpuMhEBKGQ==
 
 yn@3.1.1:
   version "3.1.1"

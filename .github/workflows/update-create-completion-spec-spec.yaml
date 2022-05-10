@@ -1,8 +1,8 @@
-name: 'Update @withfig/autocomplete-tools spec'
+name: 'Update create-completion-spec spec'
 on:
   push:
     tags:        
-      - '@withfig/autocomplete-tools@*'
+      - 'create-completion-spec@*'
   workflow_dispatch:
 
 jobs:
@@ -13,12 +13,12 @@ jobs:
       - uses: actions/setup-node@v2
       - run: |
           yarn
-          cd packages/autocomplete-tools/
+          cd packages/create-completion-spec/
           yarn --silent generate-spec > generated.ts
       - name: 'Create Autocomplete PR'
         uses: withfig/push-to-fig-autocomplete-action@v1
         with:
           token: ${{ secrets.FIG_BOT_TOKEN }}
-          autocomplete-spec-name: '@withfig/autocomplete-tools'
-          spec-path: packages/autocomplete-tools/generated.ts
+          autocomplete-spec-name: 'create-completion-spec'
+          spec-path: packages/create-completion-spec/generated.ts
           integration: commander

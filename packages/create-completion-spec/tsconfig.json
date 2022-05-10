@@ -10,5 +10,5 @@
     "skipLibCheck": true,
     "declaration": true,
   },
-  "exclude": ["test/", "node_modules/", "bin/", "lib/", "boilerplate/"]
+  "exclude": ["test/", "node_modules/", "bin/", "lib/", "boilerplate/", "generate-spec.ts"]
 }

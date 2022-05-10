@@ -14,7 +14,7 @@ This repo contains the source for all of Fig tools related with [autocomplete](h
 - [`@withfig/autocomplete-types`](packages/autocomplete-types/README.md)
 - [`@withfig/clap`](packages/clap/README.md)
 - [`@withfig/cobra`](packages/cobra/README.md)
-- [`@withfig/commander`](packages/commander/README.md)
+- [`@fig/complete-commander`](packages/commander/README.md)
 - [`@fig/eslint-config-autocomplete`](packages/eslint-config-autocomplete/README.md)
 - [`@withfig/eslint-plugin-fig-linter`](packages/eslint-plugin-fig-linter/README.md)
 - [`@withfig/oclif`](packages/oclif/README.md)

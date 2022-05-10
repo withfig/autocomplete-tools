@@ -10,9 +10,9 @@
     "forceConsistentCasingInFileNames": true,
     "module": "commonjs",
     "moduleResolution": "node",
-    "outDir": "./build/",
+    "rootDir": "src",
+    "outDir": "build/",
     "types": ["@withfig/autocomplete-types", "node"]
   },
-  "include": ["*.ts", "scripts/*.ts"],
-  "exclude": ["**/fixtures/**/*.ts", "**/node_modules"]
+  "exclude": ["node_modules/", "generate-spec.ts", "test"]
 }

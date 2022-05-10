@@ -20,14 +20,4 @@ program.addCommand(dev);
 program.addCommand(merge);
 program.addCommand(version);
 
-if (process.env.GENERATE_SPEC) {
-  // eslint-disable-next-line import/no-extraneous-dependencies
-  import("@withfig/commander").then((module) => {
-    program.command("generateFigSpec").action(() => {
-      module.generateFigSpec(program, "generated/autocomplete-tools-spec.ts");
-    });
-    program.parse(process.argv);
-  });
-} else {
-  program.parse(process.argv);
-}
+export { program };

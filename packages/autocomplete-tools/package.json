@@ -7,7 +7,7 @@
     "build": "rm -rf build/ && tsc",
     "test": "ts-node test/index.ts",
     "prepack": "npm run build",
-    "generate-spec": "npm run build && GENERATE_SPEC=true node build/index.js generateFigSpec"
+    "generate-spec": "npm run --silent build && ts-node generate-spec.ts generate-fig-spec"
   },
   "license": "MIT",
   "bin": "./build/index.js",
@@ -34,7 +34,7 @@
     "@types/node": "^14.14.33",
     "@types/prettier": "^2.4.1",
     "@withfig/autocomplete-types": "^1.10.0",
-    "@withfig/commander": "latest",
+    "@fig/complete-commander": "^2.0.0",
     "ts-node": "^10.7.0"
   },
   "fig": {

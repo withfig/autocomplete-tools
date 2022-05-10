@@ -6,7 +6,8 @@
   "main": "lib/index.js",
   "scripts": {
     "build": "tsc",
-    "prepack": "npm run build"
+    "prepack": "npm run build",
+    "generate-spec": "npm run --silent build && ts-node generate-spec.ts generate-fig-spec"
   },
   "repository": {
     "type": "git",
@@ -32,6 +33,7 @@
     "picocolors": "^1.0.0"
   },
   "devDependencies": {
+    "@fig/complete-commander": "^2.0.0",
     "typescript": "^4.6.4"
   },
   "publishConfig": {

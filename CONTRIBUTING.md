@@ -2,7 +2,7 @@
 Hey there! We are glad you want to contribute to some autocomplete package, hereby are mentioned some generic instructions, but you should refer to each package CONTRIBUTING.md file to learn more.
 
 - [`@withfig/autocomplete-types`](packages/autocomplete-types/CONTRIBUTING.md)
-- [`@withfig/commander`](packages/commander/CONTRIBUTING.md)
+- [`@fig/complete-commander`](packages/commander/CONTRIBUTING.md)
 - [`click_complete_fig`](packages/click/CONTRIBUTING.md)
 
 ## Generic workflow
