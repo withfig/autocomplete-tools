@@ -17,7 +17,13 @@ export function defaultPreset(): Preset {
   };
 }
 
-export type PresetName = "commander" | "oclif" | "cobra" | "clap" | "swift-argument-parser";
+export type PresetName =
+  | "commander"
+  | "oclif"
+  | "cobra"
+  | "clap"
+  | "swift-argument-parser"
+  | "click";
 
 export const presets: Record<string, Preset> = {
   commander: {
@@ -66,5 +72,25 @@ export const presets: Record<string, Preset> = {
     commandProps: new Set(["name", "description", "subcommands", "options", "args"]),
     optionProps: new Set(["name", "isRequired", "isRepeatable", "description", "hidden"]),
     argProps: new Set(["name", "description", "default", "isVariadic", "isOptional"]),
+  },
+  click: {
+    commandProps: new Set([
+      "name",
+      "description",
+      "options",
+      "subcommands",
+      "args",
+      "hidden",
+      "deprecated",
+    ]),
+    optionProps: new Set([
+      "name",
+      "description",
+      "isRepeatable",
+      "isRequired",
+      "exclusiveOn",
+      "args",
+    ]),
+    argProps: new Set(["name", "suggestions", "template", "suggestCurrentToken", "isVariadic"]),
   },
 };
