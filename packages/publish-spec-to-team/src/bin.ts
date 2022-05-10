@@ -9,7 +9,7 @@ const program = new Command()
 
 program
   .requiredOption("-t, --token <string>", "A fig token")
-  .option("-m, --team", "Set the namespace of the published spec")
+  .option("--team", "Set the namespace of the published spec")
   .option("-n, --name <string>", "Set the name of the published spec")
   .option("-p, --spec-path <path>", "The local path of the spec to publish")
   .option("-b, --binary-path <path>", "The path of the binary to run to generate the spec")
