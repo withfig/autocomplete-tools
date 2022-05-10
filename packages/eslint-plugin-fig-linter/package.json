@@ -1,6 +1,6 @@
 {
   "name": "@withfig/eslint-plugin-fig-linter",
-  "version": "1.1.2",
+  "version": "1.2.0",
   "description": "This is a eslint plugin which is tailored for fig specs",
   "main": "index.js",
   "scripts": {
