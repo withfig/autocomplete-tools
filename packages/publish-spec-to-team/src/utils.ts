@@ -41,7 +41,6 @@ export async function createFileFrom(path: string, name: string) {
   })
 }
 
-
 type CreateTempDirResult = [tempDirPath: string, cleanTempDirFn: () => Promise<void>]
 
 export async function createTempDir(rootDir: string): Promise<CreateTempDirResult> {

@@ -20,8 +20,8 @@
     "fig",
     "team",
     "spec",
-    "plugin",
-    "integration",
+    "cicd",
+    "cli",
     "completion"
   ],
   "files": [
