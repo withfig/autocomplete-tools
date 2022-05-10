@@ -1,0 +1,24 @@
+{
+  "$schema": "../config.schema.json",
+  "options": {
+    "name": "some-spec",
+    "subcommandName": "generate-fig-spec",
+    "binaryPath": "./cli.sh",
+    "framework": "commander",
+    "team": "test-team"
+  },
+  "assert": {
+    "name": "some-spec",
+    "framework": "commander",
+    "team": "test-team",
+    "files": {
+      "tsSpec": {
+        "name": "some-spec.ts",
+        "content": "const completion = {}; export default completion"
+      },
+      "jsSpec": {
+        "name": "some-spec.js"
+      }
+    }
+  }
+}
