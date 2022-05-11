@@ -23,15 +23,15 @@
   },
   "workspaces": [
     "eslint/*",
+    "types",
     "generators",
     "helpers",
     "merge",
-    "types",
     "integrations/oclif",
     "integrations/commander",
-    "cli/tools-cli",
     "cli/create-completion-spec",
-    "cli/publish-spec-to-team"
+    "cli/publish-spec-to-team",
+    "cli/tools-cli"
   ],
   "lint-staged": {
     "*.{ts,js,tsx}": "eslint --fix"

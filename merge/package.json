@@ -1,13 +1,12 @@
 {
   "name": "@fig/autocomplete-merge",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Package to merge two specs together",
   "author": "The Fig Team",
   "scripts": {
     "build": "tsc",
     "prepack": "npm run build",
-    "test": "ts-node test/index.ts",
-    "postinstall": "npm run build"
+    "test": "ts-node test/index.ts"
   },
   "license": "MIT",
   "main": "./lib/index.js",

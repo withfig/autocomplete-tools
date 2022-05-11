@@ -18,8 +18,7 @@
     "build:cjs": "tsc --declaration --outDir dist/cjs",
     "build:esm": "tsc --declaration --module esnext --outDir dist/esm",
     "prepack": "yarn build",
-    "test": "ts-node test/index.ts && jest",
-    "postinstall": "npm run build"
+    "test": "ts-node test/index.ts && jest"
   },
   "author": "Fig Team",
   "dependencies": {
