@@ -13,12 +13,12 @@ jobs:
       - uses: actions/setup-node@v2
       - run: |
           yarn
-          cd packages/autocomplete-tools/
+          cd cli/tools-cli/
           yarn --silent generate-spec > generated.ts
       - name: 'Create Autocomplete PR'
         uses: withfig/push-to-fig-autocomplete-action@v1
         with:
           token: ${{ secrets.FIG_BOT_TOKEN }}
           autocomplete-spec-name: '@withfig/autocomplete-tools'
-          spec-path: packages/autocomplete-tools/generated.ts
+          spec-path: cli/tools-cli/generated.ts
           integration: commander

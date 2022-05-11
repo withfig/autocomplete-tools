@@ -1,7 +1,5 @@
 {
   "extends": "@tsconfig/recommended",
-  "exclude": ["node_modules/", "dist/", "test/"],
-  "include": ["./"],
   "compilerOptions": {
     "lib": ["ESNext", "DOM"],
     "moduleResolution": "node",
@@ -15,5 +13,7 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "types": ["@withfig/autocomplete-types", "node", "@types/jest"]
-  }
+  },
+  "exclude": ["node_modules/", "dist/", "test/"],
+  "include": ["./"],
 }
