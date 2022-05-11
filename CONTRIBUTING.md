@@ -1,9 +1,9 @@
 # Contributing to some autocomplete package
 Hey there! We are glad you want to contribute to some autocomplete package, hereby are mentioned some generic instructions, but you should refer to each package CONTRIBUTING.md file to learn more.
 
-- [`@withfig/autocomplete-types`](packages/autocomplete-types/CONTRIBUTING.md)
-- [`@fig/complete-commander`](packages/commander/CONTRIBUTING.md)
-- [`click_complete_fig`](packages/click/CONTRIBUTING.md)
+- [`@withfig/autocomplete-types`](types/CONTRIBUTING.md)
+- [`@fig/complete-commander`](integrations/commander/CONTRIBUTING.md)
+- [`click_complete_fig`](integrations/click/CONTRIBUTING.md)
 
 ## Generic workflow
 
@@ -17,7 +17,7 @@ Hey there! We are glad you want to contribute to some autocomplete package, here
 
 ## Structure of the repo
 
-We are using yarn workspaces in this repo, so the source files of each package are in the appropriate folder under `packages/`.
+We are using yarn workspaces in this repo. All CLIs are under the cli/ folder, while most of the other packages are in the root of the repo.
 Concerning `npm` commands there are some global ones available from the root of the monorepo and some other relative to the packages.
 
 ## What is a good PR?

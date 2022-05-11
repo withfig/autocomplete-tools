@@ -19,20 +19,19 @@
     "lint:fix": "npm run lint -- --fix",
     "prepare": "husky install",
     "pre-commit": "lint-staged",
-    "clean": "git clean -Xf ."
+    "clean": "git clean -Xdf ."
   },
   "workspaces": [
-    "packages/autocomplete-generators",
-    "packages/autocomplete-helpers",
-    "packages/autocomplete-merge",
-    "packages/autocomplete-tools",
-    "packages/autocomplete-types",
-    "packages/eslint-config-autocomplete",
-    "packages/eslint-plugin-fig-linter",
-    "packages/oclif",
-    "packages/commander",
-    "packages/create-completion-spec",
-    "packages/publish-spec-to-team"
+    "eslint/*",
+    "generators",
+    "helpers",
+    "merge",
+    "types",
+    "integrations/oclif",
+    "integrations/commander",
+    "cli/tools-cli",
+    "cli/create-completion-spec",
+    "cli/publish-spec-to-team"
   ],
   "lint-staged": {
     "*.{ts,js,tsx}": "eslint --fix"
