@@ -1,15 +1,23 @@
-import { FormData } from "node-fetch";
-import { fetch } from "./node-fetch.js";
+import { FormData, Headers } from "node-fetch";
 import path from "path";
 import esbuild from "esbuild";
+import { fetch } from "./node-fetch.js";
 import { createFile, exec, validateSpecName, createTempDir, createFileFrom } from "./utils.js";
 import { API_BASE } from "./constants.js";
-import { BuildError, GenerationError, GenericErrorEnum, PublishError, ValidationError } from "./errors.js";
+import {
+  BuildError,
+  GenerationError,
+  GenericErrorEnum,
+  PublishError,
+  ValidationError,
+} from "./errors.js";
+import { tryParseTokenFromCredentials } from "./credentials.js";
+import testHelpers from "./test-helpers.js";
 
 export interface RunOptions {
   name?: string;
   team?: string;
-  token: string;
+  token?: string;
   specPath?: string;
   binaryPath?: string;
   subcommandName?: string;
@@ -23,13 +31,23 @@ const DEFAULT_OPTION = {
 export const run = async (options: RunOptions) => {
   const {
     name: optionalName,
-    token,
+    token: optionalToken,
     specPath,
     binaryPath,
     subcommandName,
     framework,
     team,
   } = options;
+
+  let token = optionalToken;
+  if (!token) {
+    if (process.env.FIG_API_TOKEN) {
+      token = process.env.FIG_API_TOKEN;
+    } else {
+      // try to read the token from the config file
+      token = await tryParseTokenFromCredentials();
+    }
+  }
 
   let name = optionalName;
   if (!name) {
@@ -54,7 +72,7 @@ export const run = async (options: RunOptions) => {
     try {
       specOutput = (await exec(cmd)).trim();
     } catch (error) {
-      const { message } = error as Error
+      const { message } = error as Error;
       throw new GenerationError(`"${cmd}" exited with errors.\n${message}`);
     }
   }
@@ -62,7 +80,7 @@ export const run = async (options: RunOptions) => {
 
   if (specPath) {
     const tsSpecPath = path.resolve(specPath);
-    const [tempDir, removeTempDir] = await createTempDir(path.dirname(tsSpecPath))
+    const [tempDir, removeTempDir] = await createTempDir(path.dirname(tsSpecPath));
 
     try {
       await esbuild.build({
@@ -73,23 +91,23 @@ export const run = async (options: RunOptions) => {
         bundle: true,
         format: "esm",
         minify: true,
-        logLevel: 'silent',
+        logLevel: "silent",
       });
-  
-      const jsSpecPath = path.resolve(tempDir, `${name}.js`)
+
+      const jsSpecPath = path.resolve(tempDir, `${name}.js`);
       formData.append("tsSpec", await createFileFrom(tsSpecPath, `${name}.ts`));
       formData.append("jsSpec", await createFileFrom(jsSpecPath, `${name}.js`));
     } catch (error) {
       throw new BuildError((error as Error).message);
     } finally {
-      await removeTempDir()
+      await removeTempDir();
     }
   } else if (specOutput) {
     try {
       const builtSpec = await esbuild.transform(specOutput, {
         format: "esm",
         minify: true,
-        logLevel: 'silent',
+        logLevel: "silent",
       });
       formData.append("jsSpec", createFile(builtSpec.code, `${name}.js`));
       formData.append("tsSpec", createFile(specOutput, `${name}.ts`));
@@ -108,6 +126,7 @@ export const run = async (options: RunOptions) => {
     await fetch(`${API_BASE}/cdn`, {
       headers: {
         Authorization: `Bearer ${token}`,
+        ...testHelpers.getAssertDataHeader(),
       },
       method: "PUT",
       body: formData,

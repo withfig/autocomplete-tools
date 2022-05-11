@@ -9,8 +9,9 @@
     "build": "tsc",
     "prepack": "npm run build",
     "test:server": "TEST_PORT=3005 ts-node test/server.ts",
-    "test:fixtures": "TEST_PORT=3005 BASE_URL=http://localhost:3005 ts-node test/index.ts",
-    "test": "npm run test:server & SERVER_PID=$!; sleep 2; npm run test:fixtures; kill $SERVER_PID"
+    "test:fixtures": "BASE_URL=http://localhost:3005 ts-node test/index.ts",
+    "test": "npm run test:server & SERVER_PID=$!; sleep 2; npm run test:fixtures; kill $SERVER_PID",
+    "generate-spec": "ts-node generate-spec.ts generate-fig-spec"
   },
   "repository": {
     "type": "git",
@@ -40,6 +41,7 @@
     "prettier": "^2.3.2"
   },
   "devDependencies": {
+    "@fig/complete-commander": "^2.0.0",
     "@types/express": "^4.17.13",
     "@types/multer": "^1.4.7",
     "@types/node": "^16.7.2",

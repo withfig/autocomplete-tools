@@ -6,7 +6,8 @@
   "scripts": {
     "build": "tsc",
     "prepack": "npm run build",
-    "test": "ts-node test/index.ts"
+    "test": "ts-node test/index.ts",
+    "postinstall": "npm run build"
   },
   "license": "MIT",
   "main": "./lib/index.js",

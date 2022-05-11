@@ -28,30 +28,30 @@ export function createFile(content: string, name: string) {
   return new File([blob], name);
 }
 
-export async function createFileFrom(path: string, name: string) {
+export async function createFileFrom(filePath: string, name: string) {
   return new Promise<File>((resolve, reject) => {
-    const bytes: BlobPart[] = []
-    fs.createReadStream(path)
-      .on('data', byte => bytes.push(byte))
-      .once('end', () => {
-        const blob = new Blob(bytes)
-        resolve(new File([blob], name))
+    const bytes: BlobPart[] = [];
+    fs.createReadStream(filePath)
+      .on("data", (byte) => bytes.push(byte))
+      .once("end", () => {
+        const blob = new Blob(bytes);
+        resolve(new File([blob], name));
       })
-      .once('error', reject)
-  })
+      .once("error", reject);
+  });
 }
 
-type CreateTempDirResult = [tempDirPath: string, cleanTempDirFn: () => Promise<void>]
+type CreateTempDirResult = [tempDirPath: string, cleanTempDirFn: () => Promise<void>];
 
 export async function createTempDir(rootDir: string): Promise<CreateTempDirResult> {
-  const dir = path.resolve(rootDir, randomUUID())
+  const dir = path.resolve(rootDir, randomUUID());
   if (!fs.existsSync(dir)) {
-    await mkdir(dir, { recursive: true })
+    await mkdir(dir, { recursive: true });
   }
   const removeFn = async () => {
     if (fs.existsSync(dir)) {
       await rm(dir, { recursive: true });
     }
-  }
-  return [dir, removeFn]
+  };
+  return [dir, removeFn];
 }

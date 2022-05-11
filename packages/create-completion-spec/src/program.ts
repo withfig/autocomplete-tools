@@ -22,5 +22,5 @@ async function runProgram(specName: string, options: Options) {
 export const program = new Command("create-completion-spec")
   .description("Setup fig folder and create spec with the given name")
   .arguments("<name>")
-  .option("-h, --here", "Set if the spec should be created in the current folder")
+  .option("--here", "Set if the spec should be created in the current folder")
   .action(runProgram);

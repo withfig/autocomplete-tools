@@ -1,5 +1,6 @@
 export enum ValidationErrorEnum {
   nameWithSpace = "The `name` option must not contain spaces",
+  missingToken = "We tried to search for a token in fig configs, but we found none. Use the `token` option to specify one",
 }
 
 export enum GenericErrorEnum {

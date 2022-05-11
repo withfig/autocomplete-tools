@@ -1,6 +1,7 @@
 {
   "$schema": "../config.schema.json",
   "options": {
+    "token": "data",
     "name": "some-spec",
     "subcommandName": "generate-fig-spec",
     "binaryPath": "./cli.sh"

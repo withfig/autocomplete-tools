@@ -1,6 +1,7 @@
 {
   "$schema": "../config.schema.json",
   "options": {
+    "token": "some-data",
     "name": "some-spec",
     "specPath": "./spec.ts"
   }

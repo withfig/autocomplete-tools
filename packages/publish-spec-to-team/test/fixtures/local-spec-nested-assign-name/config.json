@@ -1,0 +1,13 @@
+{
+  "$schema": "../config.schema.json",
+  "options": {
+    "token": "data",
+    "specPath": "folder/spec.ts",
+    "framework": "cobra"
+  },
+  "assert": {
+    "token": "data",
+    "name": "spec",
+    "framework": "cobra"
+  }
+}

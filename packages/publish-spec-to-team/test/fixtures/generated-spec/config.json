@@ -1,6 +1,7 @@
 {
   "$schema": "../config.schema.json",
   "options": {
+    "token": "some-other-data",
     "name": "some-spec",
     "subcommandName": "generate-fig-spec",
     "binaryPath": "./cli.sh",
@@ -8,6 +9,7 @@
     "team": "test-team"
   },
   "assert": {
+    "token": "some-other-data",
     "name": "some-spec",
     "framework": "commander",
     "team": "test-team",

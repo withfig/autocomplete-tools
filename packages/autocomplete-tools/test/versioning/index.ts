@@ -1,7 +1,7 @@
 import fs from "fs";
 import child from "child_process";
 import path from "path";
-import { copyDirectorySync } from "../../scripts/version";
+import { copyDirectorySync } from "../../src/scripts/version";
 
 const cliPath = path.join(__dirname, "..", "..", "index.ts");
 const fixturesPath = path.join(__dirname, "fixtures");

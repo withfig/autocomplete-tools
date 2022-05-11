@@ -29,5 +29,6 @@ module.exports = {
     "import/extensions": "off",
     "import/prefer-default-export": "off",
     "import/no-extraneous-dependencies": ["error", { devDependencies: ["**/test/*"] }],
+    "no-nested-ternary": "off",
   },
 };

@@ -1,0 +1,13 @@
+{
+  "$schema": "../config.schema.json",
+  "options": {
+    "specPath": "spec.ts"
+  },
+  "assert": {
+    "token": "some-token",
+    "name": "spec"
+  },
+  "env": {
+    "FIG_API_TOKEN": "some-token"
+  }
+}

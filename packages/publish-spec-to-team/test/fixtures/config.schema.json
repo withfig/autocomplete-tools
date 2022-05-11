@@ -23,6 +23,10 @@
       "type": "object",
       "additionalProperties": false,
       "properties": {
+        "token": {
+          "description": "A fig API token",
+          "type": "string"
+        },
         "team": {
           "description": "The name of the team",
           "type": "string"
@@ -78,6 +82,16 @@
         }
       },
       "additionalProperties": false
-    }
+    },
+    "env": {
+      "description": "Add environment variables to the context",
+      "properties": {
+        "FIG_API_TOKEN": { "type": "string", "description": "Token saved as env variable" },
+        "HOME": { "enum": ["__CWD", ""], "description": "Darwin home directory" },
+        "APPDATA": { "enum": ["__CWD", ""], "description": "Windows home directory" },
+        "XDG_DATA_HOME": { "enum": ["__CWD", ""], "description": "Linux add data directory" }
+      }
+    },
+    "os": { "description": "OS type", "enum": ["MacOS", "Linux", "Windows"] }
   }
 }
