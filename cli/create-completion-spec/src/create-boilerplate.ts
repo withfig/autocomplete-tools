@@ -9,7 +9,7 @@ export function createBoilerplateFolder() {
     const boilerplateDir = path.resolve(__dirname, "..", "boilerplate");
     console.log(pc.yellow("Copying boilerplate directory..."));
     fs.mkdirSync(dir, { recursive: true });
-    execSync(`cp -a ${boilerplateDir}/. ${dir}`);
+    execSync(`cp -a ${boilerplateDir}/. ${dir.replace(/(\s+)/g, "\\$1")}`);
     console.log(pc.green("Finished copying boilerplate directory"));
     console.log("----");
     console.log(pc.yellow("Installing npm deps..."));

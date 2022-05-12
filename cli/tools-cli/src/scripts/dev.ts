@@ -95,7 +95,9 @@ async function runProgram() {
 
     commandStatus("fig settings autocomplete.developerModeNPM true");
     commandStatus(
-      `fig settings autocomplete.devCompletionsFolder ${path.join(process.cwd(), "build")}`
+      `fig settings autocomplete.devCompletionsFolder ${path
+        .join(process.cwd(), "build")
+        .replace(/(\s+)/g, "\\$1")}`
     );
     if (!fs.existsSync(path.dirname(AUTOCOMPLETE_LOG_FILE))) {
       fs.mkdirSync(path.dirname(AUTOCOMPLETE_LOG_FILE), { recursive: true });
