@@ -8,7 +8,6 @@ export interface AssertFileData {
 export interface AssertRequest extends Record<string, any> {
   files?: {
     jsSpec?: AssertFileData;
-    tsSpec?: AssertFileData;
   };
 }
 

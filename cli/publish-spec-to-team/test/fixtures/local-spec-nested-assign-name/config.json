@@ -7,7 +7,6 @@
   },
   "assert": {
     "token": "data",
-    "name": "spec",
-    "framework": "cobra"
+    "name": "spec"
   }
 }

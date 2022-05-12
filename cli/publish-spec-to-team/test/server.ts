@@ -31,65 +31,45 @@ function deepEqual(object1: Record<string, any>, object2: Record<string, any>) {
   return true;
 }
 
-app.put(
-  "/cdn",
-  upload.fields([
-    {
-      name: "tsSpec",
-      maxCount: 1,
-    },
-    {
-      name: "jsSpec",
-      maxCount: 1,
-    },
-  ]),
-  async (req, res) => {
-    const [_, token] = req.headers.authorization!.split(" ");
+app.put("/cdn", upload.single("jsSpec"), async (req, res) => {
+  const [_, token] = req.headers.authorization!.split(" ");
 
-    const encodedAssertData = req.headers["assert-data"]!;
-    assert(!Array.isArray(encodedAssertData));
+  const encodedAssertData = req.headers["assert-data"]!;
+  assert(!Array.isArray(encodedAssertData));
 
-    const { files, ...rest }: AssertRequest = JSON.parse(
-      Buffer.from(encodedAssertData, "base64").toString("utf-8")
-    );
-    assert(req.files && !Array.isArray(req.files));
+  const { files, ...rest }: AssertRequest = JSON.parse(
+    Buffer.from(encodedAssertData, "base64").toString("utf-8")
+  );
+  assert(req.file);
 
-    const errors: string[] = [];
+  const errors: string[] = [];
 
-    // expect ...rest to be exactly equal to body;
-    if (!deepEqual(rest, { token, ...req.body })) {
-      errors.push("Received data and assert do not match");
-    }
+  // expect ...rest to be exactly equal to body;
+  if (!deepEqual(rest, { token, ...req.body })) {
+    errors.push("Received data and assert do not match");
+  }
 
-    if (files) {
-      // expect files content to be exactly the same as the passed in files
-      const specFieldIndexes = ["tsSpec", "jsSpec"] as (keyof typeof files)[];
-      for (const specFieldIndex of specFieldIndexes) {
-        const assertFileData: AssertFileData | undefined = files[specFieldIndex];
-        if (assertFileData) {
-          const { name, content } = assertFileData;
-          const multerFile = req.files[specFieldIndex][0] as Express.Multer.File;
-          if (name && name !== multerFile.originalname) {
-            errors.push(
-              `Expected filename "${multerFile.originalname}" for "${specFieldIndex}" and instead received "${name}"`
-            );
-          }
-          if (content && !multerFile.buffer.equals(Buffer.from(content))) {
-            errors.push(
-              `Received content was different from the expected one for "${specFieldIndex}`
-            );
-          }
-        }
+  if (files) {
+    const assertFileData: AssertFileData | undefined = files.jsSpec;
+    if (assertFileData) {
+      const { name, content } = assertFileData;
+      if (name && name !== req.file.originalname) {
+        errors.push(
+          `Expected filename "${req.file.originalname}" for "jsSpec" and instead received "${name}"`
+        );
+      }
+      if (content && !req.file.buffer.equals(Buffer.from(content))) {
+        errors.push(`Received content was different from the expected one for "${"jsSpec"}`);
       }
     }
-
-    if (errors.length) {
-      return res.status(400).send(errors.join("\n"));
-    }
-
-    return res.sendStatus(200);
   }
-);
+
+  if (errors.length) {
+    return res.status(400).send(errors.join("\n"));
+  }
+
+  return res.sendStatus(200);
+});
 
 const server = app.listen(PORT, () => {
   console.log(pc.yellow(`Started listening on ${PORT}`));

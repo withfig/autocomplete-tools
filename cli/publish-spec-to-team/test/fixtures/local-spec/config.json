@@ -11,11 +11,7 @@
     "token": "data",
     "name": "spec",
     "team": "team-name",
-    "framework": "cobra",
     "files": {
-      "tsSpec": {
-        "name": "spec.ts"
-      },
       "jsSpec": {
         "name": "spec.js"
       }
