@@ -8,3 +8,4 @@ dist-ssr
 build/
 .yarn/
 *.log
+.python-version
