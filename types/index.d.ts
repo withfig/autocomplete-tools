@@ -87,10 +87,11 @@ declare namespace Fig {
    */
   type LoadSpec =
     | string
+    | Subcommand
     | ((
         token: string,
         executeShellCommand: ExecuteShellCommandFunction
-      ) => Promise<SpecLocation | SpecLocation[]>);
+      ) => Promise<SpecLocation | SpecLocation[] | Subcommand>);
 
   /**
    * The type of a suggestion object.
