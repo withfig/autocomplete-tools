@@ -1,4 +1,4 @@
-import { FormData, Headers } from "node-fetch";
+import { FormData } from "node-fetch";
 import path from "path";
 import esbuild from "esbuild";
 import { fetch } from "./node-fetch.js";
@@ -120,14 +120,26 @@ export const run = async (options: RunOptions) => {
   if (team) formData.append("team", team);
 
   try {
-    await fetch(`${API_BASE}/cdn`, {
+    const response = await fetch(`${API_BASE}/cdn`, {
       headers: {
         Authorization: `Bearer ${token}`,
+        Accept: "application/json",
         ...testHelpers.getAssertDataHeader(),
       },
       method: "PUT",
       body: formData,
     });
+
+    if (response.status === 200) {
+      const { namespace, name: specName } = (await response.json()) as {
+        namespace: string;
+        name: string;
+      };
+      console.log(`Successfully published ${specName} to ${namespace}`);
+      return;
+    }
+    const json = (await response.json()) as { error: string };
+    throw new PublishError(json.error);
   } catch (error) {
     throw new PublishError((error as Error).message);
   }
