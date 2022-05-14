@@ -3,9 +3,7 @@
   "version": "1.2.0",
   "description": "This is a eslint plugin which is tailored for fig specs",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "scripts": {},
   "keywords": [],
   "author": "The fig team",
   "license": "MIT",

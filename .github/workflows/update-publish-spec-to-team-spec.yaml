@@ -19,5 +19,5 @@ jobs:
         with:
           token: ${{ secrets.FIG_BOT_TOKEN }}
           autocomplete-spec-name: '@fig/publish-spec-to-team'
-          spec-path: cli/publish-spec-to-team/generated.ts
+          spec-path: generated.ts
           integration: commander

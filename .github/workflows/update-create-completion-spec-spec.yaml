@@ -19,5 +19,5 @@ jobs:
         with:
           token: ${{ secrets.FIG_BOT_TOKEN }}
           autocomplete-spec-name: 'create-completion-spec'
-          spec-path: cli/create-completion-spec/generated.ts
+          spec-path: generated.ts
           integration: commander
