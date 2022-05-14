@@ -11,16 +11,19 @@
     "eslint-plugin-prettier": "^3.3.1",
     "husky": "^7.0.2",
     "lint-staged": "^11.1.2",
-    "prettier": "2.2.1",
-    "yarn": "^1.22.18"
+    "prettier": "2.2.1"
   },
   "scripts": {
     "lint": "eslint .",
-    "lint:fix": "npm run lint -- --fix",
+    "lint:fix": "yarn lint -- --fix",
     "prepare": "husky install",
-    "pre-commit": "lint-staged",
+    "build": "yarn workspaces foreach -v run build",
+    "test": "yarn workspaces foreach -v run test",
+    "postinstall": "yarn build",
+    "pre-commit": "lint-staged && yarn test",
     "clean": "git clean -Xdf ."
   },
+  "packageManager": "yarn@3.2.1",
   "workspaces": [
     "eslint/*",
     "types",

@@ -8,3 +8,4 @@ program.enablePositionalOptions().option("-p, --progress");
 program.command("upload <file>").option("-p, --port <number>", "port number", "80");
 
 addCompletionSpecCommand(program);
+program.parse(process.argv);

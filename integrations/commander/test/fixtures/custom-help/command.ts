@@ -11,3 +11,4 @@ program
 program.command("child").option("--gender", "specific gender of child");
 
 addCompletionSpecCommand(program);
+program.parse(process.argv);

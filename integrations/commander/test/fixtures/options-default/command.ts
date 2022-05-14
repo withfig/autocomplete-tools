@@ -9,3 +9,4 @@ program
   .addOption(new commander.Option("-a, --arr <type>").default([1, 2, 3]));
 
 addCompletionSpecCommand(program);
+program.parse(process.argv);

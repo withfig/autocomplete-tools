@@ -6,3 +6,4 @@ const program = new Command();
 program.version("0.1.0").arguments("<username> [password]");
 
 addCompletionSpecCommand(program);
+program.parse(process.argv);

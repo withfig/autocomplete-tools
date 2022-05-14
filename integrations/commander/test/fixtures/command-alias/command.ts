@@ -13,3 +13,4 @@ program
     new Command("search").argument("[query]").description("search with optional query").alias("s")
   );
 addCompletionSpecCommand(program);
+program.parse(process.argv);

@@ -8,3 +8,4 @@ program.addArgument(
 );
 
 addCompletionSpecCommand(program);
+program.parse(process.argv);

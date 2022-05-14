@@ -1,5 +1,5 @@
 import { Command } from "commander";
-import { addCompletionSpecCommand } from "../../../src";
+import { generateCompletionSpec } from "../../../src";
 
 const program = new Command();
 
@@ -11,7 +11,7 @@ program
   .command("generateCompletionSpec")
   .description("Generate a fig spec for the current program")
   .action(() => {
-    addCompletionSpecCommand(program);
+    console.log(generateCompletionSpec(program));
   });
 program.command("remove", "Remove user"); // this should appear even if it is added after `generateCompletionSpec` command
 

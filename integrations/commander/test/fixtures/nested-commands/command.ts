@@ -16,3 +16,4 @@ function makeHeatCommand() {
 program.addCommand(makeHeatCommand());
 
 addCompletionSpecCommand(program);
+program.parse(process.argv);

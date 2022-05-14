@@ -8,3 +8,4 @@ program
   .option("-l, --letter [value...]", "specify letters");
 
 addCompletionSpecCommand(program);
+program.parse(process.argv);

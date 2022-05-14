@@ -13,3 +13,4 @@ program
   .option("-p,--port <port_number>", "web port");
 
 addCompletionSpecCommand(program);
+program.parse(process.argv);

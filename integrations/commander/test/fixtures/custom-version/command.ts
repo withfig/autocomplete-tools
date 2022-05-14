@@ -9,3 +9,4 @@ program
   .option("-t, --template <engine>", "specify template engine (jade|ejs) [jade]", "jade");
 
 addCompletionSpecCommand(program);
+program.parse(process.argv);

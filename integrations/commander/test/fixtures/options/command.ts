@@ -11,3 +11,4 @@ program
   .option("-l, --list <items>", "comma separated list");
 
 addCompletionSpecCommand(program);
+program.parse(process.argv);

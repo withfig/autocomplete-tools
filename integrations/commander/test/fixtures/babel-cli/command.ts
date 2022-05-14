@@ -88,3 +88,4 @@ program.version("7.15.0");
 program.usage("[options] <files ...>");
 
 addCompletionSpecCommand(program);
+program.parse(process.argv);

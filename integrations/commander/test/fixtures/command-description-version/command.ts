@@ -9,3 +9,4 @@ program
   .option("-f, --foo", "enable some foo");
 
 addCompletionSpecCommand(program);
+program.parse(process.argv);

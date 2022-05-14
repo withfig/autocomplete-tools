@@ -9,3 +9,4 @@ program
   .option("--no-cheese", "plain with no cheese");
 
 addCompletionSpecCommand(program);
+program.parse(process.argv);

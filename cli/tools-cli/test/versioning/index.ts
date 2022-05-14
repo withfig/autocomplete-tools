@@ -3,7 +3,7 @@ import child from "child_process";
 import path from "path";
 import { copyDirectorySync } from "../../src/scripts/version";
 
-const cliPath = path.join(__dirname, "..", "..", "index.ts");
+const cliPath = path.join(__dirname, "..", "..", "src", "bin.ts");
 const fixturesPath = path.join(__dirname, "fixtures");
 const dirs = fs
   .readdirSync(fixturesPath, { withFileTypes: true })

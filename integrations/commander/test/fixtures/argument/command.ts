@@ -10,3 +10,4 @@ program
   .description("example program for argument");
 
 addCompletionSpecCommand(program);
+program.parse(process.argv);

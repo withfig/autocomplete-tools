@@ -3,7 +3,7 @@ import fs from "fs";
 import child from "child_process";
 import { report } from "./utils";
 
-const fixturesPath = path.resolve("test/fixtures/");
+const fixturesPath = path.resolve(__dirname, "fixtures");
 
 function runFixtures() {
   let hadErrors = false;
@@ -16,10 +16,14 @@ function runFixtures() {
     const expected = path.resolve(fixturePath, "expected.ts");
     const output = path.resolve(fixturePath, "output.ts");
     const options = path.resolve(fixturePath, "options.json");
-    let args = "";
+
+    const args: string[] = [];
     if (fs.existsSync(options)) {
       const parsedOptions = JSON.parse(fs.readFileSync(options, { encoding: "utf8" }));
-      args = parsedOptions.args;
+      if (parsedOptions.flags) args.push(parsedOptions.flags);
+      args.push(parsedOptions.subcommandName || "generate-fig-spec");
+    } else {
+      args.push("generate-fig-spec"); // default generate subcommand
     }
 
     if (!fs.existsSync(command)) {
@@ -27,7 +31,7 @@ function runFixtures() {
       continue;
     }
     try {
-      const cmd = `node -r ts-node/register ${command} ${args} > ${output}`;
+      const cmd = `node -r ts-node/register ${command} ${args.join(" ")} > ${output}`;
       child.execSync(cmd);
     } catch {
       report(fixture.name, "errored");

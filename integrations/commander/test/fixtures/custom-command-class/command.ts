@@ -18,3 +18,4 @@ program.command("serve [params...]").option("-p, --port <number>", "port number"
 program.command("build <target>");
 
 addCompletionSpecCommand(program);
+program.parse(process.argv);
