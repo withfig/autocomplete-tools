@@ -6,13 +6,20 @@
   "main": "./lib/index.js",
   "type": "module",
   "scripts": {
-    "run-script": "npm run build && node ./lib/bin.js",
+    "run-script": "yarn build && node ./lib/bin.js",
     "build": "tsc",
-    "prepack": "npm run build",
+    "prepack": "yarn build",
     "test:server": "TEST_PORT=3005 ts-node test/server.ts",
     "test:fixtures": "BASE_URL=http://localhost:3005 ts-node test/index.ts",
-    "test": "npm run test:server & SERVER_PID=$!; sleep 2; npm run test:fixtures; kill $SERVER_PID",
+    "test": "./test.sh",
+    "test:overwrite": "OVERWRITE=true yarn test",
     "generate-spec": "ts-node generate-spec.ts generate-fig-spec"
+  },
+  "fig": {
+    "test:server": "Start a mock server emulating the production one",
+    "test:fixtures": "Run fixtures",
+    "test": "Start test server, run fixtures then stop server",
+    "test:overwrite": "Start test server, regenerate fixtures then stop server"
   },
   "repository": {
     "type": "git",

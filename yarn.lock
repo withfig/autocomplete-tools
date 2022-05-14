@@ -2743,6 +2743,7 @@ __metadata:
     "@fig/complete-commander": ^2.0.0
     commander: ^9.2.0
     picocolors: ^1.0.0
+    ts-node: ^10.7.0
     typescript: ^4.6.4
   bin:
     create-completion-spec: lib/bin.js

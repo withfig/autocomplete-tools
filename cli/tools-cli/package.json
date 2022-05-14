@@ -6,7 +6,7 @@
   "scripts": {
     "build": "rm -rf build/ && tsc",
     "test": "ts-node test/index.ts",
-    "prepack": "npm run build",
+    "prepack": "yarn build",
     "generate-spec": "ts-node generate-spec.ts generate-fig-spec"
   },
   "license": "MIT",

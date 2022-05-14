@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsc",
     "test": "mocha",
-    "prepack": "npm run build"
+    "prepack": "yarn build"
   },
   "author": "Federico Ciardi <fed.ciardi@gmail.com>",
   "license": "MIT",

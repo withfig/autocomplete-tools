@@ -4,6 +4,7 @@ import fs from "fs";
 import path from "path";
 import pc from "picocolors";
 import { fileURLToPath } from "url";
+import util from "util";
 import { GenerationError } from "../src/errors.js";
 import { run } from "../src/index.js";
 import { Config } from "./types.js";
@@ -20,6 +21,7 @@ const dirs = fs
 const originalOSTypeMethod = nodeOS.type;
 const originalProcessEnv = process.env;
 const originalgetAssertDataHeader = testHelpers.getAssertDataHeader;
+const originalConsoleLog = console.log;
 
 async function runFixtures() {
   let hadErrors = false;
@@ -48,10 +50,12 @@ async function runFixtures() {
       nodeOS.type = () => (os === "Linux" ? "Linux" : os === "MacOS" ? "Darwin" : "Windows_NT");
     }
 
-    let out: string;
+    let out = "";
     try {
+      console.log = (...args) => {
+        out += `${util.format(...args)}\n`;
+      };
       await run(options);
-      out = "Ok";
     } catch (error) {
       const { name, message } = error as Error;
       if (error instanceof GenerationError) {
@@ -63,6 +67,8 @@ async function runFixtures() {
       if (process.env.VERBOSE) {
         console.error(error);
       }
+    } finally {
+      console.log = originalConsoleLog;
     }
 
     // Unmock Functions and assign env variables

@@ -6,7 +6,7 @@
   "main": "lib/index.js",
   "scripts": {
     "build": "tsc",
-    "prepack": "npm run build",
+    "prepack": "yarn build",
     "generate-spec": "ts-node generate-spec.ts generate-fig-spec"
   },
   "repository": {
@@ -34,6 +34,7 @@
   },
   "devDependencies": {
     "@fig/complete-commander": "^2.0.0",
+    "ts-node": "^10.7.0",
     "typescript": "^4.6.4"
   },
   "publishConfig": {

@@ -6,9 +6,9 @@
   "scripts": {
     "build": "tsc",
     "test": "ts-node test/index.ts",
-    "test:overwrite": "OVERWRITE=true npm run test",
+    "test:overwrite": "OVERWRITE=true yarn test",
     "clean:test": "git clean -Xf test",
-    "prepack": "npm run build"
+    "prepack": "yarn build"
   },
   "repository": {
     "type": "git",

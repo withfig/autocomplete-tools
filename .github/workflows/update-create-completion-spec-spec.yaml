@@ -13,8 +13,7 @@ jobs:
       - uses: actions/setup-node@v2
       - run: |
           yarn
-          cd cli/create-completion-spec/
-          yarn --silent generate-spec > generated.ts
+          yarn workspace create-completion-spec generate-spec > generated.ts
       - name: 'Create Autocomplete PR'
         uses: withfig/push-to-fig-autocomplete-action@v1
         with:
