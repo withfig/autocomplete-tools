@@ -18,6 +18,6 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - name: Install dependencies and build # build is a postinstall script
-        run: yarn --frozen-lockfile
+        run: yarn --immutable
       - name: Test packages
         run: yarn test

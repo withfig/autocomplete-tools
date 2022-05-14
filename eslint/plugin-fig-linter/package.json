@@ -3,7 +3,6 @@
   "version": "1.2.0",
   "description": "This is a eslint plugin which is tailored for fig specs",
   "main": "index.js",
-  "scripts": {},
   "keywords": [],
   "author": "The fig team",
   "license": "MIT",
