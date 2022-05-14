@@ -120,6 +120,8 @@ export const run = async (options: RunOptions) => {
   if (team) formData.append("team", team);
 
   try {
+    // This fetch method is a wrapper over the node-fetch function
+    // See node-fetch.ts
     const response = await fetch(`${API_BASE}/cdn`, {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -130,16 +132,15 @@ export const run = async (options: RunOptions) => {
       body: formData,
     });
 
-    if (response.status === 200) {
+    try {
       const { namespace, name: specName } = (await response.json()) as {
         namespace: string;
         name: string;
       };
       console.log(`Successfully published ${specName} to ${namespace}`);
-      return;
+    } catch (error) {
+      console.log("The spec was successfully published.");
     }
-    const json = (await response.json()) as { error: string };
-    throw new PublishError(json.error);
   } catch (error) {
     throw new PublishError((error as Error).message);
   }

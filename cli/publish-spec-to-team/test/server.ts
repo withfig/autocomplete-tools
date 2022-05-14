@@ -65,10 +65,10 @@ app.put("/cdn", upload.single("jsSpec"), async (req, res) => {
   }
 
   if (errors.length) {
-    return res.status(400).send(errors.join("\n"));
+    return res.status(400).json({ error: errors.join("\n") });
   }
 
-  return res.sendStatus(200);
+  return res.status(200).json({ name: req.body.name, namespace: req.body.team || "default" });
 });
 
 const server = app.listen(PORT, () => {
