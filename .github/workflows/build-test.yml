@@ -3,7 +3,7 @@ name: Build and test packages
 on:
   workflow_dispatch:
   push:
-  pull_requests:
+  pull_request:
 
 jobs:
   test:
