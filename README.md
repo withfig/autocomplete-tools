@@ -8,25 +8,33 @@ This repo contains the source for all of Fig tools related with [autocomplete](h
 
 ## Packages
 
-- [`@fig/autocomplete-generators`](generators/README.md)
-- [`@fig/autocomplete-merge`](merge/README.md)
+- [`create-completion-spec`](cli/create-completion-spec/README.md)
+- [`@fig/publish-spec-to-team`](cli/publih-spec-to-team/README.md)
 - [`@withfig/autocomplete-tools`](cli/tools-cli/README.md)
-- [`@withfig/autocomplete-types`](types/README.md)
-- [`@withfig/clap`](integrations/clap/README.md)
-- [`@withfig/cobra`](packages/cobra/README.md)
-- [`@fig/complete-commander`](integrations/commander/README.md)
 - [`@fig/eslint-config-autocomplete`](eslint/config-autocomplete/README.md)
 - [`@withfig/eslint-plugin-fig-linter`](eslint/plugin-fig-linter/README.md)
+- [`@fig/autocomplete-generators`](generators/README.md)
+- [`@fig/autocomplete-helpers`](helpers/README.md)
+- [`clap_complete_fig`](integrations/clap/README.md)
+- [`click_complete_fig`](integrations/clap/README.md)
+- [`cobracompletefig`](integrations/cobra/README.md)
+- [`@fig/complete-commander`](integrations/commander/README.md)
 - [`@withfig/oclif`](integrations/oclif/README.md)
-- [`@withfig/swift-argument-parser`](integrations/swift-argument-parser/README.md)
+- [`swift-argument-parser`](integrations/swift-argument-parser/README.md)
+- [`@fig/autocomplete-merge`](merge/README.md)
+- [`@fig/autocomplete-shared`](shared/README.md)
+- [`@withfig/autocomplete-types`](types/README.md)
 
 ## To publish a package:
 
-Run `yarn workspace <workspace name> publish`
+Run `yarn workspace <workspace name> npm publish`
+
+> **IMPORTANT**: remember to tag the new package version following the current conventions (see the previous tags of a package)
+> this is important for some workflows we are running and to keep track of when releases were done.
 
 e.g.
 ```bash
-yarn workspace @withfig/autocomplete-types publish
+yarn workspace @withfig/autocomplete-types npm publish
 ```
 
 > Note: `<workspace name>` is not the name of the folder, but the name specified inside the package.json of the package to publish.
@@ -44,6 +52,7 @@ Examples:
 - `@fig/complete-commander`
 - `@fig/complete-oclif`
 - `clap_complete_fig`
+- `cobracompletefig`
 
 ### Name of the default subcommand added to the CLI
 

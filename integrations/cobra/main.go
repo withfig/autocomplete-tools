@@ -1,11 +1,4 @@
-/*
- *
- * NOTE: This package directory has been deprecated and won't be updated anymore,
- * update this package in the `integrations/cobra/` instead of here
- *
- */
-
-package genFigSpec
+package cobracompletefig
 
 import (
 	"fmt"
@@ -74,12 +67,6 @@ Fig autocomplete spec for your Cobra CLI.
 	return cmd
 }
 
-// Deprecated: 
-// this function has been renamed to `CreateCompletionSpecCommand` and may not be available in future releases
-func NewCmdGenFigSpec(options ...Opts) *cobra.Command {
-	return CreateCompletionSpecCommand(options...)
-}
-
 func GenerateCompletionSpec(root *cobra.Command) Spec {
 	opts := append(options(root.LocalNonPersistentFlags(), false), options(root.PersistentFlags(), true)...)
 	opts = append(opts, makeHelpOption())
@@ -95,12 +82,6 @@ func GenerateCompletionSpec(root *cobra.Command) Spec {
 		name: root.Name(),
 	}
 	return spec
-}
-
-// Deprecated: 
-// this function has been renamed to `GenerateCompletionSpec` and may not be available in future releases
-func MakeFigSpec(root *cobra.Command) Spec {
-	return GenerateCompletionSpec(root)
 }
 
 func subcommands(cmd *cobra.Command, overrideOptions bool, overrides Options) Subcommands {

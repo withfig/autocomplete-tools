@@ -1,11 +1,4 @@
-/*
- *
- * NOTE: This package directory has been deprecated and won't be updated anymore,
- * update this package in the `integrations/cobra/` instead of here
- *
- */
-
-package genFigSpec
+package cobracompletefig
 
 import (
 	"fmt"
