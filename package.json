@@ -27,6 +27,7 @@
   "workspaces": [
     "eslint/*",
     "types",
+    "shared",
     "generators",
     "helpers",
     "merge",
