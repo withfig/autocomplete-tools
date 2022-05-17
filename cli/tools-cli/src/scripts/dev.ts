@@ -85,7 +85,11 @@ async function runProgram() {
     `1. Edit your spec(s) in the ${chalk.bold("src/")} directory\n`,
     `2. On save, they will compile to the local ${chalk.bold("build/")} directory\n`,
     `3. Test your changes ${chalk.bold("instantly")} in your terminal\n`,
-    `4. When done, hit ${chalk.bold("ctrl + c")} to exit\n`
+    `4. When done, hit ${chalk.bold("ctrl + c")} to exit\n\n`,
+
+    `${chalk.bold("Notes:")}\n`,
+    `- Specs will only load from build/\n`,
+    `- Generators run on every keystroke\n`
   );
   if (isMacOS) {
     // We are on macos and the fig script exists

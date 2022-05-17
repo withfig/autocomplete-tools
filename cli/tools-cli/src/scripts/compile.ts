@@ -35,6 +35,7 @@ async function processFiles(files: string[], isDev?: boolean) {
     entryPoints: files,
     outdir: DESTINATION_FOLDER_NAME,
     bundle: true,
+    outbase: "src",
     format: "esm",
     minify: true,
     ...(isDev && { sourcemap: "inline" }),

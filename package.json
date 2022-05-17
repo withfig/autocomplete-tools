@@ -16,10 +16,9 @@
   "scripts": {
     "lint": "eslint .",
     "lint:fix": "yarn lint -- --fix",
-    "prepare": "husky install",
     "build": "yarn workspaces foreach -v run build",
     "test": "yarn workspaces foreach -v run test",
-    "postinstall": "yarn build",
+    "postinstall": "husky install && yarn build",
     "pre-commit": "lint-staged && yarn test",
     "clean": "git clean -Xdf ."
   },
