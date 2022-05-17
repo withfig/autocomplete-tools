@@ -82,7 +82,9 @@ async function runProgram() {
 
   console.log(
     `Welcome to ${chalk.magenta("Fig Dev Mode")}!\n\n`,
-    `All completions will be loaded from ${chalk.bold(`${process.cwd()}/build`)}. (Note: other completions won't work while in dev mode).\n\n`,
+    `All completions will be loaded from ${chalk.bold(
+      `${process.cwd()}/build`
+    )}. (Note: other completions won't work while in dev mode).\n\n`,
     `1. Edit your spec(s) in the ${chalk.bold("src/")} directory.\n`,
     `2. Test changes ${chalk.bold("instantly")} on save in your terminal.\n`,
     `3. Exit developer mode with ${chalk.bold("ctrl + c")}.\n\n`,
