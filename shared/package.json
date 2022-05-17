@@ -21,7 +21,6 @@
     "test": "ts-node test/index.ts && jest"
   },
   "author": "Fig Team",
-  "dependencies": {},
   "devDependencies": {
     "@tsconfig/recommended": "^1.0.1",
     "@types/jest": "^27.5.0",
