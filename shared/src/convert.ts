@@ -1,5 +1,22 @@
-import { Option, Subcommand, Arg, LoadSpec } from "./internal";
-import { makeArray, SpecLocationSource } from "./utils";
+import { makeArray } from "./utils";
+
+export type SuggestionType = Fig.SuggestionType | "history" | "auto-execute";
+
+type Override<T, S> = Omit<T, keyof S> & S;
+export type Suggestion = Override<Fig.Suggestion, { type?: SuggestionType }>;
+
+export type Option<ArgT, OptionT> = OptionT & {
+  name: string[];
+  args: ArgT[];
+};
+
+export type Subcommand<ArgT, OptionT, SubcommandT> = SubcommandT & {
+  name: string[];
+  subcommands: Record<string, Subcommand<ArgT, OptionT, SubcommandT>>;
+  options: Record<string, Option<ArgT, OptionT>>;
+  persistentOptions: Record<string, Option<ArgT, OptionT>>;
+  args: ArgT[];
+};
 
 const makeNamedMap = <T extends { name: string[] }>(items: T[] | undefined): Record<string, T> => {
   const nameMapping: Record<string, T> = {};
@@ -15,87 +32,44 @@ const makeNamedMap = <T extends { name: string[] }>(items: T[] | undefined): Rec
   return nameMapping;
 };
 
-function convertLoadSpec(
-  loadSpec: Fig.LoadSpec,
-  parserDirectives?: Fig.Subcommand["parserDirectives"]
-): LoadSpec {
-  if (typeof loadSpec === "string") {
-    return [{ name: loadSpec, type: SpecLocationSource.GLOBAL }];
-  }
-
-  if (typeof loadSpec === "function") {
-    return (...args) =>
-      loadSpec(...args).then((result) => {
-        if (Array.isArray(result)) {
-          return result;
-        }
-        if ("type" in result) {
-          return [result];
-        }
-        // eslint-disable-next-line @typescript-eslint/no-use-before-define
-        return convertSubcommand(result, parserDirectives);
-      });
-  }
-
-  // eslint-disable-next-line @typescript-eslint/no-use-before-define
-  return convertSubcommand(loadSpec, parserDirectives);
+export type Initializer<ArgT, OptionT, SubcommandT> = {
+  subcommand: (subcommand: Fig.Subcommand) => SubcommandT,
+  option: (option: Fig.Option) => OptionT,
+  arg: (arg: Fig.Arg) => ArgT,
 }
 
-function convertArg(arg: Fig.Arg, parserDirectives?: Fig.Subcommand["parserDirectives"]): Arg {
-  const { template, ...rest } = arg;
-  const generators = template ? [{ template }] : makeArray(arg.generators ?? []);
-  return {
-    ...rest,
-    loadSpec: arg.loadSpec ? convertLoadSpec(arg.loadSpec, parserDirectives) : undefined,
-    generators: generators.map((generator) => {
-      let { trigger, getQueryTerm } = generator;
-      if (generator.template) {
-        const templates = makeArray(generator.template);
-        if (templates.includes("folders") || templates.includes("filepaths")) {
-          trigger = trigger ?? "/";
-          getQueryTerm = getQueryTerm ?? "/";
-        }
-      }
-      return { ...generator, trigger, getQueryTerm };
-    }),
-  };
-}
-
-function convertOption(
+function convertOption<ArgT, OptionT>(
   option: Fig.Option,
-  parserDirectives?: Fig.Subcommand["parserDirectives"]
-): Option {
+  initialize: Omit<Initializer<ArgT, OptionT, never>, "subcommand">
+): Option<ArgT, OptionT> {
   return {
-    ...option,
+    ...initialize.option(option),
     name: makeArray(option.name),
-    args: option.args ? makeArray(option.args).map((arg) => convertArg(arg, parserDirectives)) : [],
+    args: option.args ? makeArray(option.args).map(initialize.arg) : [],
   };
 }
 
-export function convertSubcommand(
+export function convertSubcommand<ArgT, OptionT, SubcommandT>(
   subcommand: Fig.Subcommand,
-  parserDirectives?: Fig.Subcommand["parserDirectives"]
-): Subcommand {
-  const { subcommands, options, args, loadSpec } = subcommand;
-  const directives = subcommand.parserDirectives ?? parserDirectives;
+  initialize: Initializer<ArgT, OptionT, SubcommandT>
+): Subcommand<ArgT, OptionT, SubcommandT> {
+  const { subcommands, options, args } = subcommand;
   return {
-    ...subcommand,
-    parserDirectives: directives,
-    loadSpec: loadSpec ? convertLoadSpec(loadSpec, directives) : undefined,
+    ...initialize.subcommand(subcommand),
     name: makeArray(subcommand.name),
-    subcommands: makeNamedMap<Subcommand>(
-      subcommands?.map((s) => convertSubcommand(s, directives))
+    subcommands: makeNamedMap(
+      subcommands?.map((s) => convertSubcommand(s, initialize))
     ),
-    options: makeNamedMap<Option>(
+    options: makeNamedMap(
       options
         ?.filter((option) => !option.isPersistent)
-        ?.map((option) => convertOption(option, directives))
+        ?.map((option) => convertOption(option, initialize))
     ),
-    persistentOptions: makeNamedMap<Option>(
+    persistentOptions: makeNamedMap(
       options
         ?.filter((option) => option.isPersistent)
-        ?.map((option) => convertOption(option, directives))
+        ?.map((option) => convertOption(option, initialize))
     ),
-    args: args ? makeArray(args).map((arg) => convertArg(arg, directives)) : [],
+    args: args ? makeArray(args).map(initialize.arg) : [],
   };
 }
