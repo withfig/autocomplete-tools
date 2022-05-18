@@ -6,6 +6,13 @@ on:
   workflow_dispatch:
 
 jobs:
+  run-integration-tests:
+    steps:
+    - name: Repository Dispatch
+      uses: peter-evans/repository-dispatch@v1
+      with:
+        repository: withfig/publish-spec-to-team
+        event-type: dependency-update
   push-to-fig-autocomplete:
     runs-on: ubuntu-latest
     steps:

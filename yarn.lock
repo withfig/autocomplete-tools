@@ -512,6 +512,23 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@fig/complete-oclif@workspace:integrations/oclif":
+  version: 0.0.0-use.local
+  resolution: "@fig/complete-oclif@workspace:integrations/oclif"
+  dependencies:
+    "@oclif/command": ^1.8.0
+    "@oclif/config": ^1.17.0
+    "@oclif/dev-cli": ^1.26.0
+    "@oclif/plugin-help": ^3.2.3
+    "@types/node": ^16.11.1
+    "@withfig/autocomplete-types": ^1.5.0
+    globby: ^11.0.4
+    prettier: ^2.4.1
+    ts-node: ^10.3.0
+    typescript: ^4.4.4
+  languageName: unknown
+  linkType: soft
+
 "@fig/eslint-config-autocomplete@workspace:eslint/config-autocomplete":
   version: 0.0.0-use.local
   resolution: "@fig/eslint-config-autocomplete@workspace:eslint/config-autocomplete"
@@ -1728,23 +1745,6 @@ __metadata:
 "@withfig/eslint-plugin-fig-linter@^1.2.0, @withfig/eslint-plugin-fig-linter@workspace:eslint/plugin-fig-linter":
   version: 0.0.0-use.local
   resolution: "@withfig/eslint-plugin-fig-linter@workspace:eslint/plugin-fig-linter"
-  languageName: unknown
-  linkType: soft
-
-"@fig/complete-oclif@workspace:integrations/oclif":
-  version: 0.0.0-use.local
-  resolution: "@fig/complete-oclif@workspace:integrations/oclif"
-  dependencies:
-    "@oclif/command": ^1.8.0
-    "@oclif/config": ^1.17.0
-    "@oclif/dev-cli": ^1.26.0
-    "@oclif/plugin-help": ^3.2.3
-    "@types/node": ^16.11.1
-    "@withfig/autocomplete-types": ^1.5.0
-    globby: ^11.0.4
-    prettier: ^2.4.1
-    ts-node: ^10.3.0
-    typescript: ^4.4.4
   languageName: unknown
   linkType: soft
 
