@@ -12,7 +12,7 @@ Hey there! We are glad you want to contribute to some autocomplete package, here
 - [`click_complete_fig`](integrations/clap/CONTRIBUTING.md)
 - [`cobracompletefig`](integrations/cobra/CONTRIBUTING.md)
 - [`@fig/complete-commander`](integrations/commander/CONTRIBUTING.md)
-- [`@withfig/oclif`](integrations/oclif/CONTRIBUTING.md)
+- [`@fig/complete-oclif`](integrations/oclif/CONTRIBUTING.md)
 - [`swift-argument-parser`](integrations/swift-argument-parser/CONTRIBUTING.md)
 - [`@fig/autocomplete-merge`](merge/CONTRIBUTING.md)
 - [`@fig/autocomplete-shared`](shared/CONTRIBUTING.md)

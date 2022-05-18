@@ -1731,9 +1731,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@withfig/oclif@workspace:integrations/oclif":
+"@fig/complete-oclif@workspace:integrations/oclif":
   version: 0.0.0-use.local
-  resolution: "@withfig/oclif@workspace:integrations/oclif"
+  resolution: "@fig/complete-oclif@workspace:integrations/oclif"
   dependencies:
     "@oclif/command": ^1.8.0
     "@oclif/config": ^1.17.0

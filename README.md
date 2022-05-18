@@ -19,7 +19,7 @@ This repo contains the source for all of Fig tools related with [autocomplete](h
 - [`click_complete_fig`](integrations/clap/README.md)
 - [`cobracompletefig`](integrations/cobra/README.md)
 - [`@fig/complete-commander`](integrations/commander/README.md)
-- [`@withfig/oclif`](integrations/oclif/README.md)
+- [`@fig/complete-oclif`](integrations/oclif/README.md)
 - [`swift-argument-parser`](integrations/swift-argument-parser/README.md)
 - [`@fig/autocomplete-merge`](merge/README.md)
 - [`@fig/autocomplete-shared`](shared/README.md)
