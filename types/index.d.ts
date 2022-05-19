@@ -387,16 +387,14 @@ declare namespace Fig {
    */
   interface Subcommand extends BaseSuggestion {
     /**
-     * The exact name of the subcommand as defined in the CLI tool.
+     * The name of the subcommand. Should exactly match the name defined by the CLI tool.
      *
      * @remarks
-     * Fig's parser relies on your subcommand name being exactly what the user would type. e.g. if the user types git "commit", you must have `name: "commit"` and not something like `name: "your commit message"`.
+     * If a subcommand has multiple aliases, they should be included as an array.
      *
-     * If you want to customize what the text the popup says, use `displayName`.
+     * Note that Fig's autocomplete engine requires this `name` to match the text typed by the user in the shell.
      *
-     * The name prop in a Subcommand object compiles down to the name prop in a Suggestion object
-     *
-     * Final note: the name prop can be a string (most common) or an array of strings
+     * To customize the title that is displayed to the user, use `displayName`.
      *
      *
      * @example
@@ -407,35 +405,26 @@ declare namespace Fig {
     name: SingleOrArray<string>;
 
     /**
-     * An array of subcommand objects representing all the subcommands that exist beneath the current subcommand.
-     * Subcommands can be nested recursively.
+     * An array of `Subcommand` objects representing all the subcommands that exist beneath the current command.
+     *     *
+     * To support large CLI tools, `Subcommands` can be nested recursively.
      *
      * @example
-     * aws has plenty of subcommands (s3, ec2, eks...) and each of these have plenty of subcommands of their own. This is where these subcommands nest.
+     * A CLI tool like `aws` is composed of many top-level subcommands (`s3`, `ec2`, `eks`...), each of which include child subcommands of their own.
      */
     subcommands?: Subcommand[];
 
     /**
-     * An array of option objects representing the options that nest beneath this subcommand.
+     * An array of `Option` objects representing the options that are available on this subcommand.
      *
      * @example
-     * `git checkout` can take lots of options e.g. -b, -f, -d ... These option objects are all represented here.
+     * A command like `git commit` accepts various flags and options, such as `--message` and `--all`. These `Option` objects would be included in the `options` field.
      */
     options?: Option[];
 
     /**
-     * An array of arg objects or a single arg object
+     * An array of `Arg` objects representing the various parameters or "arguments" that can be passed to this subcommand.
      *
-     * @remarks
-     * If a subcommand takes an argument, please at least include an empty Arg Object. (e.g. `{ }`). Why? If you don't, Fig will assume the subcommand does not take an argument. When the user types their argument
-     * If the argument is optional, you can set `isOptional: true` on the arg.
-     *
-     * @example
-     * `npm run` takes one mandatory argument. This can be represented by `args: { }`
-     * @example
-     * `git push` takes two mandatory arguments. This can be represented by: `args: [{ isOptional: true }, { isOptional: true }]`
-     * @example
-     * `git clone` takes two optional arguments. This can be represented by: `args: [{ isOptional: true }, { }]`
      */
 
     args?: SingleOrArray<Arg>;
@@ -444,75 +433,66 @@ declare namespace Fig {
      * A list of Suggestion objects that are appended to the suggestions shown beneath a subcommand.
      *
      * @remarks
-     * These are often shortcuts with `type="shortcut"`
+     * You can use this field to suggest common workflows.
      *
      */
     additionalSuggestions?: (string | Suggestion)[];
     /**
-     * Dynamically load up another completion spec at runtime.
+     * Dynamically load another completion spec at runtime.
      *
-     * @param tokens - a tokenized array of what the user has typed
-     * @param executeShellCommand -an async function that allows you to execute a shell command on the user's system and get the output as a string.
+     * @param tokens - a tokenized array of the text the user has typed in the shell.
+     * @param executeShellCommand - an async function that can execute a shell command on behalf of the user. The output is a string.
      * @returns A `SpecLocation` object or an array of `SpecLocation` obejcts.
      *
      * @remarks
-     * **When is this used?**
-     * - For very very large specs (e.g. aws or gcloud) where loading the full completion spec would be slow. Instead, we load up the list of subcommands then dynamically load up the sub-subcommands using `loadSpec`.
-     * - For CLI tools that take a command as an argument e.g. `time <cmd>` or `builtin <cmd>`. `loadSpec` will load up the completion spec for the CLI the user inputs. e.g. if the user types `time git` we should load up the git spec
-     * - For CLI tools that take a local script as an argument e.g. `python <script>` or `node <script>`. `loadSpec` will load up the completion spec for the script the user inputs. e.g. if the user types `python main.py` we should load up the main.py completion spec.
-     * - For CLI tools that have modules that function like their own CLI tools. e.g. `python -m <module>`. LoadSpec will load up the completion spec for the module e.g. the `http.server` completion spec
+     * `loadSpec` can be invoked as string (recommended) or a function (advanced).
      *
-     * **The `SpecLocation` Object**
+     * The API tells the autocomplete engine where to look for a completion spec. If you pass a string, the engine will attempt to locate a matching spec that is hosted by Fig.
      *
-     * The SpecLocation object defines well... the location of the completion spec we want to load.
-     * Specs can be "global" (ie hosted by Fig's cloud) or "local" (ie stored on your local machine).
-     *
-     * - Global `SpecLocation`:
-     * Load specs hosted in Fig's Cloud. Assume the current working directory is here: https://github.com/withfig/autocomplete/tree/master/src. Now set the value for the "name" prop to the relative location of your spec (without the .js file extension)
-     * ```js
-     * // e.g.
-     * { type: "global", name: "aws/s3" } // Loads up the aws s3 completion spec
-     * { type: "global", name: "python/http.server" } // Loads up the http.server completion spec
+     * @example
+     * Suppose you have an internal CLI tool that wraps `kubectl`. Instead of copying the `kubectl` completion spec, you can include the spec at runtime.
+     * ```typescript
+     * {
+     *   name: "kube",
+     *   description: "a wrapper around kubectl"
+     *   loadSpec: "kubectl"
+     * }
      * ```
-     *
-     * - Local `SpecLocation`:
-     * Load specs saved on your local system / machine. Assume the current working directory is the user's current working directory.
-     * The `name` prop should take the name of the spec (without the .js file extension) e.g. my_cli_tool
-     * The `path` prop should take an absolute path OR a relative path (relative to the user's current working directory). The path should be to the directory that contains the `.fig` folder. Fig will then assume your spec is located in `.fig/autocomplete/build/`
-     * ```js
-     * // e.g.
-     * { type: "global", path: "node_modules/cowsay", name: "cowsay_cli" }  // will look for `cwd/node_modules/cowsay/.fig/autocomplete/build/cowsay_cli.js`
-     * { type: "global", path: "~", name: "my_cli" }  // will look for `~/.fig/autocomplete/build/my_cli.js`
+     * @example
+     * In the `aws` completion spec, `loadSpec` is used to optimize performance. The completion spec is split into multiple files, each of which can be loaded separately.
+     * ```typescript
+     * {
+     *   name: "s3",
+     *   loadSpec: "aws/s3"
+     * }
      * ```
-     *
-     * **Syntactic Sugars**
-     *
-     * We have three bits of syntactic sugar that can make this easier:
-     * 1. Pass a single string to `loadSpec` instead of a function. We interpret this string as the "name" prop of global SpecLocation object
-     * ```js
-     * // e.g.
-     * loadSpec: python/http.server
-     * // compiles to
-     * { type: "global", name: "python/http.server" }
-     * ```
-     * 2. `isCommand` (See [Arg Object](https://fig.io/docs/reference/arg#iscommand)).
-     * 3. `isScript` (See [Arg Object](https://fig.io/docs/reference/arg#isscript)).
      */
     loadSpec?: LoadSpec;
     /**
-     * Dynamically generate a subcommand object to be merged in at the same level as the subcommand this is nested beneath.
+     * Dynamically *generate* a `Subcommand` object a runtime. The generated `Subcommand` is merged with the current subcommand.
      *
      * @remarks
-     * For instance, if `generateSpec` was added beneath the git command, the subcommand object generated by the `generateSpec` function would be deep merged with the git spec.
+     * This API is often used by CLI tools where the structure of the CLI tool is not *static*. For instance, if the tool can be extended by plugins or otherwise shows different subcommands or options depending on the environment.
      *
-     * @param tokens - a tokenised array of strings of what the user typed
-     * @param executeShellCommand -an async function that allows you to execute a shell command on the user's system and get the output as a string.
+     * @param tokens - a tokenized array of the text the user has typed in the shell.
+     * @param executeShellCommand - an async function that can execute a shell command on behalf of the user. The output is a string.
      * @returns a `Fig.Spec` object
      *
      * @example
-     * The python spec uses `generateSpec` to insert the django-admin spec if `django manage.py` exists.
-     * @example
-     * `php` uses this to see if `artisan` exists. Then `php artisan` uses this to see if
+     * The `python` spec uses `generateSpec` to include the`django-admin` spec if `django manage.py` exists.
+     * ```typescript
+     * generateSpec: async (tokens, executeShellCommand) => {
+     *    // Load the contents of manage.py
+     *    const contentsOfmanagePy = await executeShellCommand("cat manage.py");
+     *    // Heuristic to determine if project uses django
+     *    if (contentsOfmanagePy.contains("django")) {
+     *      return {
+     *        name: "python",
+     *        subcommands: [{ name: "manage.py", loadSpec: "django-admin" }],
+     *      };
+     *    }
+     *  },
+     * ```
      */
     generateSpec?: (
       tokens: string[],
@@ -520,14 +500,14 @@ declare namespace Fig {
     ) => Promise<Spec>;
 
     /**
-     * Flags that allow customization of how Fig parses tokens.
+     * Configure how the autocomplete engine will map the raw tokens to a given completion spec.
      *
-     * @remarks
-     * - `flagsArePosixNoncompliant`: when `flagsArePosixNoncompliant` is true, options with one hyphen to have multiple characters.
-     * - `optionsMustPrecedeArguments`: when `optionsMustPrecedeArguments` is true, options will not be suggested after a subcommand arg is typed.
-     * - `optionArgSeparators`: when `optionArgSeparators` is set, options will accept or require one of the separators between the verbose option name and the argument.
+     * @param flagsArePosixNoncompliant - Indicates that flags with one hyphen may have *more* than one character. Enabling this directive, turns off support for option chaining.
+     * @param optionsMustPrecedeArguments - Options will not be suggested after any argument of the Subcommand has been typed.
+     * @param optionArgSeparators - Indicate that options which take arguments will require one of the specified separators between the 'verbose' option name and the argument.
+     *
      * @example
-     * The `-work` option from the go spec is parsed as a single flag when `parserDirectives.flagsArePosixNoncompliant` is set to true. Normally, this would be chained and parsed as `-w -o -r -k` if `flagsArePosixNoncompliant` is not set to true.
+     * The `-work` option from the `go` spec is parsed as a single flag when `parserDirectives.flagsArePosixNoncompliant` is set to true. Normally, this would be chained and parsed as `-w -o -r -k` if `flagsArePosixNoncompliant` is not set to true.
      */
     parserDirectives?: {
       flagsArePosixNoncompliant?: boolean;
