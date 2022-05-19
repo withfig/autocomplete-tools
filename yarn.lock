@@ -485,13 +485,13 @@ __metadata:
   dependencies:
     "@tsconfig/recommended": ^1.0.1
     "@types/jest": ^27.5.0
-    "@types/prettier": ^2.6.0
     "@types/semver": ^7.3.9
     "@withfig/autocomplete-types": ^1.15.0
     jest: ^28.0.3
     prettier: ^2.6.2
     ts-jest: ^28.0.0
     ts-node: ^10.4.0
+    typescript: ^4.6.4
   languageName: unknown
   linkType: soft
 
