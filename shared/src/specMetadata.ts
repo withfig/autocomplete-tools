@@ -27,51 +27,6 @@ export type SubcommandMeta = Omit<Fig.Subcommand, SubcommandMetaExcludes> & {
   loadSpec?: LoadSpec<ArgMeta, OptionMeta, SubcommandMeta>;
 };
 
-// Default initialization functions:
-function initializeArgMeta(arg: Fig.Arg): ArgMeta {
-  const { template, ...rest } = arg;
-  const generators = template ? [{ template }] : makeArray(arg.generators ?? []);
-  return {
-    ...rest,
-    loadSpec: arg.loadSpec
-      ? convertLoadSpec(arg.loadSpec, {
-          subcommand: initializeSubcommandMeta,
-          option: initializeOptionMeta,
-          arg: initializeArgMeta,
-        })
-      : undefined,
-    generators: generators.map((generator) => {
-      let { trigger, getQueryTerm } = generator;
-      if (generator.template) {
-        const templates = makeArray(generator.template);
-        if (templates.includes("folders") || templates.includes("filepaths")) {
-          trigger = trigger ?? "/";
-          getQueryTerm = getQueryTerm ?? "/";
-        }
-      }
-      return { ...generator, trigger, getQueryTerm };
-    }),
-  };
-}
-
-function initializeOptionMeta(option: Fig.Option): OptionMeta {
-  return option;
-}
-
-function initializeSubcommandMeta(subcommand: Fig.Subcommand): SubcommandMeta {
-  return {
-    ...subcommand,
-    loadSpec:
-      subcommand.loadSpec
-        ? convertLoadSpec(subcommand.loadSpec, {
-            subcommand: initializeSubcommandMeta,
-            option: initializeOptionMeta,
-            arg: initializeArgMeta,
-          })
-        : undefined,
-  }
-}
-
 export function convertLoadSpec<ArgT, OptionT, SubcommandT>(
   loadSpec: Fig.LoadSpec,
   initialize: Initializer<ArgT, OptionT, SubcommandT>
@@ -98,8 +53,53 @@ export function convertLoadSpec<ArgT, OptionT, SubcommandT>(
   return convertSubcommand(loadSpec, initialize);
 }
 
+function initializeOptionMeta(option: Fig.Option): OptionMeta {
+  return option;
+}
+
+// Default initialization functions:
+function initializeArgMeta(arg: Fig.Arg): ArgMeta {
+  const { template, ...rest } = arg;
+  const generators = template ? [{ template }] : makeArray(arg.generators ?? []);
+  return {
+    ...rest,
+    loadSpec: arg.loadSpec
+      ? convertLoadSpec(arg.loadSpec, {
+          option: initializeOptionMeta,
+          // eslint-disable-next-line @typescript-eslint/no-use-before-define
+          subcommand: initializeSubcommandMeta,
+          arg: initializeArgMeta,
+        })
+      : undefined,
+    generators: generators.map((generator) => {
+      let { trigger, getQueryTerm } = generator;
+      if (generator.template) {
+        const templates = makeArray(generator.template);
+        if (templates.includes("folders") || templates.includes("filepaths")) {
+          trigger = trigger ?? "/";
+          getQueryTerm = getQueryTerm ?? "/";
+        }
+      }
+      return { ...generator, trigger, getQueryTerm };
+    }),
+  };
+}
+
+function initializeSubcommandMeta(subcommand: Fig.Subcommand): SubcommandMeta {
+  return {
+    ...subcommand,
+    loadSpec: subcommand.loadSpec
+      ? convertLoadSpec(subcommand.loadSpec, {
+          subcommand: initializeSubcommandMeta,
+          option: initializeOptionMeta,
+          arg: initializeArgMeta,
+        })
+      : undefined,
+  };
+}
+
 export const initializeDefault: Initializer<ArgMeta, OptionMeta, SubcommandMeta> = {
   subcommand: initializeSubcommandMeta,
   option: initializeOptionMeta,
-  arg: initializeArgMeta
-}
+  arg: initializeArgMeta,
+};

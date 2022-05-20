@@ -33,10 +33,10 @@ const makeNamedMap = <T extends { name: string[] }>(items: T[] | undefined): Rec
 };
 
 export type Initializer<ArgT, OptionT, SubcommandT> = {
-  subcommand: (subcommand: Fig.Subcommand) => SubcommandT,
-  option: (option: Fig.Option) => OptionT,
-  arg: (arg: Fig.Arg) => ArgT,
-}
+  subcommand: (subcommand: Fig.Subcommand) => SubcommandT;
+  option: (option: Fig.Option) => OptionT;
+  arg: (arg: Fig.Arg) => ArgT;
+};
 
 function convertOption<ArgT, OptionT>(
   option: Fig.Option,
@@ -57,9 +57,7 @@ export function convertSubcommand<ArgT, OptionT, SubcommandT>(
   return {
     ...initialize.subcommand(subcommand),
     name: makeArray(subcommand.name),
-    subcommands: makeNamedMap(
-      subcommands?.map((s) => convertSubcommand(s, initialize))
-    ),
+    subcommands: makeNamedMap(subcommands?.map((s) => convertSubcommand(s, initialize))),
     options: makeNamedMap(
       options
         ?.filter((option) => !option.isPersistent)

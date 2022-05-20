@@ -10,14 +10,11 @@ import { SpecLocationSource, makeArray } from "./src/utils";
 export {
   Internal,
   convertSubcommand,
-
   Metadata,
   convertLoadSpec,
   initializeDefault,
-
   SpecMixin,
   applyMixin,
-
   makeArray,
-  SpecLocationSource
+  SpecLocationSource,
 };
