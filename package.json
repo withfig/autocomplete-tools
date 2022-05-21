@@ -16,10 +16,11 @@
   "scripts": {
     "lint": "eslint .",
     "lint:fix": "yarn lint --fix",
-    "build": "yarn workspaces foreach -v run build",
-    "test": "yarn workspaces foreach -v run test",
+    "build": "yarn workspaces foreach -v --exclude root run build",
+    "test:since": "yarn workspaces foreach -vR --exclude root --since=$(git rev-parse head) run test",
+    "test": "yarn workspaces foreach -v --exclude root run test",
     "postinstall": "husky install && yarn build",
-    "pre-commit": "lint-staged && yarn test",
+    "pre-commit": "lint-staged && yarn test:since",
     "clean": "git clean -Xdf ."
   },
   "packageManager": "yarn@3.2.1",
