@@ -1,6 +1,6 @@
 {
   "name": "@fig/autocomplete-shared",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "Internal shared utilities for working with Fig specs",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
