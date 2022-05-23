@@ -507,9 +507,9 @@ declare namespace Fig {
      * ```typescript
      * generateSpec: async (tokens, executeShellCommand) => {
      *    // Load the contents of manage.py
-     *    const contentsOfmanagePy = await executeShellCommand("cat manage.py");
+     *    const managePyContents = await executeShellCommand("cat manage.py");
      *    // Heuristic to determine if project uses django
-     *    if (contentsOfmanagePy.contains("django")) {
+     *    if (managePyContents.contains("django")) {
      *      return {
      *        name: "python",
      *        subcommands: [{ name: "manage.py", loadSpec: "django-admin" }],

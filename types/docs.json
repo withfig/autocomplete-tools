@@ -9,10 +9,7 @@
           "name": "displayName",
           "excluded": false,
           "summary": "The string that is displayed in the UI for a given suggestion.",
-          "returns": "",
-          "discussion": "",
           "parameters": [],
-          "deprecated": "",
           "optional": true,
           "declaration": "displayName?: string;",
           "examples": [
@@ -25,10 +22,8 @@
           "name": "insertValue",
           "excluded": false,
           "summary": "The value that's inserted into the terminal when a user presses enter/tab or clicks on a menu item.",
-          "returns": "",
           "discussion": "You can use `\\n` to insert a newline or `\\b` to insert a backspace.\nYou can also optionally specify {cursor} in the string and Fig will automatically place the cursor there after insert.",
           "parameters": [],
-          "deprecated": "",
           "optional": true,
           "declaration": "insertValue?: string;",
           "examples": [
@@ -41,10 +36,7 @@
           "name": "description",
           "excluded": false,
           "summary": "The text that gets rendered at the bottom of the autocomplete box (or the side if you hit ⌘i)",
-          "returns": "",
-          "discussion": "",
           "parameters": [],
-          "deprecated": "",
           "optional": true,
           "declaration": "description?: string;",
           "examples": ["\"Your commit message\""],
@@ -54,10 +46,8 @@
           "name": "icon",
           "excluded": false,
           "summary": "The icon that is rendered is based on the type.",
-          "returns": "",
           "discussion": "Icons can be a 1 character string, a URL, or Fig's [icon protocol](https://fig.io/docs/reference/suggestion/icon-api) (fig://) which lets you generate\ncolorful and fun systems icons.",
           "parameters": [],
-          "deprecated": "",
           "optional": true,
           "declaration": "icon?: string;",
           "examples": [
@@ -73,10 +63,8 @@
           "name": "isDangerous",
           "excluded": false,
           "summary": "Specifies whether the suggestion is \"dangerous\".",
-          "returns": "",
           "discussion": "If true, Fig will not enable its autoexecute functionality. Autoexecute means if a user selects a suggestion it will insert the text and run the command. We signal this by changing the icon to red.\nSetting `isDangerous` to `true` will make it harder for a user to accidentally run a dangerous command.",
           "parameters": [],
-          "deprecated": "",
           "optional": true,
           "declaration": "isDangerous?: boolean;",
           "examples": [
@@ -89,10 +77,8 @@
           "name": "priority",
           "excluded": false,
           "summary": "The number used to rank suggestions in autocomplete. Number must be from 0-100. Higher priorities rank higher.",
-          "returns": "",
           "discussion": "Fig ranks suggestions by recency. To do this, we check if a suggestion has been selected before. If yes and the suggestions has:\n- a priority between 50-75, the priority will be replaced with 75, then we will add the timestamp of when that suggestion was selected as a decimal.\n- a priority outside of 50-75, the priority will be increased by the timestamp of when that suggestion was selected as a decimal.\nIf it has not been selected before, Fig will keep the same priority as was set in the completion spec\nIf it was not set in the spec, it will default to 50.",
           "parameters": [],
-          "deprecated": "",
           "optional": true,
           "declaration": "priority?: number;",
           "examples": [
@@ -106,10 +92,8 @@
           "name": "hidden",
           "excluded": false,
           "summary": "Specifies whether a suggestion should be hidden from results.",
-          "returns": "",
           "discussion": "Fig will only show it if the user exactly types the name.",
           "parameters": [],
-          "deprecated": "",
           "optional": true,
           "declaration": "hidden?: boolean;",
           "examples": [
@@ -122,10 +106,8 @@
           "name": "deprecated",
           "excluded": false,
           "summary": "Specifies whether a suggestion is deprecated.",
-          "returns": "",
           "discussion": "It is possible to specify a suggestion to replace the deprecated one.\n- The `description` of the deprecated object (e.g `deprecated: { description: 'The --no-ansi option has been deprecated in v2' }`) is used to provide infos about the deprecation.\n- `deprecated: true` and `deprecated: { }` behave the same and will just display the suggestion as deprecated.",
           "parameters": [],
-          "deprecated": "",
           "optional": true,
           "declaration": "deprecated?: boolean | Omit<BaseSuggestion, \"deprecated\">;",
           "examples": [
@@ -145,10 +127,8 @@
           "name": "name",
           "excluded": false,
           "summary": "The string Fig uses when filtering over a list of suggestions to check for a match.",
-          "returns": "",
           "discussion": "When a a user is typing in the terminal, the query term (the token they are currently typing) filters over all suggestions in a list by checking if the queryTerm matches the prefix of the name.\nThe `displayName` prop also defaults to the value of name.\n\nThe `name` props of suggestion, subcommand, option, and arg objects are all different. It's important to read them all carefully.",
           "parameters": [],
-          "deprecated": "",
           "optional": true,
           "declaration": "name?: string | string[];",
           "examples": [
@@ -160,10 +140,8 @@
           "name": "type",
           "excluded": false,
           "summary": "The type of a suggestion object.",
-          "returns": "",
           "discussion": "The type determines\n- the default icon Fig uses (e.g. a file or folder searches for the system icon, a subcommand has a specific icon etc)\n- whether we allow users to auto-execute a command",
           "parameters": [],
-          "deprecated": "",
           "optional": true,
           "declaration": "type?: \"folder\" | \"file\" | \"arg\" | \"subcommand\" | \"option\" | \"special\" | \"shortcut\";",
           "examples": [],
@@ -175,10 +153,7 @@
           "name": "displayName",
           "excluded": false,
           "summary": "The string that is displayed in the UI for a given suggestion.",
-          "returns": "",
-          "discussion": "",
           "parameters": [],
-          "deprecated": "",
           "optional": true,
           "declaration": "displayName?: string;",
           "examples": [
@@ -191,10 +166,8 @@
           "name": "insertValue",
           "excluded": false,
           "summary": "The value that's inserted into the terminal when a user presses enter/tab or clicks on a menu item.",
-          "returns": "",
           "discussion": "You can use `\\n` to insert a newline or `\\b` to insert a backspace.\nYou can also optionally specify {cursor} in the string and Fig will automatically place the cursor there after insert.",
           "parameters": [],
-          "deprecated": "",
           "optional": true,
           "declaration": "insertValue?: string;",
           "examples": [
@@ -207,10 +180,7 @@
           "name": "description",
           "excluded": false,
           "summary": "The text that gets rendered at the bottom of the autocomplete box (or the side if you hit ⌘i)",
-          "returns": "",
-          "discussion": "",
           "parameters": [],
-          "deprecated": "",
           "optional": true,
           "declaration": "description?: string;",
           "examples": ["\"Your commit message\""],
@@ -220,10 +190,8 @@
           "name": "icon",
           "excluded": false,
           "summary": "The icon that is rendered is based on the type.",
-          "returns": "",
           "discussion": "Icons can be a 1 character string, a URL, or Fig's [icon protocol](https://fig.io/docs/reference/suggestion/icon-api) (fig://) which lets you generate\ncolorful and fun systems icons.",
           "parameters": [],
-          "deprecated": "",
           "optional": true,
           "declaration": "icon?: string;",
           "examples": [
@@ -239,10 +207,8 @@
           "name": "isDangerous",
           "excluded": false,
           "summary": "Specifies whether the suggestion is \"dangerous\".",
-          "returns": "",
           "discussion": "If true, Fig will not enable its autoexecute functionality. Autoexecute means if a user selects a suggestion it will insert the text and run the command. We signal this by changing the icon to red.\nSetting `isDangerous` to `true` will make it harder for a user to accidentally run a dangerous command.",
           "parameters": [],
-          "deprecated": "",
           "optional": true,
           "declaration": "isDangerous?: boolean;",
           "examples": [
@@ -255,10 +221,8 @@
           "name": "priority",
           "excluded": false,
           "summary": "The number used to rank suggestions in autocomplete. Number must be from 0-100. Higher priorities rank higher.",
-          "returns": "",
           "discussion": "Fig ranks suggestions by recency. To do this, we check if a suggestion has been selected before. If yes and the suggestions has:\n- a priority between 50-75, the priority will be replaced with 75, then we will add the timestamp of when that suggestion was selected as a decimal.\n- a priority outside of 50-75, the priority will be increased by the timestamp of when that suggestion was selected as a decimal.\nIf it has not been selected before, Fig will keep the same priority as was set in the completion spec\nIf it was not set in the spec, it will default to 50.",
           "parameters": [],
-          "deprecated": "",
           "optional": true,
           "declaration": "priority?: number;",
           "examples": [
@@ -272,10 +236,8 @@
           "name": "hidden",
           "excluded": false,
           "summary": "Specifies whether a suggestion should be hidden from results.",
-          "returns": "",
           "discussion": "Fig will only show it if the user exactly types the name.",
           "parameters": [],
-          "deprecated": "",
           "optional": true,
           "declaration": "hidden?: boolean;",
           "examples": [
@@ -288,10 +250,8 @@
           "name": "deprecated",
           "excluded": false,
           "summary": "Specifies whether a suggestion is deprecated.",
-          "returns": "",
           "discussion": "It is possible to specify a suggestion to replace the deprecated one.\n- The `description` of the deprecated object (e.g `deprecated: { description: 'The --no-ansi option has been deprecated in v2' }`) is used to provide infos about the deprecation.\n- `deprecated: true` and `deprecated: { }` behave the same and will just display the suggestion as deprecated.",
           "parameters": [],
-          "deprecated": "",
           "optional": true,
           "declaration": "deprecated?: boolean | Omit<BaseSuggestion, \"deprecated\">;",
           "examples": [
@@ -310,10 +270,8 @@
           "name": "name",
           "excluded": false,
           "summary": "The name of the subcommand. Should exactly match the name defined by the CLI tool.",
-          "returns": "",
           "discussion": "If a subcommand has multiple aliases, they should be included as an array.\n\nNote that Fig's autocomplete engine requires this `name` to match the text typed by the user in the shell.\n\nTo customize the title that is displayed to the user, use `displayName`.",
           "parameters": [],
-          "deprecated": "",
           "optional": false,
           "declaration": "name: string | string[];",
           "examples": [
@@ -326,10 +284,7 @@
           "name": "subcommands",
           "excluded": false,
           "summary": "An array of `Subcommand` objects representing all the subcommands that exist beneath the current command.\n    *\nTo support large CLI tools, `Subcommands` can be nested recursively.",
-          "returns": "",
-          "discussion": "",
           "parameters": [],
-          "deprecated": "",
           "optional": true,
           "declaration": "subcommands?: Subcommand[];",
           "examples": [
@@ -341,10 +296,7 @@
           "name": "options",
           "excluded": false,
           "summary": "An array of `Option` objects representing the options that are available on this subcommand.",
-          "returns": "",
-          "discussion": "",
           "parameters": [],
-          "deprecated": "",
           "optional": true,
           "declaration": "options?: Option[];",
           "examples": [
@@ -356,10 +308,7 @@
           "name": "args",
           "excluded": false,
           "summary": "An array of `Arg` objects representing the various parameters or \"arguments\" that can be passed to this subcommand.",
-          "returns": "",
-          "discussion": "",
           "parameters": [],
-          "deprecated": "",
           "optional": true,
           "declaration": "args?: Arg | Arg[];",
           "examples": [],
@@ -369,10 +318,8 @@
           "name": "additionalSuggestions",
           "excluded": false,
           "summary": "A list of Suggestion objects that are appended to the suggestions shown beneath a subcommand.",
-          "returns": "",
           "discussion": "You can use this field to suggest common workflows.",
           "parameters": [],
-          "deprecated": "",
           "optional": true,
           "declaration": "additionalSuggestions?: (string | Suggestion)[];",
           "examples": [],
@@ -394,7 +341,6 @@
               "description": "an async function that can execute a shell command on behalf of the user. The output is a string."
             }
           ],
-          "deprecated": "",
           "optional": true,
           "declaration": "loadSpec?: string | Subcommand | ((token: string, executeShellCommand: (commandToExecute: string) => Promise<string>) => Promise<SpecLocation | SpecLocation[] | Subcommand>);",
           "examples": [
@@ -419,11 +365,10 @@
               "description": "an async function that can execute a shell command on behalf of the user. The output is a string."
             }
           ],
-          "deprecated": "",
           "optional": true,
           "declaration": "generateSpec?: (tokens: string[], executeShellCommand: (commandToExecute: string) => Promise<string>) => Promise<Subcommand | ((version?: string) => Subcommand) | ((version?: string) => {\n            versionedSpecPath: string;\n            version?: string;\n        })>;",
           "examples": [
-            "The `python` spec uses `generateSpec` to include the`django-admin` spec if `django manage.py` exists.\n```typescript\ngenerateSpec: async (tokens, executeShellCommand) => {\n   // Load the contents of manage.py\n   const contentsOfmanagePy = await executeShellCommand(\"cat manage.py\");\n   // Heuristic to determine if project uses django\n   if (contentsOfmanagePy.contains(\"django\")) {\n     return {\n       name: \"python\",\n       subcommands: [{ name: \"manage.py\", loadSpec: \"django-admin\" }],\n     };\n   }\n },\n```"
+            "The `python` spec uses `generateSpec` to include the`django-admin` spec if `django manage.py` exists.\n```typescript\ngenerateSpec: async (tokens, executeShellCommand) => {\n   // Load the contents of manage.py\n   const managePyContents = await executeShellCommand(\"cat manage.py\");\n   // Heuristic to determine if project uses django\n   if (managePyContents.contains(\"django\")) {\n     return {\n       name: \"python\",\n       subcommands: [{ name: \"manage.py\", loadSpec: \"django-admin\" }],\n     };\n   }\n },\n```"
           ],
           "hasDocComment": true
         },
@@ -431,8 +376,6 @@
           "name": "parserDirectives",
           "excluded": false,
           "summary": "Configure how the autocomplete engine will map the raw tokens to a given completion spec.",
-          "returns": "",
-          "discussion": "",
           "parameters": [
             {
               "name": "flagsArePosixNoncompliant",
@@ -447,7 +390,6 @@
               "description": "Indicate that options which take arguments will require one of the specified separators between the 'verbose' option name and the argument."
             }
           ],
-          "deprecated": "",
           "optional": true,
           "declaration": "parserDirectives?: {\n            flagsArePosixNoncompliant?: boolean;\n            optionsMustPrecedeArguments?: boolean;\n            optionArgSeparators?: string | string[];\n        };",
           "examples": [
@@ -461,10 +403,7 @@
           "name": "displayName",
           "excluded": false,
           "summary": "The string that is displayed in the UI for a given suggestion.",
-          "returns": "",
-          "discussion": "",
           "parameters": [],
-          "deprecated": "",
           "optional": true,
           "declaration": "displayName?: string;",
           "examples": [
@@ -477,10 +416,8 @@
           "name": "insertValue",
           "excluded": false,
           "summary": "The value that's inserted into the terminal when a user presses enter/tab or clicks on a menu item.",
-          "returns": "",
           "discussion": "You can use `\\n` to insert a newline or `\\b` to insert a backspace.\nYou can also optionally specify {cursor} in the string and Fig will automatically place the cursor there after insert.",
           "parameters": [],
-          "deprecated": "",
           "optional": true,
           "declaration": "insertValue?: string;",
           "examples": [
@@ -493,10 +430,7 @@
           "name": "description",
           "excluded": false,
           "summary": "The text that gets rendered at the bottom of the autocomplete box (or the side if you hit ⌘i)",
-          "returns": "",
-          "discussion": "",
           "parameters": [],
-          "deprecated": "",
           "optional": true,
           "declaration": "description?: string;",
           "examples": ["\"Your commit message\""],
@@ -506,10 +440,8 @@
           "name": "icon",
           "excluded": false,
           "summary": "The icon that is rendered is based on the type.",
-          "returns": "",
           "discussion": "Icons can be a 1 character string, a URL, or Fig's [icon protocol](https://fig.io/docs/reference/suggestion/icon-api) (fig://) which lets you generate\ncolorful and fun systems icons.",
           "parameters": [],
-          "deprecated": "",
           "optional": true,
           "declaration": "icon?: string;",
           "examples": [
@@ -525,10 +457,8 @@
           "name": "isDangerous",
           "excluded": false,
           "summary": "Specifies whether the suggestion is \"dangerous\".",
-          "returns": "",
           "discussion": "If true, Fig will not enable its autoexecute functionality. Autoexecute means if a user selects a suggestion it will insert the text and run the command. We signal this by changing the icon to red.\nSetting `isDangerous` to `true` will make it harder for a user to accidentally run a dangerous command.",
           "parameters": [],
-          "deprecated": "",
           "optional": true,
           "declaration": "isDangerous?: boolean;",
           "examples": [
@@ -541,10 +471,8 @@
           "name": "priority",
           "excluded": false,
           "summary": "The number used to rank suggestions in autocomplete. Number must be from 0-100. Higher priorities rank higher.",
-          "returns": "",
           "discussion": "Fig ranks suggestions by recency. To do this, we check if a suggestion has been selected before. If yes and the suggestions has:\n- a priority between 50-75, the priority will be replaced with 75, then we will add the timestamp of when that suggestion was selected as a decimal.\n- a priority outside of 50-75, the priority will be increased by the timestamp of when that suggestion was selected as a decimal.\nIf it has not been selected before, Fig will keep the same priority as was set in the completion spec\nIf it was not set in the spec, it will default to 50.",
           "parameters": [],
-          "deprecated": "",
           "optional": true,
           "declaration": "priority?: number;",
           "examples": [
@@ -558,10 +486,8 @@
           "name": "hidden",
           "excluded": false,
           "summary": "Specifies whether a suggestion should be hidden from results.",
-          "returns": "",
           "discussion": "Fig will only show it if the user exactly types the name.",
           "parameters": [],
-          "deprecated": "",
           "optional": true,
           "declaration": "hidden?: boolean;",
           "examples": [
@@ -574,10 +500,8 @@
           "name": "deprecated",
           "excluded": false,
           "summary": "Specifies whether a suggestion is deprecated.",
-          "returns": "",
           "discussion": "It is possible to specify a suggestion to replace the deprecated one.\n- The `description` of the deprecated object (e.g `deprecated: { description: 'The --no-ansi option has been deprecated in v2' }`) is used to provide infos about the deprecation.\n- `deprecated: true` and `deprecated: { }` behave the same and will just display the suggestion as deprecated.",
           "parameters": [],
-          "deprecated": "",
           "optional": true,
           "declaration": "deprecated?: boolean | Omit<BaseSuggestion, \"deprecated\">;",
           "examples": [
@@ -596,10 +520,8 @@
           "name": "name",
           "excluded": false,
           "summary": "The exact name of the subcommand as defined in the CLI tool.",
-          "returns": "",
           "discussion": "Fig's parser relies on your option name being exactly what the user would type. (e.g. if the user types `git \"-m\"`, you must have `name: \"-m\"` and not something like `name: \"your message\"` or even with an `=` sign like`name: \"-m=\"`)\n\nIf you want to customize what the text the popup says, use `displayName`.\n\nThe name prop in an Option object compiles down to the name prop in a Suggestion object\n\nFinal note: the name prop can be a string (most common) or an array of strings",
           "parameters": [],
-          "deprecated": "",
           "optional": false,
           "declaration": "name: string | string[];",
           "examples": [
@@ -612,10 +534,8 @@
           "name": "args",
           "excluded": false,
           "summary": "An array of arg objects or a single arg object",
-          "returns": "",
           "discussion": "If a subcommand takes an argument, please at least include an empty Arg Object. (e.g. `{ }`). Why? If you don't, Fig will assume the subcommand does not take an argument. When the user types their argument\nIf the argument is optional, signal this by saying `isOptional: true`.",
           "parameters": [],
-          "deprecated": "",
           "optional": true,
           "declaration": "args?: Arg | Arg[];",
           "examples": [
@@ -629,10 +549,8 @@
           "name": "isPersistent",
           "excluded": false,
           "summary": "Signals whether an option is persistent, meaning that it will still be available\nas an option for all child subcommands.",
-          "returns": "",
           "discussion": "As of now there is no way to disable this\npersistence for certain children. Also see\nhttps://github.com/spf13/cobra/blob/master/user_guide.md#persistent-flags.",
           "parameters": [],
-          "deprecated": "",
           "optional": true,
           "declaration": "isPersistent?: boolean;",
           "examples": [
@@ -645,10 +563,7 @@
           "name": "isRequired",
           "excluded": false,
           "summary": "Signals whether an option is required.",
-          "returns": "",
-          "discussion": "",
           "parameters": [],
-          "deprecated": "",
           "optional": true,
           "declaration": "isRequired?: boolean;",
           "examples": ["The `-m` option of `git commit` is required"],
@@ -659,8 +574,6 @@
           "name": "requiresEquals",
           "excluded": false,
           "summary": "Signals whether an equals sign is required to pass an argument to an option (e.g. `git commit --message=\"msg\"`)",
-          "returns": "",
-          "discussion": "",
           "parameters": [],
           "deprecated": "use `requiresSeparator` instead",
           "optional": true,
@@ -675,10 +588,7 @@
           "name": "requiresSeparator",
           "excluded": false,
           "summary": "Signals whether one of the separators specified in parserDirectives is required to pass an argument to an option (e.g. `git commit --message[separator]\"msg\"`)\nIf set to true this will automatically insert an equal after the option name.\nIf set to a separator (string) this will automatically insert the separator specified after the option name.",
-          "returns": "",
-          "discussion": "",
           "parameters": [],
-          "deprecated": "",
           "optional": true,
           "declaration": "requiresSeparator?: boolean | string;",
           "examples": [
@@ -692,10 +602,8 @@
           "name": "isRepeatable",
           "excluded": false,
           "summary": "Signals whether an option can be passed multiple times.",
-          "returns": "",
           "discussion": "Passing `isRepeatable: true` will allow an option to be passed any number\nof times, while passing `isRepeatable: 2` will allow it to be passed\ntwice, etc. Passing `isRepeatable: false` is the same as passing\n`isRepeatable: 1`.\n\nIf you explicitly specify the isRepeatable option in a spec, this\nconstraint will be enforced at the parser level, meaning after the option\n(say `-o`) has been passed the maximum number of times, Fig's parser will\nnot recognize `-o` as an option if the user types it again.",
           "parameters": [],
-          "deprecated": "",
           "optional": true,
           "declaration": "isRepeatable?: boolean | number;",
           "examples": [
@@ -709,10 +617,8 @@
           "name": "exclusiveOn",
           "excluded": false,
           "summary": "Signals whether an option is mutually exclusive with other options (ie if the user has this option, Fig should not show the options specified).",
-          "returns": "",
           "discussion": "Options that are mutually exclusive with flags the user has already passed will not be shown in the suggestions list.",
           "parameters": [],
-          "deprecated": "",
           "optional": true,
           "declaration": "exclusiveOn?: string[];",
           "examples": [
@@ -725,10 +631,8 @@
           "name": "dependsOn",
           "excluded": false,
           "summary": "Signals whether an option depends on other options (ie if the user has this option, Fig should only show these options until they are all inserted).",
-          "returns": "",
           "discussion": "If the user has an unmet dependency for a flag they've already typed, this dependency will have boosted priority in the suggestion list.",
           "parameters": [],
-          "deprecated": "",
           "optional": true,
           "declaration": "dependsOn?: string[];",
           "examples": [
@@ -743,10 +647,7 @@
           "name": "displayName",
           "excluded": false,
           "summary": "The string that is displayed in the UI for a given suggestion.",
-          "returns": "",
-          "discussion": "",
           "parameters": [],
-          "deprecated": "",
           "optional": true,
           "declaration": "displayName?: string;",
           "examples": [
@@ -759,10 +660,8 @@
           "name": "insertValue",
           "excluded": false,
           "summary": "The value that's inserted into the terminal when a user presses enter/tab or clicks on a menu item.",
-          "returns": "",
           "discussion": "You can use `\\n` to insert a newline or `\\b` to insert a backspace.\nYou can also optionally specify {cursor} in the string and Fig will automatically place the cursor there after insert.",
           "parameters": [],
-          "deprecated": "",
           "optional": true,
           "declaration": "insertValue?: string;",
           "examples": [
@@ -775,10 +674,7 @@
           "name": "description",
           "excluded": false,
           "summary": "The text that gets rendered at the bottom of the autocomplete box (or the side if you hit ⌘i)",
-          "returns": "",
-          "discussion": "",
           "parameters": [],
-          "deprecated": "",
           "optional": true,
           "declaration": "description?: string;",
           "examples": ["\"Your commit message\""],
@@ -788,10 +684,8 @@
           "name": "icon",
           "excluded": false,
           "summary": "The icon that is rendered is based on the type.",
-          "returns": "",
           "discussion": "Icons can be a 1 character string, a URL, or Fig's [icon protocol](https://fig.io/docs/reference/suggestion/icon-api) (fig://) which lets you generate\ncolorful and fun systems icons.",
           "parameters": [],
-          "deprecated": "",
           "optional": true,
           "declaration": "icon?: string;",
           "examples": [
@@ -807,10 +701,8 @@
           "name": "isDangerous",
           "excluded": false,
           "summary": "Specifies whether the suggestion is \"dangerous\".",
-          "returns": "",
           "discussion": "If true, Fig will not enable its autoexecute functionality. Autoexecute means if a user selects a suggestion it will insert the text and run the command. We signal this by changing the icon to red.\nSetting `isDangerous` to `true` will make it harder for a user to accidentally run a dangerous command.",
           "parameters": [],
-          "deprecated": "",
           "optional": true,
           "declaration": "isDangerous?: boolean;",
           "examples": [
@@ -823,10 +715,8 @@
           "name": "priority",
           "excluded": false,
           "summary": "The number used to rank suggestions in autocomplete. Number must be from 0-100. Higher priorities rank higher.",
-          "returns": "",
           "discussion": "Fig ranks suggestions by recency. To do this, we check if a suggestion has been selected before. If yes and the suggestions has:\n- a priority between 50-75, the priority will be replaced with 75, then we will add the timestamp of when that suggestion was selected as a decimal.\n- a priority outside of 50-75, the priority will be increased by the timestamp of when that suggestion was selected as a decimal.\nIf it has not been selected before, Fig will keep the same priority as was set in the completion spec\nIf it was not set in the spec, it will default to 50.",
           "parameters": [],
-          "deprecated": "",
           "optional": true,
           "declaration": "priority?: number;",
           "examples": [
@@ -840,10 +730,8 @@
           "name": "hidden",
           "excluded": false,
           "summary": "Specifies whether a suggestion should be hidden from results.",
-          "returns": "",
           "discussion": "Fig will only show it if the user exactly types the name.",
           "parameters": [],
-          "deprecated": "",
           "optional": true,
           "declaration": "hidden?: boolean;",
           "examples": [
@@ -856,10 +744,8 @@
           "name": "deprecated",
           "excluded": false,
           "summary": "Specifies whether a suggestion is deprecated.",
-          "returns": "",
           "discussion": "It is possible to specify a suggestion to replace the deprecated one.\n- The `description` of the deprecated object (e.g `deprecated: { description: 'The --no-ansi option has been deprecated in v2' }`) is used to provide infos about the deprecation.\n- `deprecated: true` and `deprecated: { }` behave the same and will just display the suggestion as deprecated.",
           "parameters": [],
-          "deprecated": "",
           "optional": true,
           "declaration": "deprecated?: boolean | Omit<BaseSuggestion, \"deprecated\">;",
           "examples": [
@@ -878,10 +764,7 @@
           "name": "name",
           "excluded": false,
           "summary": "The name of an argument. This is different to the `name` prop for subcommands, options, and suggestion objects so please read carefully.\nThis `name` prop signals a normal, human readable string. It usually signals to the user the type of argument they are inserting if there are no available suggestions.\nUnlike subcommands and options, Fig does NOT use this value for parsing. Therefore, it can be whatever you want.",
-          "returns": "",
-          "discussion": "",
           "parameters": [],
-          "deprecated": "",
           "optional": true,
           "declaration": "name?: string;",
           "examples": [
@@ -893,10 +776,7 @@
           "name": "description",
           "excluded": false,
           "summary": "The text that gets rendered at the bottom of the autocomplete box a) when the user is inputting an argument and there are no suggestions and b) for all generated suggestions for an argument\nKeep it short and direct!",
-          "returns": "",
-          "discussion": "",
           "parameters": [],
-          "deprecated": "",
           "optional": true,
           "declaration": "description?: string;",
           "examples": ["\"Your commit message\""],
@@ -906,10 +786,8 @@
           "name": "isDangerous",
           "excluded": false,
           "summary": "Specifies whether the suggestions generated for this argument are \"dangerous\".",
-          "returns": "",
           "discussion": "If true, Fig will not enable its autoexecute functionality. Autoexecute means if a user selects a suggestion it will insert the text and run the command. We signal this by changing the icon to red.\nTurning on isDangerous will make it harder for a user to accidentally run a dangerous command.",
           "parameters": [],
-          "deprecated": "",
           "optional": true,
           "declaration": "isDangerous?: boolean;",
           "examples": ["This is used for all arguments in the `rm` spec."],
@@ -920,10 +798,8 @@
           "name": "suggestions",
           "excluded": false,
           "summary": "A list of Suggestion objects that are shown when a user is typing an argument.",
-          "returns": "",
           "discussion": "These suggestions are static meaning you know them beforehand and they are not generated at runtime. If you want to generate suggestions at runtime, use a generator",
           "parameters": [],
-          "deprecated": "",
           "optional": true,
           "declaration": "suggestions?: (string | Suggestion)[];",
           "examples": [
@@ -935,10 +811,8 @@
           "name": "template",
           "excluded": false,
           "summary": "A template which is a single TemplateString or an array of TemplateStrings",
-          "returns": "",
           "discussion": "Templates are generators prebuilt by Fig. Here are the three templates:\n- filepaths: show folders and filepaths. Allow autoexecute on filepaths\n- folders: show folders only. Allow autoexecute on folders\n- history: show suggestions for all items in history matching this pattern\n- help: show subcommands. Only includes the 'siblings' of the nearest 'parent' subcommand",
           "parameters": [],
-          "deprecated": "",
           "optional": true,
           "declaration": "template?: (\"filepaths\" | \"folders\" | \"history\" | \"help\") | (\"filepaths\" | \"folders\" | \"history\" | \"help\")[];",
           "examples": [
@@ -951,10 +825,7 @@
           "name": "generators",
           "excluded": false,
           "summary": "Generators let you dynamically generate suggestions for arguments by running shell commands on a user's device.\n\nThis takes a single generator or an array of generators",
-          "returns": "",
-          "discussion": "",
           "parameters": [],
-          "deprecated": "",
           "optional": true,
           "declaration": "generators?: Generator | Generator[];",
           "examples": [],
@@ -964,10 +835,7 @@
           "name": "suggestCurrentToken",
           "excluded": false,
           "summary": "Provide a suggestion at the top of the list with the current token that is being typed by the user.",
-          "returns": "",
-          "discussion": "",
           "parameters": [],
-          "deprecated": "",
           "optional": true,
           "declaration": "suggestCurrentToken?: boolean;",
           "examples": [],
@@ -977,10 +845,8 @@
           "name": "isVariadic",
           "excluded": false,
           "summary": "Specifies that the argument is variadic and therefore repeats infinitely.",
-          "returns": "",
           "discussion": "Man pages represent variadic arguments with an ellipsis e.g. `git add <pathspec...>`",
           "parameters": [],
-          "deprecated": "",
           "optional": true,
           "declaration": "isVariadic?: boolean;",
           "examples": [
@@ -993,10 +859,7 @@
           "name": "optionsCanBreakVariadicArg",
           "excluded": false,
           "summary": "Specifies whether options can interrupt variadic arguments. There is\nslightly different behavior when this is used on an option argument and\non a subcommand argument:\n\n- When an option breaks a *variadic subcommand argument*, after the option\nand any arguments are parsed, the parser will continue parsing variadic\narguments to the subcommand\n- When an option breaks a *variadic option argument*, after the breaking\noption and any arguments are parsed, the original variadic options\narguments will be terminated. See the second examples below for details.",
-          "returns": "",
-          "discussion": "",
           "parameters": [],
-          "deprecated": "",
           "optional": true,
           "declaration": "optionsCanBreakVariadicArg?: boolean;",
           "examples": [
@@ -1011,10 +874,8 @@
           "name": "isOptional",
           "excluded": false,
           "summary": "`true` if an argument is optional (ie the CLI spec says it is not mandatory to include an argument, but you can if you want to).",
-          "returns": "",
           "discussion": "NOTE: It is important you include this for our parsing. If you don't, Fig will assume the argument is mandatory. When we assume an argument is mandatory, we force the user to input the argument and hide all other suggestions.",
           "parameters": [],
-          "deprecated": "",
           "optional": true,
           "declaration": "isOptional?: boolean;",
           "examples": ["`git push [remote] [branch]` takes two optional args."],
@@ -1024,10 +885,8 @@
           "name": "isCommand",
           "excluded": false,
           "summary": "Syntactic sugar over the `loadSpec` prop.",
-          "returns": "",
           "discussion": "Specifies that the argument is an entirely new command which Fig should start completing on from scratch.",
           "parameters": [],
-          "deprecated": "",
           "optional": true,
           "declaration": "isCommand?: boolean;",
           "examples": [
@@ -1039,10 +898,8 @@
           "name": "isScript",
           "excluded": false,
           "summary": "The same as the `isCommand` prop, except Fig will look for a completion spec in the `.fig/autocomplete/build` folder in the user's current working directory.",
-          "returns": "",
           "discussion": "See our docs for more on building completion specs for local scripts [Fig for Teams](https://fig.io/docs/)",
           "parameters": [],
-          "deprecated": "",
           "optional": true,
           "declaration": "isScript?: boolean;",
           "examples": [
@@ -1054,7 +911,6 @@
           "name": "isModule",
           "excluded": false,
           "summary": "The same as the `isCommand` prop, except you specify a string to prepend to what the user inputs and fig will load the completion spec accordingly.",
-          "returns": "",
           "discussion": "If isModule: \"python/\", Fig would load up the `python/USER_INPUT.js` completion spec from the `~/.fig/autocomplete` folder.",
           "parameters": [],
           "deprecated": "use `loadSpec` instead",
@@ -1069,10 +925,8 @@
           "name": "debounce",
           "excluded": false,
           "summary": "This will debounce every keystroke event for this particular arg.",
-          "returns": "",
           "discussion": "If there are no keystroke events after 100ms, Fig will execute all the generators in this arg and return the suggestions.",
           "parameters": [],
-          "deprecated": "",
           "optional": true,
           "declaration": "debounce?: boolean;",
           "examples": [
@@ -1084,10 +938,8 @@
           "name": "default",
           "excluded": false,
           "summary": "The default value for an optional argument.",
-          "returns": "",
           "discussion": "Note: This is currently not used anywhere in Fig's autocomplete popup, but will be soon.",
           "parameters": [],
-          "deprecated": "",
           "optional": true,
           "declaration": "default?: string;",
           "examples": [],
@@ -1097,10 +949,8 @@
           "name": "loadSpec",
           "excluded": false,
           "summary": "See [`loadSpec` in Subcommand Object](https://fig.io/docs/reference/subcommand#loadspec).",
-          "returns": "",
           "discussion": "There is a very high chance you want to use one of the following:\n1. `isCommand` (See [Arg Object](https://fig.io/docs/reference/arg#iscommand))\n2. `isScript` (See [Arg Object](https://fig.io/docs/reference/arg#isscript))",
           "parameters": [],
-          "deprecated": "",
           "optional": true,
           "declaration": "loadSpec?: string | Subcommand | ((token: string, executeShellCommand: (commandToExecute: string) => Promise<string>) => Promise<SpecLocation | SpecLocation[] | Subcommand>);",
           "examples": [],
@@ -1122,7 +972,6 @@
               "description": "an async function that allows you to execute a shell command on the user's system and get the output as a string."
             }
           ],
-          "deprecated": "",
           "optional": true,
           "declaration": "parserDirectives?: {\n            alias?: string | ((token: string, exec: (commandToExecute: string) => Promise<string>) => Promise<string>);\n        };",
           "examples": [
@@ -1143,10 +992,8 @@
           "name": "template",
           "excluded": false,
           "summary": "A template which is a single `TemplateString` or an array of `TemplateStrings`.",
-          "returns": "",
           "discussion": "Templates are generators prebuilt by Fig. Here are the three templates:\n- filepaths: show folders and filepaths. Allow autoexecute on filepaths\n- folders: show folders only. Allow autoexecute on folders\n- history: show suggestions for all items in history matching this pattern\n- help: show subcommands. Only includes the 'siblings' of the nearest 'parent' subcommand",
           "parameters": [],
-          "deprecated": "",
           "optional": true,
           "declaration": "template?: (\"filepaths\" | \"folders\" | \"history\" | \"help\") | (\"filepaths\" | \"folders\" | \"history\" | \"help\")[];",
           "examples": [
@@ -1160,14 +1007,12 @@
           "excluded": false,
           "summary": "A function to filter and modify suggestions returned by a template",
           "returns": "An array of `Suggestion` objects.",
-          "discussion": "",
           "parameters": [
             {
               "name": "templateSuggestions",
               "description": "the array of suggestion objects returned by the given template."
             }
           ],
-          "deprecated": "",
           "optional": true,
           "declaration": "filterTemplateSuggestions?: (param?: Modify<Suggestion, {\n            name?: string;\n            context: {\n                templateType: \"filepaths\";\n            } | {\n                templateType: \"folders\";\n            } | {\n                templateType: \"help\";\n            } | ({\n                templateType: \"history\";\n            } & Partial<{\n                currentWorkingDirectory: string;\n                time: number;\n                exitCode: number;\n                shell: string;\n            }>);\n        }>[]) => Suggestion[];",
           "examples": [
@@ -1179,10 +1024,8 @@
           "name": "script",
           "excluded": false,
           "summary": "The script / shell command you wish to run on the user's device at their shell session's current working directory.",
-          "returns": "",
           "discussion": "You can either specify\n1. a string to be executed (like `ls` or `git branch`)\n2. a function to generate the string to be executed. The function takes in an array of tokens of the user input and should output a string. You use a function when the script you run is dependent upon one of the tokens the user has already input (for instance an app name, a Kubernetes token etc.)\nAfter executing the script, the output will be passed to one of `splitOn` or `postProcess` for further processing to produce suggestion objects.",
           "parameters": [],
-          "deprecated": "",
           "optional": true,
           "declaration": "script?: string | ((param?: string[]) => string);",
           "examples": [
@@ -1194,10 +1037,7 @@
           "name": "scriptTimeout",
           "excluded": false,
           "summary": "Set the execution timeout of the command specified in the `script` prop.",
-          "returns": "",
-          "discussion": "",
           "parameters": [],
-          "deprecated": "",
           "optional": true,
           "declaration": "scriptTimeout?: number;",
           "examples": [],
@@ -1209,7 +1049,6 @@
           "excluded": false,
           "summary": "Process the string output from the `script` prop and return a list of suggestions",
           "returns": "An array of `Suggestion` objects.",
-          "discussion": "",
           "parameters": [
             {
               "name": "out",
@@ -1220,7 +1059,6 @@
               "description": "a tokenized array of what the user has typed"
             }
           ],
-          "deprecated": "",
           "optional": true,
           "declaration": "postProcess?: (out: string, tokens: string[]) => Suggestion[];",
           "examples": [],
@@ -1230,10 +1068,8 @@
           "name": "splitOn",
           "excluded": false,
           "summary": "Syntactic sugar for `postProcess` function",
-          "returns": "",
           "discussion": "This takes in the text output of `script`, splits it on the string you provide here, and then automatically generates an array of suggestion objects for each item.",
           "parameters": [],
-          "deprecated": "",
           "optional": true,
           "declaration": "splitOn?: string;",
           "examples": [
@@ -1257,7 +1093,6 @@
               "description": "The old token that was there before e.g. \"desktop\""
             }
           ],
-          "deprecated": "",
           "optional": true,
           "declaration": "trigger?: string | ((newToken: string, oldToken: string) => boolean);",
           "examples": [
@@ -1279,7 +1114,6 @@
               "description": "The full token the user is currently typing"
             }
           ],
-          "deprecated": "",
           "optional": true,
           "declaration": "getQueryTerm?: string | ((param?: string) => string);",
           "examples": [
@@ -1307,7 +1141,6 @@
               "description": "an object containing a user's currentWorkingDirectory, currentProcess, and if relevant, the sshPrefix string that can be used if the user is in an SSH session."
             }
           ],
-          "deprecated": "",
           "optional": true,
           "declaration": "custom?: (tokens: string[], executeShellCommand: (commandToExecute: string) => Promise<string>, shellContext: {\n            currentWorkingDirectory: string;\n            currentProcess: string;\n            sshPrefix: string;\n        }) => Promise<Suggestion[]>;",
           "examples": [
@@ -1320,10 +1153,8 @@
           "name": "cache",
           "excluded": false,
           "summary": "Cache the response of generators for a specific period time and optionally by directory the commands were executed in.",
-          "returns": "",
           "discussion": "For commands that take a long time to run, Fig gives you the option to cache their response. You can cache the response globally or just by the directory they were run in.\nWe currently have two cache strategies:\n- `max-age` (default): you just need to specify a `ttl` (time to live) for how long the cache will last (this is a number)\n- `stale-while-revalidate`: when cache becomes stale fig will return the stale data while fetching the updated one. This strategy also accepts a `ttl` to configure how long it takes for the cache to become stale.\nYou can also optionally turn on the ability to just cache by directory (`cacheByDirectory: true`)",
           "parameters": [],
-          "deprecated": "",
           "optional": true,
           "declaration": "cache?: ({\n            strategy?: \"max-age\";\n            /**\n             * The time to live for the cache in milliseconds.\n             * @example\n             * 3600\n             */\n            ttl: number;\n        } | {\n            strategy: \"stale-while-revalidate\";\n            /**\n             * The time to live for the cache in milliseconds.\n             * @example\n             * 3600\n             */\n            ttl?: number;\n        }) & {\n            /**\n             * Whether the cache should be based on the directory the user was currently in or not.\n             * @defaultValue false\n             */\n            cacheByDirectory?: boolean;\n        };",
           "examples": ["The kubernetes spec makes use of this."],
@@ -1338,7 +1169,6 @@
       "name": "TemplateStrings",
       "declaration": "type TemplateStrings = \"filepaths\" | \"folders\" | \"history\" | \"help\";",
       "summary": "Templates are generators prebuilt by Fig.",
-      "returns": "",
       "discussion": "Here are the three templates:\n- filepaths: show folders and filepaths. Allow autoexecute on filepaths\n- folders: show folders only. Allow autoexecute on folders\n- history: show suggestions for all items in history matching this pattern\n- help: show subcommands. Only includes the 'siblings' of the nearest 'parent' subcommand",
       "examples": [],
       "parameters": []
@@ -1347,7 +1177,6 @@
       "name": "Template",
       "declaration": "type Template = (\"filepaths\" | \"folders\" | \"history\" | \"help\") | (\"filepaths\" | \"folders\" | \"history\" | \"help\")[];",
       "summary": "A template which is a single TemplateString or an array of TemplateStrings",
-      "returns": "",
       "discussion": "Templates are generators prebuilt by Fig. Here are the three templates:\n- filepaths: show folders and filepaths. Allow autoexecute on filepaths\n- folders: show folders only. Allow autoexecute on folders\n- history: show suggestions for all items in history matching this pattern\n- help: show subcommands. Only includes the 'siblings' of the nearest 'parent' subcommand",
       "examples": [
         "`cd` uses the \"folders\" template\n`ls` used  [\"filepaths\", \"folders\"]. Why both? Because if I `ls` a directory, we want to enable a user to autoexecute on this directory. If we just did \"filepaths\" they couldn't autoexecute."
@@ -1357,26 +1186,25 @@
     {
       "name": "HistoryContext",
       "declaration": "type HistoryContext = {\n        currentWorkingDirectory: string;\n        time: number;\n        exitCode: number;\n        shell: string;\n    };",
-      "parameters": [],
-      "examples": []
+      "examples": [],
+      "parameters": []
     },
     {
       "name": "TemplateSuggestionContext",
       "declaration": "type TemplateSuggestionContext = {\n        templateType: \"filepaths\";\n    } | {\n        templateType: \"folders\";\n    } | {\n        templateType: \"help\";\n    } | ({\n        templateType: \"history\";\n    } & Partial<{\n        currentWorkingDirectory: string;\n        time: number;\n        exitCode: number;\n        shell: string;\n    }>);",
-      "parameters": [],
-      "examples": []
+      "examples": [],
+      "parameters": []
     },
     {
       "name": "TemplateSuggestion",
       "declaration": "type TemplateSuggestion = Modify<Suggestion, {\n        name?: string;\n        context: {\n            templateType: \"filepaths\";\n        } | {\n            templateType: \"folders\";\n        } | {\n            templateType: \"help\";\n        } | ({\n            templateType: \"history\";\n        } & Partial<{\n            currentWorkingDirectory: string;\n            time: number;\n            exitCode: number;\n            shell: string;\n        }>);\n    }>;",
-      "parameters": [],
-      "examples": []
+      "examples": [],
+      "parameters": []
     },
     {
       "name": "SpecLocation",
       "declaration": "type SpecLocation = {\n        type: \"local\";\n        path?: string;\n        name: string;\n    } | {\n        type: \"global\";\n        name: string;\n    };",
       "summary": "The SpecLocation object defines well... the location of the completion spec we want to load.\nSpecs can be \"global\" (ie hosted by Fig's cloud) or \"local\" (ie stored on your local machine)",
-      "returns": "",
       "discussion": "**The `SpecLocation` Object**\n\nThe SpecLocation object defines well... the location of the completion spec we want to load.\nSpecs can be \"global\" (ie hosted by Fig's cloud) or \"local\" (ie stored on your local machine).\n\n- Global `SpecLocation`:\nLoad specs hosted in Fig's Cloud. Assume the current working directory is here: https://github.com/withfig/autocomplete/tree/master/src. Now set the value for the \"name\" prop to the relative location of your spec (without the .js file extension)\n```js\n// e.g.\n{ type: \"global\", name: \"aws/s3\" } // Loads up the aws s3 completion spec\n{ type: \"global\", name: \"python/http.server\" } // Loads up the http.server completion spec\n```\n\n- Local `SpecLocation`:\nLoad specs saved on your local system / machine. Assume the current working directory is the user's current working directory.\nThe `name` prop should take the name of the spec (without the .js file extension) e.g. my_cli_tool\nThe `path` prop should take an absolute path OR a relative path (relative to the user's current working directory). The path should be to the directory that contains the `.fig` folder. Fig will then assume your spec is located in `.fig/autocomplete/build/`\n```js\n// e.g.\n{ type: \"global\", path: \"node_modules/cowsay\", name: \"cowsay_cli\" }  // will look for `cwd/node_modules/cowsay/.fig/autocomplete/build/cowsay_cli.js`\n{ type: \"global\", path: \"~\", name: \"my_cli\" }  // will look for `~/.fig/autocomplete/build/my_cli.js`\n```",
       "examples": [],
       "parameters": []
@@ -1385,8 +1213,6 @@
       "name": "LoadSpec",
       "declaration": "type LoadSpec = string | Subcommand | ((token: string, executeShellCommand: (commandToExecute: string) => Promise<string>) => Promise<SpecLocation | SpecLocation[] | Subcommand>);",
       "summary": "Dynamically load up another completion spec at runtime.\n\nSee [`loadSpec` property in Subcommand Object](https://fig.io/docs/reference/subcommand#loadspec).",
-      "returns": "",
-      "discussion": "",
       "examples": [],
       "parameters": []
     },
@@ -1394,7 +1220,6 @@
       "name": "SuggestionType",
       "declaration": "type SuggestionType = \"folder\" | \"file\" | \"arg\" | \"subcommand\" | \"option\" | \"special\" | \"shortcut\";",
       "summary": "The type of a suggestion object.",
-      "returns": "",
       "discussion": "The type determines:\n- the default icon Fig uses (e.g. a file or folder searches for the system icon, a subcommand has a specific icon etc)\n- whether we allow users to auto-execute a command",
       "examples": [],
       "parameters": []
@@ -1403,8 +1228,6 @@
       "name": "SingleOrArray",
       "declaration": "type SingleOrArray<T> = T | T[];",
       "summary": "A single object of type `T` or an array of objects of type `T`.",
-      "returns": "",
-      "discussion": "",
       "examples": [],
       "parameters": []
     },
@@ -1426,8 +1249,6 @@
       "name": "ShellContext",
       "declaration": "type ShellContext = {\n        currentWorkingDirectory: string;\n        currentProcess: string;\n        sshPrefix: string;\n    };",
       "summary": "Context about a current shell session.",
-      "returns": "",
-      "discussion": "",
       "examples": [],
       "parameters": []
     },
@@ -1436,7 +1257,6 @@
       "declaration": "type Function<T = void, R = void> = (param?: T) => R;",
       "summary": "A function which can have a `T` argument and a `R` result.",
       "returns": "Something of type `R`",
-      "discussion": "",
       "examples": [],
       "parameters": [{ "name": "param", "description": "A param of type `R`" }]
     },
@@ -1444,8 +1264,6 @@
       "name": "Modify",
       "declaration": "type Modify<T, R> = Omit<T, keyof R> & R;",
       "summary": "A utility type to modify a property type",
-      "returns": "",
-      "discussion": "",
       "examples": [],
       "parameters": []
     },
@@ -1454,7 +1272,6 @@
       "declaration": "type StringOrFunction<T = void, R = void> = string | ((param?: T) => R);",
       "summary": "A `string` OR a `function` which can have a `T` argument and a `R` result.",
       "returns": "Something of type `R`",
-      "discussion": "",
       "examples": [],
       "parameters": [{ "name": "param", "description": "A param of type `R`" }]
     },
@@ -1462,8 +1279,6 @@
       "name": "ArgDiff",
       "declaration": "type ArgDiff = Modify<Fig.Arg, {\n        remove?: true;\n    }>;",
       "summary": "",
-      "returns": "",
-      "discussion": "",
       "examples": [],
       "parameters": []
     },
@@ -1471,8 +1286,6 @@
       "name": "OptionDiff",
       "declaration": "type OptionDiff = Modify<Fig.Option, {\n        args?: ArgDiff | ArgDiff[];\n        remove?: true;\n    }>;",
       "summary": "",
-      "returns": "",
-      "discussion": "",
       "examples": [],
       "parameters": []
     },
@@ -1480,8 +1293,6 @@
       "name": "SubcommandDiff",
       "declaration": "type SubcommandDiff = Modify<Fig.Subcommand, {\n        subcommands?: SubcommandDiff[];\n        options?: OptionDiff[];\n        args?: ArgDiff | ArgDiff[];\n        remove?: true;\n    }>;",
       "summary": "",
-      "returns": "",
-      "discussion": "",
       "examples": [],
       "parameters": []
     },
@@ -1489,8 +1300,6 @@
       "name": "SpecDiff",
       "declaration": "type SpecDiff = Omit<SubcommandDiff, \"name\" | \"remove\">;",
       "summary": "",
-      "returns": "",
-      "discussion": "",
       "examples": [],
       "parameters": []
     },
@@ -1498,8 +1307,6 @@
       "name": "VersionDiffMap",
       "declaration": "type VersionDiffMap = Record<string, SpecDiff>;",
       "summary": "",
-      "returns": "",
-      "discussion": "",
       "examples": [],
       "parameters": []
     },
@@ -1507,8 +1314,6 @@
       "name": "Spec",
       "declaration": "type Spec = Subcommand | ((version?: string) => Subcommand) | ((version?: string) => {\n        versionedSpecPath: string;\n        version?: string;\n    });",
       "summary": "A spec object.\nCan be one of\n1. A subcommand\n2. A function that dynamically computes a subcommand\n3. A function that returns the path to a versioned spec files (that exports a base subcommand and { versions: VersionDiffMap }",
-      "returns": "",
-      "discussion": "",
       "examples": [],
       "parameters": []
     },
@@ -1517,7 +1322,6 @@
       "declaration": "type ExecuteShellCommandFunction = (commandToExecute: string) => Promise<string>;",
       "summary": "An async function to execute a shell command",
       "returns": "The output of the shell command as a string",
-      "discussion": "",
       "examples": [
         "`ExecuteShellCommandFunction(\"echo hello world\")` will return `hello world`"
       ],
@@ -1531,20 +1335,20 @@
     {
       "name": "CacheMaxAge",
       "declaration": "type CacheMaxAge = {\n        strategy?: \"max-age\";\n        /**\n         * The time to live for the cache in milliseconds.\n         * @example\n         * 3600\n         */\n        ttl: number;\n    };",
-      "parameters": [],
-      "examples": []
+      "examples": [],
+      "parameters": []
     },
     {
       "name": "CacheStaleWhileRevalidate",
       "declaration": "type CacheStaleWhileRevalidate = {\n        strategy: \"stale-while-revalidate\";\n        /**\n         * The time to live for the cache in milliseconds.\n         * @example\n         * 3600\n         */\n        ttl?: number;\n    };",
-      "parameters": [],
-      "examples": []
+      "examples": [],
+      "parameters": []
     },
     {
       "name": "Cache",
       "declaration": "type Cache = ({\n        strategy?: \"max-age\";\n        /**\n         * The time to live for the cache in milliseconds.\n         * @example\n         * 3600\n         */\n        ttl: number;\n    } | {\n        strategy: \"stale-while-revalidate\";\n        /**\n         * The time to live for the cache in milliseconds.\n         * @example\n         * 3600\n         */\n        ttl?: number;\n    }) & {\n        /**\n         * Whether the cache should be based on the directory the user was currently in or not.\n         * @defaultValue false\n         */\n        cacheByDirectory?: boolean;\n    };",
-      "parameters": [],
-      "examples": []
+      "examples": [],
+      "parameters": []
     }
   ]
 }

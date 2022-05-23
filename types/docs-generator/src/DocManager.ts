@@ -22,10 +22,9 @@ export const tagDefinitions = {
     tagName: "@replaceFirstLevel",
     syntaxKind: tsdoc.TSDocTagSyntaxKind.ModifierTag,
   }),
-  propsTag: new tsdoc.TSDocTagDefinition({
-    tagName: "@prop",
-    syntaxKind: tsdoc.TSDocTagSyntaxKind.BlockTag,
-    allowMultiple: true,
+  categoryTag: new tsdoc.TSDocTagDefinition({
+    tagName: "@category",
+    syntaxKind: tsdoc.TSDocTagSyntaxKind.InlineTag,
   }),
 };
 

@@ -44,6 +44,7 @@ function generateMember(memberNode: ts.TypeElement, sourceText: string): MemberD
   const docComment = DocManager.parseFirstDocComment(memberNode, sourceText);
   const examples: string[] = [];
   let defaultValue;
+  let category;
   for (const block of docComment?.customBlocks ?? []) {
     switch (block.blockTag.tagName) {
       case "@example":
@@ -52,6 +53,9 @@ function generateMember(memberNode: ts.TypeElement, sourceText: string): MemberD
       case "@defaultValue":
         defaultValue = Formatter.renderDocNode(block.content).trim();
         break;
+      case "@category":
+        category = Formatter.renderDocNode(block.content).trim();
+        break;
       default:
     }
   }
@@ -59,23 +63,25 @@ function generateMember(memberNode: ts.TypeElement, sourceText: string): MemberD
     // memberNode may be an IndexSignature or another type which doesn't have a name
     name: memberNode.name!.getText(),
     excluded: docComment?.modifierTagSet.hasTag(tagDefinitions.excludedTag) ?? false,
-    ...(docComment
-      ? {
-          summary: Formatter.renderDocNode(docComment.summarySection).trim(),
-          returns: Formatter.renderDocNode(docComment.returnsBlock?.content).trim(),
-          discussion: Formatter.renderDocNode(docComment.remarksBlock?.content).trim(),
-          parameters: generateParamsFromBlock(docComment.params.blocks),
-          deprecated:
-            Formatter.renderDocNode(docComment.deprecatedBlock?.content).trim() ??
-            "This property has been deprecated.",
-        }
-      : {
-          parameters: [],
-          deprecated: false,
-        }),
+    ...(docComment?.summarySection && {
+      summary: Formatter.renderDocNode(docComment.summarySection).trim(),
+    }),
+    ...(docComment?.returnsBlock && {
+      returns: Formatter.renderDocNode(docComment.returnsBlock?.content).trim(),
+    }),
+    ...(docComment?.remarksBlock && {
+      discussion: Formatter.renderDocNode(docComment.remarksBlock?.content).trim(),
+    }),
+    parameters: generateParamsFromBlock(docComment?.params.blocks),
+    ...(docComment?.deprecatedBlock && {
+      deprecated:
+        Formatter.renderDocNode(docComment.deprecatedBlock.content).trim() ||
+        "This property has been deprecated.",
+    }),
     optional: !!memberNode.questionToken,
     declaration: memberNode.getText(),
     examples,
+    category,
     default: defaultValue,
     hasDocComment: !!docComment,
   };
@@ -115,20 +121,19 @@ function generateTypeAlias(_typeAlias: FoundNode<ts.TypeAliasDeclaration>): Type
   return {
     name: typeAliasNode.name.getText(),
     declaration: typeAliasNode.getText(),
-    ...(docComment
-      ? {
-          summary: Formatter.renderDocNode(docComment.summarySection).trim(),
-          returns: Formatter.renderDocNode(docComment.returnsBlock?.content).trim(),
-          discussion: Formatter.renderDocNode(docComment.remarksBlock?.content).trim(),
-          examples: docComment.customBlocks
-            .filter((block) => block.blockTag.tagName === "@example")
-            .map((block) => Formatter.renderDocNode(block.content).trim()),
-          parameters: generateParamsFromBlock(docComment.params.blocks),
-        }
-      : {
-          parameters: [],
-          examples: [],
-        }),
+    ...(docComment?.summarySection && {
+      summary: Formatter.renderDocNode(docComment.summarySection).trim(),
+    }),
+    ...(docComment?.returnsBlock && {
+      returns: Formatter.renderDocNode(docComment.returnsBlock?.content).trim(),
+    }),
+    ...(docComment?.remarksBlock && {
+      discussion: Formatter.renderDocNode(docComment.remarksBlock?.content).trim(),
+    }),
+    examples: (docComment?.customBlocks ?? [])
+      .filter((block) => block.blockTag.tagName === "@example")
+      .map((block) => Formatter.renderDocNode(block.content).trim()),
+    parameters: generateParamsFromBlock(docComment?.params.blocks),
   };
 }
 

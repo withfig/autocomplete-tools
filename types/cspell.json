@@ -5,6 +5,8 @@
     "gcloud",
     "kubernetes",
     "pathspec",
-    "reparse"
+    "reparse",
+    "kubectl",
+    "kube"
   ]
 }

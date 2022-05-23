@@ -52,5 +52,6 @@ export interface MemberDoc {
   examples: string[];
   default?: string;
   deprecated?: boolean | string;
+  category?: string;
   hasDocComment: boolean;
 }
