@@ -1,0 +1,9 @@
+{
+  "$schema": "../config.schema.json",
+  "options": {
+    "token": "data",
+    "name": "some-spec",
+    "binaryPath": "./cli.sh",
+    "framework": "commander"
+  }
+}

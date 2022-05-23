@@ -1,0 +1,5 @@
+build/
+node_modules/
+.fig/
+generated/
+test/*/fixtures/*/updated-spec/*

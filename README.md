@@ -8,25 +8,69 @@ This repo contains the source for all of Fig tools related with [autocomplete](h
 
 ## Packages
 
-- [`@fig/autocomplete-generators`](packages/autocomplete-generators/README.md)
-- [`@fig/autocomplete-merge`](packages/autocomplete-merge/README.md)
-- [`@withfig/autocomplete-tools`](packages/autocomplete-tools/README.md)
-- [`@withfig/autocomplete-types`](packages/autocomplete-types/README.md)
-- [`@withfig/clap`](packages/clap/README.md)
-- [`@withfig/cobra`](packages/cobra/README.md)
-- [`@withfig/commander`](packages/commander/README.md)
-- [`@fig/eslint-config-autocomplete`](packages/eslint-config-autocomplete/README.md)
-- [`@withfig/eslint-plugin-fig-linter`](packages/eslint-plugin-fig-linter/README.md)
-- [`@withfig/oclif`](packages/oclif/README.md)
-- [`@withfig/swift-argument-parser`](packages/swift-argument-parser/README.md)
+- [`create-completion-spec`](cli/create-completion-spec/README.md)
+- [`@fig/publish-spec-to-team`](cli/publih-spec-to-team/README.md)
+- [`@withfig/autocomplete-tools`](cli/tools-cli/README.md)
+- [`@fig/eslint-config-autocomplete`](eslint/config-autocomplete/README.md)
+- [`@withfig/eslint-plugin-fig-linter`](eslint/plugin-fig-linter/README.md)
+- [`@fig/autocomplete-generators`](generators/README.md)
+- [`@fig/autocomplete-helpers`](helpers/README.md)
+- [`clap_complete_fig`](integrations/clap/README.md)
+- [`click_complete_fig`](integrations/clap/README.md)
+- [`cobracompletefig`](integrations/cobra/README.md)
+- [`@fig/complete-commander`](integrations/commander/README.md)
+- [`@fig/complete-oclif`](integrations/oclif/README.md)
+- [`swift-argument-parser`](integrations/swift-argument-parser/README.md)
+- [`@fig/autocomplete-merge`](merge/README.md)
+- [`@fig/autocomplete-shared`](shared/README.md)
+- [`@withfig/autocomplete-types`](types/README.md)
 
 ## To publish a package:
 
-Run `yarn workspace <workspace name> publish`
+Run `yarn workspace <workspace name> npm publish`
+
+> **IMPORTANT**: remember to tag the new package version following the current conventions (see the previous tags of a package)
+> this is important for some workflows we are running and to keep track of when releases were done.
 
 e.g.
 ```bash
-yarn workspace @withfig/autocomplete-types publish
+yarn workspace @withfig/autocomplete-types npm publish
 ```
 
 > Note: `<workspace name>` is not the name of the folder, but the name specified inside the package.json of the package to publish.
+
+## Conventions for new CLI integration
+
+### Package (integration) name
+
+- If namespaced it SHOULD be `@fig/complete[-_]($FRAMEWORK_NAME)`
+- If not namespaced it SHOULD be `($FRAMEWORK_NAME)[-_]complete[-_]fig`
+
+According to language conventions you can use a dash or an underscore to separate the words.
+
+Examples:
+- `@fig/complete-commander`
+- `@fig/complete-oclif`
+- `clap_complete_fig`
+- `cobracompletefig`
+
+### Name of the default subcommand added to the CLI
+
+Most of our CLI integration tools allow to set the name of the subcommand added to the CLI but we also provide a default value for that.
+That default name MUST be `generate-fig-spec` such that running `$CLI generate-fig-spec` prints the spec.
+
+### Function that adds the command
+
+The functions exported from the integration can:
+- Create a new framework subcommand which will print the spec when invoked
+- Generate a spec and return it
+
+In all the cases the names are standardized and SHOULD be:
+- `addCompletionSpecCommand` or `createCompletionSpecCommand` for functions creating a new subcommand
+- `generateCompletionSpec` for functions that return the spec as a string
+
+According to language conventions these function names can be transformed to snake case, etc...
+
+### Docs on `public-site-nextjs`
+
+Docs MUST conform to the rules listed above too.

@@ -1,0 +1,12 @@
+{
+  "$schema": "../config.schema.json",
+  "options": {
+    "specPath": "spec.ts"
+  },
+  "env": {
+    "APPDATA": "",
+    "FIG_API_TOKEN": "",
+    "XDG_DATA_HOME": "",
+    "HOME": ""
+  }
+}

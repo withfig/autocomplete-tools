@@ -1,0 +1,7 @@
+{
+  "$schema": "../config.schema.json",
+  "options": {
+    "token": "data",
+    "binaryPath": "./cli.sh"
+  }
+}

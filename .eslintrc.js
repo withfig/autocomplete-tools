@@ -3,18 +3,6 @@ module.exports = {
   env: {
     es2021: true,
   },
-  ignorePatterns: [
-    "node_modules/",
-    "dist/",
-    "lib/",
-    "build/",
-    "packages/eslint-plugin-fig-linter/",
-    "packages/commander/test/fixtures/*/output.ts",
-    "packages/commander/test/fixtures/*/expected.ts",
-    "packages/autocomplete-merge/test/fixtures/",
-    "packages/autocomplete-merge/test/fixtures/",
-    "packages/autocomplete-tools/generated/",
-  ],
   extends: [
     "airbnb/base",
     "eslint:recommended",
@@ -41,5 +29,6 @@ module.exports = {
     "import/extensions": "off",
     "import/prefer-default-export": "off",
     "import/no-extraneous-dependencies": ["error", { devDependencies: ["**/test/*"] }],
+    "no-nested-ternary": "off",
   },
 };

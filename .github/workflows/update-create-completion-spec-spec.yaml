@@ -1,0 +1,23 @@
+name: 'Update create-completion-spec spec'
+on:
+  push:
+    tags:        
+      - 'create-completion-spec@*'
+  workflow_dispatch:
+
+jobs:
+  push-to-fig-autocomplete:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v2
+      - run: |
+          yarn
+          yarn workspace create-completion-spec generate-spec > generated.ts
+      - name: 'Create Autocomplete PR'
+        uses: withfig/push-to-fig-autocomplete-action@v1
+        with:
+          token: ${{ secrets.FIG_BOT_TOKEN }}
+          autocomplete-spec-name: 'create-completion-spec'
+          spec-path: generated.ts
+          integration: commander

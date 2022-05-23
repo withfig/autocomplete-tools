@@ -1,0 +1,11 @@
+{
+  "name": "@withfig/autocomplete-types",
+  "description": "Typings for fig autocomplete specs and other tools",
+  "version": "1.17.0",
+  "author": "The Fig Team",
+  "types": "index.d.ts",
+  "license": "MIT",
+  "devDependencies": {
+    "eslint-plugin-prettier": "^4.0.0"
+  }
+}

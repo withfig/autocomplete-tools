@@ -1,0 +1,30 @@
+name: 'Update @fig/publish-spec-to-team spec'
+on:
+  push:
+    tags:        
+      - '@fig/publish-spec-to-team@*'
+  workflow_dispatch:
+
+jobs:
+  run-integration-tests:
+    steps:
+    - name: Repository Dispatch
+      uses: peter-evans/repository-dispatch@v1
+      with:
+        repository: withfig/publish-spec-to-team
+        event-type: dependency-update
+  push-to-fig-autocomplete:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v2
+      - run: |
+          yarn
+          yarn workspace @fig/publish-spec-to-team generate-spec > generated.ts
+      - name: 'Create Autocomplete PR'
+        uses: withfig/push-to-fig-autocomplete-action@v1
+        with:
+          token: ${{ secrets.FIG_BOT_TOKEN }}
+          autocomplete-spec-name: '@fig/publish-spec-to-team'
+          spec-path: generated.ts
+          integration: commander

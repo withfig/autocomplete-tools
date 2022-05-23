@@ -1,0 +1,53 @@
+{
+  "name": "@withfig/autocomplete-tools",
+  "version": "2.7.5",
+  "description": "Command line tools for working with fig autocomplete specs",
+  "author": "The Fig Team",
+  "scripts": {
+    "build": "rm -rf build/ && tsc",
+    "test": "ts-node test/index.ts",
+    "prepack": "yarn build",
+    "generate-spec": "ts-node generate-spec.ts generate-fig-spec"
+  },
+  "license": "MIT",
+  "bin": "./build/bin.js",
+  "dependencies": {
+    "@fig/autocomplete-helpers": "^1.0.6",
+    "@fig/autocomplete-merge": "^1.1.1",
+    "@types/semver": "^7.3.9",
+    "chalk": "^4.1.0",
+    "chokidar": "^3.5.1",
+    "commander": "^8.1.0",
+    "create-completion-spec": "^1.1.0",
+    "esbuild": "^0.14.39",
+    "fast-glob": "^3.2.7",
+    "module-from-string": "^3.1.4",
+    "prettier": "^2.4.1",
+    "semver": "^7.3.5",
+    "typescript": "^4.6.4"
+  },
+  "types": "build/index.d.ts",
+  "files": [
+    "build/"
+  ],
+  "devDependencies": {
+    "@fig/complete-commander": "^2.0.0",
+    "@types/node": "^14.14.33",
+    "@types/prettier": "^2.4.1",
+    "@withfig/autocomplete-types": "^1.10.0",
+    "ts-node": "^10.7.0"
+  },
+  "fig": {
+    "build": {
+      "description": "Typecheck and build the project",
+      "icon": "🛠"
+    },
+    "prepack": {
+      "description": "Run build before packing the package for publishing",
+      "icon": "🛠"
+    }
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,3 +1,10 @@
+/*
+ *
+ * NOTE: This package directory has been deprecated and won't be updated anymore,
+ * update this package in the `integrations/cobra/` instead of here
+ *
+ */
+
 package genFigSpec
 
 import (
@@ -21,9 +28,9 @@ type Opts struct {
 	commandArgGenerator func(*cobra.Command) Args
 }
 
-func NewCmdGenFigSpec(options ...Opts) *cobra.Command {
-	Use := "generateFigSpec"
-	Aliases := []string{"genFigSpec"}
+func CreateCompletionSpecCommand(options ...Opts) * cobra.Command {
+	Use := "generate-fig-spec"
+	Aliases := []string{"generateFigSpec", "genFigSpec"}
 	Short := "Generate a fig spec"
 	Hidden := true
 	Long := `
@@ -57,7 +64,7 @@ Fig autocomplete spec for your Cobra CLI.
 		Long:   Long,
 		Run: func(cmd *cobra.Command, args []string) {
 			root := cmd.Root()
-			spec := MakeFigSpec(root)
+			spec := GenerateCompletionSpec(root)
 			fmt.Println(spec.ToTypescript())
 		},
 	}
@@ -67,7 +74,13 @@ Fig autocomplete spec for your Cobra CLI.
 	return cmd
 }
 
-func MakeFigSpec(root *cobra.Command) Spec {
+// Deprecated: 
+// this function has been renamed to `CreateCompletionSpecCommand` and may not be available in future releases
+func NewCmdGenFigSpec(options ...Opts) *cobra.Command {
+	return CreateCompletionSpecCommand(options...)
+}
+
+func GenerateCompletionSpec(root *cobra.Command) Spec {
 	opts := append(options(root.LocalNonPersistentFlags(), false), options(root.PersistentFlags(), true)...)
 	opts = append(opts, makeHelpOption())
 	spec := Spec{
@@ -82,6 +95,12 @@ func MakeFigSpec(root *cobra.Command) Spec {
 		name: root.Name(),
 	}
 	return spec
+}
+
+// Deprecated: 
+// this function has been renamed to `GenerateCompletionSpec` and may not be available in future releases
+func MakeFigSpec(root *cobra.Command) Spec {
+	return GenerateCompletionSpec(root)
 }
 
 func subcommands(cmd *cobra.Command, overrideOptions bool, overrides Options) Subcommands {

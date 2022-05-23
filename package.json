@@ -2,35 +2,40 @@
   "name": "root",
   "private": true,
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^4.18.0",
-    "@typescript-eslint/parser": "^4.18.0",
-    "eslint": "^7.22.0",
+    "@typescript-eslint/eslint-plugin": "^5.25.0",
+    "@typescript-eslint/parser": "^5.25.0",
+    "eslint": "^8.15.0",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-config-prettier": "^8.1.0",
     "eslint-plugin-import": "^2.23.4",
     "eslint-plugin-prettier": "^3.3.1",
-    "husky": "^7.0.2",
+    "husky": "^8.0.0",
     "lint-staged": "^11.1.2",
-    "prettier": "2.2.1",
-    "yarn": "^2.4.3"
+    "prettier": "2.2.1"
   },
   "scripts": {
     "lint": "eslint .",
-    "lint:fix": "npm run lint -- --fix",
-    "prepare": "husky install",
-    "pre-commit": "lint-staged",
-    "clean": "git clean -Xf ."
+    "lint:fix": "yarn lint --fix",
+    "build": "yarn workspaces foreach -v --exclude root run build",
+    "test:since": "yarn workspaces foreach -vR --exclude root --since=$(git rev-parse head) run test",
+    "test": "yarn workspaces foreach -v --exclude root run test",
+    "postinstall": "husky install && yarn build",
+    "pre-commit": "lint-staged && yarn test:since",
+    "clean": "git clean -Xdf ."
   },
+  "packageManager": "yarn@3.2.1",
   "workspaces": [
-    "packages/autocomplete-generators",
-    "packages/autocomplete-helpers",
-    "packages/autocomplete-merge",
-    "packages/autocomplete-tools",
-    "packages/autocomplete-types",
-    "packages/eslint-config-autocomplete",
-    "packages/eslint-plugin-fig-linter",
-    "packages/oclif",
-    "packages/commander"
+    "eslint/*",
+    "types",
+    "shared",
+    "generators",
+    "helpers",
+    "merge",
+    "integrations/oclif",
+    "integrations/commander",
+    "cli/create-completion-spec",
+    "cli/publish-spec-to-team",
+    "cli/tools-cli"
   ],
   "lint-staged": {
     "*.{ts,js,tsx}": "eslint --fix"
