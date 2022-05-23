@@ -159,7 +159,16 @@ declare namespace Fig {
    */
   type StringOrFunction<T = void, R = void> = string | Function<T, R>;
 
+  /**
+   * @excluded
+   * @irreplaceable
+   */
   type ArgDiff = Modify<Fig.Arg, { remove?: true }>;
+
+  /**
+   * @excluded
+   * @irreplaceable
+   */
   type OptionDiff = Modify<
     Fig.Option,
     {
@@ -167,6 +176,11 @@ declare namespace Fig {
       remove?: true;
     }
   >;
+
+  /**
+   * @excluded
+   * @irreplaceable
+   */
   type SubcommandDiff = Modify<
     Fig.Subcommand,
     {
@@ -176,7 +190,17 @@ declare namespace Fig {
       remove?: true;
     }
   >;
+
+  /**
+   * @excluded
+   * @irreplaceable
+   */
   type SpecDiff = Omit<SubcommandDiff, "name" | "remove">;
+
+  /**
+   * @excluded
+   * @irreplaceable
+   */
   type VersionDiffMap = Record<string, SpecDiff>;
 
   /**
@@ -310,7 +334,7 @@ declare namespace Fig {
      * @remarks
      * Fig ranks suggestions by recency. To do this, we check if a suggestion has been selected before. If yes and the suggestions has:
      * - a priority between 50-75, the priority will be replaced with 75, then we will add the timestamp of when that suggestion was selected as a decimal.
-     * - a priority ourside of 50-75, the priority will be increased by the timestamp of when that suggestion was selected as a decimal.
+     * - a priority outside of 50-75, the priority will be increased by the timestamp of when that suggestion was selected as a decimal.
      * If it has not been selected before, Fig will keep the same priority as was set in the completion spec
      * If it was not set in the spec, it will default to 50.
      *
@@ -442,7 +466,7 @@ declare namespace Fig {
      *
      * @param tokens - a tokenized array of the text the user has typed in the shell.
      * @param executeShellCommand - an async function that can execute a shell command on behalf of the user. The output is a string.
-     * @returns A `SpecLocation` object or an array of `SpecLocation` obejcts.
+     * @returns A `SpecLocation` object or an array of `SpecLocation` objects.
      *
      * @remarks
      * `loadSpec` can be invoked as string (recommended) or a function (advanced).
@@ -687,7 +711,7 @@ declare namespace Fig {
     /**
      * The name of an argument. This is different to the `name` prop for subcommands, options, and suggestion objects so please read carefully.
      * This `name` prop signals a normal, human readable string. It usually signals to the user the type of argument they are inserting if there are no available suggestions.
-     * Unlike subcommands and optoins, Fig does NOT use this value for parsing. Therefore, it can be whatever you want.
+     * Unlike subcommands and options, Fig does NOT use this value for parsing. Therefore, it can be whatever you want.
      *
      * @example
      * The name prop for the `git commit -m <msg>` arg object is "msg". But you could also make it "message" or "your message". It is only used for description purposes (you see it when you type the message), not for parsing!
@@ -769,7 +793,7 @@ declare namespace Fig {
     isVariadic?: boolean;
 
     /**
-     * Specifies whether options can interupt variadic arguments. There is
+     * Specifies whether options can interrupt variadic arguments. There is
      * slightly different behavior when this is used on an option argument and
      * on a subcommand argument:
      *
@@ -890,7 +914,7 @@ declare namespace Fig {
      *
      * @example
      * `npm run <script>` also takes an arg called "script". This arg is technically an alias for another shell command that is specified in the package.json.
-     * If the user typed `npm run start[space]`, the package.json had script `start=node index.js`, then Fig would start offerring suggestions for as if you had just typed `node index.js[space]`
+     * If the user typed `npm run start[space]`, the package.json had script `start=node index.js`, then Fig would start offering suggestions for as if you had just typed `node index.js[space]`
      *
      * Note: In both cases, the alias function is only used to expand a given alias NOT to generate the list of aliases. To generate a list of aliases, scripts etc, use a generator.
      */
@@ -900,7 +924,7 @@ declare namespace Fig {
   }
 
   /**
-   * The generator object is used to generate suggestions for an arg object. To do this, it runs a defined shell command on the user's device, gets the output, and returns a list of Suggestion obejcts.
+   * The generator object is used to generate suggestions for an arg object. To do this, it runs a defined shell command on the user's device, gets the output, and returns a list of Suggestion objects.
    *
    */
   interface Generator {
@@ -929,7 +953,7 @@ declare namespace Fig {
      * @returns An array of `Suggestion` objects.
      *
      * @example
-     * The python spec has an arg object which has a template for "filepaths". However, we don't want to suggest non `.py` files. Therefore, we take the output of the template, filter out all files that don't end in `.py`, keep all folders that end with `/` and return the list of suggetsions.
+     * The python spec has an arg object which has a template for "filepaths". However, we don't want to suggest non `.py` files. Therefore, we take the output of the template, filter out all files that don't end in `.py`, keep all folders that end with `/` and return the list of suggestions.
      */
     filterTemplateSuggestions?: Function<TemplateSuggestion[], Suggestion[]>;
     /**
@@ -1010,7 +1034,7 @@ declare namespace Fig {
      *
      * @example
      * `cd`: Let's say a user has "cd desktop" currently typed then the user types a "/" so the changes to "cd ~/desktop/".
-     * The old token is "~/desktop", new token is "desktop/". This is a perfect time for us to generate a new list of suggestions. We previously had all the folders in my ~ directory as suggestions, but after the total number of `/` in the tokens changed, we shoudl trigger a new set of suggestions to be generated. This new set of suggestions should then generate suggestions for the desktop directory, not the ~ directory.
+     * The old token is "~/desktop", new token is "desktop/". This is a perfect time for us to generate a new list of suggestions. We previously had all the folders in my ~ directory as suggestions, but after the total number of `/` in the tokens changed, we should trigger a new set of suggestions to be generated. This new set of suggestions should then generate suggestions for the desktop directory, not the ~ directory.
      *
      */
     trigger?: string | ((newToken: string, oldToken: string) => boolean);
@@ -1074,9 +1098,9 @@ declare namespace Fig {
      *
      * @remarks
      * For commands that take a long time to run, Fig gives you the option to cache their response. You can cache the response globally or just by the directory they were run in.
-     * We currently have two cache stategies:
+     * We currently have two cache strategies:
      * - `max-age` (default): you just need to specify a `ttl` (time to live) for how long the cache will last (this is a number)
-     * - `stale-while-revalidate`: when cache becomes stale fig will return the stale data while fetching the updated one. This stategy also accepts a `ttl` to configure how long it takes for the cache to become stale.
+     * - `stale-while-revalidate`: when cache becomes stale fig will return the stale data while fetching the updated one. This strategy also accepts a `ttl` to configure how long it takes for the cache to become stale.
      * You can also optionally turn on the ability to just cache by directory (`cacheByDirectory: true`)
      *
      * @example

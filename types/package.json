@@ -5,7 +5,21 @@
   "author": "The Fig Team",
   "types": "index.d.ts",
   "license": "MIT",
+  "scripts": {
+    "generate-docs": "ts-node docs-generator/bin.ts ./docs.json",
+    "check-docs": "ts-node test/check-docs.ts",
+    "test": "yarn cspell && yarn check-docs",
+    "cspell": "cspell index.d.ts"
+  },
+  "files": [
+    "index.d.ts"
+  ],
   "devDependencies": {
-    "eslint-plugin-prettier": "^4.0.0"
+    "@microsoft/tsdoc": "^0.14.1",
+    "cspell": "^6.0.0",
+    "picocolors": "^1.0.0",
+    "prettier": "^2.6.2",
+    "ts-node": "^10.7.0",
+    "typescript": "^4.6.4"
   }
 }
