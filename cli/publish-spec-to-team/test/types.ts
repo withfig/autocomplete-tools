@@ -5,7 +5,7 @@ export interface AssertFileData {
   content?: string;
 }
 
-export interface AssertRequest extends Record<string, any> {
+export interface AssertRequest extends Record<string, unknown> {
   files?: {
     jsSpec?: AssertFileData;
   };

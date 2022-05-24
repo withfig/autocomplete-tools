@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import assert from "assert";
 import express from "express";
 import multer from "multer";
@@ -32,7 +34,7 @@ function deepEqual(object1: Record<string, any>, object2: Record<string, any>) {
 }
 
 app.put("/cdn", upload.single("jsSpec"), async (req, res) => {
-  const [_, token] = req.headers.authorization!.split(" ");
+  const [, token] = req.headers.authorization!.split(" ");
 
   const encodedAssertData = req.headers["assert-data"]!;
   assert(!Array.isArray(encodedAssertData));

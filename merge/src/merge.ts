@@ -160,7 +160,8 @@ function resolveArrayLiteral(path: ts.Node[], arrayNode: ArrayLiteralExpression)
         if (Node.isObjectLiteralExpression(element)) {
           const nameProp = element.getProperty("name");
           if (nameProp && Node.isPropertyAssignment(nameProp)) {
-            const initializer = nameProp.getInitializer()!;
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            const initializer = nameProp.getInitializer()!; // getInitializer on PropertyAssignment never returns undefined
             if (
               expressionsAreEqual(nameToFind, initializer) ||
               // if nameToFind is StringLiteral and initializer is ArrayLiteralExpression
@@ -202,7 +203,8 @@ function resolveObjectLiteral(
   for (const prop of props) {
     if (Node.isPropertyAssignment(prop) && prop.getName() === propNameToFind) {
       // if there is a matching prop and this is the last one item of the path return the prop.
-      return resolve(newPath.slice(0, -1), prop.getInitializer()!);
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      return resolve(newPath.slice(0, -1), prop.getInitializer()!); // getInitializer on PropertyAssignment never returns undefined
     }
   }
   if (newPath.length === 1) {

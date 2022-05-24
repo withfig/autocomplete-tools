@@ -44,7 +44,7 @@ async function processFiles(files: string[], isDev?: boolean) {
   invalidateCache();
 }
 
-export async function runCompiler(options: Record<string, any>) {
+export async function runCompiler(options: { watch: boolean }) {
   const SOURCE_FILE_GLOB = `${SOURCE_FOLDER_NAME}/**/*.ts`;
   const files = await glob(SOURCE_FILE_GLOB);
   await processFiles(files);

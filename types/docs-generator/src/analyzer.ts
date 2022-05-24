@@ -32,6 +32,7 @@ export function analyze(path: string): string {
     for (const [index, param] of Array.from((rootTypeAlias.typeParameters ?? []).entries())) {
       typeParamsMap.set(
         param.name.escapedText,
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         typeArguments[index] ? typeArguments[index] : param.default!
       );
     }
@@ -42,6 +43,7 @@ export function analyze(path: string): string {
           ts.isIdentifier(node.typeName) &&
           typeParamsMap.get(node.typeName.escapedText)
         ) {
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
           return typeParamsMap.get(node.typeName.escapedText)!;
         }
         return ts.visitEachChild(node, visit, ctx);

@@ -57,7 +57,7 @@ export function filepaths(options: FilepathsOptions): Fig.Generator {
         // We need to explicitly create a new Regexp object here or it will not work. Why?
         if (matches && new RegExp(matches.source, matches.flags).test(name)) return true;
         // handle extensions
-        const [_, ...suggestionExtensions] = name.split(".");
+        const [, ...suggestionExtensions] = name.split(".");
         if (suggestionExtensions.length >= 1) {
           let i = suggestionExtensions.length - 1;
           let stackedExtensions = suggestionExtensions[i];

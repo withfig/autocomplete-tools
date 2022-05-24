@@ -60,9 +60,14 @@ function generateMember(memberNode: ts.TypeElement, sourceText: string): MemberD
       default:
     }
   }
+  if (!memberNode.name) {
+    throw new Error(
+      `Interface members of SyntaxKind: '${memberNode.kind}' are not yet supported, please update the docs generator to support them.`
+    );
+  }
   return {
     // memberNode may be an IndexSignature or another type which doesn't have a name
-    name: memberNode.name!.getText(),
+    name: memberNode.name.getText(),
     excluded: docComment?.modifierTagSet.hasTag(tagDefinitions.excludedTag) ?? false,
     ...(docComment?.summarySection && {
       summary: Formatter.renderDocNode(docComment.summarySection).trim(),

@@ -1,6 +1,6 @@
 import { createVersionedSpec } from "../src/versions";
 
-type VersionedSpec = (version?: string) => any;
+type VersionedSpec = (version?: string) => unknown;
 describe("test createVersionedSpec", () => {
   it("test it returns the correct version when versions are correctly sorted", async () => {
     const versionedSpec = createVersionedSpec("fig", ["1.0.0", "2.0.0", "3.0.0"]) as VersionedSpec;

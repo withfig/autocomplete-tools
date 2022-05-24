@@ -173,6 +173,8 @@ function generateCommand(
 
 export function generateCompletionSpec(command: Command, options?: Options): string | undefined {
   const figSpecCommandName = options?.figSpecCommandName || DEFAULT_FIG_SUBCOMMAND_NAME;
+  // The first subcommand will never have the name of the `figSpecCommandName`
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const spec = getTemplate(generateCommand(command, figSpecCommandName)!);
   return spec;
 }
