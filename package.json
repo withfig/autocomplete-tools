@@ -27,6 +27,7 @@
   "workspaces": [
     "eslint/*",
     "types",
+    "types/docs-generator",
     "shared",
     "generators",
     "helpers",
