@@ -1,5 +1,6 @@
 import ts, { TypeAliasDeclaration } from "typescript";
 import * as tsdoc from "@microsoft/tsdoc";
+import prettier from "prettier";
 import { DocManager, tagDefinitions } from "./DocManager";
 import {
   FoundNode,
@@ -79,7 +80,7 @@ function generateMember(memberNode: ts.TypeElement, sourceText: string): MemberD
         "This property has been deprecated.",
     }),
     optional: !!memberNode.questionToken,
-    declaration: memberNode.getText(),
+    declaration: Formatter.indentDeclaration(memberNode.getText()),
     examples,
     category,
     default: defaultValue,
@@ -120,7 +121,7 @@ function generateTypeAlias(_typeAlias: FoundNode<ts.TypeAliasDeclaration>): Type
   const { node: typeAliasNode, docComment } = _typeAlias;
   return {
     name: typeAliasNode.name.getText(),
-    declaration: typeAliasNode.getText(),
+    declaration: Formatter.indentDeclaration(typeAliasNode.getText()),
     ...(docComment?.summarySection && {
       summary: Formatter.renderDocNode(docComment.summarySection).trim(),
     }),
@@ -143,7 +144,11 @@ export function generate(sourceText: string) {
 
   const sourceFile = ts.createSourceFile(
     "docs.ts",
-    sourceText,
+    prettier.format(sourceText, {
+      parser: "typescript",
+      semi: false,
+      bracketSpacing: false,
+    }),
     ts.ScriptTarget.ESNext,
     true,
     ts.ScriptKind.TS
