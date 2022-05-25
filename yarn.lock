@@ -877,7 +877,7 @@ __metadata:
   dependencies:
     "@typescript-eslint/eslint-plugin": ^5.23.0
     "@typescript-eslint/parser": ^5.23.0
-    "@withfig/eslint-plugin-fig-linter": ^1.2.0
+    "@withfig/eslint-plugin-fig-linter": "workspace:^"
     eslint-plugin-compat: ^4.0.2
   peerDependencies:
     eslint: ">=8"
@@ -2123,7 +2123,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@withfig/eslint-plugin-fig-linter@^1.2.0, @withfig/eslint-plugin-fig-linter@workspace:eslint/plugin-fig-linter":
+"@withfig/eslint-plugin-fig-linter@workspace:^, @withfig/eslint-plugin-fig-linter@workspace:eslint/plugin-fig-linter":
   version: 0.0.0-use.local
   resolution: "@withfig/eslint-plugin-fig-linter@workspace:eslint/plugin-fig-linter"
   languageName: unknown
