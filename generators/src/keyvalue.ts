@@ -48,9 +48,10 @@ async function resultsToSuggestions(
 
 /**
  * Create a generator that gives suggestions for key=value arguments. You
- * can use a `string[]` or `Fig.Suggestion[]` for the
+ * can use a `string[]` or `Fig.Suggestion[]` for the keys and values.
  *
  * ```typescript
+ * // set-values a=1 b=3 c=2
  * const spec: Fig.Spec = {
  *   name: "set-values",
  *   args: {
@@ -68,6 +69,7 @@ async function resultsToSuggestions(
  * default.
  *
  * ```typescript
+ * // key1:value
  * keyValue({
  *   separator: ":",
  *   keys: [
@@ -97,6 +99,40 @@ function getFinalSepDelimIndex(sep: string, delim: string, token: string): numbe
   return Math.max(token.lastIndexOf(sep), token.lastIndexOf(delim));
 }
 
+/**
+ * Create a generator that gives suggestions for `k=v,k=v,...` arguments. You
+ * can use a `string[]` or `Fig.Suggestion[]` for the keys and values.
+ *
+ * ```typescript
+ * // set-values a=1,b=3,c=2
+ * const spec: Fig.Spec = {
+ *   name: "set-values",
+ *   args: {
+ *     name: "values",
+ *     generators: keyValueList({
+ *       keys: ["a", "b", "c"],
+ *       values: ["1", "2", "3"],
+ *     }),
+ *   },
+ * }
+ * ```
+ *
+ * The separator between keys and values can be customized. It's `=` by
+ * default. You can also change the key/value pair delimiter, which is `,`
+ * by default.
+ *
+ * ```typescript
+ * // key1:value&key2=another
+ * keyValue({
+ *   separator: ":",
+ *   delimiter: "&"
+ *   keys: [
+ *     { name: "key1", icon: "fig://icon?type=string" },
+ *     { name: "key2", icon: "fig://icon?type=string" },
+ *   ],
+ * }),
+ * ```
+ */
 export function keyValueList({
   separator = "=",
   delimiter = ",",
