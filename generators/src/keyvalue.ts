@@ -4,8 +4,9 @@ export type Suggestions =
   | Fig.Suggestion[]
   | ((
       tokens: string[],
-      executeShellCommand: Fig.ExecuteShellCommandFunction
-    ) => Promise<Fig.Suggestion[]>);
+      executeShellCommand: Fig.ExecuteShellCommandFunction,
+      shellContext: Fig.ShellContext
+    ) => Fig.Suggestion[] | Promise<Fig.Suggestion[]>);
 
 export interface KeyValueInit {
   /** String to use as the separator between keys and values */
@@ -34,11 +35,10 @@ export interface KeyValueListInit {
 
 async function resultsToSuggestions(
   suggestions: Suggestions,
-  tokens: string[],
-  executeShellCommand: Fig.ExecuteShellCommandFunction
+  init: Parameters<NonNullable<Fig.Generator["custom"]>>
 ): Promise<Fig.Suggestion[]> {
   if (typeof suggestions === "function") {
-    return suggestions(tokens, executeShellCommand);
+    return suggestions(...init);
   }
   if (typeof suggestions[0] === "string") {
     return (suggestions as string[]).map((name) => ({ name }));
@@ -81,13 +81,14 @@ export function keyValue({ separator = "=", keys = [], values = [] }: KeyValueIn
   return {
     trigger: (newToken, oldToken) => newToken.indexOf(separator) !== oldToken.indexOf(separator),
     getQueryTerm: (token) => (token as string).slice((token as string).indexOf(separator) + 1),
-    custom: async (tokens, executeShellCommand) => {
+    custom: async (...init) => {
+      const [tokens] = init;
       const finalToken = tokens[tokens.length - 1];
       const isKey = !finalToken.includes(separator);
       if (isKey) {
-        return resultsToSuggestions(keys, tokens, executeShellCommand);
+        return resultsToSuggestions(keys, init);
       }
-      return resultsToSuggestions(values, tokens, executeShellCommand);
+      return resultsToSuggestions(values, init);
     },
   };
 }
@@ -112,14 +113,15 @@ export function keyValueList({
       const index = getFinalSepDelimIndex(separator, delimiter, token as string);
       return (token as string).slice(index + 1);
     },
-    custom: async (tokens, executeShellCommand) => {
+    custom: async (...init) => {
+      const [tokens] = init;
       const finalToken = tokens[tokens.length - 1];
       const index = getFinalSepDelimIndex(separator, delimiter, finalToken);
       const isKey = index === -1 || finalToken.slice(index, index + separator.length) !== separator;
       if (isKey) {
-        return resultsToSuggestions(keys, tokens, executeShellCommand);
+        return resultsToSuggestions(keys, init);
       }
-      return resultsToSuggestions(values, tokens, executeShellCommand);
+      return resultsToSuggestions(values, init);
     },
   };
 }
