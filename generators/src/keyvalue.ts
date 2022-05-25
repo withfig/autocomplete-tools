@@ -1,79 +1,125 @@
+/** Suggestions to be displayed for keys or values */
+export type Suggestions =
+  | string[]
+  | Fig.Suggestion[]
+  | ((
+      tokens: string[],
+      executeShellCommand: Fig.ExecuteShellCommandFunction
+    ) => Promise<Fig.Suggestion[]>);
+
 export interface KeyValueInit {
-  key:
-    | Fig.Suggestion[]
-    | ((
-        tokens: string[],
-        executeShellCommand: Fig.ExecuteShellCommandFunction
-      ) => Promise<Fig.Suggestion[]>);
-  sep: string;
-  value:
-    | Fig.Suggestion[]
-    | ((
-        tokens: string[],
-        executeShellCommand: Fig.ExecuteShellCommandFunction
-      ) => Promise<Fig.Suggestion[]>);
+  /** String to use as the separator between keys and values */
+  separator?: string;
+
+  /** List of key suggestions */
+  keys?: Suggestions;
+
+  /** List of value suggestions */
+  values?: Suggestions;
 }
 
-export interface KeyValueListInit extends KeyValueInit {
-  delim: string;
+export interface KeyValueListInit {
+  /** String to use as the separator between keys and values */
+  separator?: string;
+
+  /** String to use as the separator between key-value pairs */
+  delimiter?: string;
+
+  /** List of key suggestions */
+  keys?: Suggestions;
+
+  /** List of value suggestions */
+  values?: Suggestions;
 }
 
-export function keyvalue({ key, sep, value }: KeyValueInit): Fig.Generator {
+async function resultsToSuggestions(
+  suggestions: Suggestions,
+  tokens: string[],
+  executeShellCommand: Fig.ExecuteShellCommandFunction
+): Promise<Fig.Suggestion[]> {
+  if (typeof suggestions === "function") {
+    return suggestions(tokens, executeShellCommand);
+  }
+  if (typeof suggestions[0] === "string") {
+    return (suggestions as string[]).map((name) => ({ name }));
+  }
+  return suggestions as Fig.Suggestion[];
+}
+
+/**
+ * Create a generator that gives suggestions for key=value arguments. You
+ * can use a `string[]` or `Fig.Suggestion[]` for the
+ *
+ * ```typescript
+ * const spec: Fig.Spec = {
+ *   name: "set-values",
+ *   args: {
+ *     name: "values",
+ *     isVariadic: true,
+ *     generators: keyValue({
+ *       keys: ["a", "b", "c"],
+ *       values: ["1", "2", "3"],
+ *     }),
+ *   },
+ * }
+ * ```
+ *
+ * The separator between keys and values can be customized. It's `=` by
+ * default.
+ *
+ * ```typescript
+ * keyValue({
+ *   separator: ":",
+ *   keys: [
+ *     { name: "key1", icon: "fig://icon?type=string" },
+ *     { name: "key2", icon: "fig://icon?type=string" },
+ *   ],
+ * }),
+ * ```
+ */
+export function keyValue({ separator = "=", keys = [], values = [] }: KeyValueInit): Fig.Generator {
   return {
-    trigger: (newToken, oldToken) => newToken.indexOf(sep) !== oldToken?.indexOf(sep),
-    getQueryTerm: (token) => (token as string).slice((token as string).indexOf(sep) + 1),
+    trigger: (newToken, oldToken) => newToken.indexOf(separator) !== oldToken.indexOf(separator),
+    getQueryTerm: (token) => (token as string).slice((token as string).indexOf(separator) + 1),
     custom: async (tokens, executeShellCommand) => {
       const finalToken = tokens[tokens.length - 1];
-      const isKey = !finalToken.includes(sep);
-
+      const isKey = !finalToken.includes(separator);
       if (isKey) {
-        if (typeof key === "function") {
-          return key(tokens, executeShellCommand);
-        }
-        return key;
+        return resultsToSuggestions(keys, tokens, executeShellCommand);
       }
-
-      if (typeof value === "function") {
-        return value(tokens, executeShellCommand);
-      }
-      return value;
+      return resultsToSuggestions(values, tokens, executeShellCommand);
     },
   };
 }
 
 function getFinalSepDelimIndex(sep: string, delim: string, token: string): number {
-  const sepIdx = token.lastIndexOf(sep);
-  const delimIdx = token.lastIndexOf(delim);
-  return Math.max(sepIdx, delimIdx);
+  return Math.max(token.lastIndexOf(sep), token.lastIndexOf(delim));
 }
 
-export function keyvaluelist({ key, sep, value, delim }: KeyValueListInit): Fig.Generator {
+export function keyValueList({
+  separator = "=",
+  delimiter = ",",
+  keys = [],
+  values = [],
+}: KeyValueListInit): Fig.Generator {
   return {
     trigger: (newToken, oldToken) => {
-      const newTokenIdx = getFinalSepDelimIndex(sep, delim, newToken);
-      const oldTokenIdx = getFinalSepDelimIndex(sep, delim, oldToken as string);
+      const newTokenIdx = getFinalSepDelimIndex(separator, delimiter, newToken);
+      const oldTokenIdx = getFinalSepDelimIndex(separator, delimiter, oldToken);
       return newTokenIdx !== oldTokenIdx;
     },
     getQueryTerm: (token) => {
-      const index = getFinalSepDelimIndex(sep, delim, token as string);
+      const index = getFinalSepDelimIndex(separator, delimiter, token as string);
       return (token as string).slice(index + 1);
     },
     custom: async (tokens, executeShellCommand) => {
       const finalToken = tokens[tokens.length - 1];
-      const index = getFinalSepDelimIndex(sep, delim, finalToken);
-      const isKey = index === -1 || finalToken.slice(index, index + sep.length) !== sep;
-
+      const index = getFinalSepDelimIndex(separator, delimiter, finalToken);
+      const isKey = index === -1 || finalToken.slice(index, index + separator.length) !== separator;
       if (isKey) {
-        if (typeof key === "function") {
-          return key(tokens, executeShellCommand);
-        }
-        return key;
+        return resultsToSuggestions(keys, tokens, executeShellCommand);
       }
-
-      if (typeof value === "function") {
-        return value(tokens, executeShellCommand);
-      }
-      return value;
+      return resultsToSuggestions(values, tokens, executeShellCommand);
     },
   };
 }
