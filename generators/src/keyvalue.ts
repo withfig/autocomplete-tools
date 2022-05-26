@@ -68,6 +68,12 @@ async function getSuggestions(
 /**
  * Create a generator that gives suggestions for key=value arguments. You
  * can use a `string[]` or `Fig.Suggestion[]` for the keys and values.
+
+ * You can set `cache: true` to enable caching results. The suggestions are cached
+ * globally using the function as a key, so enabling caching for any one generator
+ * will set the cache values for the functions for the entire spec. This behavior
+ * can be used to copmpose expensive key/value generators without incurring the
+ * initial cost every time they're used.
  *
  * @example
  *
@@ -124,6 +130,12 @@ function getFinalSepDelimIndex(sep: string, delim: string, token: string): numbe
 /**
  * Create a generator that gives suggestions for `k=v,k=v,...` arguments. You
  * can use a `string[]` or `Fig.Suggestion[]` for the keys and values.
+ *
+ * You can set `cache: true` to enable caching results. The suggestions are cached
+ * globally using the function as a key, so enabling caching for any one generator
+ * will set the cache values for the functions for the entire spec. This behavior
+ * can be used to copmpose expensive key/value generators without incurring the
+ * initial cost every time they're used.
  *
  * @example
  *

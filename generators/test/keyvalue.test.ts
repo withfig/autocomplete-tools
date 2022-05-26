@@ -77,6 +77,48 @@ describe("Test keyValue suggestions", () => {
     await test(":", [{ name: "value" }]);
     await test("key:", [{ name: "value" }]);
   });
+
+  it("caches results", async () => {
+    let getKeysCalled = 0;
+    const getKeys = async () => {
+      getKeysCalled += 1;
+      return [{ name: "key" }];
+    };
+    let getValuesCalled = 0;
+    const getValues = async () => {
+      getValuesCalled += 1;
+      return [{ name: "value" }];
+    };
+    const test = kvTest(
+      keyValue({
+        keys: getKeys,
+        values: getValues,
+        cache: true,
+      })
+    );
+    expect(getKeysCalled).to.be.equal(0);
+    expect(getValuesCalled).to.be.equal(0);
+
+    await test("", [{ name: "key" }]);
+    expect(getKeysCalled).to.be.equal(1);
+    expect(getValuesCalled).to.be.equal(0);
+
+    await test("key", [{ name: "key" }]);
+    expect(getKeysCalled).to.be.equal(1);
+    expect(getValuesCalled).to.be.equal(0);
+
+    await test("key=", [{ name: "value" }]);
+    expect(getKeysCalled).to.be.equal(1);
+    expect(getValuesCalled).to.be.equal(1);
+
+    await test("key=val", [{ name: "value" }]);
+    expect(getKeysCalled).to.be.equal(1);
+    expect(getValuesCalled).to.be.equal(1);
+
+    await test("key=val=", [{ name: "value" }]);
+    expect(getKeysCalled).to.be.equal(1);
+    expect(getValuesCalled).to.be.equal(1);
+  });
 });
 
 describe("Test keyValueList suggestions", () => {
@@ -131,7 +173,7 @@ describe("Test keyValueList suggestions", () => {
 
   it("runs functions", async () => {
     const test = kvTest(
-      keyValue({
+      keyValueList({
         keys: () => Promise.resolve([{ name: "key" }]),
         values: () => Promise.resolve([{ name: "value" }]),
         separator: ":",
@@ -141,5 +183,59 @@ describe("Test keyValueList suggestions", () => {
     await test("key", [{ name: "key" }]);
     await test(":", [{ name: "value" }]);
     await test("key:", [{ name: "value" }]);
+  });
+
+  it("caches results", async () => {
+    let getKeysCalled = 0;
+    const getKeys = async () => {
+      getKeysCalled += 1;
+      return [{ name: "key" }];
+    };
+    let getValuesCalled = 0;
+    const getValues = async () => {
+      getValuesCalled += 1;
+      return [{ name: "value" }];
+    };
+    const test = kvTest(
+      keyValueList({
+        keys: getKeys,
+        values: getValues,
+        cache: true,
+      })
+    );
+    expect(getKeysCalled).to.be.equal(0);
+    expect(getValuesCalled).to.be.equal(0);
+
+    await test("", [{ name: "key" }]);
+    expect(getKeysCalled).to.be.equal(1);
+    expect(getValuesCalled).to.be.equal(0);
+
+    await test("key", [{ name: "key" }]);
+    expect(getKeysCalled).to.be.equal(1);
+    expect(getValuesCalled).to.be.equal(0);
+
+    await test("key=", [{ name: "value" }]);
+    expect(getKeysCalled).to.be.equal(1);
+    expect(getValuesCalled).to.be.equal(1);
+
+    await test("key=val", [{ name: "value" }]);
+    expect(getKeysCalled).to.be.equal(1);
+    expect(getValuesCalled).to.be.equal(1);
+
+    await test("key=val,", [{ name: "key" }]);
+    expect(getKeysCalled).to.be.equal(1);
+    expect(getValuesCalled).to.be.equal(1);
+
+    await test("key=val,key", [{ name: "key" }]);
+    expect(getKeysCalled).to.be.equal(1);
+    expect(getValuesCalled).to.be.equal(1);
+
+    await test("key=val,key=", [{ name: "value" }]);
+    expect(getKeysCalled).to.be.equal(1);
+    expect(getValuesCalled).to.be.equal(1);
+
+    await test("key=val,key=val", [{ name: "value" }]);
+    expect(getKeysCalled).to.be.equal(1);
+    expect(getValuesCalled).to.be.equal(1);
   });
 });
