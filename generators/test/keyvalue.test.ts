@@ -67,7 +67,7 @@ describe("Test keyValue suggestions", () => {
   it("runs functions", async () => {
     const test = kvTest(
       keyValue({
-        keys: () => [{ name: "key" }],
+        keys: () => Promise.resolve([{ name: "key" }]),
         values: () => Promise.resolve([{ name: "value" }]),
         separator: ":",
       })
@@ -132,7 +132,7 @@ describe("Test keyValueList suggestions", () => {
   it("runs functions", async () => {
     const test = kvTest(
       keyValue({
-        keys: () => [{ name: "key" }],
+        keys: () => Promise.resolve([{ name: "key" }]),
         values: () => Promise.resolve([{ name: "value" }]),
         separator: ":",
       })
