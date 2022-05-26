@@ -1014,7 +1014,7 @@
             }
           ],
           "optional": true,
-          "declaration": "filterTemplateSuggestions?: (\n  param?: Modify<\n    Suggestion,\n    {\n      name?: string\n      context:\n        | {\n            templateType: \"filepaths\"\n          }\n        | {\n            templateType: \"folders\"\n          }\n        | {\n            templateType: \"help\"\n          }\n        | ({\n            templateType: \"history\"\n          } & Partial<{\n            currentWorkingDirectory: string\n            time: number\n            exitCode: number\n            shell: string\n          }>)\n    }\n  >[]\n) => Suggestion[]",
+          "declaration": "filterTemplateSuggestions?: (\n  param: Modify<\n    Suggestion,\n    {\n      name?: string\n      context:\n        | {\n            templateType: \"filepaths\"\n          }\n        | {\n            templateType: \"folders\"\n          }\n        | {\n            templateType: \"help\"\n          }\n        | ({\n            templateType: \"history\"\n          } & Partial<{\n            currentWorkingDirectory: string\n            time: number\n            exitCode: number\n            shell: string\n          }>)\n    }\n  >[]\n) => Suggestion[]",
           "examples": [
             "The python spec has an arg object which has a template for \"filepaths\". However, we don't want to suggest non `.py` files. Therefore, we take the output of the template, filter out all files that don't end in `.py`, keep all folders that end with `/` and return the list of suggestions."
           ],
@@ -1027,7 +1027,7 @@
           "discussion": "You can either specify\n1. a string to be executed (like `ls` or `git branch`)\n2. a function to generate the string to be executed. The function takes in an array of tokens of the user input and should output a string. You use a function when the script you run is dependent upon one of the tokens the user has already input (for instance an app name, a Kubernetes token etc.)\nAfter executing the script, the output will be passed to one of `splitOn` or `postProcess` for further processing to produce suggestion objects.",
           "parameters": [],
           "optional": true,
-          "declaration": "script?: string | ((param?: string[]) => string)",
+          "declaration": "script?: string | ((param: string[]) => string)",
           "examples": [
             "`git checkout <branch>` takes one argument which is a git branch. Its arg object has a generator with a `script: \"git branch\"`. The output of this shell command is then passed into the postProcess function to generate the final suggestions."
           ],
@@ -1115,7 +1115,7 @@
             }
           ],
           "optional": true,
-          "declaration": "getQueryTerm?: string | ((param?: string) => string)",
+          "declaration": "getQueryTerm?: string | ((param: string) => string)",
           "examples": [
             "`cd` has a `getQueryTerm` function that takes the token the user has typed and returns everything after the last \"/\".\nif the user types cd `~/desktop/a`, the list of suggestions will be all the folders on the user's desktop. We want to filter over these folders with the query term `\"a\"` not `~/desktop/a`"
           ],
@@ -1254,7 +1254,7 @@
     },
     {
       "name": "Function",
-      "declaration": "type Function<T = void, R = void> = (param?: T) => R",
+      "declaration": "type Function<T = void, R = void> = (param: T) => R",
       "summary": "A function which can have a `T` argument and a `R` result.",
       "returns": "Something of type `R`",
       "examples": [],
@@ -1269,7 +1269,7 @@
     },
     {
       "name": "StringOrFunction",
-      "declaration": "type StringOrFunction<T = void, R = void> = string | ((param?: T) => R)",
+      "declaration": "type StringOrFunction<T = void, R = void> = string | ((param: T) => R)",
       "summary": "A `string` OR a `function` which can have a `T` argument and a `R` result.",
       "returns": "Something of type `R`",
       "examples": [],
