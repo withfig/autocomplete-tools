@@ -1,12 +1,5 @@
 /** Suggestions to be displayed for keys or values */
-export type Suggestions =
-  | string[]
-  | Fig.Suggestion[]
-  | ((
-      tokens: string[],
-      executeShellCommand: Fig.ExecuteShellCommandFunction,
-      shellContext: Fig.ShellContext
-    ) => Fig.Suggestion[] | Promise<Fig.Suggestion[]>);
+export type Suggestions = string[] | Fig.Suggestion[] | NonNullable<Fig.Generator["custom"]>;
 
 export interface KeyValueInit {
   /** String to use as the separator between keys and values */
@@ -17,6 +10,9 @@ export interface KeyValueInit {
 
   /** List of value suggestions */
   values?: Suggestions;
+
+  /** Cache key and value suggestions */
+  cache?: boolean;
 }
 
 export interface KeyValueListInit {
@@ -31,9 +27,15 @@ export interface KeyValueListInit {
 
   /** List of value suggestions */
   values?: Suggestions;
+
+  /** Cache key and value suggestions */
+  cache?: boolean;
 }
 
-async function resultsToSuggestions(
+/** Cache of Fig suggestions using the string[]/Suggestion[]/function as a key */
+const suggestionCache = new Map<Suggestions, Fig.Suggestion[]>();
+
+async function kvSuggestionsToFigSuggestions(
   suggestions: Suggestions,
   init: Parameters<NonNullable<Fig.Generator["custom"]>>
 ): Promise<Fig.Suggestion[]> {
@@ -46,9 +48,28 @@ async function resultsToSuggestions(
   return suggestions as Fig.Suggestion[];
 }
 
+async function getSuggestions(
+  suggestions: Suggestions,
+  cache: boolean,
+  init: Parameters<NonNullable<Fig.Generator["custom"]>>
+): Promise<Fig.Suggestion[]> {
+  if (cache) {
+    if (!suggestionCache.has(suggestions)) {
+      suggestionCache.set(suggestions, await kvSuggestionsToFigSuggestions(suggestions, init));
+    }
+    // We've already ensured that the value is definitely in the cache,
+    // there can be no TOCTTOU bugs because JS is single threaded
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    return suggestionCache.get(suggestions)!;
+  }
+  return kvSuggestionsToFigSuggestions(suggestions, init);
+}
+
 /**
  * Create a generator that gives suggestions for key=value arguments. You
  * can use a `string[]` or `Fig.Suggestion[]` for the keys and values.
+ *
+ * @example
  *
  * ```typescript
  * // set-values a=1 b=3 c=2
@@ -65,8 +86,7 @@ async function resultsToSuggestions(
  * }
  * ```
  *
- * The separator between keys and values can be customized. It's `=` by
- * default.
+ * @example The separator between keys and values can be customized (default: `=`)
  *
  * ```typescript
  * // key1:value
@@ -79,7 +99,12 @@ async function resultsToSuggestions(
  * }),
  * ```
  */
-export function keyValue({ separator = "=", keys = [], values = [] }: KeyValueInit): Fig.Generator {
+export function keyValue({
+  separator = "=",
+  keys = [],
+  values = [],
+  cache = false,
+}: KeyValueInit): Fig.Generator {
   return {
     trigger: (newToken, oldToken) => newToken.indexOf(separator) !== oldToken.indexOf(separator),
     getQueryTerm: (token) => (token as string).slice((token as string).indexOf(separator) + 1),
@@ -87,10 +112,7 @@ export function keyValue({ separator = "=", keys = [], values = [] }: KeyValueIn
       const [tokens] = init;
       const finalToken = tokens[tokens.length - 1];
       const isKey = !finalToken.includes(separator);
-      if (isKey) {
-        return resultsToSuggestions(keys, init);
-      }
-      return resultsToSuggestions(values, init);
+      return getSuggestions(isKey ? keys : values, cache, init);
     },
   };
 }
@@ -102,6 +124,8 @@ function getFinalSepDelimIndex(sep: string, delim: string, token: string): numbe
 /**
  * Create a generator that gives suggestions for `k=v,k=v,...` arguments. You
  * can use a `string[]` or `Fig.Suggestion[]` for the keys and values.
+ *
+ * @example
  *
  * ```typescript
  * // set-values a=1,b=3,c=2
@@ -116,6 +140,8 @@ function getFinalSepDelimIndex(sep: string, delim: string, token: string): numbe
  *   },
  * }
  * ```
+ *
+ * @example
  *
  * The separator between keys and values can be customized. It's `=` by
  * default. You can also change the key/value pair delimiter, which is `,`
@@ -138,6 +164,7 @@ export function keyValueList({
   delimiter = ",",
   keys = [],
   values = [],
+  cache = false,
 }: KeyValueListInit): Fig.Generator {
   return {
     trigger: (newToken, oldToken) => {
@@ -154,10 +181,7 @@ export function keyValueList({
       const finalToken = tokens[tokens.length - 1];
       const index = getFinalSepDelimIndex(separator, delimiter, finalToken);
       const isKey = index === -1 || finalToken.slice(index, index + separator.length) !== separator;
-      if (isKey) {
-        return resultsToSuggestions(keys, init);
-      }
-      return resultsToSuggestions(values, init);
+      return getSuggestions(isKey ? keys : values, cache, init);
     },
   };
 }
