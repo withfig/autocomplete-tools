@@ -119,6 +119,90 @@ describe("Test keyValue suggestions", () => {
     expect(getKeysCalled).to.be.equal(1);
     expect(getValuesCalled).to.be.equal(1);
   });
+
+  it("can cache keys independently", async () => {
+    let getKeysCalled = 0;
+    const getKeys = async () => {
+      getKeysCalled += 1;
+      return [{ name: "key" }];
+    };
+    let getValuesCalled = 0;
+    const getValues = async () => {
+      getValuesCalled += 1;
+      return [{ name: "value" }];
+    };
+    const test = kvSuggestionsTest(
+      keyValue({
+        keys: getKeys,
+        values: getValues,
+        cache: "keys",
+      })
+    );
+    expect(getKeysCalled).to.be.equal(0);
+    expect(getValuesCalled).to.be.equal(0);
+
+    await test("", [{ name: "key" }]);
+    expect(getKeysCalled).to.be.equal(1);
+    expect(getValuesCalled).to.be.equal(0);
+
+    await test("key", [{ name: "key" }]);
+    expect(getKeysCalled).to.be.equal(1);
+    expect(getValuesCalled).to.be.equal(0);
+
+    await test("key=", [{ name: "value" }]);
+    expect(getKeysCalled).to.be.equal(1);
+    expect(getValuesCalled).to.be.equal(1);
+
+    await test("key=val", [{ name: "value" }]);
+    expect(getKeysCalled).to.be.equal(1);
+    expect(getValuesCalled).to.be.equal(2);
+
+    await test("key=val=", [{ name: "value" }]);
+    expect(getKeysCalled).to.be.equal(1);
+    expect(getValuesCalled).to.be.equal(3);
+  });
+
+  it("can cache values independently", async () => {
+    let getKeysCalled = 0;
+    const getKeys = async () => {
+      getKeysCalled += 1;
+      return [{ name: "key" }];
+    };
+    let getValuesCalled = 0;
+    const getValues = async () => {
+      getValuesCalled += 1;
+      return [{ name: "value" }];
+    };
+    const test = kvSuggestionsTest(
+      keyValue({
+        keys: getKeys,
+        values: getValues,
+        cache: "values",
+      })
+    );
+    expect(getKeysCalled).to.be.equal(0);
+    expect(getValuesCalled).to.be.equal(0);
+
+    await test("", [{ name: "key" }]);
+    expect(getKeysCalled).to.be.equal(1);
+    expect(getValuesCalled).to.be.equal(0);
+
+    await test("key", [{ name: "key" }]);
+    expect(getKeysCalled).to.be.equal(2);
+    expect(getValuesCalled).to.be.equal(0);
+
+    await test("key=", [{ name: "value" }]);
+    expect(getKeysCalled).to.be.equal(2);
+    expect(getValuesCalled).to.be.equal(1);
+
+    await test("key=val", [{ name: "value" }]);
+    expect(getKeysCalled).to.be.equal(2);
+    expect(getValuesCalled).to.be.equal(1);
+
+    await test("key=val=", [{ name: "value" }]);
+    expect(getKeysCalled).to.be.equal(2);
+    expect(getValuesCalled).to.be.equal(1);
+  });
 });
 
 describe("Test keyValueList suggestions", () => {
@@ -236,6 +320,120 @@ describe("Test keyValueList suggestions", () => {
 
     await test("key=val,key=val", [{ name: "value" }]);
     expect(getKeysCalled).to.be.equal(1);
+    expect(getValuesCalled).to.be.equal(1);
+  });
+
+  it("can cache keys independently", async () => {
+    let getKeysCalled = 0;
+    const getKeys = async () => {
+      getKeysCalled += 1;
+      return [{ name: "key" }];
+    };
+
+    let getValuesCalled = 0;
+    const getValues = async () => {
+      getValuesCalled += 1;
+      return [{ name: "value" }];
+    };
+
+    const test = kvSuggestionsTest(
+      keyValueList({
+        keys: getKeys,
+        values: getValues,
+        cache: "keys",
+      })
+    );
+
+    expect(getKeysCalled).to.be.equal(0);
+    expect(getValuesCalled).to.be.equal(0);
+
+    await test("", [{ name: "key" }]);
+    expect(getKeysCalled).to.be.equal(1);
+    expect(getValuesCalled).to.be.equal(0);
+
+    await test("key", [{ name: "key" }]);
+    expect(getKeysCalled).to.be.equal(1);
+    expect(getValuesCalled).to.be.equal(0);
+
+    await test("key=", [{ name: "value" }]);
+    expect(getKeysCalled).to.be.equal(1);
+    expect(getValuesCalled).to.be.equal(1);
+
+    await test("key=val", [{ name: "value" }]);
+    expect(getKeysCalled).to.be.equal(1);
+    expect(getValuesCalled).to.be.equal(2);
+
+    await test("key=val,", [{ name: "key" }]);
+    expect(getKeysCalled).to.be.equal(1);
+    expect(getValuesCalled).to.be.equal(2);
+
+    await test("key=val,key", [{ name: "key" }]);
+    expect(getKeysCalled).to.be.equal(1);
+    expect(getValuesCalled).to.be.equal(2);
+
+    await test("key=val,key=", [{ name: "value" }]);
+    expect(getKeysCalled).to.be.equal(1);
+    expect(getValuesCalled).to.be.equal(3);
+
+    await test("key=val,key=val", [{ name: "value" }]);
+    expect(getKeysCalled).to.be.equal(1);
+    expect(getValuesCalled).to.be.equal(4);
+  });
+
+  it("can cache values independently", async () => {
+    let getKeysCalled = 0;
+    const getKeys = async () => {
+      getKeysCalled += 1;
+      return [{ name: "key" }];
+    };
+
+    let getValuesCalled = 0;
+    const getValues = async () => {
+      getValuesCalled += 1;
+      return [{ name: "value" }];
+    };
+
+    const test = kvSuggestionsTest(
+      keyValueList({
+        keys: getKeys,
+        values: getValues,
+        cache: "values",
+      })
+    );
+
+    expect(getKeysCalled).to.be.equal(0);
+    expect(getValuesCalled).to.be.equal(0);
+
+    await test("", [{ name: "key" }]);
+    expect(getKeysCalled).to.be.equal(1);
+    expect(getValuesCalled).to.be.equal(0);
+
+    await test("key", [{ name: "key" }]);
+    expect(getKeysCalled).to.be.equal(2);
+    expect(getValuesCalled).to.be.equal(0);
+
+    await test("key=", [{ name: "value" }]);
+    expect(getKeysCalled).to.be.equal(2);
+    expect(getValuesCalled).to.be.equal(1);
+
+    await test("key=val", [{ name: "value" }]);
+    expect(getKeysCalled).to.be.equal(2);
+    expect(getValuesCalled).to.be.equal(1);
+
+    await test("key=val,", [{ name: "key" }]);
+    expect(getKeysCalled).to.be.equal(3);
+    expect(getValuesCalled).to.be.equal(1);
+
+    await test("key=val,key", [{ name: "key" }]);
+    expect(getKeysCalled).to.be.equal(4);
+    expect(getValuesCalled).to.be.equal(1);
+
+    await test("key=val,key=", [{ name: "value" }]);
+    expect(getKeysCalled).to.be.equal(4);
+    expect(getValuesCalled).to.be.equal(1);
+
+    await test("key=val,key=val", [{ name: "value" }]);
+    expect(getKeysCalled).to.be.equal(4);
     expect(getValuesCalled).to.be.equal(1);
   });
 });
