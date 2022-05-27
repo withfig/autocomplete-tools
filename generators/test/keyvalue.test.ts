@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import { keyValue, keyValueList } from "..";
 
-function kvTest(
+function kvSuggestionsTest(
   generator: Fig.Generator
 ): (token: string, expected: Fig.Suggestion[]) => Promise<void> {
   return async (token, expected) => {
@@ -50,7 +50,7 @@ describe("Test keyValue suggestions", () => {
   });
 
   it("suggests keys and values correctly", async () => {
-    const test = kvTest(
+    const test = kvSuggestionsTest(
       keyValue({
         keys: ["a", "b", "c"],
         values: ["1", "2", "3"],
@@ -65,7 +65,7 @@ describe("Test keyValue suggestions", () => {
   });
 
   it("runs functions", async () => {
-    const test = kvTest(
+    const test = kvSuggestionsTest(
       keyValue({
         keys: () => Promise.resolve([{ name: "key" }]),
         values: () => Promise.resolve([{ name: "value" }]),
@@ -89,7 +89,7 @@ describe("Test keyValue suggestions", () => {
       getValuesCalled += 1;
       return [{ name: "value" }];
     };
-    const test = kvTest(
+    const test = kvSuggestionsTest(
       keyValue({
         keys: getKeys,
         values: getValues,
@@ -148,7 +148,7 @@ describe("Test keyValueList suggestions", () => {
   });
 
   it("suggests keys and values correctly", async () => {
-    const test = kvTest(
+    const test = kvSuggestionsTest(
       keyValueList({
         keys: ["a", "b", "c"],
         values: ["1", "2", "3"],
@@ -172,7 +172,7 @@ describe("Test keyValueList suggestions", () => {
   });
 
   it("runs functions", async () => {
-    const test = kvTest(
+    const test = kvSuggestionsTest(
       keyValueList({
         keys: () => Promise.resolve([{ name: "key" }]),
         values: () => Promise.resolve([{ name: "value" }]),
@@ -196,7 +196,7 @@ describe("Test keyValueList suggestions", () => {
       getValuesCalled += 1;
       return [{ name: "value" }];
     };
-    const test = kvTest(
+    const test = kvSuggestionsTest(
       keyValueList({
         keys: getKeys,
         values: getValues,
