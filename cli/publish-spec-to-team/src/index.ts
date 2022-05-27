@@ -122,7 +122,7 @@ export const run = async (options: RunOptions) => {
   try {
     // This fetch method is a wrapper over the node-fetch function
     // See node-fetch.ts
-    const response = await fetch(`${API_BASE}/cdn`, {
+    const response = await fetch(`${API_BASE}/completions`, {
       headers: {
         Authorization: `Bearer ${token}`,
         Accept: "application/json",

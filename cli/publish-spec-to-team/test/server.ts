@@ -33,7 +33,7 @@ function deepEqual(object1: Record<string, any>, object2: Record<string, any>) {
   return true;
 }
 
-app.put("/cdn", upload.single("jsSpec"), async (req, res) => {
+app.put("/completions", upload.single("jsSpec"), async (req, res) => {
   const [, token] = req.headers.authorization!.split(" ");
 
   const encodedAssertData = req.headers["assert-data"]!;
