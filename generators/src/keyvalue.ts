@@ -1,18 +1,26 @@
 /** Suggestions to be displayed for keys or values */
-export type Suggestions = string[] | Fig.Suggestion[] | NonNullable<Fig.Generator["custom"]>;
+export type KeyValueSuggestions =
+  | string[]
+  | Fig.Suggestion[]
+  | NonNullable<Fig.Generator["custom"]>;
+
+/** @deprecated use `KeyValueSuggestions` */
+export type Suggestions = KeyValueSuggestions;
+
+export type CacheValue = boolean | "keys" | "values";
 
 export interface KeyValueInit {
   /** String to use as the separator between keys and values */
   separator?: string;
 
   /** List of key suggestions */
-  keys?: Suggestions;
+  keys?: KeyValueSuggestions;
 
   /** List of value suggestions */
-  values?: Suggestions;
+  values?: KeyValueSuggestions;
 
   /** Cache key and value suggestions */
-  cache?: boolean;
+  cache?: CacheValue;
 }
 
 export interface KeyValueListInit {
@@ -23,20 +31,20 @@ export interface KeyValueListInit {
   delimiter?: string;
 
   /** List of key suggestions */
-  keys?: Suggestions;
+  keys?: KeyValueSuggestions;
 
   /** List of value suggestions */
-  values?: Suggestions;
+  values?: KeyValueSuggestions;
 
   /** Cache key and value suggestions */
-  cache?: boolean;
+  cache?: CacheValue;
 }
 
 /** Cache of Fig suggestions using the string[]/Suggestion[]/function as a key */
-const suggestionCache = new Map<Suggestions, Fig.Suggestion[]>();
+const suggestionCache = new Map<KeyValueSuggestions, Fig.Suggestion[]>();
 
 async function kvSuggestionsToFigSuggestions(
-  suggestions: Suggestions,
+  suggestions: KeyValueSuggestions,
   init: Parameters<NonNullable<Fig.Generator["custom"]>>
 ): Promise<Fig.Suggestion[]> {
   if (typeof suggestions === "function") {
@@ -49,11 +57,11 @@ async function kvSuggestionsToFigSuggestions(
 }
 
 async function getSuggestions(
-  suggestions: Suggestions,
-  cache: boolean,
+  suggestions: KeyValueSuggestions,
+  useSuggestionCache: boolean,
   init: Parameters<NonNullable<Fig.Generator["custom"]>>
 ): Promise<Fig.Suggestion[]> {
-  if (cache) {
+  if (useSuggestionCache) {
     if (!suggestionCache.has(suggestions)) {
       suggestionCache.set(suggestions, await kvSuggestionsToFigSuggestions(suggestions, init));
     }
@@ -63,6 +71,18 @@ async function getSuggestions(
     return suggestionCache.get(suggestions)!;
   }
   return kvSuggestionsToFigSuggestions(suggestions, init);
+}
+
+function shouldUseCache(isKey: boolean, cache: CacheValue) {
+  if (typeof cache === "string") {
+    return (isKey && cache === "keys") || (!isKey && cache === "values");
+  }
+  return cache;
+}
+
+/** Get the final index of any of the strings */
+function lastIndexOf(haystack: string, ...needles: string[]) {
+  return Math.max(...needles.map((needle) => haystack.lastIndexOf(needle)));
 }
 
 /**
@@ -113,18 +133,15 @@ export function keyValue({
 }: KeyValueInit): Fig.Generator {
   return {
     trigger: (newToken, oldToken) => newToken.indexOf(separator) !== oldToken.indexOf(separator),
-    getQueryTerm: (token) => (token as string).slice((token as string).indexOf(separator) + 1),
+    getQueryTerm: (token) => token.slice(token.indexOf(separator) + 1),
     custom: async (...init) => {
       const [tokens] = init;
       const finalToken = tokens[tokens.length - 1];
       const isKey = !finalToken.includes(separator);
-      return getSuggestions(isKey ? keys : values, cache, init);
+      const useCache = shouldUseCache(isKey, cache);
+      return getSuggestions(isKey ? keys : values, useCache, init);
     },
   };
-}
-
-function getFinalSepDelimIndex(sep: string, delim: string, token: string): number {
-  return Math.max(token.lastIndexOf(sep), token.lastIndexOf(delim));
 }
 
 /**
@@ -180,20 +197,23 @@ export function keyValueList({
 }: KeyValueListInit): Fig.Generator {
   return {
     trigger: (newToken, oldToken) => {
-      const newTokenIdx = getFinalSepDelimIndex(separator, delimiter, newToken);
-      const oldTokenIdx = getFinalSepDelimIndex(separator, delimiter, oldToken);
+      const newTokenIdx = lastIndexOf(newToken, separator, delimiter);
+      const oldTokenIdx = lastIndexOf(oldToken, separator, delimiter);
       return newTokenIdx !== oldTokenIdx;
     },
     getQueryTerm: (token) => {
-      const index = getFinalSepDelimIndex(separator, delimiter, token as string);
-      return (token as string).slice(index + 1);
+      const index = lastIndexOf(token, separator, delimiter);
+      return token.slice(index + 1);
     },
     custom: async (...init) => {
       const [tokens] = init;
+
       const finalToken = tokens[tokens.length - 1];
-      const index = getFinalSepDelimIndex(separator, delimiter, finalToken);
+      const index = lastIndexOf(finalToken, separator, delimiter);
       const isKey = index === -1 || finalToken.slice(index, index + separator.length) !== separator;
-      return getSuggestions(isKey ? keys : values, cache, init);
+
+      const useCache = shouldUseCache(isKey, cache);
+      return getSuggestions(isKey ? keys : values, useCache, init);
     },
   };
 }
