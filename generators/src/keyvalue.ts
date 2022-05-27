@@ -9,6 +9,17 @@ export type Suggestions = KeyValueSuggestions;
 
 export type CacheValue = boolean | "keys" | "values";
 
+export interface ValueListInit {
+  /** String to use as the separator between keys and values */
+  delimiter?: string;
+
+  /** List of suggestions */
+  values?: KeyValueSuggestions;
+
+  /** Cache key and value suggestions */
+  cache?: boolean;
+}
+
 export interface KeyValueInit {
   /** String to use as the separator between keys and values */
   separator?: string;
@@ -86,9 +97,34 @@ function lastIndexOf(haystack: string, ...needles: string[]) {
 }
 
 /**
+ * Create a generator that gives suggestions for val,val,... arguments. You
+ * can use a `string[]` or `Fig.Suggestion[]` for the values.
+ *
+ * You can set `cache: true` to enable caching results. The suggestions are cached
+ * globally using the function as a key, so enabling caching for any one generator
+ * will set the cache values for the functions for the entire spec. This behavior
+ * can be used to compose expensive generators without incurring the initial cost
+ * every time they're used.
+ *
+ * The primary use of this is to enable the same caching behavior as `keyValue`
+ * and `keyValueList`.
+ */
+export function valueList({
+  delimiter = ",",
+  values = [],
+  cache = false,
+}: ValueListInit): Fig.Generator {
+  return {
+    trigger: delimiter,
+    getQueryTerm: delimiter,
+    custom: (...init) => getSuggestions(values, cache, init),
+  };
+}
+
+/**
  * Create a generator that gives suggestions for key=value arguments. You
  * can use a `string[]` or `Fig.Suggestion[]` for the keys and values.
-
+ *
  * You can set `cache: true` to enable caching results. The suggestions are cached
  * globally using the function as a key, so enabling caching for any one generator
  * will set the cache values for the functions for the entire spec. This behavior
@@ -138,8 +174,9 @@ export function keyValue({
       const [tokens] = init;
       const finalToken = tokens[tokens.length - 1];
       const isKey = !finalToken.includes(separator);
+      const suggestions = isKey ? keys : values;
       const useCache = shouldUseCache(isKey, cache);
-      return getSuggestions(isKey ? keys : values, useCache, init);
+      return getSuggestions(suggestions, useCache, init);
     },
   };
 }
@@ -177,8 +214,8 @@ export function keyValue({
  * by default.
  *
  * ```typescript
- * // key1:value&key2=another
- * keyValue({
+ * // key1:value&key2:another
+ * keyValueList({
  *   separator: ":",
  *   delimiter: "&"
  *   keys: [
@@ -212,8 +249,9 @@ export function keyValueList({
       const index = lastIndexOf(finalToken, separator, delimiter);
       const isKey = index === -1 || finalToken.slice(index, index + separator.length) !== separator;
 
+      const suggestions = isKey ? keys : values;
       const useCache = shouldUseCache(isKey, cache);
-      return getSuggestions(isKey ? keys : values, useCache, init);
+      return getSuggestions(suggestions, useCache, init);
     },
   };
 }
