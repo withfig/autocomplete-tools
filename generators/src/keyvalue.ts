@@ -97,7 +97,7 @@ async function getSuggestions(
   useSuggestionCache: boolean,
   init: Parameters<NonNullable<Fig.Generator["custom"]>>
 ): Promise<Fig.Suggestion[]> {
-  if (useSuggestionCache) {
+  if (useSuggestionCache || suggestions instanceof Array) {
     if (!suggestionCache.has(suggestions)) {
       suggestionCache.set(
         suggestions,
