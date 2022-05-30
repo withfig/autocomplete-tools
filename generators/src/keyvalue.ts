@@ -18,6 +18,9 @@ export interface ValueListInit {
 
   /** Cache key and value suggestions */
   cache?: boolean;
+
+  /** Insert the delimiter string after accepting a suggestion (default: false) */
+  insertDelimiter?: boolean;
 }
 
 export interface KeyValueInit {
@@ -32,6 +35,9 @@ export interface KeyValueInit {
 
   /** Cache key and value suggestions */
   cache?: CacheValue;
+
+  /** Should the separator be inserted after a key? (default: true ) */
+  insertSeparator?: boolean;
 }
 
 export interface KeyValueListInit {
@@ -49,39 +55,61 @@ export interface KeyValueListInit {
 
   /** Cache key and value suggestions */
   cache?: CacheValue;
+
+  /** Should the separator be inserted after a key? (default: true ) */
+  insertSeparator?: boolean;
+
+  /** Insert the delimiter string after accepting a value suggestion (default: false) */
+  insertDelimiter?: boolean;
 }
 
 /** Cache of Fig suggestions using the string[]/Suggestion[]/function as a key */
 const suggestionCache = new Map<KeyValueSuggestions, Fig.Suggestion[]>();
 
+function appendToInsertValue(append: string, suggestions: Fig.Suggestion[]): Fig.Suggestion[] {
+  if (append.length === 0) {
+    return suggestions;
+  }
+  return suggestions.map((item) =>
+    item.insertValue ? item : { ...item, insertValue: item.name + append }
+  );
+}
+
 async function kvSuggestionsToFigSuggestions(
   suggestions: KeyValueSuggestions,
+  append: string,
   init: Parameters<NonNullable<Fig.Generator["custom"]>>
 ): Promise<Fig.Suggestion[]> {
   if (typeof suggestions === "function") {
-    return suggestions(...init);
+    const out = await suggestions(...init);
+    return appendToInsertValue(append, out);
   }
   if (typeof suggestions[0] === "string") {
-    return (suggestions as string[]).map((name) => ({ name }));
+    const out = (suggestions as string[]).map((name) => ({ name }));
+    return appendToInsertValue(append, out);
   }
-  return suggestions as Fig.Suggestion[];
+  return appendToInsertValue(append, suggestions as Fig.Suggestion[]);
 }
 
 async function getSuggestions(
   suggestions: KeyValueSuggestions,
+  append: string,
   useSuggestionCache: boolean,
   init: Parameters<NonNullable<Fig.Generator["custom"]>>
 ): Promise<Fig.Suggestion[]> {
   if (useSuggestionCache) {
     if (!suggestionCache.has(suggestions)) {
-      suggestionCache.set(suggestions, await kvSuggestionsToFigSuggestions(suggestions, init));
+      suggestionCache.set(
+        suggestions,
+        await kvSuggestionsToFigSuggestions(suggestions, append, init)
+      );
     }
     // We've already ensured that the value is definitely in the cache,
     // there can be no TOCTTOU bugs because JS is single threaded
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     return suggestionCache.get(suggestions)!;
   }
-  return kvSuggestionsToFigSuggestions(suggestions, init);
+  return kvSuggestionsToFigSuggestions(suggestions, append, init);
 }
 
 function shouldUseCache(isKey: boolean, cache: CacheValue) {
@@ -103,21 +131,23 @@ function lastIndexOf(haystack: string, ...needles: string[]) {
  * You can set `cache: true` to enable caching results. The suggestions are cached
  * globally using the function as a key, so enabling caching for any one generator
  * will set the cache values for the functions for the entire spec. This behavior
- * can be used to compose expensive generators without incurring the initial cost
- * every time they're used.
+ * can be used to compose expensive generators without incurring a cost every time
+ * they're used.
  *
  * The primary use of this is to enable the same caching behavior as `keyValue`
- * and `keyValueList`.
+ * and `keyValueList`. If your goal is to create a $PATH-like value, use a generator
+ * literal: `{ template: "filepaths", trigger: ":", getQueryTerm: ":" }`
  */
 export function valueList({
   delimiter = ",",
   values = [],
   cache = false,
+  insertDelimiter = false,
 }: ValueListInit): Fig.Generator {
   return {
     trigger: delimiter,
     getQueryTerm: delimiter,
-    custom: (...init) => getSuggestions(values, cache, init),
+    custom: (...init) => getSuggestions(values, insertDelimiter ? delimiter : "", cache, init),
   };
 }
 
@@ -166,6 +196,7 @@ export function keyValue({
   keys = [],
   values = [],
   cache = false,
+  insertSeparator = true,
 }: KeyValueInit): Fig.Generator {
   return {
     trigger: (newToken, oldToken) => newToken.indexOf(separator) !== oldToken.indexOf(separator),
@@ -176,7 +207,8 @@ export function keyValue({
       const isKey = !finalToken.includes(separator);
       const suggestions = isKey ? keys : values;
       const useCache = shouldUseCache(isKey, cache);
-      return getSuggestions(suggestions, useCache, init);
+      const append = isKey ? (insertSeparator ? separator : "") : "";
+      return getSuggestions(suggestions, append, useCache, init);
     },
   };
 }
@@ -231,6 +263,8 @@ export function keyValueList({
   keys = [],
   values = [],
   cache = false,
+  insertSeparator = true,
+  insertDelimiter = false,
 }: KeyValueListInit): Fig.Generator {
   return {
     trigger: (newToken, oldToken) => {
@@ -251,7 +285,8 @@ export function keyValueList({
 
       const suggestions = isKey ? keys : values;
       const useCache = shouldUseCache(isKey, cache);
-      return getSuggestions(suggestions, useCache, init);
+      const append = isKey ? (insertSeparator ? separator : "") : insertDelimiter ? delimiter : "";
+      return getSuggestions(suggestions, append, useCache, init);
     },
   };
 }
