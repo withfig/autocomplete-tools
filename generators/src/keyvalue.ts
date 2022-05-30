@@ -136,7 +136,7 @@ function lastIndexOf(haystack: string, ...needles: string[]) {
  *
  * The primary use of this is to enable the same caching behavior as `keyValue`
  * and `keyValueList`. If your goal is to create a $PATH-like value, use a generator
- * literal: `{ template: "filepaths", trigger: ":", getQueryTerm: ":" }`
+ * object literal: `{ template: "filepaths", trigger: ":", getQueryTerm: ":" }`
  */
 export function valueList({
   delimiter = ",",
@@ -153,13 +153,18 @@ export function valueList({
 
 /**
  * Create a generator that gives suggestions for key=value arguments. You
- * can use a `string[]` or `Fig.Suggestion[]` for the keys and values.
+ * can use a `string[]` or `Fig.Suggestion[]` for the keys and values, or a
+ * function with the same signature as `Fig.Generator["custom"]`.
  *
  * You can set `cache: true` to enable caching results. The suggestions are cached
  * globally using the function as a key, so enabling caching for any one generator
  * will set the cache values for the functions for the entire spec. This behavior
  * can be used to copmpose expensive key/value generators without incurring the
  * initial cost every time they're used.
+ *
+ * Note that you should only cache generators that produce the same output regardless
+ * of their input. You can cache either the keys or values individually using `"keys"`
+ * or `"values"` as the `cache` property value.
  *
  * @example
  *
@@ -215,13 +220,18 @@ export function keyValue({
 
 /**
  * Create a generator that gives suggestions for `k=v,k=v,...` arguments. You
- * can use a `string[]` or `Fig.Suggestion[]` for the keys and values.
+ * can use a `string[]` or `Fig.Suggestion[]` for the keys and values, or a
+ * function with the same signature as `Fig.Generator["custom"]`
  *
  * You can set `cache: true` to enable caching results. The suggestions are cached
  * globally using the function as a key, so enabling caching for any one generator
  * will set the cache values for the functions for the entire spec. This behavior
  * can be used to copmpose expensive key/value generators without incurring the
  * initial cost every time they're used.
+ *
+ * Note that you should only cache generators that produce the same output regardless
+ * of their input. You can cache either the keys or values individually using `"keys"`
+ * or `"values"` as the `cache` property value.
  *
  * @example
  *
