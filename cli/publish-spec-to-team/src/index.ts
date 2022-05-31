@@ -95,6 +95,7 @@ export const run = async (options: RunOptions) => {
       });
 
       const jsSpecPath = path.resolve(tempDir, `${name}.js`);
+      formData.append("tsSpec", await createFileFrom(tsSpecPath, `${name}.ts`));
       formData.append("jsSpec", await createFileFrom(jsSpecPath, `${name}.js`));
     } catch (error) {
       throw new BuildError((error as Error).message);
@@ -109,6 +110,7 @@ export const run = async (options: RunOptions) => {
         logLevel: "silent",
       });
       formData.append("jsSpec", createFile(builtSpec.code, `${name}.js`));
+      formData.append("tsSpec", createFile(specOutput, `${name}.ts`));
     } catch (error) {
       throw new BuildError((error as Error).message);
     }
@@ -117,6 +119,7 @@ export const run = async (options: RunOptions) => {
   }
 
   formData.append("name", name);
+  if (framework) formData.append("framework", framework);
   if (team) formData.append("team", team);
 
   try {
