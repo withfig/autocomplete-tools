@@ -46,7 +46,7 @@ app.put(
     },
   ]),
   async (req, res) => {
-    const [, token] = req.headers.authorization!.split(" ");
+    const token = req.headers.authorization!;
 
     const encodedAssertData = req.headers["assert-data"]!;
     assert(!Array.isArray(encodedAssertData));

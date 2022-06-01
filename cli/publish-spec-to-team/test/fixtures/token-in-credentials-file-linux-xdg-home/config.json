@@ -4,7 +4,7 @@
     "specPath": "spec.ts"
   },
   "assert": {
-    "token": "eyJhY2Nlc3NUb2tlbiI6ImRhdGEtMyIsImlkVG9rZW4iOiJkYXRhLTQifQ==",
+    "token": "Bearer eyJhY2Nlc3NUb2tlbiI6ImRhdGEtMyIsImlkVG9rZW4iOiJkYXRhLTQifQ==",
     "name": "spec"
   },
   "env": {

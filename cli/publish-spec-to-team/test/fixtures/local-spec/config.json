@@ -8,7 +8,7 @@
     "framework": "cobra"
   },
   "assert": {
-    "token": "data",
+    "token": "Bearer data",
     "name": "spec",
     "team": "team-name",
     "framework": "cobra",
