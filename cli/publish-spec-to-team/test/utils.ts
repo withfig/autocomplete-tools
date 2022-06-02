@@ -1,5 +1,5 @@
 import assert from "assert";
-import { Config } from "./types.js";
+import type { Config } from "./types";
 
 export function envReplacingCwdValues(env: Config["env"], dir: string) {
   assert(env);

@@ -9,7 +9,7 @@
     "team": "test-team"
   },
   "assert": {
-    "token": "some-other-data",
+    "token": "Bearer some-other-data",
     "name": "some-spec",
     "framework": "commander",
     "team": "test-team",

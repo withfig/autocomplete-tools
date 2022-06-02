@@ -1,5 +1,5 @@
 import { Command } from "commander";
-import { run } from "./index.js";
+import { run } from "./run.js";
 import packageJSON from "./package.js";
 
 const program = new Command()
@@ -8,6 +8,7 @@ const program = new Command()
   .description("Publish a spec to fig teams");
 
 program
+  .option("-i, --interactive", "Publish a spec interactively")
   .option("-t, --token <string>", "A fig token")
   .option("--team <string>", "Set the namespace of the published spec")
   .option("-n, --name <string>", "Set the name of the published spec")

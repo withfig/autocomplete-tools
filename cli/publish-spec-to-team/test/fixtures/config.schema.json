@@ -61,10 +61,6 @@
           "type": "string",
           "description": "Assert the passed in `name` is correct"
         },
-        "framework": { 
-          "type": "string",
-          "description": "Assert the passed in `framework` is correct"
-        },
         "team": { 
           "type": "string",
           "description": "Assert the passed in `team` is correct"
@@ -73,9 +69,6 @@
           "type": "object",
           "properties": {
             "jsSpec": { 
-              "$ref": "#/definitions/assert:test-file"
-            },
-            "tsSpec": {
               "$ref": "#/definitions/assert:test-file"
             }
           }

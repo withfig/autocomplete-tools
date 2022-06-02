@@ -1,4 +1,4 @@
-import { RunOptions } from "../src";
+import type { RunOptions } from "../src/types";
 
 export interface AssertFileData {
   name?: string;

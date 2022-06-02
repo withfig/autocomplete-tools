@@ -1,11 +1,12 @@
 export enum ValidationErrorEnum {
   nameWithSpace = "The `name` option must not contain spaces",
   missingToken = "We tried to search for a token in fig configs, but we found none. Use the `token` option to specify one",
+  noSpecPassed = "No spec passed. Neither `spec-path` or `binary-path` options were defined",
 }
 
 export enum GenericErrorEnum {
-  noSpecPassed = "No spec was received. The `spec-path` option was not defined and the binary did not send any completion spec to stdout",
-  missingName = "Missing name. Nither the `name` option or the `spec-path` option need to be passed to the program",
+  noSpecDataReceived = "No spec was received. The `spec-path` option was not defined and the binary did not send any completion spec to stdout",
+  missingName = "Missing name. Either the `name` option or the `spec-path` option need to be passed to the program",
 }
 
 const createErrorClass = (name: string) =>

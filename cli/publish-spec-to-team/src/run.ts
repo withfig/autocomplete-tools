@@ -2,8 +2,8 @@ import { FormData } from "node-fetch";
 import path from "path";
 import esbuild from "esbuild";
 import { fetch } from "./node-fetch.js";
-import { createFile, exec, validateSpecName, createTempDir, createFileFrom } from "./utils.js";
-import { API_BASE } from "./constants.js";
+import { createFile, exec, createTempDir, createFileFrom } from "./utils.js";
+import { API_BASE, DEFAULT_OPTIONS } from "./constants.js";
 import {
   BuildError,
   GenerationError,
@@ -11,69 +11,33 @@ import {
   PublishError,
   ValidationError,
 } from "./errors.js";
-import { tryParseTokenFromCredentials } from "./credentials.js";
 import testHelpers from "./test-helpers.js";
-
-export interface RunOptions {
-  name?: string;
-  team?: string;
-  token?: string;
-  specPath?: string;
-  binaryPath?: string;
-  subcommandName?: string;
-  framework?: string;
-}
-
-const DEFAULT_OPTION = {
-  subcommandName: "generate-fig-spec",
-} as const;
+import type { RunOptions } from "./types.js";
+import {
+  validateToken,
+  validateName,
+  validateTeam,
+  validateSpecData,
+  validate,
+  validateFramework,
+} from "./validation/index.js";
 
 export const run = async (options: RunOptions) => {
-  const {
-    name: optionalName,
-    token: optionalToken,
-    specPath,
-    binaryPath,
-    subcommandName,
-    framework,
-    team,
-  } = options;
-
-  let token = optionalToken;
-  if (!token) {
-    if (process.env.FIG_API_TOKEN) {
-      token = process.env.FIG_API_TOKEN;
-    } else {
-      // try to read the token from the config file
-      token = await tryParseTokenFromCredentials();
-    }
-  }
-
-  let name = optionalName;
-  if (!name) {
-    // if name is missing we extract it from the optional spec-name
-    // NOTE: this won't work correctly for spec names that require being nested under a subfolder
-    // e.g. `@withfig/autocomplete-tools.ts`
-    if (specPath) {
-      name = path.basename(specPath, ".ts");
-    } else {
-      throw new ValidationError(GenericErrorEnum.missingName);
-    }
-  }
-
-  validateSpecName(name);
+  const { token, name, team, framework, specPath, command } = await validate(options)
+    .validator(validateToken)
+    .validator(validateName)
+    .validator(validateTeam)
+    .validator(validateFramework)
+    .validator(validateSpecData)
+    .exec();
 
   let specOutput: string | undefined;
-  if (binaryPath) {
-    const cmd =
-      framework || subcommandName
-        ? `${binaryPath} ${subcommandName ?? DEFAULT_OPTION.subcommandName}`
-        : binaryPath;
+  if (command) {
     try {
-      specOutput = (await exec(cmd)).trim();
+      specOutput = (await exec(command)).trim();
     } catch (error) {
       const { message } = error as Error;
-      throw new GenerationError(`"${cmd}" exited with errors.\n${message}`);
+      throw new GenerationError(`"${command}" exited with errors.\n${message}`);
     }
   }
   const formData = new FormData();
@@ -115,7 +79,7 @@ export const run = async (options: RunOptions) => {
       throw new BuildError((error as Error).message);
     }
   } else {
-    throw new ValidationError(GenericErrorEnum.noSpecPassed);
+    throw new ValidationError(GenericErrorEnum.noSpecDataReceived);
   }
 
   formData.append("name", name);

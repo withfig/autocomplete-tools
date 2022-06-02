@@ -893,6 +893,7 @@ __metadata:
     "@types/multer": ^1.4.7
     "@types/node": ^16.7.2
     "@types/node-fetch": ^2.6.1
+    "@types/prompts": latest
     commander: ^9.2.0
     esbuild: ^0.14.38
     express: ^4.18.1
@@ -900,6 +901,7 @@ __metadata:
     node-fetch: ^3.2.4
     picocolors: ^1.0.0
     prettier: ^2.3.2
+    prompts: ^2.4.2
     ts-node: ^10.7.0
     typescript: ^4.4.2
   bin:
@@ -1785,6 +1787,15 @@ __metadata:
   version: 2.6.1
   resolution: "@types/prettier@npm:2.6.1"
   checksum: b25ec46d18129fa40c1a1f42feb7406e8f19901ba5261ba3c71600ad14996ae07b4f4b727a9b83da673948011e59d870fc519166f05b5d49e9ad39db1aea8c93
+  languageName: node
+  linkType: hard
+
+"@types/prompts@npm:latest":
+  version: 2.0.14
+  resolution: "@types/prompts@npm:2.0.14"
+  dependencies:
+    "@types/node": "*"
+  checksum: e20a92a3fc38646d850ac3c7c03cab582a3b4f12224605a209ef7025d2fbe574656276ab9e43ea01b504f7e91d21a6da0119d1e1eeacf939895ec2ad8d9c6b5d
   languageName: node
   linkType: hard
 
@@ -7612,7 +7623,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prompts@npm:^2.0.1":
+"prompts@npm:^2.0.1, prompts@npm:^2.4.2":
   version: 2.4.2
   resolution: "prompts@npm:2.4.2"
   dependencies:

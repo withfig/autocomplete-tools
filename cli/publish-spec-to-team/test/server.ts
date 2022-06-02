@@ -4,7 +4,7 @@ import assert from "assert";
 import express from "express";
 import multer from "multer";
 import pc from "picocolors";
-import { AssertFileData, AssertRequest } from "./types.js";
+import type { AssertFileData, AssertRequest } from "./types";
 
 const PORT = process.env.TEST_PORT || 3005;
 
@@ -54,7 +54,6 @@ app.put(
     const { files, ...rest }: AssertRequest = JSON.parse(
       Buffer.from(encodedAssertData, "base64").toString("utf-8")
     );
-    assert(req.files && !Array.isArray(req.files));
 
     const errors: string[] = [];
 
@@ -63,6 +62,7 @@ app.put(
       errors.push("Received data and assert do not match");
     }
 
+    assert(req.files && !Array.isArray(req.files));
     if (files) {
       // expect files content to be exactly the same as the passed in files
       const specFieldIndexes = ["tsSpec", "jsSpec"] as (keyof typeof files)[];

@@ -6,7 +6,7 @@ import pc from "picocolors";
 import { fileURLToPath } from "url";
 import util from "util";
 import { GenerationError } from "../src/errors.js";
-import { run } from "../src/index.js";
+import { run } from "../src/run.js";
 import { Config } from "./types.js";
 import testHelpers from "../src/test-helpers.js";
 import { envReplacingCwdValues } from "./utils.js";
