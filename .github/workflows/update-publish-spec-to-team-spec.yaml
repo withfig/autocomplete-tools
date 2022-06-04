@@ -7,10 +7,12 @@ on:
 
 jobs:
   run-integration-tests:
+    runs-on: ubuntu-latest
     steps:
     - name: Repository Dispatch
       uses: peter-evans/repository-dispatch@v1
       with:
+        token: ${{ secrets.FIG_BOT_TOKEN }}
         repository: withfig/publish-spec-to-team
         event-type: dependency-update
   push-to-fig-autocomplete:
