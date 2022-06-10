@@ -18,6 +18,10 @@ program
     "-s, --subcommand-name <string>",
     "The subcommand of the binary used to generate the spec"
   )
+  .option(
+    "--is-script",
+    "The spec is a local script and will only be loaded when referenced in a fig/config.json file."
+  )
   .option("-f, --framework <string>", "Framework used to build the CLI")
   .action(run);
 

@@ -20,15 +20,18 @@ import {
   validateSpecData,
   validate,
   validateFramework,
+  validateRest,
 } from "./validation/index.js";
+import type { Validator } from "./validation/types";
 
 export const run = async (options: RunOptions) => {
-  const { token, name, team, framework, specPath, command } = await validate(options)
+  const { token, name, team, framework, specPath, command, isScript } = await validate(options)
     .validator(validateToken)
     .validator(validateName)
     .validator(validateTeam)
     .validator(validateFramework)
     .validator(validateSpecData)
+    .validator(validateRest)
     .exec();
 
   let specOutput: string | undefined;
@@ -85,6 +88,7 @@ export const run = async (options: RunOptions) => {
   formData.append("name", name);
   if (framework) formData.append("framework", framework);
   if (team) formData.append("team", team);
+  if (isScript) formData.append("isScript", "true");
 
   try {
     // This fetch method is a wrapper over the node-fetch function
