@@ -540,8 +540,8 @@
           "declaration": "args?: Arg | Arg[]",
           "examples": [
             "`npm run` takes one mandatory argument. This can be represented by `args: { }`",
-            "`git push` takes two mandatory arguments. This can be represented by: `args: [{ isOptional: true }, { isOptional: true }]`",
-            "`git clone` takes two optional arguments. This can be represented by: `args: [{ isOptional: true }, { }]`"
+            "`git push` takes two optional arguments. This can be represented by: `args: [{ isOptional: true }, { isOptional: true }]`",
+            "`git clone` takes one mandatory argument and one optional argument. This can be represented by: `args: [{ }, { isOptional: true }]`"
           ],
           "hasDocComment": true
         },
