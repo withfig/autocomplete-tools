@@ -576,9 +576,9 @@ declare namespace Fig {
      * @example
      * `npm run` takes one mandatory argument. This can be represented by `args: { }`
      * @example
-     * `git push` takes two mandatory arguments. This can be represented by: `args: [{ isOptional: true }, { isOptional: true }]`
+     * `git push` takes two optional arguments. This can be represented by: `args: [{ isOptional: true }, { isOptional: true }]`
      * @example
-     * `git clone` takes two optional arguments. This can be represented by: `args: [{ isOptional: true }, { }]`
+     * `git clone` takes one mandatory argument and one optional argument. This can be represented by: `args: [{ }, { isOptional: true }]`
      */
     args?: SingleOrArray<Arg>;
     /**
