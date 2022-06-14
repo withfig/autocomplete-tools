@@ -23,11 +23,8 @@
     "create-spec": {
       "description": "Create a new spec with the provided name in ./src"
     },
-    "copy-to-global": {
-      "description": "Compile all specs in ./src and copy the result to ~/.fig/autocomplete"
-    },
-    "copy-to-global:mixins": {
-      "description": "Compile all specs in ./src and copy the result to ~/.fig/user/autocomplete"
+    "publish-spec": {
+      "description": "Publish a spec to Fig teams"
     },
     "test": {
       "description": "Typecheck all .ts files in ./src"
