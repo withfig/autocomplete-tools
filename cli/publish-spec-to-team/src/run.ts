@@ -3,7 +3,7 @@ import path from "path";
 import esbuild from "esbuild";
 import { fetch } from "./node-fetch.js";
 import { createFile, exec, createTempDir, createFileFrom } from "./utils.js";
-import { API_BASE, DEFAULT_OPTIONS } from "./constants.js";
+import { API_BASE } from "./constants.js";
 import {
   BuildError,
   GenerationError,
@@ -20,18 +20,19 @@ import {
   validateSpecData,
   validate,
   validateFramework,
-  validateRest,
+  validateIsScript,
 } from "./validation/index.js";
-import type { Validator } from "./validation/types";
 
 export const run = async (options: RunOptions) => {
+  // NOTE: Validate is used both to assert types of the input options AND to request users missing options when running in interactive mode
+  // so remember to implement logic for interactive mode in validators!
   const { token, name, team, framework, specPath, command, isScript } = await validate(options)
     .validator(validateToken)
     .validator(validateName)
     .validator(validateTeam)
     .validator(validateFramework)
     .validator(validateSpecData)
-    .validator(validateRest)
+    .validator(validateIsScript)
     .exec();
 
   let specOutput: string | undefined;
