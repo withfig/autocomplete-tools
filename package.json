@@ -35,7 +35,7 @@
     "integrations/oclif",
     "integrations/commander",
     "cli/create-completion-spec",
-    "cli/publish-spec-to-team",
+    "cli/publish-spec",
     "cli/tools-cli"
   ],
   "lint-staged": {

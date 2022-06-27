@@ -9,7 +9,7 @@ This repo contains the source for all of Fig tools related with [autocomplete](h
 ## Packages
 
 - [`create-completion-spec`](cli/create-completion-spec/README.md)
-- [`@fig/publish-spec-to-team`](cli/publih-spec-to-team/README.md)
+- [`@fig/publish-spec`](cli/publih-spec-to-team/README.md)
 - [`@withfig/autocomplete-tools`](cli/tools-cli/README.md)
 - [`@fig/eslint-config-autocomplete`](eslint/config-autocomplete/README.md)
 - [`@withfig/eslint-plugin-fig-linter`](eslint/plugin-fig-linter/README.md)

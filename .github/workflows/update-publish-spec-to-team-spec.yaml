@@ -1,8 +1,8 @@
-name: 'Update @fig/publish-spec-to-team spec'
+name: 'Update @fig/publish-spec spec'
 on:
   push:
     tags:        
-      - '@fig/publish-spec-to-team@*'
+      - '@fig/publish-spec@*'
   workflow_dispatch:
 
 jobs:
@@ -22,11 +22,11 @@ jobs:
       - uses: actions/setup-node@v2
       - run: |
           yarn
-          yarn workspace @fig/publish-spec-to-team generate-spec > generated.ts
+          yarn workspace @fig/publish-spec generate-spec > generated.ts
       - name: 'Create Autocomplete PR'
         uses: withfig/push-to-fig-autocomplete-action@v1
         with:
           token: ${{ secrets.FIG_BOT_TOKEN }}
-          autocomplete-spec-name: '@fig/publish-spec-to-team'
+          autocomplete-spec-name: '@fig/publish-spec'
           spec-path: generated.ts
           integration: commander

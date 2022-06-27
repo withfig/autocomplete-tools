@@ -10,4 +10,4 @@ cli/tools-cli/generated/
 cli/tools-cli/test/*/fixtures/
 helpers/test/fixtures/**/spec
 cli/create-completion-spec/bin/
-cli/publish-spec-to-team/test/fixtures/**
+cli/publish-spec/test/fixtures/**

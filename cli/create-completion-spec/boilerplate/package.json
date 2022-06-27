@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "npx @withfig/autocomplete-tools dev",
     "create-spec": "npx @withfig/autocomplete-tools create-spec",
-    "publish-spec": "npx @fig/publish-spec-to-team -i",
+    "publish-spec": "npx @fig/publish-spec -i",
     "test": "tsc --noEmit && echo 'All specs passed validation.'",
     "build": "npx @withfig/autocomplete-tools compile",
     "lint": "eslint '**/*.ts' && npx prettier --check '**/*.ts'",
@@ -53,7 +53,7 @@
   "license": "MIT",
   "devDependencies": {
     "@fig/eslint-config-autocomplete": "latest",
-    "@fig/publish-spec-to-team": "^1.2.0",
+    "@fig/publish-spec": "^1.2.0",
     "@types/node": "^16.11.33",
     "@withfig/autocomplete-tools": "^2.7.2",
     "@withfig/autocomplete-types": "latest",

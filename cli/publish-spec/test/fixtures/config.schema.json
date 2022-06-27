@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "Config",
-  "description": "Config for publish-spec-to-team tests",
+  "description": "Config for publish-spec tests",
   "type": "object",
   "definitions": {
     "assert:test-file": {

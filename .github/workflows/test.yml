@@ -21,5 +21,5 @@ jobs:
         run: yarn --immutable
       - name: Test packages
         run: |
-          yarn workspaces foreach -v --exclude root --exclude @fig/publish-spec-to-team run test
-          yarn workspace @fig/publish-spec-to-team run test # TODO(fedeci): investigate why this works when run separated
+          yarn workspaces foreach -v --exclude root --exclude @fig/publish-spec run test
+          yarn workspace @fig/publish-spec run test # TODO(fedeci): investigate why this works when run separated
