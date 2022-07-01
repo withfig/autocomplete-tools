@@ -23,9 +23,17 @@ export type PresetName =
   | "cobra"
   | "clap"
   | "swift-argument-parser"
-  | "click";
+  | "click"
+  | "cement"
+  | "argparse";
 
-export const presets: Record<string, Preset> = {
+const argparsePreset = {
+  commandProps: new Set(["name", "subcommands", "options", "args", "hidden", "description"]),
+  optionProps: new Set(["name", "hidden", "description", "isRepeatable", "args", "isRequired"]),
+  argProps: new Set(["name", "isVariadic", "isOptional", "hidden", "description", "suggestion"]),
+};
+
+export const presets: Record<PresetName, Preset> = {
   commander: {
     commandProps: new Set(["name", "description", "subcommands", "options", "args", "hidden"]),
     optionProps: new Set(["name", "description", "isRequired", "args"]),
@@ -93,4 +101,6 @@ export const presets: Record<string, Preset> = {
     ]),
     argProps: new Set(["name", "suggestions", "template", "suggestCurrentToken", "isVariadic"]),
   },
+  argparse: argparsePreset,
+  cement: argparsePreset,
 };
