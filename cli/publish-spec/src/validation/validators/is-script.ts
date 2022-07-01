@@ -13,7 +13,7 @@ export const validateIsScript: Validator<RestValidation> = async (options: RunOp
     type: "select",
     name: "isScript",
     message:
-      "Is the spec a local script that will only be loaded when referenced in a fig/config.json file?",
+      "Is this spec adding completions to a local script (eg. ./scripts/my-script.sh)",
     choices: [
       { title: "No", value: false, selected: true, description: "(default)" },
       { title: "Yes", value: true },
