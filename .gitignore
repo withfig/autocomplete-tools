@@ -12,3 +12,5 @@ build/
 .yarn/install-state.gz
 *.log
 .python-version
+__pycache__/
+*.egg-info/
