@@ -9,7 +9,7 @@ with Python's built-in [argparse](https://docs.python.org/3/library/argparse.htm
 Install the integration as a dependency using pip:
 
 ```bash
-pip install argparse_complete_fig
+pip install argparse-complete-fig
 ```
 
 ### Usage

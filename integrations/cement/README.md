@@ -10,7 +10,7 @@ on [Cement](https://builtoncement.com/).
 Install the integration as a dependency using pip:
 
 ```bash
-pip install cement_complete_fig
+pip install cement-complete-fig
 ```
 
 ### Usage
