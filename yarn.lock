@@ -891,7 +891,7 @@ __metadata:
     "@fig/complete-commander": ^2.0.0
     "@types/express": ^4.17.13
     "@types/multer": ^1.4.7
-    "@types/node": ^16.7.2
+    "@types/node": ^14.18.21
     "@types/node-fetch": ^2.6.1
     "@types/prompts": latest
     commander: ^9.2.0
@@ -1752,6 +1752,13 @@ __metadata:
   version: 14.18.12
   resolution: "@types/node@npm:14.18.12"
   checksum: 8a0273caa0584020adb8802784fc7d4f18f05e6c205335b7f3818a91d6b0c22736b9f51da3428d5bc54076ad47f1a4d6d57990a3ce8489a520ac66b2b3ff24bc
+  languageName: node
+  linkType: hard
+
+"@types/node@npm:^14.18.21":
+  version: 14.18.21
+  resolution: "@types/node@npm:14.18.21"
+  checksum: 4ed35b76609647a4e36a194702e31cdda9ed42174ddaf7937bc5498984e98a99e8a42ea895ea17dd9c5ec18080112c29ab670c34f90eb9f7a4703b85b31e34fa
   languageName: node
   linkType: hard
 
