@@ -12,8 +12,7 @@ export const validateIsScript: Validator<RestValidation> = async (options: RunOp
   return questions({
     type: "select",
     name: "isScript",
-    message:
-      "Is this spec adding completions to a local script (eg. ./scripts/my-script.sh)",
+    message: "Is this spec adding completions to a local script (eg. ./scripts/my-script.sh)",
     choices: [
       { title: "No", value: false, selected: true, description: "(default)" },
       { title: "Yes", value: true },
