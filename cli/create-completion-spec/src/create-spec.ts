@@ -30,9 +30,14 @@ export function createCompletionSpec(specName: string, autocompleteFolder: strin
   if (fs.existsSync(filePath)) {
     console.log(pc.red("This completion spec already exists"));
     console.log(pc.bold(`Start editing it from the src/${sanitizedSpecName}.ts now!`));
+    return;
   }
-  fs.mkdirSync(dirName, { recursive: true });
-  fs.writeFileSync(filePath, fileContent(sanitizedSpecName));
-  console.log(pc.green(`Successfully created the new Spec ${sanitizedSpecName}`));
-  console.log(`Start editing it at ${pc.bold(`src/${sanitizedSpecName}.ts`)}!`);
+  try {
+    fs.mkdirSync(dirName, { recursive: true });
+    fs.writeFileSync(filePath, fileContent(sanitizedSpecName));
+    console.log(pc.green(`Successfully created the new spec ${sanitizedSpecName}`));
+    console.log(`Start editing it at ${pc.bold(`src/${sanitizedSpecName}.ts`)}!`);
+  } catch {
+    throw new Error(`An error occurred while creating the new "${sanitizedSpecName}" spec.`);
+  }
 }

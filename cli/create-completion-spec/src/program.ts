@@ -1,5 +1,6 @@
 import { Command } from "commander";
 import path from "path";
+import pc from "picocolors";
 import { createBoilerplateFolder } from "./create-boilerplate";
 import { createCompletionSpec } from "./create-spec";
 
@@ -9,14 +10,19 @@ interface Options {
 
 async function runProgram(specName: string, options: Options) {
   const { here } = options;
-  if (!here) {
-    createBoilerplateFolder();
-    console.log("----");
+  try {
+    if (!here) {
+      createBoilerplateFolder();
+      console.log("----");
+    }
+    createCompletionSpec(
+      specName,
+      here ? process.cwd() : path.resolve(process.cwd(), ".fig", "autocomplete", "src")
+    );
+  } catch (error) {
+    console.log(pc.red((error as Error).message));
+    process.exit(1);
   }
-  createCompletionSpec(
-    specName,
-    here ? process.cwd() : path.resolve(process.cwd(), ".fig", "autocomplete", "src")
-  );
 }
 
 export const program = new Command("create-completion-spec")
