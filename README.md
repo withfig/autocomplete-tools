@@ -29,10 +29,20 @@ This repo contains the source for all of Fig tools related with [autocomplete](h
 
 ## To publish a package:
 
-Run `yarn workspace <workspace name> npm publish`
+1) Update the `package.json` `version` propery
+
+2) Commit the updated `package.json` file to the origin repo
+
+3) Git tag the commit you have just made using the following format and push the tag to the origin repo
+  - The git tag should be: `<package_name>@<new_numerical_version>`
+  - Example: `git tag @fig/publish-spec@1.2.3`
+
+4) Run `yarn workspace <workspace name> npm publish`
 
 > **IMPORTANT**: remember to tag the new package version following the current conventions (see the previous tags of a package)
 > this is important for some workflows we are running and to keep track of when releases were done.
+
+> **IMPORTANT**: all packages need to be git tagged, not only npm ones!
 
 e.g.
 ```bash
