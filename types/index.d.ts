@@ -523,7 +523,7 @@ declare namespace Fig {
    */
   interface Option extends BaseSuggestion {
     /**
-     * The exact name of the subcommand as defined in the CLI tool.
+     * The name of the option. Should exactly match the name defined by the CLI tool.
      *
      * @remarks
      * Fig's parser relies on your option name being exactly what the user would type. (e.g. if the user types `git "-m"`, you must have `name: "-m"` and not something like `name: "your message"` or even with an `=` sign like`name: "-m="`)
@@ -559,27 +559,39 @@ declare namespace Fig {
     args?: SingleOrArray<Arg>;
     /**
      *
-     * Signals whether an option is persistent, meaning that it will still be available
-     * as an option for all child subcommands.
+     * Marks an Option as 'persistent', meaning that it will be available
+     * as an option on all child subcommands.
      *
      * @remarks
-     * As of now there is no way to disable this
-     * persistence for certain children. Also see
-     * https://github.com/spf13/cobra/blob/master/user_guide.md#persistent-flags.
+     * `isPersistent` is used to avoid duplicating common flags like `--help` or `--format` across all subcommands.
+     *
+     * Currently, there is no way to disable
+     * persistent options for certain children. For more disucussion, see
+     * [cobra's documentation](https://github.com/spf13/cobra/blob/master/user_guide.md#persistent-flags).
      *
      * @defaultValue false
      *
      * @example
-     * Say the `git` spec had an option at the top level with `{ name: "--help", isPersistent: true }`.
-     * Then the spec would recognize both `git --help` and `git commit --help`
-     * as a valid as we are passing the `--help` option to all `git` subcommands.
+     * Suppose the `git` completion spec include this option at the top level:
+     * ```typescript
+     *  ...
+     *  options: [
+     *    {
+     *      name: "--help",
+     *      isPersistent: true
+     *    }
+     *  ]
+     *  ...
+     * ```
+     * Both `git --help` and `git commit --help` would be suggested
+     * as the engine will include the `--help` option on all `git` subcommands.
      *
      */
     isPersistent?: boolean;
     /**
-     * Signals whether an option is required.
+     * Indicates whether an Option is required in order to execute the command.
      *
-     * @defaultValue false (option is NOT required)
+     * @defaultValue false
      * @example
      * The `-m` option of `git commit` is required
      *
@@ -587,8 +599,8 @@ declare namespace Fig {
     isRequired?: boolean;
     /**
      *
-     * Signals whether an equals sign is required to pass an argument to an option (e.g. `git commit --message="msg"`)
-     * @defaultValue false (does NOT require an equal)
+     * Indicates that an equals sign is required to pass an argument to this Option (e.g. `git commit --message="msg"`)
+     * @defaultValue false
      *
      * @example
      * When `requiresEqual: true` the user MUST do `--opt=value` and cannot do `--opt value`
@@ -599,10 +611,10 @@ declare namespace Fig {
     requiresEquals?: boolean;
     /**
      *
-     * Signals whether one of the separators specified in parserDirectives is required to pass an argument to an option (e.g. `git commit --message[separator]"msg"`)
+     * Indicates whether one of the separators specified in parserDirectives is required to pass an argument to an option (e.g. `git commit --message[separator]"msg"`)
      * If set to true this will automatically insert an equal after the option name.
      * If set to a separator (string) this will automatically insert the separator specified after the option name.
-     * @defaultValue false (does NOT require a separator)
+     * @defaultValue false (no separator is required)
      *
      * @example
      * When `requiresSeparator: true` the user MUST do `--opt=value` and cannot do `--opt value`
@@ -622,10 +634,10 @@ declare namespace Fig {
      * twice, etc. Passing `isRepeatable: false` is the same as passing
      * `isRepeatable: 1`.
      *
-     * If you explicitly specify the isRepeatable option in a spec, this
+     * **Note:** If `isRepeatable` is explicitly specified, this
      * constraint will be enforced at the parser level, meaning after the option
-     * (say `-o`) has been passed the maximum number of times, Fig's parser will
-     * not recognize `-o` as an option if the user types it again.
+     * (say `-o`) has been passed the maximum number of times, Fig's autocomplete engine will
+     * not recognize `-o` as a valid option if the user types it again.
      *
      * @example
      * In `npm install` doesn't specify `isRepeatable` for `{ name: ["-D", "--save-dev"] }`.
@@ -648,22 +660,29 @@ declare namespace Fig {
     isRepeatable?: boolean | number;
     /**
      *
-     * Signals whether an option is mutually exclusive with other options (ie if the user has this option, Fig should not show the options specified).
+     * Signals whether this Option is mutually exclusive with other options.
+     * If any of these excluded options are in the edit buffer, this Option will not be suggested (and vice-versa).
      * @defaultValue false
      *
      * @remarks
      * Options that are mutually exclusive with flags the user has already passed will not be shown in the suggestions list.
      *
      * @example
-     * You might see `[-a | --interactive | --patch]` in a man page. This means each of these options are mutually exclusive on each other.
-     * If we were defining the exclusive prop of the "-a" option, then we would have `exclusive: ["--interactive", "--patch"]`
-     *
+     * Suppose might see `[-a | --interactive | --patch]` in a `man` page. This means each of these options are mutually exclusive on each other.
+     * To express this relationship in a completion spec, the `-a` option would look like this:
+     * ```typescript
+     * {
+     *   name: "-a",
+     *   exclusiveOn: [ "--interactive", "--patch"]
+     *   ...
+     * },
+     * ```
      */
     exclusiveOn?: string[];
     /**
      *
      *
-     * Signals whether an option depends on other options (ie if the user has this option, Fig should only show these options until they are all inserted).
+     * Signals whether an option requires the presence of other options. (ie if the user has this option, Fig should only show these options until they are all inserted).
      *
      * @defaultValue false
      *
