@@ -22,6 +22,8 @@ module.exports = {
       },
       overrides: [
         {
+          // IMPORTANT!: when enabling a new rule that may conflict with how diff-versioned-specs work 
+          // be sure to exclude it from diff-versioned-specs (see below)
           files: "src/**/*.ts",
           rules: {
             "@withfig/fig-linter/no-useless-insertvalue": "error",
@@ -45,12 +47,14 @@ module.exports = {
           },
         },
         {
+          // MARK: here we modify some rules for diff-versioned-specs indexes
           files: "src/**/index.ts",
           rules: {
             "@withfig/fig-linter/no-missing-get-version-export": "warn",
           }
         },
         {
+          // MARK: here we modify some rules from diff-versioned-specs versions
           files: "src/**/+([0-9]).+([0-9]).+([0-9]).ts",
           rules: {
             "@withfig/fig-linter/no-missing-versions-export": "error",

@@ -832,6 +832,20 @@
           "hasDocComment": true
         },
         {
+          "name": "filterStrategy",
+          "excluded": false,
+          "summary": "This option allows to enforce the suggestion filtering strategy for a specific argument.",
+          "discussion": "Users always want to have the most accurate results at the top of the suggestions list.\nWhen suggestions or generators for an argument are provided, a lot of results get shown but a mistype from the user may compromise the effectiveness of suggestions.\nFor example we can enable fuzzy search on an argument that always require fuzzy search to show appropriate results.",
+          "parameters": [],
+          "optional": true,
+          "declaration": "filterStrategy?: \"fuzzy\" | \"prefix\" | \"default\"",
+          "examples": [
+            "fig run [workflow] requires fuzzy search to always show appropriate results because scopes may suggest wrong things",
+            "yarn workspace [name] with fuzzy search is way more useful since we can omit the npm package scope"
+          ],
+          "hasDocComment": true
+        },
+        {
           "name": "suggestCurrentToken",
           "excluded": false,
           "summary": "Provide a suggestion at the top of the list with the current token that is being typed by the user.",

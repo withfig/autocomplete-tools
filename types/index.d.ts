@@ -776,6 +776,18 @@ declare namespace Fig {
      */
     generators?: SingleOrArray<Generator>;
     /**
+     * This option allows to enforce the suggestion filtering strategy for a specific argument.
+     * @remarks
+     * Users always want to have the most accurate results at the top of the suggestions list.
+     * When suggestions or generators for an argument are provided, a lot of results get shown but a mistype from the user may compromise the effectiveness of suggestions.
+     * For example we can enable fuzzy search on an argument that always require fuzzy search to show appropriate results.
+     * @example
+     * fig run [workflow] requires fuzzy search to always show appropriate results because scopes may suggest wrong things
+     * @example
+     * yarn workspace [name] with fuzzy search is way more useful since we can omit the npm package scope
+     */
+    filterStrategy?: "fuzzy" | "prefix" | "default";
+    /**
      * Provide a suggestion at the top of the list with the current token that is being typed by the user.
      */
     suggestCurrentToken?: boolean;

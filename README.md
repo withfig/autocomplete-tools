@@ -83,6 +83,9 @@ In all the cases the names are standardized and SHOULD be:
 
 According to language conventions these function names can be transformed to snake case, etc...
 
+If the CLI tool integration gets added directly to the module of the CLI tool itself and the CLI tool is configured using chained methods (e.g. yargs), then the chain method name SHOULD be:
+- `.figCompletion()`
+
 ### Docs on `public-site-nextjs`
 
 Docs MUST conform to the rules listed above too.
