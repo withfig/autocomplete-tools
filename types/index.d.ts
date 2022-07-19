@@ -450,9 +450,19 @@ declare namespace Fig {
      * An array of `Arg` objects representing the various parameters or "arguments" that can be passed to this subcommand.
      *
      */
-
     args?: SingleOrArray<Arg>;
-
+    /**
+     * This option allows to enforce the suggestion filtering strategy for a specific subcommand.
+     * @remarks
+     * Users always want to have the most accurate results at the top of the suggestions list.
+     * When suggestions like subcommands (from generated specs for example), a lot of results get shown but a mistype from the user may compromise the effectiveness of suggestions.
+     * For example we can enable fuzzy search on an suggestion that always require fuzzy search to show appropriate results.
+     * @example
+     * fig run [workflow] requires fuzzy search to always show appropriate results because scopes may suggest wrong things
+     * @example
+     * yarn workspace [name] with fuzzy search is way more useful since we can omit the npm package scope
+     */
+    filterStrategy?: "fuzzy" | "prefix" | "default";
     /**
      * A list of Suggestion objects that are appended to the suggestions shown beneath a subcommand.
      *
