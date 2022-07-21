@@ -455,12 +455,30 @@ declare namespace Fig {
      * This option allows to enforce the suggestion filtering strategy for a specific subcommand.
      * @remarks
      * Users always want to have the most accurate results at the top of the suggestions list.
-     * When suggestions like subcommands (from generated specs for example), a lot of results get shown but a mistype from the user may compromise the effectiveness of suggestions.
-     * For example we can enable fuzzy search on an suggestion that always require fuzzy search to show appropriate results.
-     * @example
-     * fig run [workflow] requires fuzzy search to always show appropriate results because scopes may suggest wrong things
+     * For example we can enable fuzzy search on a subcommand that always requires fuzzy search to show the best suggestions.
+     * This property is also useful when subcommands or options have a prefix (e.g. the npm package scope) because enabling fuzzy search users can omit that part (see the second example below)
      * @example
      * yarn workspace [name] with fuzzy search is way more useful since we can omit the npm package scope
+     * @example
+     * fig settings <setting name> uses fuzzy search to prevent having to add the `autocomplete.` prefix to each searched setting
+     * ```typescript
+     * const figSpec: Fig.Spec {
+     *   name: "fig",
+     *   subcommands: [
+     *     {
+     *       name: "settings",
+     *       filterStrategy: "fuzzy",
+     *       subcommands: [
+     *         {
+     *           name: "autocomplete.theme", // if a user writes `fig settings theme` it gets the correct suggestions
+     *         },
+     *         // ... other settings
+     *       ]
+     *     },
+     *     // ... other fig subcommands
+     *   ]
+     * }
+     * ```
      */
     filterStrategy?: "fuzzy" | "prefix" | "default";
     /**
@@ -786,15 +804,29 @@ declare namespace Fig {
      */
     generators?: SingleOrArray<Generator>;
     /**
-     * This option allows to enforce the suggestion filtering strategy for a specific argument.
+     * This option allows to enforce the suggestion filtering strategy for a specific argument suggestions.
      * @remarks
      * Users always want to have the most accurate results at the top of the suggestions list.
-     * When suggestions or generators for an argument are provided, a lot of results get shown but a mistype from the user may compromise the effectiveness of suggestions.
-     * For example we can enable fuzzy search on an argument that always require fuzzy search to show appropriate results.
+     * For example we can enable fuzzy search on an argument that always requires fuzzy search to show the best suggestions.
+     * This property is also useful when argument suggestions have a prefix (e.g. the npm package scope) because enabling fuzzy search users can omit that part (see the second example below)
      * @example
-     * fig run [workflow] requires fuzzy search to always show appropriate results because scopes may suggest wrong things
-     * @example
-     * yarn workspace [name] with fuzzy search is way more useful since we can omit the npm package scope
+     * npm uninstall [packages...] uses fuzzy search to allow searching for installed packages ignoring the package scope
+     * ```typescript
+     * const figSpec: Fig.Spec {
+     *   name: "npm",
+     *   subcommands: [
+     *     {
+     *       args: {
+     *         name: "packages",
+     *         filterStrategy: "fuzzy", // search in suggestions provided by the generator (in this case) using fuzzy search
+     *         generators: generateNpmDeps,
+     *         isVariadic: true,
+     *       },
+     *     },
+     *     // ... other npm commands
+     *   ],
+     * }
+     * ```
      */
     filterStrategy?: "fuzzy" | "prefix" | "default";
     /**
