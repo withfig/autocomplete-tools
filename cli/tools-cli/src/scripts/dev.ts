@@ -21,7 +21,7 @@ function disableDevMode() {
   console.log("\n\nFig dev mode disabled\n");
   commandStatus("fig settings autocomplete.developerMode false");
   commandStatus("fig settings autocomplete.developerModeNPM false");
-  commandStatus("fig settings autocomplete.developerModeNPMInvalidateCache false");
+  commandStatus("fig settings autocomplete.developerModeNPMInvalidateCache true");
   process.exit(0);
 }
 

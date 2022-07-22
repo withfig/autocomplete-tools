@@ -334,5 +334,3 @@ def test_add_completion_spec_command_to_non_grouped_cli(
     with pytest.raises(SystemExit) as err:
         fig.add_completion_spec_command(non_grouped_cli)
     assert str(err.value) == add_completion_spec_command_to_non_grouped_cli_thrown_error
-    
-
