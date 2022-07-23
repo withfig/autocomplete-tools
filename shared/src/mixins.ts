@@ -112,7 +112,10 @@ function mergeSubcommandArrays(
   return mergeNamedObjectArrays(subcommands, partials, mergeSubcommands);
 }
 
-function mergeSubcommands(subcommand: Fig.Subcommand, partial: Fig.Subcommand): Fig.Subcommand {
+export function mergeSubcommands(
+  subcommand: Fig.Subcommand,
+  partial: Fig.Subcommand
+): Fig.Subcommand {
   return {
     ...subcommand,
     ...partial,
