@@ -1,2 +1,0 @@
-BuildError: Build failed with 1 error:
-test/fixtures/local-spec-build-error/spec.ts:3:2: ERROR: Unexpected "]"

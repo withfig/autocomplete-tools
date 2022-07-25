@@ -1,2 +1,0 @@
-BuildError: Transform failed with 1 error:
-<stdin>:1:22: ERROR: Unexpected "]"
