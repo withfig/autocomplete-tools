@@ -1,10 +1,21 @@
 import itertools
 import click
 import json
+import sys
 
 def add_completion_spec_command(cli):
-    command = click.Command("generate-fig-spec", callback=lambda: print(generate_completion_spec(cli)))
-    cli.add_command(command)
+    if isinstance(cli, click.Group):
+      command = click.Command("generate-fig-spec", callback=lambda: print(generate_completion_spec(cli)))
+      cli.add_command(command)
+    else:
+      sys.exit("""
+Cannot add the completion spec command to an object which is not a `click.Group` instance.
+- If you are tring to add the command to a `click.Command` instance use `generate_completion_spec` 
+  or convert `click.Command` to a `click.Group` instance.
+- Useful links: https://click.palletsprojects.com/en/8.0.x/commands/#commands-and-groups
+""")
+
+
 
 def generate_completion_spec(cli):
     with click.Context(cli) as ctx:

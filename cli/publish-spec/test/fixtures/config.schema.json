@@ -1,0 +1,90 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Config",
+  "description": "Config for publish-spec tests",
+  "type": "object",
+  "definitions": {
+    "assert:test-file": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the file passed in"
+        },
+        "content": {
+          "type": "string",
+          "description": "The content of the file passed in"
+        }
+      }
+    }
+  },
+  "properties": {
+    "options": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "token": {
+          "description": "A fig API token",
+          "type": "string"
+        },
+        "team": {
+          "description": "The name of the team",
+          "type": "string"
+        },
+        "name": {
+          "description": "The name of the spec",
+          "type": "string"
+        },
+        "specPath": {
+          "description": "The local path of the spec relative to the fixture directory",
+          "type": "string"
+        },
+        "binaryPath": {
+          "description": "The local path of the binary used to output the spec relative to the fixture directory",
+          "type": "string"
+        },
+        "subcommandName": {
+          "description": "The name of the subcommand to append to the binary when executing it",
+          "type": "string"
+        },
+        "framework": {
+          "description": "The framework used to build the CLI",
+          "type": "string"
+        } 
+      }
+    },
+    "assert": {
+      "description": "A list of options to assert server side",
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Assert the passed in `name` is correct"
+        },
+        "team": { 
+          "type": "string",
+          "description": "Assert the passed in `team` is correct"
+        },
+        "files": {
+          "type": "object",
+          "properties": {
+            "jsSpec": { 
+              "$ref": "#/definitions/assert:test-file"
+            }
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "env": {
+      "description": "Add environment variables to the context",
+      "properties": {
+        "FIG_API_TOKEN": { "type": "string", "description": "Token saved as env variable" },
+        "HOME": { "enum": ["__CWD", ""], "description": "Darwin home directory" },
+        "APPDATA": { "enum": ["__CWD", ""], "description": "Windows home directory" },
+        "XDG_DATA_HOME": { "enum": ["__CWD", ""], "description": "Linux add data directory" }
+      }
+    },
+    "os": { "description": "OS type", "enum": ["MacOS", "Linux", "Windows"] }
+  }
+}

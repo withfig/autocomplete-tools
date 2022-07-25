@@ -1,0 +1,24 @@
+{
+  "$schema": "../config.schema.json",
+  "options": {
+    "token": "data",
+    "name": "spec",
+    "specPath": "spec.ts",
+    "team": "team-name",
+    "framework": "cobra"
+  },
+  "assert": {
+    "token": "Bearer data",
+    "name": "spec",
+    "team": "team-name",
+    "framework": "cobra",
+    "files": {
+      "tsSpec": {
+        "name": "spec.ts"
+      },
+      "jsSpec": {
+        "name": "spec.js"
+      }
+    }
+  }
+}

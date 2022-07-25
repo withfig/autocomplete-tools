@@ -1,0 +1,26 @@
+{
+  "$schema": "../config.schema.json",
+  "options": {
+    "token": "some-other-data",
+    "name": "some-spec",
+    "subcommandName": "generate-fig-spec",
+    "binaryPath": "./cli.sh",
+    "framework": "commander",
+    "team": "test-team"
+  },
+  "assert": {
+    "token": "Bearer some-other-data",
+    "name": "some-spec",
+    "framework": "commander",
+    "team": "test-team",
+    "files": {
+      "tsSpec": {
+        "name": "some-spec.ts",
+        "content": "const completion = {}; export default completion"
+      },
+      "jsSpec": {
+        "name": "some-spec.js"
+      }
+    }
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "lib": ["esnext"],
+    "skipLibCheck": true,
+    "strict": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "module": "commonjs",
+    "moduleResolution": "node",
+  },
+}

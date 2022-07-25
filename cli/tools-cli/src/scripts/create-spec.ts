@@ -2,6 +2,7 @@ import { createCompletionSpec } from "create-completion-spec";
 import { Command } from "commander";
 import readline from "readline";
 import path from "path";
+import chalk from "chalk";
 
 const program = new Command("create-spec")
   .description("create spec with given name")
@@ -16,8 +17,14 @@ const program = new Command("create-spec")
       rInterface.question(
         "What's the name of the CLI tool you want to create an autocomplete spec for: ",
         async (answer) => {
-          createCompletionSpec(answer, autocompleteFolder);
-          rInterface.close();
+          try {
+            createCompletionSpec(answer, autocompleteFolder);
+          } catch (error) {
+            console.log(chalk.red((error as Error).message));
+            process.exit(1);
+          } finally {
+            rInterface.close();
+          }
         }
       );
     } else {

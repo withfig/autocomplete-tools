@@ -1,0 +1,16 @@
+{
+  "$schema": "../config.schema.json",
+  "options": {
+    "specPath": "spec.ts"
+  },
+  "assert": {
+    "token": "Bearer eyJhY2Nlc3NUb2tlbiI6ImRhdGEtMyIsImlkVG9rZW4iOiJkYXRhLTQifQ==",
+    "name": "spec"
+  },
+  "env": {
+    "XDG_DATA_HOME": "__CWD",
+    "APPDATA": "__CWD",
+    "HOME": "__CWD"
+  },
+  "os": "Linux"
+}

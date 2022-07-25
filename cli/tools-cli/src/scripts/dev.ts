@@ -21,7 +21,7 @@ function disableDevMode() {
   console.log("\n\nFig dev mode disabled\n");
   commandStatus("fig settings autocomplete.developerMode false");
   commandStatus("fig settings autocomplete.developerModeNPM false");
-  commandStatus("fig settings autocomplete.developerModeNPMInvalidateCache false");
+  commandStatus("fig settings autocomplete.developerModeNPMInvalidateCache true");
   process.exit(0);
 }
 
@@ -32,9 +32,8 @@ function cleanup() {
 
 async function runProgram() {
   console.clear();
-  const isMacOS = os.type() === "Darwin";
 
-  if (isMacOS) {
+  if (os.type() === "Darwin") {
     const globalFigAppPath = path.join("/", "Applications", "Fig.app");
     const localFigAppPath = path.join(os.homedir(), "Applications", "Fig.app");
 
@@ -62,12 +61,23 @@ async function runProgram() {
         "\n\n******\n"
       );
     }
+  } else if (os.type() === "Linux") {
+    if (!commandStatus("fig_desktop --version")) {
+      console.log(
+        "\n******\n\n",
+        chalk.bold(chalk.yellow(" WARNING: Fig App is not installed")),
+        "\n\n",
+        chalk.bold(chalk.cyan(" For early Linux support please join our Discord:")),
+        "\n https://fig.io/community",
+        "\n\n******\n"
+      );
+    }
   } else {
     console.log(
       "\n******\n\n",
       chalk.bold(
         chalk.red(
-          " WARNING: Looks like you're not on macOS. We're working on linux / windows builds!"
+          " WARNING: Looks like you're not on macOS or Linux. We're working on Windows builds!"
         )
       ),
       "\n\n",
@@ -91,7 +101,7 @@ async function runProgram() {
     `${chalk.bold("Other Notes:")}\n`,
     `- Generators run on every keystroke\n`
   );
-  if (isMacOS) {
+  if (os.type() === "Darwin" || os.type() === "Linux") {
     // We are on macos and the fig script exists
     process.addListener("SIGTERM", cleanup);
     process.addListener("SIGINT", cleanup);

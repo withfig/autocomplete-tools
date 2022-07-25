@@ -145,7 +145,7 @@ declare namespace Fig {
    * @param param - A param of type `R`
    * @returns Something of type `R`
    */
-  type Function<T = void, R = void> = (param?: T) => R;
+  type Function<T = void, R = void> = (param: T) => R;
 
   /**
    * A utility type to modify a property type
@@ -159,7 +159,16 @@ declare namespace Fig {
    */
   type StringOrFunction<T = void, R = void> = string | Function<T, R>;
 
+  /**
+   * @excluded
+   * @irreplaceable
+   */
   type ArgDiff = Modify<Fig.Arg, { remove?: true }>;
+
+  /**
+   * @excluded
+   * @irreplaceable
+   */
   type OptionDiff = Modify<
     Fig.Option,
     {
@@ -167,6 +176,11 @@ declare namespace Fig {
       remove?: true;
     }
   >;
+
+  /**
+   * @excluded
+   * @irreplaceable
+   */
   type SubcommandDiff = Modify<
     Fig.Subcommand,
     {
@@ -176,7 +190,17 @@ declare namespace Fig {
       remove?: true;
     }
   >;
+
+  /**
+   * @excluded
+   * @irreplaceable
+   */
   type SpecDiff = Omit<SubcommandDiff, "name" | "remove">;
+
+  /**
+   * @excluded
+   * @irreplaceable
+   */
   type VersionDiffMap = Record<string, SpecDiff>;
 
   /**
@@ -310,7 +334,7 @@ declare namespace Fig {
      * @remarks
      * Fig ranks suggestions by recency. To do this, we check if a suggestion has been selected before. If yes and the suggestions has:
      * - a priority between 50-75, the priority will be replaced with 75, then we will add the timestamp of when that suggestion was selected as a decimal.
-     * - a priority ourside of 50-75, the priority will be increased by the timestamp of when that suggestion was selected as a decimal.
+     * - a priority outside of 50-75, the priority will be increased by the timestamp of when that suggestion was selected as a decimal.
      * If it has not been selected before, Fig will keep the same priority as was set in the completion spec
      * If it was not set in the spec, it will default to 50.
      *
@@ -387,16 +411,14 @@ declare namespace Fig {
    */
   interface Subcommand extends BaseSuggestion {
     /**
-     * The exact name of the subcommand as defined in the CLI tool.
+     * The name of the subcommand. Should exactly match the name defined by the CLI tool.
      *
      * @remarks
-     * Fig's parser relies on your subcommand name being exactly what the user would type. e.g. if the user types git "commit", you must have `name: "commit"` and not something like `name: "your commit message"`.
+     * If a subcommand has multiple aliases, they should be included as an array.
      *
-     * If you want to customize what the text the popup says, use `displayName`.
+     * Note that Fig's autocomplete engine requires this `name` to match the text typed by the user in the shell.
      *
-     * The name prop in a Subcommand object compiles down to the name prop in a Suggestion object
-     *
-     * Final note: the name prop can be a string (most common) or an array of strings
+     * To customize the title that is displayed to the user, use `displayName`.
      *
      *
      * @example
@@ -407,112 +429,122 @@ declare namespace Fig {
     name: SingleOrArray<string>;
 
     /**
-     * An array of subcommand objects representing all the subcommands that exist beneath the current subcommand.
-     * Subcommands can be nested recursively.
+     * An array of `Subcommand` objects representing all the subcommands that exist beneath the current command.
+     *     *
+     * To support large CLI tools, `Subcommands` can be nested recursively.
      *
      * @example
-     * aws has plenty of subcommands (s3, ec2, eks...) and each of these have plenty of subcommands of their own. This is where these subcommands nest.
+     * A CLI tool like `aws` is composed of many top-level subcommands (`s3`, `ec2`, `eks`...), each of which include child subcommands of their own.
      */
     subcommands?: Subcommand[];
 
     /**
-     * An array of option objects representing the options that nest beneath this subcommand.
+     * An array of `Option` objects representing the options that are available on this subcommand.
      *
      * @example
-     * `git checkout` can take lots of options e.g. -b, -f, -d ... These option objects are all represented here.
+     * A command like `git commit` accepts various flags and options, such as `--message` and `--all`. These `Option` objects would be included in the `options` field.
      */
     options?: Option[];
 
     /**
-     * An array of arg objects or a single arg object
+     * An array of `Arg` objects representing the various parameters or "arguments" that can be passed to this subcommand.
      *
-     * @remarks
-     * If a subcommand takes an argument, please at least include an empty Arg Object. (e.g. `{ }`). Why? If you don't, Fig will assume the subcommand does not take an argument. When the user types their argument
-     * If the argument is optional, you can set `isOptional: true` on the arg.
-     *
-     * @example
-     * `npm run` takes one mandatory argument. This can be represented by `args: { }`
-     * @example
-     * `git push` takes two mandatory arguments. This can be represented by: `args: [{ isOptional: true }, { isOptional: true }]`
-     * @example
-     * `git clone` takes two optional arguments. This can be represented by: `args: [{ isOptional: true }, { }]`
      */
-
     args?: SingleOrArray<Arg>;
-
+    /**
+     * This option allows to enforce the suggestion filtering strategy for a specific subcommand.
+     * @remarks
+     * Users always want to have the most accurate results at the top of the suggestions list.
+     * For example we can enable fuzzy search on a subcommand that always requires fuzzy search to show the best suggestions.
+     * This property is also useful when subcommands or options have a prefix (e.g. the npm package scope) because enabling fuzzy search users can omit that part (see the second example below)
+     * @example
+     * yarn workspace [name] with fuzzy search is way more useful since we can omit the npm package scope
+     * @example
+     * fig settings <setting name> uses fuzzy search to prevent having to add the `autocomplete.` prefix to each searched setting
+     * ```typescript
+     * const figSpec: Fig.Spec {
+     *   name: "fig",
+     *   subcommands: [
+     *     {
+     *       name: "settings",
+     *       filterStrategy: "fuzzy",
+     *       subcommands: [
+     *         {
+     *           name: "autocomplete.theme", // if a user writes `fig settings theme` it gets the correct suggestions
+     *         },
+     *         // ... other settings
+     *       ]
+     *     },
+     *     // ... other fig subcommands
+     *   ]
+     * }
+     * ```
+     */
+    filterStrategy?: "fuzzy" | "prefix" | "default";
     /**
      * A list of Suggestion objects that are appended to the suggestions shown beneath a subcommand.
      *
      * @remarks
-     * These are often shortcuts with `type="shortcut"`
+     * You can use this field to suggest common workflows.
      *
      */
     additionalSuggestions?: (string | Suggestion)[];
     /**
-     * Dynamically load up another completion spec at runtime.
+     * Dynamically load another completion spec at runtime.
      *
-     * @param tokens - a tokenized array of what the user has typed
-     * @param executeShellCommand -an async function that allows you to execute a shell command on the user's system and get the output as a string.
-     * @returns A `SpecLocation` object or an array of `SpecLocation` obejcts.
+     * @param tokens - a tokenized array of the text the user has typed in the shell.
+     * @param executeShellCommand - an async function that can execute a shell command on behalf of the user. The output is a string.
+     * @returns A `SpecLocation` object or an array of `SpecLocation` objects.
      *
      * @remarks
-     * **When is this used?**
-     * - For very very large specs (e.g. aws or gcloud) where loading the full completion spec would be slow. Instead, we load up the list of subcommands then dynamically load up the sub-subcommands using `loadSpec`.
-     * - For CLI tools that take a command as an argument e.g. `time <cmd>` or `builtin <cmd>`. `loadSpec` will load up the completion spec for the CLI the user inputs. e.g. if the user types `time git` we should load up the git spec
-     * - For CLI tools that take a local script as an argument e.g. `python <script>` or `node <script>`. `loadSpec` will load up the completion spec for the script the user inputs. e.g. if the user types `python main.py` we should load up the main.py completion spec.
-     * - For CLI tools that have modules that function like their own CLI tools. e.g. `python -m <module>`. LoadSpec will load up the completion spec for the module e.g. the `http.server` completion spec
+     * `loadSpec` can be invoked as string (recommended) or a function (advanced).
      *
-     * **The `SpecLocation` Object**
+     * The API tells the autocomplete engine where to look for a completion spec. If you pass a string, the engine will attempt to locate a matching spec that is hosted by Fig.
      *
-     * The SpecLocation object defines well... the location of the completion spec we want to load.
-     * Specs can be "global" (ie hosted by Fig's cloud) or "local" (ie stored on your local machine).
-     *
-     * - Global `SpecLocation`:
-     * Load specs hosted in Fig's Cloud. Assume the current working directory is here: https://github.com/withfig/autocomplete/tree/master/src. Now set the value for the "name" prop to the relative location of your spec (without the .js file extension)
-     * ```js
-     * // e.g.
-     * { type: "global", name: "aws/s3" } // Loads up the aws s3 completion spec
-     * { type: "global", name: "python/http.server" } // Loads up the http.server completion spec
+     * @example
+     * Suppose you have an internal CLI tool that wraps `kubectl`. Instead of copying the `kubectl` completion spec, you can include the spec at runtime.
+     * ```typescript
+     * {
+     *   name: "kube",
+     *   description: "a wrapper around kubectl"
+     *   loadSpec: "kubectl"
+     * }
      * ```
-     *
-     * - Local `SpecLocation`:
-     * Load specs saved on your local system / machine. Assume the current working directory is the user's current working directory.
-     * The `name` prop should take the name of the spec (without the .js file extension) e.g. my_cli_tool
-     * The `path` prop should take an absolute path OR a relative path (relative to the user's current working directory). The path should be to the directory that contains the `.fig` folder. Fig will then assume your spec is located in `.fig/autocomplete/build/`
-     * ```js
-     * // e.g.
-     * { type: "global", path: "node_modules/cowsay", name: "cowsay_cli" }  // will look for `cwd/node_modules/cowsay/.fig/autocomplete/build/cowsay_cli.js`
-     * { type: "global", path: "~", name: "my_cli" }  // will look for `~/.fig/autocomplete/build/my_cli.js`
+     * @example
+     * In the `aws` completion spec, `loadSpec` is used to optimize performance. The completion spec is split into multiple files, each of which can be loaded separately.
+     * ```typescript
+     * {
+     *   name: "s3",
+     *   loadSpec: "aws/s3"
+     * }
      * ```
-     *
-     * **Syntactic Sugars**
-     *
-     * We have three bits of syntactic sugar that can make this easier:
-     * 1. Pass a single string to `loadSpec` instead of a function. We interpret this string as the "name" prop of global SpecLocation object
-     * ```js
-     * // e.g.
-     * loadSpec: python/http.server
-     * // compiles to
-     * { type: "global", name: "python/http.server" }
-     * ```
-     * 2. `isCommand` (See [Arg Object](https://fig.io/docs/reference/arg#iscommand)).
-     * 3. `isScript` (See [Arg Object](https://fig.io/docs/reference/arg#isscript)).
      */
     loadSpec?: LoadSpec;
     /**
-     * Dynamically generate a subcommand object to be merged in at the same level as the subcommand this is nested beneath.
+     * Dynamically *generate* a `Subcommand` object a runtime. The generated `Subcommand` is merged with the current subcommand.
      *
      * @remarks
-     * For instance, if `generateSpec` was added beneath the git command, the subcommand object generated by the `generateSpec` function would be deep merged with the git spec.
+     * This API is often used by CLI tools where the structure of the CLI tool is not *static*. For instance, if the tool can be extended by plugins or otherwise shows different subcommands or options depending on the environment.
      *
-     * @param tokens - a tokenised array of strings of what the user typed
-     * @param executeShellCommand -an async function that allows you to execute a shell command on the user's system and get the output as a string.
+     * @param tokens - a tokenized array of the text the user has typed in the shell.
+     * @param executeShellCommand - an async function that can execute a shell command on behalf of the user. The output is a string.
      * @returns a `Fig.Spec` object
      *
      * @example
-     * The python spec uses `generateSpec` to insert the django-admin spec if `django manage.py` exists.
-     * @example
-     * `php` uses this to see if `artisan` exists. Then `php artisan` uses this to see if
+     * The `python` spec uses `generateSpec` to include the`django-admin` spec if `django manage.py` exists.
+     * ```typescript
+     * generateSpec: async (tokens, executeShellCommand) => {
+     *    // Load the contents of manage.py
+     *    const managePyContents = await executeShellCommand("cat manage.py");
+     *    // Heuristic to determine if project uses django
+     *    if (managePyContents.contains("django")) {
+     *      return {
+     *        name: "python",
+     *        subcommands: [{ name: "manage.py", loadSpec: "django-admin" }],
+     *      };
+     *    }
+     *  },
+     * ```
      */
     generateSpec?: (
       tokens: string[],
@@ -520,14 +552,14 @@ declare namespace Fig {
     ) => Promise<Spec>;
 
     /**
-     * Flags that allow customization of how Fig parses tokens.
+     * Configure how the autocomplete engine will map the raw tokens to a given completion spec.
      *
-     * @remarks
-     * - `flagsArePosixNoncompliant`: when `flagsArePosixNoncompliant` is true, options with one hyphen to have multiple characters.
-     * - `optionsMustPrecedeArguments`: when `optionsMustPrecedeArguments` is true, options will not be suggested after a subcommand arg is typed.
-     * - `optionArgSeparators`: when `optionArgSeparators` is set, options will accept or require one of the separators between the verbose option name and the argument.
+     * @param flagsArePosixNoncompliant - Indicates that flags with one hyphen may have *more* than one character. Enabling this directive, turns off support for option chaining.
+     * @param optionsMustPrecedeArguments - Options will not be suggested after any argument of the Subcommand has been typed.
+     * @param optionArgSeparators - Indicate that options which take arguments will require one of the specified separators between the 'verbose' option name and the argument.
+     *
      * @example
-     * The `-work` option from the go spec is parsed as a single flag when `parserDirectives.flagsArePosixNoncompliant` is set to true. Normally, this would be chained and parsed as `-w -o -r -k` if `flagsArePosixNoncompliant` is not set to true.
+     * The `-work` option from the `go` spec is parsed as a single flag when `parserDirectives.flagsArePosixNoncompliant` is set to true. Normally, this would be chained and parsed as `-w -o -r -k` if `flagsArePosixNoncompliant` is not set to true.
      */
     parserDirectives?: {
       flagsArePosixNoncompliant?: boolean;
@@ -572,9 +604,9 @@ declare namespace Fig {
      * @example
      * `npm run` takes one mandatory argument. This can be represented by `args: { }`
      * @example
-     * `git push` takes two mandatory arguments. This can be represented by: `args: [{ isOptional: true }, { isOptional: true }]`
+     * `git push` takes two optional arguments. This can be represented by: `args: [{ isOptional: true }, { isOptional: true }]`
      * @example
-     * `git clone` takes two optional arguments. This can be represented by: `args: [{ isOptional: true }, { }]`
+     * `git clone` takes one mandatory argument and one optional argument. This can be represented by: `args: [{ }, { isOptional: true }]`
      */
     args?: SingleOrArray<Arg>;
     /**
@@ -707,7 +739,7 @@ declare namespace Fig {
     /**
      * The name of an argument. This is different to the `name` prop for subcommands, options, and suggestion objects so please read carefully.
      * This `name` prop signals a normal, human readable string. It usually signals to the user the type of argument they are inserting if there are no available suggestions.
-     * Unlike subcommands and optoins, Fig does NOT use this value for parsing. Therefore, it can be whatever you want.
+     * Unlike subcommands and options, Fig does NOT use this value for parsing. Therefore, it can be whatever you want.
      *
      * @example
      * The name prop for the `git commit -m <msg>` arg object is "msg". But you could also make it "message" or "your message". It is only used for description purposes (you see it when you type the message), not for parsing!
@@ -772,6 +804,32 @@ declare namespace Fig {
      */
     generators?: SingleOrArray<Generator>;
     /**
+     * This option allows to enforce the suggestion filtering strategy for a specific argument suggestions.
+     * @remarks
+     * Users always want to have the most accurate results at the top of the suggestions list.
+     * For example we can enable fuzzy search on an argument that always requires fuzzy search to show the best suggestions.
+     * This property is also useful when argument suggestions have a prefix (e.g. the npm package scope) because enabling fuzzy search users can omit that part (see the second example below)
+     * @example
+     * npm uninstall [packages...] uses fuzzy search to allow searching for installed packages ignoring the package scope
+     * ```typescript
+     * const figSpec: Fig.Spec {
+     *   name: "npm",
+     *   subcommands: [
+     *     {
+     *       args: {
+     *         name: "packages",
+     *         filterStrategy: "fuzzy", // search in suggestions provided by the generator (in this case) using fuzzy search
+     *         generators: generateNpmDeps,
+     *         isVariadic: true,
+     *       },
+     *     },
+     *     // ... other npm commands
+     *   ],
+     * }
+     * ```
+     */
+    filterStrategy?: "fuzzy" | "prefix" | "default";
+    /**
      * Provide a suggestion at the top of the list with the current token that is being typed by the user.
      */
     suggestCurrentToken?: boolean;
@@ -789,7 +847,7 @@ declare namespace Fig {
     isVariadic?: boolean;
 
     /**
-     * Specifies whether options can interupt variadic arguments. There is
+     * Specifies whether options can interrupt variadic arguments. There is
      * slightly different behavior when this is used on an option argument and
      * on a subcommand argument:
      *
@@ -910,7 +968,7 @@ declare namespace Fig {
      *
      * @example
      * `npm run <script>` also takes an arg called "script". This arg is technically an alias for another shell command that is specified in the package.json.
-     * If the user typed `npm run start[space]`, the package.json had script `start=node index.js`, then Fig would start offerring suggestions for as if you had just typed `node index.js[space]`
+     * If the user typed `npm run start[space]`, the package.json had script `start=node index.js`, then Fig would start offering suggestions for as if you had just typed `node index.js[space]`
      *
      * Note: In both cases, the alias function is only used to expand a given alias NOT to generate the list of aliases. To generate a list of aliases, scripts etc, use a generator.
      */
@@ -920,7 +978,7 @@ declare namespace Fig {
   }
 
   /**
-   * The generator object is used to generate suggestions for an arg object. To do this, it runs a defined shell command on the user's device, gets the output, and returns a list of Suggestion obejcts.
+   * The generator object is used to generate suggestions for an arg object. To do this, it runs a defined shell command on the user's device, gets the output, and returns a list of Suggestion objects.
    *
    */
   interface Generator {
@@ -949,7 +1007,7 @@ declare namespace Fig {
      * @returns An array of `Suggestion` objects.
      *
      * @example
-     * The python spec has an arg object which has a template for "filepaths". However, we don't want to suggest non `.py` files. Therefore, we take the output of the template, filter out all files that don't end in `.py`, keep all folders that end with `/` and return the list of suggetsions.
+     * The python spec has an arg object which has a template for "filepaths". However, we don't want to suggest non `.py` files. Therefore, we take the output of the template, filter out all files that don't end in `.py`, keep all folders that end with `/` and return the list of suggestions.
      */
     filterTemplateSuggestions?: Function<TemplateSuggestion[], Suggestion[]>;
     /**
@@ -1030,7 +1088,7 @@ declare namespace Fig {
      *
      * @example
      * `cd`: Let's say a user has "cd desktop" currently typed then the user types a "/" so the changes to "cd ~/desktop/".
-     * The old token is "~/desktop", new token is "desktop/". This is a perfect time for us to generate a new list of suggestions. We previously had all the folders in my ~ directory as suggestions, but after the total number of `/` in the tokens changed, we shoudl trigger a new set of suggestions to be generated. This new set of suggestions should then generate suggestions for the desktop directory, not the ~ directory.
+     * The old token is "~/desktop", new token is "desktop/". This is a perfect time for us to generate a new list of suggestions. We previously had all the folders in my ~ directory as suggestions, but after the total number of `/` in the tokens changed, we should trigger a new set of suggestions to be generated. This new set of suggestions should then generate suggestions for the desktop directory, not the ~ directory.
      *
      */
     trigger?: string | ((newToken: string, oldToken: string) => boolean);
@@ -1094,9 +1152,9 @@ declare namespace Fig {
      *
      * @remarks
      * For commands that take a long time to run, Fig gives you the option to cache their response. You can cache the response globally or just by the directory they were run in.
-     * We currently have two cache stategies:
+     * We currently have two cache strategies:
      * - `max-age` (default): you just need to specify a `ttl` (time to live) for how long the cache will last (this is a number)
-     * - `stale-while-revalidate`: when cache becomes stale fig will return the stale data while fetching the updated one. This stategy also accepts a `ttl` to configure how long it takes for the cache to become stale.
+     * - `stale-while-revalidate`: when cache becomes stale fig will return the stale data while fetching the updated one. This strategy also accepts a `ttl` to configure how long it takes for the cache to become stale.
      * You can also optionally turn on the ability to just cache by directory (`cacheByDirectory: true`)
      *
      * @example

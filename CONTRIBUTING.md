@@ -2,14 +2,16 @@
 Hey there! We are glad you want to contribute to some autocomplete package, hereby are mentioned some generic instructions, but you should refer to each package CONTRIBUTING.md file to learn more.
 
 - [`create-completion-spec`](cli/create-completion-spec/CONTRIBUTING.md)
-- [`@fig/publish-spec-to-team`](cli/publih-spec-to-team/CONTRIBUTING.md)
+- [`@fig/publish-spec`](cli/publih-spec-to-team/CONTRIBUTING.md)
 - [`@withfig/autocomplete-tools`](cli/tools-cli/CONTRIBUTING.md)
 - [`@fig/eslint-config-autocomplete`](eslint/config-autocomplete/CONTRIBUTING.md)
 - [`@withfig/eslint-plugin-fig-linter`](eslint/plugin-fig-linter/CONTRIBUTING.md)
 - [`@fig/autocomplete-generators`](generators/CONTRIBUTING.md)
 - [`@fig/autocomplete-helpers`](helpers/CONTRIBUTING.md)
+- [`argparse_complete_fig`](integrations/argparse/CONTRIBUTING.md)
+- [`cement_complete_fig`](integrations/cement/CONTRIBUTING.md)
 - [`clap_complete_fig`](integrations/clap/CONTRIBUTING.md)
-- [`click_complete_fig`](integrations/clap/CONTRIBUTING.md)
+- [`click_complete_fig`](integrations/click/CONTRIBUTING.md)
 - [`cobracompletefig`](integrations/cobra/CONTRIBUTING.md)
 - [`@fig/complete-commander`](integrations/commander/CONTRIBUTING.md)
 - [`@fig/complete-oclif`](integrations/oclif/CONTRIBUTING.md)

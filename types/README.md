@@ -91,6 +91,7 @@ First of all we generate an entire page on the website for each of the main inte
   } 
   ```
 - @excluded: do not generate docs for the member
+- @category: assign a category to an interface member
 
 #### Custom resolution
 
@@ -140,3 +141,6 @@ For `Interface members` and `Typealiases` are available some additional tags tha
   type Res = string
   ```
 - @replaceFirstLevel: only replaces the direct Symbols contained in the tagged one, then act as @irreplaceable for those Symbols
+
+
+> IMPORTANT: when using types that reference themselves add an `@irreplaceable` tag to them (see SubcommandDiff)

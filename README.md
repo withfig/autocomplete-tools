@@ -9,14 +9,16 @@ This repo contains the source for all of Fig tools related with [autocomplete](h
 ## Packages
 
 - [`create-completion-spec`](cli/create-completion-spec/README.md)
-- [`@fig/publish-spec-to-team`](cli/publih-spec-to-team/README.md)
+- [`@fig/publish-spec`](cli/publih-spec-to-team/README.md)
 - [`@withfig/autocomplete-tools`](cli/tools-cli/README.md)
 - [`@fig/eslint-config-autocomplete`](eslint/config-autocomplete/README.md)
 - [`@withfig/eslint-plugin-fig-linter`](eslint/plugin-fig-linter/README.md)
 - [`@fig/autocomplete-generators`](generators/README.md)
 - [`@fig/autocomplete-helpers`](helpers/README.md)
+- [`argparse_complete_fig`](integrations/argparse/README.md)
+- [`cement_complete_fig`](integrations/cement/README.md)
 - [`clap_complete_fig`](integrations/clap/README.md)
-- [`click_complete_fig`](integrations/clap/README.md)
+- [`click_complete_fig`](integrations/click/README.md)
 - [`cobracompletefig`](integrations/cobra/README.md)
 - [`@fig/complete-commander`](integrations/commander/README.md)
 - [`@fig/complete-oclif`](integrations/oclif/README.md)
@@ -27,10 +29,20 @@ This repo contains the source for all of Fig tools related with [autocomplete](h
 
 ## To publish a package:
 
-Run `yarn workspace <workspace name> npm publish`
+1) Update the `package.json` `version` propery
+
+2) Commit the updated `package.json` file to the origin repo
+
+3) Git tag the commit you have just made using the following format and push the tag to the origin repo
+  - The git tag should be: `<package_name>@<new_numerical_version>`
+  - Example: `git tag @fig/publish-spec@1.2.3`
+
+4) Run `yarn workspace <workspace name> npm publish`
 
 > **IMPORTANT**: remember to tag the new package version following the current conventions (see the previous tags of a package)
 > this is important for some workflows we are running and to keep track of when releases were done.
+
+> **IMPORTANT**: all packages need to be git tagged, not only npm ones!
 
 e.g.
 ```bash
@@ -70,6 +82,9 @@ In all the cases the names are standardized and SHOULD be:
 - `generateCompletionSpec` for functions that return the spec as a string
 
 According to language conventions these function names can be transformed to snake case, etc...
+
+If the CLI tool integration gets added directly to the module of the CLI tool itself and the CLI tool is configured using chained methods (e.g. yargs), then the chain method name SHOULD be:
+- `.figCompletion()`
 
 ### Docs on `public-site-nextjs`
 

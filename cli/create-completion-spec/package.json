@@ -1,6 +1,6 @@
 {
   "name": "create-completion-spec",
-  "version": "1.1.4",
+  "version": "1.1.8",
   "description": "Initialize a Fig custom spec boilerplate in the current directory",
   "bin": "lib/bin.js",
   "main": "lib/index.js",

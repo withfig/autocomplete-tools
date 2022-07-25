@@ -1,8 +1,19 @@
 import fs from "fs";
 import { Command, Option } from "commander";
-import { merge, presets } from "@fig/autocomplete-merge";
+import { merge, presets, PresetName } from "@fig/autocomplete-merge";
 
-function runProgram(oldSpecPath: string, newSpecPath: string, options: Record<string, any>) {
+function runProgram(
+  oldSpecPath: string,
+  newSpecPath: string,
+  options: {
+    ignoreProps: string[];
+    ignoreCommandProps: string[];
+    ignoreOptionProps: string[];
+    ignoreArgProps: string[];
+    newFile: string;
+    preset: PresetName;
+  }
+) {
   const {
     ignoreProps = [],
     ignoreCommandProps = [],

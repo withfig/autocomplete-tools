@@ -20,4 +20,4 @@ python3 -m pip install --upgrade twine
 
 ### Test the package
 
-Run `python3 -m pytest`.
+Run `make test`.
