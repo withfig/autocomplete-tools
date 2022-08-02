@@ -16,7 +16,7 @@ module.exports = {
         const nameValue = nameProp.value.value;
 
         if (!insertValue || !nameValue) return;
-        if (insertValue.trim() === nameValue.trim()) {
+        if (insertValue === nameValue) {
           context.report({
             node,
             message:
