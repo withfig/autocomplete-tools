@@ -439,6 +439,14 @@ declare namespace Fig {
     subcommands?: Subcommand[];
 
     /**
+     * Specifies whether the command requires a subcommand. This is false by default.
+     *
+     * A space will always be inserted after this command if `requiresSubcommand` is true.
+     * If the property is omitted, a space will be inserted if there is at least one required argument.
+     */
+    requiresSubcommand?: boolean;
+
+    /**
      * An array of `Option` objects representing the options that are available on this subcommand.
      *
      * @example
