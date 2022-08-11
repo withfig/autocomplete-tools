@@ -293,6 +293,16 @@
           "hasDocComment": true
         },
         {
+          "name": "requiresSubcommand",
+          "excluded": false,
+          "summary": "Specifies whether the command requires a subcommand. This is false by default.\n\nA space will always be inserted after this command if `requiresSubcommand` is true.\nIf the property is omitted, a space will be inserted if there is at least one required argument.",
+          "parameters": [],
+          "optional": true,
+          "declaration": "requiresSubcommand?: boolean",
+          "examples": [],
+          "hasDocComment": true
+        },
+        {
           "name": "options",
           "excluded": false,
           "summary": "An array of `Option` objects representing the options that are available on this subcommand.",
