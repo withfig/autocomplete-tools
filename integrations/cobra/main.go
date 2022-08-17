@@ -110,6 +110,10 @@ func subcommands(cmd *cobra.Command, overrideOptions bool, overrides Options) Su
 	return subs
 }
 
+func isFlagRepeatable(flag *pflag.Flag) bool {
+	return strings.Contains(flag.Value.Type(), "Slice") || strings.Contains(flag.Value.Type(), "Array")
+}
+
 func options(flagSet *pflag.FlagSet, persistent bool) []Option {
 	var opts []Option
 	attachFlags := func(flag *pflag.Flag) {
@@ -120,7 +124,7 @@ func options(flagSet *pflag.FlagSet, persistent bool) []Option {
 				hidden: flag.Hidden,
 			},
 			name:         []string{fmt.Sprintf("--%v", flag.Name)},
-			isRepeatable: strings.Contains(strings.ToLower(flag.Value.Type()), "array"),
+			isRepeatable: isFlagRepeatable(flag),
 		}
 		if flag.Shorthand != "" {
 			option.name = append(option.name, fmt.Sprintf("-%v", flag.Shorthand))
