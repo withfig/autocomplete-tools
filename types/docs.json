@@ -1131,7 +1131,7 @@
             }
           ],
           "optional": true,
-          "declaration": "trigger?: string | ((newToken: string, oldToken: string) => boolean)",
+          "declaration": "trigger?:\n  | string\n  | ((newToken: string, oldToken: string) => boolean)\n  | {\n      /** Trigger on any change to the token */\n      on: \"change\"\n    }\n  | {\n      /** Trigger when the length of the token changes past a threshold */\n      on: \"threshold\"\n      length: number\n    }\n  | {\n      /** Trigger when the index of a string changes */\n      on: \"string\"\n      string: string | string[]\n    }",
           "examples": [
             "`chmod`: If I type `chmod u` we should generate suggestions for `u+x`, `u+r`, `u-w` etc. Whereas if I typed `chmod 7` we should generate suggestions for `755` or `777` etc.\nThe suggestion we generate depends on the new information we have. The oldToken was an empty string, the new token could be a `7` or a `u` etc...\n\n  All this function's job is to say whether or not we should generate new suggestions. It does not specify how to create these new suggestions. This is the job of the `script` or `custom` props. Annoyingly, you may have to implement some of the same parsing logic again. However, because this is javascript, just create a function so you don't have to repeat yourself :)\n\n  Note: yes, we could have generate a list of suggestions at the start for every single permutation of 777 or u+x etc, however, there are so many and this is just not performant!",
             "`cd`: Let's say a user has \"cd desktop\" currently typed then the user types a \"/\" so the changes to \"cd ~/desktop/\".\nThe old token is \"~/desktop\", new token is \"desktop/\". This is a perfect time for us to generate a new list of suggestions. We previously had all the folders in my ~ directory as suggestions, but after the total number of `/` in the tokens changed, we should trigger a new set of suggestions to be generated. This new set of suggestions should then generate suggestions for the desktop directory, not the ~ directory."
@@ -1384,6 +1384,30 @@
     {
       "name": "Cache",
       "declaration": "type Cache = (\n  | {\n      strategy?: \"max-age\"\n      /**\n       * The time to live for the cache in milliseconds.\n       * @example\n       * 3600\n       */\n      ttl: number\n    }\n  | {\n      strategy: \"stale-while-revalidate\"\n      /**\n       * The time to live for the cache in milliseconds.\n       * @example\n       * 3600\n       */\n      ttl?: number\n    }\n) & {\n  /**\n   * Whether the cache should be based on the directory the user was currently in or not.\n   * @defaultValue false\n   */\n  cacheByDirectory?: boolean\n}",
+      "examples": [],
+      "parameters": []
+    },
+    {
+      "name": "TriggerOnChange",
+      "declaration": "type TriggerOnChange = {\n  /** Trigger on any change to the token */\n  on: \"change\"\n}",
+      "examples": [],
+      "parameters": []
+    },
+    {
+      "name": "TriggerOnThreshold",
+      "declaration": "type TriggerOnThreshold = {\n  /** Trigger when the length of the token changes past a threshold */\n  on: \"threshold\"\n  length: number\n}",
+      "examples": [],
+      "parameters": []
+    },
+    {
+      "name": "TriggerOnString",
+      "declaration": "type TriggerOnString = {\n  /** Trigger when the index of a string changes */\n  on: \"string\"\n  string: string | string[]\n}",
+      "examples": [],
+      "parameters": []
+    },
+    {
+      "name": "Trigger",
+      "declaration": "type Trigger =\n  | string\n  | ((newToken: string, oldToken: string) => boolean)\n  | {\n      /** Trigger on any change to the token */\n      on: \"change\"\n    }\n  | {\n      /** Trigger when the length of the token changes past a threshold */\n      on: \"threshold\"\n      length: number\n    }\n  | {\n      /** Trigger when the index of a string changes */\n      on: \"string\"\n      string: string | string[]\n    }",
       "examples": [],
       "parameters": []
     }
