@@ -269,9 +269,9 @@ declare namespace Fig {
     length: number;
   };
 
-  type TriggerOnString = {
+  type TriggerOnMatch = {
     /** Trigger when the index of a string changes */
-    on: "string";
+    on: "match";
     string: string | string[];
   };
 
@@ -280,7 +280,7 @@ declare namespace Fig {
     | ((newToken: string, oldToken: string) => boolean)
     | TriggerOnChange
     | TriggerOnThreshold
-    | TriggerOnString;
+    | TriggerOnMatch;
 
   /**
    * The BaseSuggestion object is the root of the Suggestion, Subcommand, and Option objects.
