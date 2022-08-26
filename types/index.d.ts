@@ -288,6 +288,15 @@ declare namespace Fig {
      */
     insertValue?: string;
     /**
+     * When the suggestion is inserted, replace the command with this string
+     *
+     * @remarks
+     * You can use `\n` to insert a newline or `\b` to insert a backspace.
+     * You can also optionally specify {cursor} in the string and Fig will automatically place the cursor there after insert.
+     * Note that currently the entire edit buffer will be replaced. Eventually, only the root command will be replaced, preserving pipes and continuations.
+     */
+    replaceValue?: string;
+    /**
      * The text that gets rendered at the bottom of the autocomplete box (or the side if you hit ⌘i)
      *
      * @example
