@@ -72,20 +72,13 @@ async function runProgram() {
         "\n\n******\n"
       );
     }
-  } else {
+  } else if (!commandStatus("fig --version")) {
     console.log(
       "\n******\n\n",
-      chalk.bold(
-        chalk.red(
-          " WARNING: Looks like you're not on macOS or Linux. We're working on Windows builds!"
-        )
-      ),
+      chalk.bold(chalk.yellow(" WARNING: Fig App is not installed")),
       "\n\n",
-      chalk.bold(
-        chalk.yellow(
-          " You can still build and contribute to completion specs, but you won't be able to test them unless you are on a mac or a macosVM"
-        )
-      ),
+      chalk.bold(chalk.cyan(" For early Windows support please join our Discord:")),
+      "\n https://fig.io/community",
       "\n\n******\n"
     );
   }
@@ -101,35 +94,33 @@ async function runProgram() {
     `${chalk.bold("Other Notes:")}\n`,
     `- Generators run on every keystroke\n`
   );
-  if (os.type() === "Darwin" || os.type() === "Linux") {
-    // We are on macos and the fig script exists
-    process.addListener("SIGTERM", cleanup);
-    process.addListener("SIGINT", cleanup);
-    process.addListener("SIGQUIT", cleanup);
+  // We are on macos and the fig script exists
+  process.addListener("SIGTERM", cleanup);
+  process.addListener("SIGINT", cleanup);
+  process.addListener("SIGQUIT", cleanup);
 
-    commandStatus("fig settings autocomplete.developerModeNPM true");
-    commandStatus(
-      `fig settings autocomplete.devCompletionsFolder ${path
-        .join(process.cwd(), "build")
-        .replace(/(\s+)/g, "\\$1")}`
-    );
-    if (!fs.existsSync(path.dirname(AUTOCOMPLETE_LOG_FILE))) {
-      fs.mkdirSync(path.dirname(AUTOCOMPLETE_LOG_FILE), { recursive: true });
-    }
-    fs.writeFileSync(AUTOCOMPLETE_LOG_FILE, "", { encoding: "utf8" });
-    let previousLogContent = "";
-    fs.watch(AUTOCOMPLETE_LOG_FILE, (event) => {
-      if (event === "change") {
-        const currentContent = fs.readFileSync(AUTOCOMPLETE_LOG_FILE, { encoding: "utf8" }).trim();
-        const message = previousLogContent
-          ? currentContent.split("\n").slice(previousLogContent.split("\n").length).join("\n")
-          : currentContent;
-        console.log(chalk.yellow(message));
-        previousLogContent = currentContent;
-      }
-    });
-    await runCompiler({ watch: true });
+  commandStatus("fig settings autocomplete.developerModeNPM true");
+  commandStatus(
+    `fig settings autocomplete.devCompletionsFolder ${path
+      .join(process.cwd(), "build")
+      .replace(/(\s)/g, "\\$1")}`
+  );
+  if (!fs.existsSync(path.dirname(AUTOCOMPLETE_LOG_FILE))) {
+    fs.mkdirSync(path.dirname(AUTOCOMPLETE_LOG_FILE), { recursive: true });
   }
+  fs.writeFileSync(AUTOCOMPLETE_LOG_FILE, "", { encoding: "utf8" });
+  let previousLogContent = "";
+  fs.watch(AUTOCOMPLETE_LOG_FILE, (event) => {
+    if (event === "change") {
+      const currentContent = fs.readFileSync(AUTOCOMPLETE_LOG_FILE, { encoding: "utf8" }).trim();
+      const message = previousLogContent
+        ? currentContent.split("\n").slice(previousLogContent.split("\n").length).join("\n")
+        : currentContent;
+      console.log(chalk.yellow(message));
+      previousLogContent = currentContent;
+    }
+  });
+  await runCompiler({ watch: true });
 }
 
 const program = new Command("dev")
