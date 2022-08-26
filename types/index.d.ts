@@ -258,6 +258,30 @@ declare namespace Fig {
     cacheByDirectory?: boolean;
   };
 
+  type TriggerOnChange = {
+    /** Trigger on any change to the token */
+    on: "change";
+  };
+
+  type TriggerOnThreshold = {
+    /** Trigger when the length of the token changes past a threshold */
+    on: "threshold";
+    length: number;
+  };
+
+  type TriggerOnMatch = {
+    /** Trigger when the index of a string changes */
+    on: "match";
+    string: string | string[];
+  };
+
+  type Trigger =
+    | string
+    | ((newToken: string, oldToken: string) => boolean)
+    | TriggerOnChange
+    | TriggerOnThreshold
+    | TriggerOnMatch;
+
   /**
    * The BaseSuggestion object is the root of the Suggestion, Subcommand, and Option objects.
    * It is where key properties like description, icon, and displayName are found
@@ -1097,16 +1121,13 @@ declare namespace Fig {
      * @example
      * `cd`: Let's say a user has "cd desktop" currently typed then the user types a "/" so the changes to "cd ~/desktop/".
      * The old token is "~/desktop", new token is "desktop/". This is a perfect time for us to generate a new list of suggestions. We previously had all the folders in my ~ directory as suggestions, but after the total number of `/` in the tokens changed, we should trigger a new set of suggestions to be generated. This new set of suggestions should then generate suggestions for the desktop directory, not the ~ directory.
-     *
      */
-    trigger?: string | ((newToken: string, oldToken: string) => boolean);
+    trigger?: Trigger;
     /**
-     *
      * A function that takes the token that the user has typed and determines which part of it should be used to filter over all the suggestions.
      *
      * @param token - The full token the user is currently typing
      * @returns The query term that Fig will use to filter over suggestions
-     *
      *
      * @remarks
      * Read the note above on how triggers work. Triggers and query term may seem similar but are actually different.
