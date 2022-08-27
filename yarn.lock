@@ -2115,7 +2115,7 @@ __metadata:
     chalk: ^4.1.0
     chokidar: ^3.5.1
     commander: ^8.1.0
-    create-completion-spec: ^1.1.0
+    create-completion-spec: ^1.1.9
     esbuild: ^0.14.39
     fast-glob: ^3.2.7
     module-from-string: ^3.1.4
@@ -3196,7 +3196,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"create-completion-spec@^1.1.0, create-completion-spec@workspace:cli/create-completion-spec":
+"create-completion-spec@^1.1.9, create-completion-spec@workspace:cli/create-completion-spec":
   version: 0.0.0-use.local
   resolution: "create-completion-spec@workspace:cli/create-completion-spec"
   dependencies:
