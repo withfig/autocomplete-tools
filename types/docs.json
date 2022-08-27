@@ -33,6 +33,17 @@
           "hasDocComment": true
         },
         {
+          "name": "replaceValue",
+          "excluded": false,
+          "summary": "When the suggestion is inserted, replace the command with this string",
+          "discussion": "You can use `\\n` to insert a newline or `\\b` to insert a backspace.\nYou can also optionally specify {cursor} in the string and Fig will automatically place the cursor there after insert.\nNote that currently the entire edit buffer will be replaced. Eventually, only the root command will be replaced, preserving pipes and continuations.",
+          "parameters": [],
+          "optional": true,
+          "declaration": "replaceValue?: string",
+          "examples": [],
+          "hasDocComment": true
+        },
+        {
           "name": "description",
           "excluded": false,
           "summary": "The text that gets rendered at the bottom of the autocomplete box (or the side if you hit ⌘i)",
@@ -174,6 +185,17 @@
             "For the `git commit` subcommand, the `-m` option has an insert value of `-m '{cursor}'`"
           ],
           "default": "The value of the name prop.",
+          "hasDocComment": true
+        },
+        {
+          "name": "replaceValue",
+          "excluded": false,
+          "summary": "When the suggestion is inserted, replace the command with this string",
+          "discussion": "You can use `\\n` to insert a newline or `\\b` to insert a backspace.\nYou can also optionally specify {cursor} in the string and Fig will automatically place the cursor there after insert.\nNote that currently the entire edit buffer will be replaced. Eventually, only the root command will be replaced, preserving pipes and continuations.",
+          "parameters": [],
+          "optional": true,
+          "declaration": "replaceValue?: string",
+          "examples": [],
           "hasDocComment": true
         },
         {
@@ -451,6 +473,17 @@
           "hasDocComment": true
         },
         {
+          "name": "replaceValue",
+          "excluded": false,
+          "summary": "When the suggestion is inserted, replace the command with this string",
+          "discussion": "You can use `\\n` to insert a newline or `\\b` to insert a backspace.\nYou can also optionally specify {cursor} in the string and Fig will automatically place the cursor there after insert.\nNote that currently the entire edit buffer will be replaced. Eventually, only the root command will be replaced, preserving pipes and continuations.",
+          "parameters": [],
+          "optional": true,
+          "declaration": "replaceValue?: string",
+          "examples": [],
+          "hasDocComment": true
+        },
+        {
           "name": "description",
           "excluded": false,
           "summary": "The text that gets rendered at the bottom of the autocomplete box (or the side if you hit ⌘i)",
@@ -692,6 +725,17 @@
             "For the `git commit` subcommand, the `-m` option has an insert value of `-m '{cursor}'`"
           ],
           "default": "The value of the name prop.",
+          "hasDocComment": true
+        },
+        {
+          "name": "replaceValue",
+          "excluded": false,
+          "summary": "When the suggestion is inserted, replace the command with this string",
+          "discussion": "You can use `\\n` to insert a newline or `\\b` to insert a backspace.\nYou can also optionally specify {cursor} in the string and Fig will automatically place the cursor there after insert.\nNote that currently the entire edit buffer will be replaced. Eventually, only the root command will be replaced, preserving pipes and continuations.",
+          "parameters": [],
+          "optional": true,
+          "declaration": "replaceValue?: string",
+          "examples": [],
           "hasDocComment": true
         },
         {
