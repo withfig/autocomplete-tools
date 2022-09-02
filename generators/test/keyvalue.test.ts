@@ -1,7 +1,7 @@
 import { expect } from "chai";
-import { keyValue, keyValueList } from "..";
+import { keyValue, keyValueList, valueList } from "..";
 
-function kvSuggestionsTest(
+function testSuggestions(
   generator: Fig.Generator
 ): (token: string, expected: Fig.Suggestion[]) => Promise<void> {
   return async (token, expected) => {
@@ -14,25 +14,132 @@ function kvSuggestionsTest(
   };
 }
 
-function kvQueryTermTest(gen: Fig.Generator): (token: string, expected: string) => void {
+function testQueryTerm(gen: Fig.Generator): (token: string, expected: string) => void {
   const { getQueryTerm } = gen;
   expect(getQueryTerm).to.be.a("function");
   // @ts-ignore
   return (token, expected) => expect(getQueryTerm(token)).to.equal(expected);
 }
 
-function kvTriggerTest(
+function testTrigger(
   gen: Fig.Generator
-): (newToken: string, oldToken: string, trigger: boolean) => void {
+): (newToken: string, oldToken: string, expected: boolean) => void {
   const { trigger } = gen;
   expect(trigger).to.be.a("function");
   // @ts-ignore
   return (newToken, oldToken, expected) => expect(trigger(newToken, oldToken)).to.equal(expected);
 }
 
+describe("Test valueList suggestions", () => {
+  it("has the correct query term", () => {
+    const test = testQueryTerm(valueList({}));
+    test("", "");
+    test("value", "value");
+    test("value,", "");
+    test("value,val", "val");
+  });
+
+  it("triggers correctly", () => {
+    const test = testTrigger(valueList({}));
+    test("", "", false);
+    test("", "a", false);
+    test("value", "value,", true);
+    test("value,", "value", true);
+    test("value,", "value,v", false);
+    test("value,v", "value,val", false);
+  });
+
+  it("suggests values correctly", async () => {
+    const test = testSuggestions(
+      valueList({
+        values: ["1", "2", "3"],
+        delimiter: "/",
+        insertDelimiter: false,
+        allowRepeatedValues: true,
+      })
+    );
+    await test("", [{ name: "1" }, { name: "2" }, { name: "3" }]);
+    await test("1", [{ name: "1" }, { name: "2" }, { name: "3" }]);
+    await test("1/", [{ name: "1" }, { name: "2" }, { name: "3" }]);
+  });
+
+  it("can append the delimiter to values", async () => {
+    const test = testSuggestions(
+      valueList({
+        values: ["1", "2", "3"],
+        delimiter: "/",
+        insertDelimiter: true,
+      })
+    );
+    await test("", [
+      { name: "1", insertValue: "1/" },
+      { name: "2", insertValue: "2/" },
+      { name: "3", insertValue: "3/" },
+    ]);
+  });
+
+  it("runs functions", async () => {
+    const test = testSuggestions(
+      valueList({
+        values: () => Promise.resolve([{ name: "value" }]),
+      })
+    );
+    await test("", [{ name: "value" }]);
+  });
+
+  it("caches results", async () => {
+    let getValuesCalled = 0;
+    const getValues = async () => {
+      getValuesCalled += 1;
+      return [{ name: "value" }];
+    };
+    const test = testSuggestions(
+      valueList({
+        values: getValues,
+        allowRepeatedValues: true,
+        cache: true,
+      })
+    );
+    expect(getValuesCalled).to.be.equal(0);
+
+    await test("", [{ name: "value" }]);
+    expect(getValuesCalled).to.be.equal(1);
+
+    await test("value", [{ name: "value" }]);
+    expect(getValuesCalled).to.be.equal(1);
+
+    await test("value,", [{ name: "value" }]);
+    expect(getValuesCalled).to.be.equal(1);
+
+    await test("value,value,", [{ name: "value" }]);
+    expect(getValuesCalled).to.be.equal(1);
+  });
+
+  it("removes used values by default", async () => {
+    const test = testSuggestions(
+      valueList({
+        values: ["1", "2", "3"],
+      })
+    );
+    await test("", [{ name: "1" }, { name: "2" }, { name: "3" }]);
+    await test("1,", [{ name: "2" }, { name: "3" }]);
+    await test("1,2", [{ name: "3" }]);
+  });
+
+  it("can be configured to allow repeated values", async () => {
+    const test = testSuggestions(
+      valueList({
+        values: ["1", "2", "3"],
+        allowRepeatedValues: true,
+      })
+    );
+    await test("1,", [{ name: "1" }, { name: "2" }, { name: "3" }]);
+  });
+});
+
 describe("Test keyValue suggestions", () => {
   it("has the correct query term", () => {
-    const test = kvQueryTermTest(keyValue({}));
+    const test = testQueryTerm(keyValue({}));
     test("", "");
     test("key", "key");
     test("key=", "");
@@ -40,7 +147,7 @@ describe("Test keyValue suggestions", () => {
   });
 
   it("triggers correctly", () => {
-    const test = kvTriggerTest(keyValue({}));
+    const test = testTrigger(keyValue({}));
     test("", "", false);
     test("", "a", false);
     test("key", "key=", true);
@@ -50,7 +157,7 @@ describe("Test keyValue suggestions", () => {
   });
 
   it("suggests keys and values correctly", async () => {
-    const test = kvSuggestionsTest(
+    const test = testSuggestions(
       keyValue({
         keys: ["a", "b", "c"],
         values: ["1", "2", "3"],
@@ -66,7 +173,7 @@ describe("Test keyValue suggestions", () => {
   });
 
   it("can append the separator to keys", async () => {
-    const test = kvSuggestionsTest(
+    const test = testSuggestions(
       keyValue({
         keys: ["a", "b", "c"],
         values: ["1", "2", "3"],
@@ -92,7 +199,7 @@ describe("Test keyValue suggestions", () => {
   });
 
   it("runs functions", async () => {
-    const test = kvSuggestionsTest(
+    const test = testSuggestions(
       keyValue({
         keys: () => Promise.resolve([{ name: "key" }]),
         values: () => Promise.resolve([{ name: "value" }]),
@@ -117,7 +224,7 @@ describe("Test keyValue suggestions", () => {
       getValuesCalled += 1;
       return [{ name: "value" }];
     };
-    const test = kvSuggestionsTest(
+    const test = testSuggestions(
       keyValue({
         keys: getKeys,
         values: getValues,
@@ -160,7 +267,7 @@ describe("Test keyValue suggestions", () => {
       getValuesCalled += 1;
       return [{ name: "value" }];
     };
-    const test = kvSuggestionsTest(
+    const test = testSuggestions(
       keyValue({
         keys: getKeys,
         values: getValues,
@@ -203,7 +310,7 @@ describe("Test keyValue suggestions", () => {
       getValuesCalled += 1;
       return [{ name: "value" }];
     };
-    const test = kvSuggestionsTest(
+    const test = testSuggestions(
       keyValue({
         keys: getKeys,
         values: getValues,
@@ -238,7 +345,7 @@ describe("Test keyValue suggestions", () => {
 
 describe("Test keyValueList suggestions", () => {
   it("has the correct query term", () => {
-    const test = kvQueryTermTest(keyValueList({}));
+    const test = testQueryTerm(keyValueList({}));
     test("", "");
     test("key", "key");
     test("key=", "");
@@ -252,7 +359,7 @@ describe("Test keyValueList suggestions", () => {
   });
 
   it("triggers correctly", () => {
-    const test = kvTriggerTest(keyValueList({}));
+    const test = testTrigger(keyValueList({}));
     test("", "", false);
     test("key", "ke", false);
     test("key", "key=", true);
@@ -263,7 +370,7 @@ describe("Test keyValueList suggestions", () => {
   });
 
   it("suggests keys and values correctly", async () => {
-    const test = kvSuggestionsTest(
+    const test = testSuggestions(
       keyValueList({
         keys: ["a", "b", "c"],
         values: ["1", "2", "3"],
@@ -287,8 +394,50 @@ describe("Test keyValueList suggestions", () => {
     await test("key=value,=", [{ name: "1" }, { name: "2" }, { name: "3" }]);
   });
 
+  it("removes used keys by default, but not values", async () => {
+    const test = testSuggestions(
+      keyValueList({
+        keys: ["a", "b", "c"],
+        values: ["1", "2", "3"],
+        separator: "=",
+        delimiter: ",",
+        insertSeparator: false,
+      })
+    );
+    await test("a=1,", [{ name: "b" }, { name: "c" }]);
+    await test("a=1,b=", [{ name: "1" }, { name: "2" }, { name: "3" }]);
+  });
+
+  it("can be configured to allow repeated keys", async () => {
+    const test = testSuggestions(
+      keyValueList({
+        keys: ["a", "b", "c"],
+        values: ["1", "2", "3"],
+        separator: "=",
+        delimiter: ",",
+        insertSeparator: false,
+        allowRepeatedKeys: true,
+      })
+    );
+    await test("a=1,", [{ name: "a" }, { name: "b" }, { name: "c" }]);
+  });
+
+  it("can be configured to disallow repeated values", async () => {
+    const test = testSuggestions(
+      keyValueList({
+        keys: ["a", "b", "c"],
+        values: ["1", "2", "3"],
+        separator: "=",
+        delimiter: ",",
+        insertSeparator: false,
+        allowRepeatedValues: false,
+      })
+    );
+    await test("a=1,b=", [{ name: "2" }, { name: "3" }]);
+  });
+
   it("can insert the separator and delimiter", async () => {
-    const test = kvSuggestionsTest(
+    const test = testSuggestions(
       keyValueList({
         keys: ["a"],
         values: ["1"],
@@ -312,8 +461,9 @@ describe("Test keyValueList suggestions", () => {
     await test("key=value,key2=", [{ name: "1", insertValue: "1," }]);
     await test("key=value,=", [{ name: "1", insertValue: "1," }]);
   });
+
   it("runs functions", async () => {
-    const test = kvSuggestionsTest(
+    const test = testSuggestions(
       keyValueList({
         keys: () => Promise.resolve([{ name: "key" }]),
         values: () => Promise.resolve([{ name: "value" }]),
@@ -338,12 +488,14 @@ describe("Test keyValueList suggestions", () => {
       getValuesCalled += 1;
       return [{ name: "value" }];
     };
-    const test = kvSuggestionsTest(
+    const test = testSuggestions(
       keyValueList({
         keys: getKeys,
         values: getValues,
         cache: true,
         insertSeparator: false,
+        allowRepeatedKeys: true,
+        allowRepeatedValues: true,
       })
     );
     expect(getKeysCalled).to.be.equal(0);
@@ -395,12 +547,14 @@ describe("Test keyValueList suggestions", () => {
       return [{ name: "value" }];
     };
 
-    const test = kvSuggestionsTest(
+    const test = testSuggestions(
       keyValueList({
         keys: getKeys,
         values: getValues,
         cache: "keys",
         insertSeparator: false,
+        allowRepeatedKeys: true,
+        allowRepeatedValues: true,
       })
     );
 
@@ -453,12 +607,14 @@ describe("Test keyValueList suggestions", () => {
       return [{ name: "value" }];
     };
 
-    const test = kvSuggestionsTest(
+    const test = testSuggestions(
       keyValueList({
         keys: getKeys,
         values: getValues,
         cache: "values",
         insertSeparator: false,
+        allowRepeatedKeys: true,
+        allowRepeatedValues: true,
       })
     );
 
