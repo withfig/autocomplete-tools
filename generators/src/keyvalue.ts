@@ -21,6 +21,9 @@ export interface ValueListInit {
 
   /** Insert the delimiter string after accepting a suggestion (default: false) */
   insertDelimiter?: boolean;
+
+  /** Don't filter repeated values from suggestions (default: false) */
+  allowRepeatedValues?: boolean;
 }
 
 export interface KeyValueInit {
@@ -61,6 +64,12 @@ export interface KeyValueListInit {
 
   /** Insert the delimiter string after accepting a value suggestion (default: false) */
   insertDelimiter?: boolean;
+
+  /** Don't filter repeated keys from suggestions (default: false) */
+  allowRepeatedKeys?: boolean;
+
+  /** Don't filter repeated values from suggestions (default: true) */
+  allowRepeatedValues?: boolean;
 }
 
 /** Cache of Fig suggestions using the string[]/Suggestion[]/function as a key */
@@ -98,16 +107,12 @@ async function getSuggestions(
   init: Parameters<NonNullable<Fig.Generator["custom"]>>
 ): Promise<Fig.Suggestion[]> {
   if (useSuggestionCache || Array.isArray(suggestions)) {
-    if (!suggestionCache.has(suggestions)) {
-      suggestionCache.set(
-        suggestions,
-        await kvSuggestionsToFigSuggestions(suggestions, append, init)
-      );
+    let value = suggestionCache.get(suggestions);
+    if (value === undefined) {
+      value = await kvSuggestionsToFigSuggestions(suggestions, append, init);
+      suggestionCache.set(suggestions, value);
     }
-    // We've already ensured that the value is definitely in the cache,
-    // there can be no TOCTTOU bugs because JS is single threaded
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    return suggestionCache.get(suggestions)!;
+    return value;
   }
   return kvSuggestionsToFigSuggestions(suggestions, append, init);
 }
@@ -120,8 +125,21 @@ function shouldUseCache(isKey: boolean, cache: CacheValue) {
 }
 
 /** Get the final index of any of the strings */
-function lastIndexOf(haystack: string, ...needles: string[]) {
+function lastIndexOf(haystack: string, ...needles: readonly string[]) {
   return Math.max(...needles.map((needle) => haystack.lastIndexOf(needle)));
+}
+
+function removeRepeatSuggestions(
+  alreadyUsed: string[],
+  suggestions: readonly Fig.Suggestion[]
+): Fig.Suggestion[] {
+  const seen = new Set(alreadyUsed);
+  return suggestions.filter((suggestion) => {
+    if (typeof suggestion.name === "string") {
+      return !seen.has(suggestion.name);
+    }
+    return !suggestion.name?.some((name) => seen.has(name));
+  });
 }
 
 /**
@@ -143,11 +161,23 @@ export function valueList({
   values = [],
   cache = false,
   insertDelimiter = false,
+  allowRepeatedValues = false,
 }: ValueListInit): Fig.Generator {
   return {
-    trigger: delimiter,
-    getQueryTerm: delimiter,
-    custom: (...init) => getSuggestions(values, insertDelimiter ? delimiter : "", cache, init),
+    trigger: (newToken, oldToken) =>
+      newToken.lastIndexOf(delimiter) !== oldToken.lastIndexOf(delimiter),
+
+    getQueryTerm: (token) => token.slice(token.lastIndexOf(delimiter) + delimiter.length),
+
+    custom: async (...init) => {
+      const out = await getSuggestions(values, insertDelimiter ? delimiter : "", cache, init);
+      if (allowRepeatedValues) {
+        return out;
+      }
+      const [tokens] = init;
+      const valuesInList = tokens[tokens.length - 1]?.split(delimiter);
+      return removeRepeatSuggestions(valuesInList, out);
+    },
   };
 }
 
@@ -275,6 +305,8 @@ export function keyValueList({
   cache = false,
   insertSeparator = true,
   insertDelimiter = false,
+  allowRepeatedKeys = false,
+  allowRepeatedValues = true,
 }: KeyValueListInit): Fig.Generator {
   return {
     trigger: (newToken, oldToken) => {
@@ -296,7 +328,25 @@ export function keyValueList({
       const suggestions = isKey ? keys : values;
       const useCache = shouldUseCache(isKey, cache);
       const append = isKey ? (insertSeparator ? separator : "") : insertDelimiter ? delimiter : "";
-      return getSuggestions(suggestions, append, useCache, init);
+      const out = await getSuggestions(suggestions, append, useCache, init);
+
+      if (isKey) {
+        if (allowRepeatedKeys) {
+          return out;
+        }
+        const existingKeys = finalToken
+          .split(delimiter)
+          .map((chunk) => chunk.slice(0, chunk.indexOf(separator)));
+        return removeRepeatSuggestions(existingKeys, out);
+      }
+
+      if (allowRepeatedValues) {
+        return out;
+      }
+      const existingValues = finalToken
+        .split(delimiter)
+        .map((chunk) => chunk.slice(chunk.indexOf(separator) + separator.length));
+      return removeRepeatSuggestions(existingValues, out);
     },
   };
 }
