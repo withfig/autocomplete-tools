@@ -99,15 +99,19 @@ function helpSubcommand({
   _helpCommandName, // 'help'
   _helpCommandDescription,
   _helpCommandnameAndArgs, // 'help [cmd]'
-}: ExtendedCommand): Fig.Option {
+}: ExtendedCommand): Fig.Subcommand {
+  const [, arg] = _helpCommandnameAndArgs.split(" ");
   return {
     name: _helpCommandName,
     description: _helpCommandDescription,
     priority: 49,
-    args: {
-      name: _helpCommandnameAndArgs.split(" ")[1].slice(1, -1),
-      isOptional: true,
-    },
+    ...(arg && {
+      args: {
+        name: arg.slice(1, -1),
+        isOptional: true,
+        template: "help",
+      },
+    }),
   };
 }
 

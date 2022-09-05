@@ -15,10 +15,10 @@ const completionSpec: Fig.Spec = {
       ],
     },
     {
-      name: "help",
-      description: "display help for command",
+      name: "hlp",
+      description: "some nice description",
       priority: 49,
-      args: { name: "command", isOptional: true },
+      args: { name: "argument", isOptional: true, template: "help" },
     },
   ],
   options: [

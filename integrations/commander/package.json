@@ -1,6 +1,6 @@
 {
   "name": "@fig/complete-commander",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Export commander command as a Fig spec",
   "main": "lib/index.js",
   "scripts": {
