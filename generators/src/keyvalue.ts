@@ -138,7 +138,7 @@ function removeRepeatSuggestions(
     if (typeof suggestion.name === "string") {
       return !seen.has(suggestion.name);
     }
-    return suggestion.name?.every((name) => !seen.has(name));
+    return !suggestion.name?.some((name) => seen.has(name));
   });
 }
 
