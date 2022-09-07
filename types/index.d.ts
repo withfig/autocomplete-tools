@@ -107,6 +107,7 @@ declare namespace Fig {
     | "subcommand"
     | "option"
     | "special"
+    | "mixin"
     | "shortcut";
 
   /**

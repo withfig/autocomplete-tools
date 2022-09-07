@@ -154,7 +154,7 @@
           "discussion": "The type determines\n- the default icon Fig uses (e.g. a file or folder searches for the system icon, a subcommand has a specific icon etc)\n- whether we allow users to auto-execute a command",
           "parameters": [],
           "optional": true,
-          "declaration": "type?:\n  | \"folder\"\n  | \"file\"\n  | \"arg\"\n  | \"subcommand\"\n  | \"option\"\n  | \"special\"\n  | \"shortcut\"",
+          "declaration": "type?:\n  | \"folder\"\n  | \"file\"\n  | \"arg\"\n  | \"subcommand\"\n  | \"option\"\n  | \"special\"\n  | \"mixin\"\n  | \"shortcut\"",
           "examples": [],
           "hasDocComment": true
         }
@@ -1299,7 +1299,7 @@
     },
     {
       "name": "SuggestionType",
-      "declaration": "type SuggestionType =\n  | \"folder\"\n  | \"file\"\n  | \"arg\"\n  | \"subcommand\"\n  | \"option\"\n  | \"special\"\n  | \"shortcut\"",
+      "declaration": "type SuggestionType =\n  | \"folder\"\n  | \"file\"\n  | \"arg\"\n  | \"subcommand\"\n  | \"option\"\n  | \"special\"\n  | \"mixin\"\n  | \"shortcut\"",
       "summary": "The type of a suggestion object.",
       "discussion": "The type determines:\n- the default icon Fig uses (e.g. a file or folder searches for the system icon, a subcommand has a specific icon etc)\n- whether we allow users to auto-execute a command",
       "examples": [],
