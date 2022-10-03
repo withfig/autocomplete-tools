@@ -1,4 +1,3 @@
-from importlib.metadata import requires
 import pytest
 from click_complete_fig import fig
 import click

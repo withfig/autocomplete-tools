@@ -44,12 +44,15 @@ def get_base_suggestion(arg):
     return result
 
 
-def construct_args(arg, hooks, parser):
+def construct_args(arg, hooks, parser, add_descriptions = True):
     """Construct Fig arg array given an argparse argument."""
     arg_hook = hooks.get("arg")
 
     # Construct common base_arg object
     base_arg = get_base_suggestion(arg)
+
+    if not add_descriptions and "description" in base_arg:
+      del base_arg["description"]
 
     if hasattr(arg.choices, '__iter__'):
         base_arg["suggestions"] = [str(a) for a in arg.choices]
@@ -75,7 +78,7 @@ def construct_args(arg, hooks, parser):
 
 def construct_option(arg, hooks, parser):
     """Construct Fig option given an argparse argument."""
-    option_args = construct_args(arg, hooks, parser)
+    option_args = construct_args(arg, hooks, parser, add_descriptions=False)
     if len(arg.option_strings) > 1:
         name = [str(name) for name in arg.option_strings]
     else:

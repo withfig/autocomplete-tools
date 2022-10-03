@@ -53,7 +53,7 @@ class GenerateFigSpecController(Controller):
             controller._parser,
             hooks,
             arg_filter,
-            "cement_generate_fig"
+            "cement_complete_fig"
         )
         print(spec)
 
