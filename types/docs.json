@@ -388,7 +388,7 @@
             }
           ],
           "optional": true,
-          "declaration": "loadSpec?:\n  | string\n  | Subcommand\n  | ((\n      token: string,\n      executeShellCommand: (commandToExecute: string) => Promise<string>\n    ) => Promise<SpecLocation | SpecLocation[] | Subcommand>)",
+          "declaration": "loadSpec?:\n  | string\n  | Subcommand\n  | ((\n      token: string,\n      executeShellCommand: (\n        commandToExecute: string,\n        cwd?: string\n      ) => Promise<string>\n    ) => Promise<SpecLocation | SpecLocation[] | Subcommand>)",
           "examples": [
             "Suppose you have an internal CLI tool that wraps `kubectl`. Instead of copying the `kubectl` completion spec, you can include the spec at runtime.\n```typescript\n{\n  name: \"kube\",\n  description: \"a wrapper around kubectl\"\n  loadSpec: \"kubectl\"\n}\n```",
             "In the `aws` completion spec, `loadSpec` is used to optimize performance. The completion spec is split into multiple files, each of which can be loaded separately.\n```typescript\n{\n  name: \"s3\",\n  loadSpec: \"aws/s3\"\n}\n```"
@@ -412,7 +412,7 @@
             }
           ],
           "optional": true,
-          "declaration": "generateSpec?: (\n  tokens: string[],\n  executeShellCommand: (commandToExecute: string) => Promise<string>\n) => Promise<\n  | Subcommand\n  | ((version?: string) => Subcommand)\n  | ((version?: string) => {\n      versionedSpecPath: string\n      version?: string\n    })\n>",
+          "declaration": "generateSpec?: (\n  tokens: string[],\n  executeShellCommand: (\n    commandToExecute: string,\n    cwd?: string\n  ) => Promise<string>\n) => Promise<\n  | Subcommand\n  | ((version?: string) => Subcommand)\n  | ((version?: string) => {\n      versionedSpecPath: string\n      version?: string\n    })\n>",
           "examples": [
             "The `python` spec uses `generateSpec` to include the`django-admin` spec if `django manage.py` exists.\n```typescript\ngenerateSpec: async (tokens, executeShellCommand) => {\n   // Load the contents of manage.py\n   const managePyContents = await executeShellCommand(\"cat manage.py\");\n   // Heuristic to determine if project uses django\n   if (managePyContents.contains(\"django\")) {\n     return {\n       name: \"python\",\n       subcommands: [{ name: \"manage.py\", loadSpec: \"django-admin\" }],\n     };\n   }\n },\n```"
           ],
@@ -1033,7 +1033,7 @@
           "discussion": "There is a very high chance you want to use one of the following:\n1. `isCommand` (See [Arg Object](https://fig.io/docs/reference/arg#iscommand))\n2. `isScript` (See [Arg Object](https://fig.io/docs/reference/arg#isscript))",
           "parameters": [],
           "optional": true,
-          "declaration": "loadSpec?:\n  | string\n  | Subcommand\n  | ((\n      token: string,\n      executeShellCommand: (commandToExecute: string) => Promise<string>\n    ) => Promise<SpecLocation | SpecLocation[] | Subcommand>)",
+          "declaration": "loadSpec?:\n  | string\n  | Subcommand\n  | ((\n      token: string,\n      executeShellCommand: (\n        commandToExecute: string,\n        cwd?: string\n      ) => Promise<string>\n    ) => Promise<SpecLocation | SpecLocation[] | Subcommand>)",
           "examples": [],
           "hasDocComment": true
         },
@@ -1054,7 +1054,7 @@
             }
           ],
           "optional": true,
-          "declaration": "parserDirectives?: {\n  alias?:\n    | string\n    | ((\n        token: string,\n        exec: (commandToExecute: string) => Promise<string>\n      ) => Promise<string>)\n}",
+          "declaration": "parserDirectives?: {\n  alias?:\n    | string\n    | ((\n        token: string,\n        exec: (commandToExecute: string, cwd?: string) => Promise<string>\n      ) => Promise<string>)\n}",
           "examples": [
             "git takes git aliases. These aliases are defined in a user's gitconfig file. Let's say a user has an alias for `p=push`, then if a user typed `git p[space]`, this function would take the `p` token, return `push` and then offer suggestions as if the user had typed `git push[space]`",
             "`npm run <script>` also takes an arg called \"script\". This arg is technically an alias for another shell command that is specified in the package.json.\nIf the user typed `npm run start[space]`, the package.json had script `start=node index.js`, then Fig would start offering suggestions for as if you had just typed `node index.js[space]`\n\nNote: In both cases, the alias function is only used to expand a given alias NOT to generate the list of aliases. To generate a list of aliases, scripts etc, use a generator."
@@ -1223,7 +1223,7 @@
             }
           ],
           "optional": true,
-          "declaration": "custom?: (\n  tokens: string[],\n  executeShellCommand: (commandToExecute: string) => Promise<string>,\n  shellContext: {\n    currentWorkingDirectory: string\n    currentProcess: string\n    sshPrefix: string\n  }\n) => Promise<Suggestion[]>",
+          "declaration": "custom?: (\n  tokens: string[],\n  executeShellCommand: (\n    commandToExecute: string,\n    cwd?: string\n  ) => Promise<string>,\n  generatorContext: {\n    currentWorkingDirectory: string\n    currentProcess: string\n    sshPrefix: string\n  } & {\n    isDangerous?: boolean\n    searchTerm: string\n  }\n) => Promise<Suggestion[]>",
           "examples": [
             "In `cd` the custom function will combine the current working directory with everything up to the last `\"/\"` in the last token. It will then run `ls` at this path and generate a list of suggestions accordingly.\ne.g. if the user was currently in their home directory and typed \"cd desktop/abcdef\", then the custom function would return a list of directories at the `~/desktop` directory\nif the user was currently in their home directory and typed \"cd desktop/my_folder/second_folder/aaaaa\", then the custom function would return a list of directories at the `~/desktop/my_folder/second_folder` directory\nif the user was currently in their home directory and typed \"cd /usr/bin/\", then the custom function would return a list of directories at the `/usr/bin/` directory",
             "```ts\nconst generator: Fig.Generator = {\n  custom: async (tokens, executeShellCommand) => {\n    const out = await executeShellCommand(\"ls\");\n    return out.split(\"\\n\").map((elm) => ({ name: elm }));\n  },\n};\n```"
@@ -1292,7 +1292,7 @@
     },
     {
       "name": "LoadSpec",
-      "declaration": "type LoadSpec =\n  | string\n  | Subcommand\n  | ((\n      token: string,\n      executeShellCommand: (commandToExecute: string) => Promise<string>\n    ) => Promise<SpecLocation | SpecLocation[] | Subcommand>)",
+      "declaration": "type LoadSpec =\n  | string\n  | Subcommand\n  | ((\n      token: string,\n      executeShellCommand: (\n        commandToExecute: string,\n        cwd?: string\n      ) => Promise<string>\n    ) => Promise<SpecLocation | SpecLocation[] | Subcommand>)",
       "summary": "Dynamically load up another completion spec at runtime.\n\nSee [`loadSpec` property in Subcommand Object](https://fig.io/docs/reference/subcommand#loadspec).",
       "examples": [],
       "parameters": []
@@ -1314,7 +1314,7 @@
     },
     {
       "name": "GetVersionCommand",
-      "declaration": "type GetVersionCommand = (\n  executeShellCommand: (commandToExecute: string) => Promise<string>\n) => Promise<string>",
+      "declaration": "type GetVersionCommand = (\n  executeShellCommand: (\n    commandToExecute: string,\n    cwd?: string\n  ) => Promise<string>\n) => Promise<string>",
       "summary": "An async function that returns the version of a given CLI tool.",
       "returns": "The version of a CLI tool",
       "discussion": "This is used in completion specs that want to version themselves the same way CLI tools are versioned. See fig.io/docs",
@@ -1330,6 +1330,12 @@
       "name": "ShellContext",
       "declaration": "type ShellContext = {\n  currentWorkingDirectory: string\n  currentProcess: string\n  sshPrefix: string\n}",
       "summary": "Context about a current shell session.",
+      "examples": [],
+      "parameters": []
+    },
+    {
+      "name": "GeneratorContext",
+      "declaration": "type GeneratorContext = {\n  currentWorkingDirectory: string\n  currentProcess: string\n  sshPrefix: string\n} & {\n  isDangerous?: boolean\n  searchTerm: string\n}",
       "examples": [],
       "parameters": []
     },
@@ -1400,9 +1406,10 @@
     },
     {
       "name": "ExecuteShellCommandFunction",
-      "declaration": "type ExecuteShellCommandFunction = (\n  commandToExecute: string\n) => Promise<string>",
+      "declaration": "type ExecuteShellCommandFunction = (\n  commandToExecute: string,\n  cwd?: string\n) => Promise<string>",
       "summary": "An async function to execute a shell command",
       "returns": "The output of the shell command as a string",
+      "discussion": "The `cwd` parameter will add a `cd [cwd] &&` before the command itself.",
       "examples": [
         "`ExecuteShellCommandFunction(\"echo hello world\")` will return `hello world`"
       ],
@@ -1410,6 +1417,10 @@
         {
           "name": "commandToExecute",
           "description": "The shell command you want to execute"
+        },
+        {
+          "name": "cwd",
+          "description": "The directory in which to execute the command"
         }
       ]
     },

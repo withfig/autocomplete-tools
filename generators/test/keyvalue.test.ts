@@ -6,6 +6,7 @@ function testSuggestions(
 ): (token: string, expected: Fig.Suggestion[]) => Promise<void> {
   return async (token, expected) => {
     const result = await generator.custom?.(["spec", token], () => Promise.resolve(""), {
+      searchTerm: "",
       currentProcess: "",
       currentWorkingDirectory: "",
       sshPrefix: "",

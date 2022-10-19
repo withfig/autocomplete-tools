@@ -1,2 +1,2 @@
-export * from "./src/filepaths";
-export * from "./src/keyvalue";
+export { filepaths, folders, FilepathsOptions } from "./src/filepaths";
+export * from "./src/keyValue";

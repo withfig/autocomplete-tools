@@ -141,6 +141,11 @@ declare namespace Fig {
     sshPrefix: string;
   };
 
+  type GeneratorContext = ShellContext & {
+    isDangerous?: boolean;
+    searchTerm: string;
+  };
+
   /**
    * A function which can have a `T` argument and a `R` result.
    * @param param - A param of type `R`
@@ -224,12 +229,15 @@ declare namespace Fig {
   /**
    * An async function to execute a shell command
    * @param commandToExecute - The shell command you want to execute
+   * @param cwd - The directory in which to execute the command
    * @returns The output of the shell command as a string
    *
+   * @remarks
+   * The `cwd` parameter will add a `cd [cwd] &&` before the command itself.
    * @example
    * `ExecuteShellCommandFunction("echo hello world")` will return `hello world`
    */
-  type ExecuteShellCommandFunction = (commandToExecute: string) => Promise<string>;
+  type ExecuteShellCommandFunction = (commandToExecute: string, cwd?: string) => Promise<string>;
 
   type CacheMaxAge = {
     strategy?: "max-age";
@@ -1183,7 +1191,7 @@ declare namespace Fig {
     custom?: (
       tokens: string[],
       executeShellCommand: ExecuteShellCommandFunction,
-      shellContext: ShellContext
+      generatorContext: GeneratorContext
     ) => Promise<Suggestion[]>;
     /**
      *
