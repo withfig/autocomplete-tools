@@ -84,16 +84,10 @@ describe("Test filepaths generators", () => {
   async function runFilepaths(
     options: FilepathsOptions,
     mockLSResults: string[],
-    overrideFilepaths?: (opts?: FilepathsOptions) => Fig.Generator
+    context = defaultContext
   ): Promise<string[]> {
     executeCommand.resolves(mockLSResults.join("\n"));
-    return (
-      await (overrideFilepaths || filepaths)(options).custom!(
-        [],
-        executeShellCommand,
-        defaultContext
-      )
-    ).map(toName);
+    return (await filepaths(options).custom!([], executeShellCommand, context)).map(toName);
   }
 
   beforeEach(() => {
@@ -135,11 +129,9 @@ describe("Test filepaths generators", () => {
     });
 
     describe("should return filepaths suggestions", () => {
-      beforeEach(() => {
-        executeCommand.resolves("a/\nc/\nl\nx");
-      });
-
+      const suggestions = ["a/", "c/", "l", "x"];
       it("should show all suggestions when no options or search term is specified", async () => {
+        executeCommand.resolves(suggestions.join("\n"));
         expect(await filepaths.custom!([], executeShellCommand, defaultContext)).to.eql(
           [
             { insertValue: "a/", name: "a/", type: "folder", context: { templateType: "folders" } },
@@ -156,40 +148,37 @@ describe("Test filepaths generators", () => {
         );
       });
       it("should call executeCommand with specified user input dir", async () => {
-        await filepaths({ rootDirectory: "/etc/" }).custom!(
-          [],
-          executeShellCommand,
-          defaultContext
-        );
-
+        const results = await runFilepaths({ rootDirectory: "/etc/" }, suggestions);
         expect(executeCommand).to.have.been.calledWith(
           "cd /etc/ && command ls -1ApL | cat",
           undefined
         );
+        expect(results).to.eql(suggestions.concat("../"));
       });
 
       it("should call executeCommand with specified user input dir and updated relative search term", async () => {
-        await filepaths({ rootDirectory: "/etc/" }).custom!([], executeShellCommand, {
+        const results = await runFilepaths({ rootDirectory: "/etc/" }, suggestions, {
           ...defaultContext,
-          searchTerm: "bin/",
+          searchTerm: "bin/n",
         });
-
         expect(executeCommand).to.have.been.calledWith(
           "cd /etc/bin/ && command ls -1ApL | cat",
           undefined
         );
+        expect(results).to.eql(suggestions.concat("../"));
       });
 
       it("should call executeCommand with specified user input dir and updated absolute search term", async () => {
-        await filepaths({ rootDirectory: "/etc/" }).custom!([], executeShellCommand, {
+        const results = await runFilepaths({ rootDirectory: "/etc/" }, suggestions, {
           ...defaultContext,
-          searchTerm: "/etc/bin/",
+          searchTerm: "/etc/bin/pin",
         });
 
         expect(executeCommand).to.have.been.calledWith(
           "cd /etc/bin/ && command ls -1ApL | cat",
           undefined
         );
+        expect(results).to.eql(suggestions.concat("../"));
       });
     });
 
@@ -244,12 +233,7 @@ describe("Test filepaths generators", () => {
             "folder2.txt/",
             "folder3/",
           ];
-          const failing: string[] = [];
-          executeCommand.resolves(passing.concat(failing).join("\n"));
-          const results = (
-            await filepaths(options).custom!([], executeShellCommand, defaultContext)
-          ).map(toName);
-
+          const results = await runFilepaths(options, passing);
           expect(results).to.eql(passing.concat("../"));
         });
 
@@ -259,11 +243,7 @@ describe("Test filepaths generators", () => {
           };
           const passing: string[] = ["file1.test.js", "file2.js", "file3.mjs", "file4.ts"];
           const failing: string[] = ["folder1.txt/", "folder2.txt/", "folder3/"];
-          executeCommand.resolves(passing.concat(failing).join("\n"));
-          const results = (
-            await filepaths(options).custom!([], executeShellCommand, defaultContext)
-          ).map(toName);
-
+          const results = await runFilepaths(options, passing.concat(failing));
           // NOTE: results won't have `../`
           expect(results).to.eql(passing);
         });
@@ -274,11 +254,7 @@ describe("Test filepaths generators", () => {
           };
           const passing: string[] = ["folder1.txt/", "folder2.txt/", "folder3/"];
           const failing: string[] = ["file1.test.js", "file2.js", "file3.mjs", "file4.ts"];
-          executeCommand.resolves(passing.concat(failing).join("\n"));
-          const results = (
-            await filepaths(options).custom!([], executeShellCommand, defaultContext)
-          ).map(toName);
-
+          const results = await runFilepaths(options, passing.concat(failing));
           expect(results).to.eql(passing.concat("../"));
         });
       });
