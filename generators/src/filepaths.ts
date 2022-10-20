@@ -36,7 +36,7 @@ export interface FilepathsOptions {
   showFolders?: "always" | "never" | "only";
 }
 
-function sortFilesAlphabetically(array: string[], skip: string[] = []): string[] {
+export function sortFilesAlphabetically(array: string[], skip: string[] = []): string[] {
   const skipLower = skip.map((str) => str.toLowerCase());
   const results = array.filter((x) => !skipLower.includes(x.toLowerCase()));
 

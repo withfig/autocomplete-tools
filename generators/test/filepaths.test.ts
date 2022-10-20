@@ -2,7 +2,7 @@ import chai from "chai";
 import sinonChai from "sinon-chai";
 import sinon from "sinon";
 import { filepaths, FilepathsOptions, folders } from "..";
-import { getCurrentInsertedDirectory } from "../src/filepaths";
+import { getCurrentInsertedDirectory, sortFilesAlphabetically } from "../src/filepaths";
 import { testQueryTerm, testTrigger } from "./keyvalue.test";
 
 const { expect } = chai;
@@ -46,6 +46,33 @@ describe("Test getCurrentInsertedDirectory", () => {
 
   it("returns the entire search term if it is an absolute path relative to /", () => {
     expect(getCurrentInsertedDirectory("~/current_cwd", "/etc/bin/tool")).to.equal("/etc/bin/");
+  });
+});
+
+describe("Test sortFilesAlphabetically", () => {
+  const files = ["a", "e", "z", "t", "m", "b", "x"];
+
+  it("should sort files alphabetically", () => {
+    expect(sortFilesAlphabetically(files)).to.eql(["a", "b", "e", "m", "t", "x", "z", "../"]);
+  });
+
+  it("should sort files alphabetically and put dotfiles/folders at the end", () => {
+    expect(sortFilesAlphabetically([...files, ".g", ".l"])).to.eql([
+      "a",
+      "b",
+      "e",
+      "m",
+      "t",
+      "x",
+      "z",
+      ".g",
+      ".l",
+      "../",
+    ]);
+  });
+
+  it("should sort files alphabetically and skip files in the skip array", () => {
+    expect(sortFilesAlphabetically(files, ["b", "t"])).to.eql(["a", "e", "m", "x", "z", "../"]);
   });
 });
 
