@@ -7,7 +7,7 @@ import { getCurrentInsertedDirectory } from "../src/filepaths";
 const { expect } = chai;
 chai.use(sinonChai);
 
-function extractNames(suggestion: Fig.Suggestion): string {
+function toName(suggestion: Fig.Suggestion): string {
   return suggestion.name as string;
 }
 
@@ -80,6 +80,21 @@ describe("Test filepaths generators", () => {
     }
   };
 
+  async function runFilepaths(
+    options: FilepathsOptions,
+    mockLSResults: string[],
+    overrideFilepaths?: (opts?: FilepathsOptions) => Fig.Generator
+  ): Promise<string[]> {
+    executeCommand.resolves(mockLSResults.join("\n"));
+    return (
+      await (overrideFilepaths || filepaths)(options).custom!(
+        [],
+        executeShellCommand,
+        defaultContext
+      )
+    ).map(toName);
+  }
+
   beforeEach(() => {
     executeCommand = sinon.stub();
     // these steps are approximately the ones performed by the engine before running a generator
@@ -110,14 +125,9 @@ describe("Test filepaths generators", () => {
         "folder3/",
       ];
       const failing: string[] = ["file4.ts"];
-
-      executeCommand.resolves(passing.concat(failing).join("\n"));
-      const results = (
-        await filepaths(options).custom!([], executeShellCommand, defaultContext)
-      ).map(extractNames);
-
+      const results = await runFilepaths(options, passing.concat(failing));
       expect(executeCommand).to.have.been.calledWith(
-        "cd ~/current_cwd/ && \\ls -1ApL | cat",
+        "cd ~/current_cwd/ && command ls -1ApL | cat",
         undefined
       );
       expect(results).to.eql(passing.concat("../"));
@@ -136,12 +146,7 @@ describe("Test filepaths generators", () => {
         "folder3/",
       ];
       const failing: string[] = ["file.js", "file3.test.mjs", "file4.test.mts"];
-
-      executeCommand.resolves(passing.concat(failing).join("\n"));
-      const results = (
-        await filepaths(options).custom!([], executeShellCommand, defaultContext)
-      ).map(extractNames);
-
+      const results = await runFilepaths(options, passing.concat(failing));
       expect(results).to.eql(passing.concat("../"));
     });
 
@@ -161,7 +166,7 @@ describe("Test filepaths generators", () => {
         executeCommand.resolves(passing.concat(failing).join("\n"));
         const results = (
           await filepaths(options).custom!([], executeShellCommand, defaultContext)
-        ).map(extractNames);
+        ).map(toName);
 
         expect(results).to.eql(passing.concat("../"));
       });
@@ -175,7 +180,7 @@ describe("Test filepaths generators", () => {
         executeCommand.resolves(passing.concat(failing).join("\n"));
         const results = (
           await filepaths(options).custom!([], executeShellCommand, defaultContext)
-        ).map(extractNames);
+        ).map(toName);
 
         // NOTE: results won't have `../`
         expect(results).to.eql(passing);
@@ -190,7 +195,7 @@ describe("Test filepaths generators", () => {
         executeCommand.resolves(passing.concat(failing).join("\n"));
         const results = (
           await filepaths(options).custom!([], executeShellCommand, defaultContext)
-        ).map(extractNames);
+        ).map(toName);
 
         expect(results).to.eql(passing.concat("../"));
       });
@@ -204,12 +209,7 @@ describe("Test filepaths generators", () => {
       };
       const passing: string[] = ["a-folder/", "foo.js", "foo/", "package.json"];
       const failing: string[] = ["bar.js", "a-folder.js", "some-other-folder/"];
-
-      executeCommand.resolves(passing.concat(failing).join("\n"));
-      const results = (
-        await filepaths(options).custom!([], executeShellCommand, defaultContext)
-      ).map(extractNames);
-
+      const results = await runFilepaths(options, passing.concat(failing));
       expect(results).to.eql(passing);
     });
 
@@ -219,12 +219,7 @@ describe("Test filepaths generators", () => {
       };
       const passing: string[] = ["file.mjs", "file1/", "filefile.js", "filefile.txt/"];
       const failing: string[] = ["file1.js"];
-
-      executeCommand.resolves(passing.concat(failing).join("\n"));
-      const results = (
-        await filepaths(options).custom!([], executeShellCommand, defaultContext)
-      ).map(extractNames);
-
+      const results = await runFilepaths(options, passing.concat(failing));
       expect(results).to.eql(passing.concat("../"));
     });
 
@@ -234,12 +229,7 @@ describe("Test filepaths generators", () => {
       };
       const passing: string[] = ["bar.ts", "bar.ts/", "folder/", "foo.js", "foo.js/", "foo.ts/"];
       const failing: string[] = ["foo.ts", "foo.js.ts"];
-
-      executeCommand.resolves(passing.concat(failing).join("\n"));
-      const results = (
-        await filepaths(options).custom!([], executeShellCommand, defaultContext)
-      ).map(extractNames);
-
+      const results = await runFilepaths(options, passing.concat(failing));
       expect(results).to.eql(passing.concat("../"));
     });
 
@@ -247,12 +237,7 @@ describe("Test filepaths generators", () => {
       const options: FilepathsOptions = {};
       const passing: string[] = ["c/", "b/", "a/"];
       const expected: string[] = ["a/", "b/", "c/"];
-
-      executeCommand.resolves(passing.join("\n"));
-      const results = (
-        await filepaths(options).custom!([], executeShellCommand, defaultContext)
-      ).map(extractNames);
-
+      const results = await runFilepaths(options, passing);
       expect(results).to.eql(expected.concat("../"));
     });
 
@@ -284,7 +269,10 @@ describe("Test filepaths generators", () => {
           defaultContext
         );
 
-        expect(executeCommand).to.have.been.calledWith("cd /etc/ && \\ls -1ApL | cat", undefined);
+        expect(executeCommand).to.have.been.calledWith(
+          "cd /etc/ && command ls -1ApL | cat",
+          undefined
+        );
       });
 
       it("should call executeCommand with specified user input dir and updated relative search term", async () => {
@@ -294,7 +282,7 @@ describe("Test filepaths generators", () => {
         });
 
         expect(executeCommand).to.have.been.calledWith(
-          "cd /etc/bin/ && \\ls -1ApL | cat",
+          "cd /etc/bin/ && command ls -1ApL | cat",
           undefined
         );
       });
@@ -306,7 +294,7 @@ describe("Test filepaths generators", () => {
         });
 
         expect(executeCommand).to.have.been.calledWith(
-          "cd /etc/bin/ && \\ls -1ApL | cat",
+          "cd /etc/bin/ && command ls -1ApL | cat",
           undefined
         );
       });
@@ -320,7 +308,7 @@ describe("Test filepaths generators", () => {
         });
 
         expect(executeCommand).to.have.been.calledWith(
-          "cd ~/current_cwd/ && \\ls -1ApL | cat",
+          "cd ~/current_cwd/ && command ls -1ApL | cat",
           undefined
         );
       });
@@ -334,7 +322,7 @@ describe("Test filepaths generators", () => {
         });
 
         expect(executeCommand).to.have.been.calledWith(
-          "some_ssh_string 'cd /etc/some_path/ && \\ls -1ApL | cat'",
+          "some_ssh_string 'cd /etc/some_path/ && command ls -1ApL | cat'",
           undefined
         );
       });
@@ -348,7 +336,7 @@ describe("Test filepaths generators", () => {
 
       executeCommand.resolves(passing.concat(failing).join("\n"));
       const results = (await folders().custom!([], executeShellCommand, defaultContext)).map(
-        extractNames
+        toName
       );
 
       expect(results).to.eql(passing.concat("../"));
