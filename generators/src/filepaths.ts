@@ -149,7 +149,7 @@ export function filepaths(options: FilepathsOptions = {}): Fig.Generator {
 
       try {
         // Use \ls command to avoid any aliases set for ls.
-        const data = await executeShellCommand("\\ls -1ApL", currentInsertedDirectory);
+        const data = await executeShellCommand("command ls -1ApL", currentInsertedDirectory);
         const sortedFiles = sortFilesAlphabetically(data.split("\n"), [".DS_Store"]);
 
         const generatorOutputArray: Fig.TemplateSuggestion[] = [];
