@@ -36,10 +36,6 @@ export interface FilepathsOptions {
   showFolders?: "always" | "never" | "only";
 }
 
-function split(str: string, index: number): [string, string] {
-  return [str.slice(0, index), str.slice(index + 1)];
-}
-
 function sortFilesAlphabetically(array: string[], skip: string[] = []): string[] {
   const skipLower = skip.map((str) => str.toLowerCase());
   const results = array.filter((x) => !skipLower.includes(x.toLowerCase()));
@@ -52,7 +48,7 @@ function sortFilesAlphabetically(array: string[], skip: string[] = []): string[]
   ];
 }
 
-export const ensureTrailingSlash = (str: string) => (str.endsWith("/") ? str : `${str}/`);
+const ensureTrailingSlash = (str: string) => (str.endsWith("/") ? str : `${str}/`);
 
 /**
  * @param cwd - The current working directory when the user started typing the new path
@@ -84,7 +80,7 @@ export const getCurrentInsertedDirectory = (cwd: string | null, searchTerm: stri
  * generators: filepaths({ extensions: ["mjs", "js", "json"] });
  * ```
  */
-export function filepaths(options: FilepathsOptions = {}): Fig.Generator {
+function filepathsFn(options: FilepathsOptions = {}): Fig.Generator {
   const {
     extensions = [],
     equals = [],
@@ -192,5 +188,8 @@ export function filepaths(options: FilepathsOptions = {}): Fig.Generator {
   };
 }
 
-const defaultFoldersGenerator = filepaths({ showFolders: "only" });
-export const folders = () => defaultFoldersGenerator;
+export const folders = Object.assign(
+  () => filepathsFn({ showFolders: "only" }),
+  Object.freeze(filepathsFn({ showFolders: "only" }))
+);
+export const filepaths = Object.assign(filepathsFn, Object.freeze(filepathsFn()));

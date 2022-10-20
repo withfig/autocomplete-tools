@@ -114,7 +114,7 @@ describe("Test filepaths generators", () => {
 
   describe("filepaths generator", () => {
     describe("should trigger correctly", () => {
-      const test = testTrigger(filepaths());
+      const test = testTrigger(filepaths);
       test("", "", false);
       test("", "a", false);
       test("a", "a/", true);
@@ -124,7 +124,7 @@ describe("Test filepaths generators", () => {
     });
 
     describe("should return the correct query term", () => {
-      const test = testQueryTerm(filepaths());
+      const test = testQueryTerm(filepaths);
       test("", "");
       test("a", "a");
       test("abc", "abc");
@@ -140,7 +140,7 @@ describe("Test filepaths generators", () => {
       });
 
       it("should show all suggestions when no options or search term is specified", async () => {
-        expect(await filepaths().custom!([], executeShellCommand, defaultContext)).to.eql(
+        expect(await filepaths.custom!([], executeShellCommand, defaultContext)).to.eql(
           [
             { insertValue: "a/", name: "a/", type: "folder", context: { templateType: "folders" } },
             { insertValue: "c/", name: "c/", type: "folder", context: { templateType: "folders" } },
@@ -326,7 +326,7 @@ describe("Test filepaths generators", () => {
 
     describe("deprecated sshPrefix", () => {
       it("should call executeCommand with default user input dir ignoring ssh", async () => {
-        await filepaths().custom!([], executeShellCommand, {
+        await filepaths.custom!([], executeShellCommand, {
           ...defaultContext,
           sshPrefix: "ssh -i blabla",
         });
