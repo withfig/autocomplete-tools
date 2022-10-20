@@ -36,6 +36,10 @@ export interface FilepathsOptions {
   showFolders?: "always" | "never" | "only";
 }
 
+function split(str: string, index: number): [string, string] {
+  return [str.slice(0, index), str.slice(index + 1)];
+}
+
 function sortFilesAlphabetically(array: string[], skip: string[] = []): string[] {
   const skipLower = skip.map((str) => str.toLowerCase());
   const results = array.filter((x) => !skipLower.includes(x.toLowerCase()));
@@ -139,7 +143,12 @@ export function filepaths(options: FilepathsOptions = {}): Fig.Generator {
   };
 
   return {
-    trigger: (oldToken, newToken) => newToken.lastIndexOf("/") !== oldToken.lastIndexOf("/"),
+    trigger: (oldToken, newToken) => {
+      const oldLastSlashIndex = oldToken.lastIndexOf("/");
+      const newLastSlashIndex = newToken.lastIndexOf("/");
+      if (oldLastSlashIndex !== newLastSlashIndex) return true;
+      return oldToken.slice(0, oldLastSlashIndex) !== newToken.slice(0, newLastSlashIndex);
+    },
     getQueryTerm: (token) => token.slice(token.lastIndexOf("/") + 1),
 
     custom: async (_, executeShellCommand, generatorContext) => {
