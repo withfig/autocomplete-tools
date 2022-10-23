@@ -91,6 +91,7 @@ function filepathsFn(options: FilepathsOptions = {}): Fig.Generator {
     rootDirectory,
     showFolders = "always",
   } = options;
+  // TODO: automatically remove eventual leading dots
   const extensionsSet = new Set(extensions);
   const equalsSet = new Set(equals);
 
