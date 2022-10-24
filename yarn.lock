@@ -895,16 +895,16 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@fig/complete-oclif@workspace:integrations/oclif"
   dependencies:
-    "@oclif/command": ^1.8.16
-    "@oclif/config": ^1.17.0
-    "@oclif/dev-cli": ^1.26.0
-    "@oclif/plugin-help": ^3.2.3
+    "@oclif/command": ^1.8.18
+    "@oclif/config": ^1.18.5
+    "@oclif/dev-cli": ^1.26.10
+    "@oclif/plugin-help": ^3.3.1
     "@types/node": ^16.11.1
     "@withfig/autocomplete-types": ^1.5.0
     globby: ^11.0.4
     prettier: ^2.4.1
     ts-node: ^10.3.0
-    typescript: ^4.4.4
+    typescript: ^4.8.4
   languageName: unknown
   linkType: soft
 
@@ -1359,7 +1359,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@oclif/command@npm:^1.8.14, @oclif/command@npm:^1.8.15, @oclif/command@npm:^1.8.16":
+"@oclif/command@npm:^1.8.14, @oclif/command@npm:^1.8.15, @oclif/command@npm:^1.8.18":
   version: 1.8.18
   resolution: "@oclif/command@npm:1.8.18"
   dependencies:
@@ -1389,7 +1389,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@oclif/config@npm:1.18.5, @oclif/config@npm:^1.17.0, @oclif/config@npm:^1.18.2":
+"@oclif/config@npm:1.18.5, @oclif/config@npm:^1.18.2, @oclif/config@npm:^1.18.5":
   version: 1.18.5
   resolution: "@oclif/config@npm:1.18.5"
   dependencies:
@@ -1403,7 +1403,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@oclif/dev-cli@npm:^1.26.0":
+"@oclif/dev-cli@npm:^1.26.10":
   version: 1.26.10
   resolution: "@oclif/dev-cli@npm:1.26.10"
   dependencies:
@@ -1507,7 +1507,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@oclif/plugin-help@npm:^3.2.3":
+"@oclif/plugin-help@npm:^3.3.1":
   version: 3.3.1
   resolution: "@oclif/plugin-help@npm:3.3.1"
   dependencies:
@@ -8665,7 +8665,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:^4.2.3, typescript@npm:^4.4.2, typescript@npm:^4.4.4, typescript@npm:^4.5.4, typescript@npm:^4.6.3, typescript@npm:^4.6.4":
+"typescript@npm:^4.2.3, typescript@npm:^4.4.2, typescript@npm:^4.5.4, typescript@npm:^4.6.3, typescript@npm:^4.6.4, typescript@npm:^4.8.4":
   version: 4.8.4
   resolution: "typescript@npm:4.8.4"
   bin:
@@ -8675,7 +8675,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@^4.2.3#~builtin<compat/typescript>, typescript@patch:typescript@^4.4.2#~builtin<compat/typescript>, typescript@patch:typescript@^4.4.4#~builtin<compat/typescript>, typescript@patch:typescript@^4.5.4#~builtin<compat/typescript>, typescript@patch:typescript@^4.6.3#~builtin<compat/typescript>, typescript@patch:typescript@^4.6.4#~builtin<compat/typescript>":
+"typescript@patch:typescript@^4.2.3#~builtin<compat/typescript>, typescript@patch:typescript@^4.4.2#~builtin<compat/typescript>, typescript@patch:typescript@^4.5.4#~builtin<compat/typescript>, typescript@patch:typescript@^4.6.3#~builtin<compat/typescript>, typescript@patch:typescript@^4.6.4#~builtin<compat/typescript>, typescript@patch:typescript@^4.8.4#~builtin<compat/typescript>":
   version: 4.8.4
   resolution: "typescript@patch:typescript@npm%3A4.8.4#~builtin<compat/typescript>::version=4.8.4&hash=701156"
   bin:

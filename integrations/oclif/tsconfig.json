@@ -7,7 +7,8 @@
     "rootDir": "src/",
     "strict": true,
     "target": "es6",
-    "types": ["@withfig/autocomplete-types", "node"]
+    "types": ["@withfig/autocomplete-types", "node"],
+    "skipLibCheck": true
   },
   "exclude": ["test/", "node_modules/", "lib/"]
 }
