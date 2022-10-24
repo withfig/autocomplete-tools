@@ -1,18 +1,20 @@
 export interface FilepathsOptions {
-  /** Show suggestions with any of these extensions. Do not include the leading dot. */
+  /**
+   * Show suggestions with any of these extensions. Do not include the leading dot.
+   */
   extensions?: string[];
-  /** Show suggestions where the name exactly matches one of these strings */
+  /**
+   * Show suggestions where the name exactly matches one of these strings
+   */
   equals?: string | string[];
-  /** Show suggestions where the name matches this expression */
+  /**
+   * Show suggestions where the name matches this expression
+   */
   matches?: RegExp;
   /**
-   * Defines how folders are suggested.
-   *
-   * - **Default:** `always` will always suggest folders.
-   * - `filter` will treat folders like files, filtering based on the name.
-   * - `never` will never suggest folders.
+   * Will treat folders like files, filtering based on the name.
    */
-  suggestFolders?: "filter" | "always" | "never";
+  filterFolders?: boolean;
   /**
    * Set properties of suggestions of type "file".
    */
@@ -21,7 +23,50 @@ export interface FilepathsOptions {
    * Set properties of suggestions of type "folder".
    */
   editFolderSuggestions?: Omit<Fig.Suggestion, "name" | "type">;
+  /**
+   * Start to suggest filepaths and folders from this directory.
+   */
+  rootDirectory?: string;
+  /**
+   * Set how the generator should display folders:
+   * - **Default:** `always` will always suggest folders.
+   * - `never`: will never suggest folders.
+   * - `only`: will show only folders and no files.
+   */
+  showFolders?: "always" | "never" | "only";
 }
+
+export function sortFilesAlphabetically(array: string[], skip: string[] = []): string[] {
+  const skipLower = skip.map((str) => str.toLowerCase());
+  const results = array.filter((x) => !skipLower.includes(x.toLowerCase()));
+
+  // Put all files beginning with . after all those that don't, sort alphabetically within each.
+  return [
+    ...results.filter((x) => !x.startsWith(".")).sort((a, b) => a.localeCompare(b)),
+    ...results.filter((x) => x.startsWith(".")).sort((a, b) => a.localeCompare(b)),
+    "../",
+  ];
+}
+
+const ensureTrailingSlash = (str: string) => (str.endsWith("/") ? str : `${str}/`);
+
+/**
+ * @param cwd - The current working directory when the user started typing the new path
+ * @param searchTerm - The path inserted by the user, it can be relative to cwd or absolute
+ * @returns The directory the user inserted, taking into account the cwd.
+ */
+export const getCurrentInsertedDirectory = (cwd: string | null, searchTerm: string): string => {
+  if (cwd === null) return "/";
+  const dirname = searchTerm.slice(0, searchTerm.lastIndexOf("/") + 1);
+
+  if (dirname === "") {
+    return ensureTrailingSlash(cwd);
+  }
+
+  return dirname.startsWith("~/") || dirname.startsWith("/")
+    ? dirname
+    : `${ensureTrailingSlash(cwd)}${dirname}`;
+};
 
 /**
  * Sugar over using the `filepaths` template with `filterTemplateSuggestions`. If any of the
@@ -35,50 +80,117 @@ export interface FilepathsOptions {
  * generators: filepaths({ extensions: ["mjs", "js", "json"] });
  * ```
  */
-export function filepaths(options: FilepathsOptions): Fig.Generator {
+function filepathsFn(options: FilepathsOptions = {}): Fig.Generator {
   const {
     extensions = [],
     equals = [],
     matches,
-    suggestFolders = "always",
+    filterFolders = false,
     editFileSuggestions,
     editFolderSuggestions,
+    rootDirectory,
+    showFolders = "always",
   } = options;
+  // TODO: automatically remove eventual leading dots
   const extensionsSet = new Set(extensions);
   const equalsSet = new Set(equals);
-  return {
-    template: "filepaths",
-    filterTemplateSuggestions: (suggestions = []) => {
-      const filtered = suggestions.filter(({ name = "", type }) => {
-        if (suggestFolders !== "filter" && type === "folder") {
-          return suggestFolders === "always";
-        }
-        if (equalsSet.has(name)) return true;
-        // We need to explicitly create a new Regexp object here or it will not work. Why?
-        if (matches && new RegExp(matches.source, matches.flags).test(name)) return true;
-        // handle extensions
-        const [, ...suggestionExtensions] = name.split(".");
-        if (suggestionExtensions.length >= 1) {
-          let i = suggestionExtensions.length - 1;
-          let stackedExtensions = suggestionExtensions[i];
-          do {
-            if (extensionsSet.has(stackedExtensions)) {
-              return true;
-            }
-            i -= 1;
-            // `i` may become -1 which is not a valid index, but the extensionSet check at the beginning is not run in that case,
-            // so the wrong extension is not evaluated
-            stackedExtensions = [suggestionExtensions[i], stackedExtensions].join(".");
-          } while (i >= 0);
-        }
-        return false;
-      });
-      if (!editFileSuggestions && !editFolderSuggestions) return filtered;
 
-      return filtered.map((suggestion) => ({
-        ...suggestion,
-        ...((suggestion.type === "file" ? editFileSuggestions : editFolderSuggestions) || {}),
-      }));
+  // NOTE: If no filter is provided we should not run the filterSuggestions fn.
+  // !! When new filtering parameters are added we should increase this function
+  const shouldFilterSuggestions = () => extensions.length > 0 || equals.length > 0 || matches;
+
+  const filterSuggestions = (
+    suggestions: Fig.TemplateSuggestion[] = []
+  ): Fig.TemplateSuggestion[] => {
+    if (!shouldFilterSuggestions()) return suggestions;
+
+    return suggestions.filter(({ name = "", type }) => {
+      if (!filterFolders && type === "folder") return true;
+
+      if (equalsSet.has(name)) return true;
+      if (matches && !!name.match(matches)) return true;
+      // handle extensions
+      const [, ...suggestionExtensions] = name.split(".");
+      if (suggestionExtensions.length >= 1) {
+        let i = suggestionExtensions.length - 1;
+        let stackedExtensions = suggestionExtensions[i];
+        do {
+          if (extensionsSet.has(stackedExtensions)) {
+            return true;
+          }
+          i -= 1;
+          // `i` may become -1 which is not a valid index, but the extensionSet check at the beginning is not run in that case,
+          // so the wrong extension is not evaluated
+          stackedExtensions = [suggestionExtensions[i], stackedExtensions].join(".");
+        } while (i >= 0);
+      }
+      return false;
+    });
+  };
+
+  const postProcessSuggestions = (
+    suggestions: Fig.TemplateSuggestion[] = []
+  ): Fig.TemplateSuggestion[] => {
+    if (!editFileSuggestions && !editFolderSuggestions) return suggestions;
+
+    return suggestions.map((suggestion) => ({
+      ...suggestion,
+      ...((suggestion.type === "file" ? editFileSuggestions : editFolderSuggestions) || {}),
+    }));
+  };
+
+  return {
+    trigger: (oldToken, newToken) => {
+      const oldLastSlashIndex = oldToken.lastIndexOf("/");
+      const newLastSlashIndex = newToken.lastIndexOf("/");
+      if (oldLastSlashIndex !== newLastSlashIndex) return true;
+      return oldToken.slice(0, oldLastSlashIndex) !== newToken.slice(0, newLastSlashIndex);
+    },
+    getQueryTerm: (token) => token.slice(token.lastIndexOf("/") + 1),
+
+    custom: async (_, executeShellCommand, generatorContext) => {
+      const { isDangerous, currentWorkingDirectory, searchTerm } = generatorContext;
+      const currentInsertedDirectory =
+        getCurrentInsertedDirectory(rootDirectory ?? currentWorkingDirectory, searchTerm) ?? "/";
+
+      try {
+        // Use \ls command to avoid any aliases set for ls.
+        const data = await executeShellCommand("command ls -1ApL", currentInsertedDirectory);
+        const sortedFiles = sortFilesAlphabetically(data.split("\n"), [".DS_Store"]);
+
+        const generatorOutputArray: Fig.TemplateSuggestion[] = [];
+        // Then loop through them and add them to the generatorOutputArray
+        // depending on the template type
+        for (const name of sortedFiles) {
+          if (name) {
+            const templateType = name.endsWith("/") ? "folders" : "filepaths";
+            if (
+              (templateType === "filepaths" && showFolders !== "only") ||
+              (templateType === "folders" && showFolders !== "never")
+            ) {
+              generatorOutputArray.push({
+                type: templateType === "filepaths" ? "file" : "folder",
+                name,
+                insertValue: name,
+                isDangerous,
+                context: { templateType },
+              });
+            }
+          }
+        }
+
+        // Filter suggestions. This takes in the array of suggestions, filters it,
+        // and outputs an array of suggestions
+        return postProcessSuggestions(filterSuggestions(generatorOutputArray));
+      } catch (err) {
+        return [];
+      }
     },
   };
 }
+
+export const folders = Object.assign(
+  () => filepathsFn({ showFolders: "only" }),
+  Object.freeze(filepathsFn({ showFolders: "only" }))
+);
+export const filepaths = Object.assign(filepathsFn, Object.freeze(filepathsFn()));

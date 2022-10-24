@@ -1,11 +1,12 @@
 import { expect } from "chai";
-import { keyValue, keyValueList, valueList } from "..";
+import { keyValue, keyValueList, valueList } from "../lib";
 
 function testSuggestions(
   generator: Fig.Generator
 ): (token: string, expected: Fig.Suggestion[]) => Promise<void> {
   return async (token, expected) => {
     const result = await generator.custom?.(["spec", token], () => Promise.resolve(""), {
+      searchTerm: "",
       currentProcess: "",
       currentWorkingDirectory: "",
       sshPrefix: "",
@@ -14,14 +15,14 @@ function testSuggestions(
   };
 }
 
-function testQueryTerm(gen: Fig.Generator): (token: string, expected: string) => void {
+export function testQueryTerm(gen: Fig.Generator): (token: string, expected: string) => void {
   const { getQueryTerm } = gen;
   expect(getQueryTerm).to.be.a("function");
   // @ts-ignore
   return (token, expected) => expect(getQueryTerm(token)).to.equal(expected);
 }
 
-function testTrigger(
+export function testTrigger(
   gen: Fig.Generator
 ): (newToken: string, oldToken: string, expected: boolean) => void {
   const { trigger } = gen;

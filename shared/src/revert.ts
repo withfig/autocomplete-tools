@@ -4,7 +4,7 @@ function makeSingleOrArray<T>(arr: T[]): Fig.SingleOrArray<T> {
   return arr.length === 1 ? (arr[0] as Fig.SingleOrArray<T>) : (arr as Fig.SingleOrArray<T>);
 }
 
-function revertOption<ArgT, OptionT>(option: Option<ArgT, OptionT>): Fig.Option {
+function revertOption<ArgT extends Fig.Arg, OptionT>(option: Option<ArgT, OptionT>): Fig.Option {
   const { name, args } = option;
 
   return {
@@ -13,7 +13,7 @@ function revertOption<ArgT, OptionT>(option: Option<ArgT, OptionT>): Fig.Option 
   };
 }
 
-export function revertSubcommand<ArgT, OptionT, SubcommandT>(
+export function revertSubcommand<ArgT extends Fig.Arg, OptionT, SubcommandT>(
   subcommand: Subcommand<ArgT, OptionT, SubcommandT>,
   postProcessingFn: (
     oldSub: Subcommand<ArgT, OptionT, SubcommandT>,
@@ -22,7 +22,7 @@ export function revertSubcommand<ArgT, OptionT, SubcommandT>(
 ): Fig.Subcommand {
   const { name, subcommands, options, persistentOptions, args } = subcommand;
 
-  const newSubcommand = {
+  const newSubcommand: Fig.Subcommand = {
     name: makeSingleOrArray(name),
     subcommands:
       Object.values(subcommands).length !== 0

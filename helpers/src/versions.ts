@@ -1,10 +1,11 @@
 import semver from "semver";
 
 const isPrimitive = (obj: unknown): boolean => obj !== Object(obj);
+
 const deepEqual = <T>(a: T, b: T): boolean => {
   if (a === b) return true;
   if (isPrimitive(a) && isPrimitive(b)) return a === b;
-  if (Object.keys(a).length !== Object.keys(b).length) return false;
+  if (Object.keys(a as "object").length !== Object.keys(b as "object").length) return false;
   for (const key in a) {
     if (!(key in b && deepEqual(a[key], b[key]))) {
       return false;
