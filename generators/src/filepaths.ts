@@ -140,6 +140,8 @@ function filepathsFn(options: FilepathsOptions = {}): Fig.Generator {
   };
 
   return {
+    [Symbol.generatorTag]: "filepathsTemplate",
+
     trigger: (oldToken, newToken) => {
       const oldLastSlashIndex = oldToken.lastIndexOf("/");
       const newLastSlashIndex = newToken.lastIndexOf("/");
@@ -189,8 +191,12 @@ function filepathsFn(options: FilepathsOptions = {}): Fig.Generator {
   };
 }
 
-export const folders = Object.assign(
-  () => filepathsFn({ showFolders: "only" }),
-  Object.freeze(filepathsFn({ showFolders: "only" }))
-);
+function foldersFn(): Fig.Generator {
+  return {
+    ...filepathsFn({ showFolders: "only" }),
+    [Symbol.generatorTag]: "foldersTemplate",
+  };
+}
+
+export const folders = Object.assign(foldersFn, Object.freeze(foldersFn()));
 export const filepaths = Object.assign(filepathsFn, Object.freeze(filepathsFn()));

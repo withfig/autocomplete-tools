@@ -1070,6 +1070,16 @@
       "extends": [],
       "members": [
         {
+          "name": "[Symbol.generatorTag]",
+          "excluded": true,
+          "summary": "Assign a tag to generators so we can identify them",
+          "parameters": [],
+          "optional": true,
+          "declaration": "[Symbol.generatorTag]?: string",
+          "examples": [],
+          "hasDocComment": true
+        },
+        {
           "name": "template",
           "excluded": false,
           "summary": "A template which is a single `TemplateString` or an array of `TemplateStrings`.",
@@ -1240,6 +1250,23 @@
           "declaration": "cache?: (\n  | {\n      strategy?: \"max-age\"\n      /**\n       * The time to live for the cache in milliseconds.\n       * @example\n       * 3600\n       */\n      ttl: number\n    }\n  | {\n      strategy: \"stale-while-revalidate\"\n      /**\n       * The time to live for the cache in milliseconds.\n       * @example\n       * 3600\n       */\n      ttl?: number\n    }\n) & {\n  /**\n   * Whether the cache should be based on the directory the user was currently in or not.\n   * @defaultValue false\n   */\n  cacheByDirectory?: boolean\n}",
           "examples": ["The kubernetes spec makes use of this."],
           "hasDocComment": true
+        }
+      ],
+      "inheritedMembers": []
+    },
+    {
+      "name": "SymbolConstructor",
+      "hasDocComment": false,
+      "extends": [],
+      "members": [
+        {
+          "name": "generatorTag",
+          "excluded": false,
+          "parameters": [],
+          "optional": false,
+          "declaration": "readonly generatorTag: unique symbol",
+          "examples": [],
+          "hasDocComment": false
         }
       ],
       "inheritedMembers": []
