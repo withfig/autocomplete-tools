@@ -139,6 +139,7 @@ declare namespace Fig {
     currentWorkingDirectory: string;
     currentProcess: string;
     sshPrefix: string;
+    environmentVariables: Record<string, string>;
   };
 
   type GeneratorContext = ShellContext & {
