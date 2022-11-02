@@ -138,8 +138,11 @@ describe("Test filepaths generators", () => {
       const test = testTrigger(filepaths);
       test("", "", false);
       test("", "a", false);
+      test("a", "aa", false);
+      test("aa", "aa", false);
       test("a", "a/", true);
       test("a/a", "a/ab", false);
+      test("a/ab", "a/abc", false);
       test("a/ab", "/ab", true);
       test("bar/ab", "foo/ab", true);
     });
