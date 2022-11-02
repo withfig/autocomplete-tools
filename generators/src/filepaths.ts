@@ -143,7 +143,18 @@ function filepathsFn(options: FilepathsOptions = {}): Fig.Generator {
     trigger: (oldToken, newToken) => {
       const oldLastSlashIndex = oldToken.lastIndexOf("/");
       const newLastSlashIndex = newToken.lastIndexOf("/");
-      if (oldLastSlashIndex !== newLastSlashIndex) return true;
+      // If the final path segment has changed, trigger new suggestions
+      if (oldLastSlashIndex !== newLastSlashIndex) {
+        return true;
+      }
+      // Here, there could either be no slashes, or something before the
+      // final slash has changed. In the case where there are no slashes,
+      // we don't want to trigger on each keystroke, so explicitly return false.
+      if (oldLastSlashIndex === -1 && newLastSlashIndex === -1) {
+        return false;
+      }
+      // We know there's at least one slash in the string thanks to the case
+      // above, so trigger if anything before the final slash has changed.
       return oldToken.slice(0, oldLastSlashIndex) !== newToken.slice(0, newLastSlashIndex);
     },
     getQueryTerm: (token) => token.slice(token.lastIndexOf("/") + 1),

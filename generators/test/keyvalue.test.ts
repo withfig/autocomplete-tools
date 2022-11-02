@@ -22,13 +22,24 @@ export function testQueryTerm(gen: Fig.Generator): (token: string, expected: str
   return (token, expected) => expect(getQueryTerm(token)).to.equal(expected);
 }
 
+function triggerMsg(newToken: string, oldToken: string, expected: boolean) {
+  if (expected) {
+    return `Expected '${newToken}' -> '${oldToken}' to trigger, but it didn't`;
+  }
+  return `Didn't expect '${newToken}' -> '${oldToken}' to trigger, but it did`;
+}
+
 export function testTrigger(
   gen: Fig.Generator
 ): (newToken: string, oldToken: string, expected: boolean) => void {
   const { trigger } = gen;
   expect(trigger).to.be.a("function");
-  // @ts-ignore
-  return (newToken, oldToken, expected) => expect(trigger(newToken, oldToken)).to.equal(expected);
+  return (newToken, oldToken, expected) =>
+    // @ts-ignore
+    expect(trigger(newToken, oldToken)).to.equal(
+      expected,
+      triggerMsg(newToken, oldToken, expected)
+    );
 }
 
 describe("Test valueList suggestions", () => {
