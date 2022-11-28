@@ -1234,10 +1234,10 @@
           "name": "cache",
           "excluded": false,
           "summary": "Cache the response of generators for a specific period time and optionally by directory the commands were executed in.",
-          "discussion": "For commands that take a long time to run, Fig gives you the option to cache their response. You can cache the response globally or just by the directory they were run in.\nWe currently have two cache strategies:\n- `max-age` (default): you just need to specify a `ttl` (time to live) for how long the cache will last (this is a number)\n- `stale-while-revalidate`: when cache becomes stale fig will return the stale data while fetching the updated one. This strategy also accepts a `ttl` to configure how long it takes for the cache to become stale.\nYou can also optionally turn on the ability to just cache by directory (`cacheByDirectory: true`)",
+          "discussion": "For commands that take a long time to run, Fig gives you the option to cache their response. You can cache the response globally or just by the directory they were run in.\nWe currently have two cache strategies:\n- `stale-while-revalidate` (default): when cache becomes stale fig will return the stale data while fetching the updated one. This strategy accepts a `ttl` (time to live) to configure how long it takes for the cache to become stale.\n- `max-age`: will show a loading indicator when cache is stale. You need to specify a `ttl` for how long it takes for the cache to become stale.\nYou can also optionally turn on the ability to just cache by directory (`cacheByDirectory: true`)",
           "parameters": [],
           "optional": true,
-          "declaration": "cache?: (\n  | {\n      strategy?: \"max-age\"\n      /**\n       * The time to live for the cache in milliseconds.\n       * @example\n       * 3600\n       */\n      ttl: number\n    }\n  | {\n      strategy: \"stale-while-revalidate\"\n      /**\n       * The time to live for the cache in milliseconds.\n       * @example\n       * 3600\n       */\n      ttl?: number\n    }\n) & {\n  /**\n   * Whether the cache should be based on the directory the user was currently in or not.\n   * @defaultValue false\n   */\n  cacheByDirectory?: boolean\n}",
+          "declaration": "cache?: (\n  | {\n      strategy: \"max-age\"\n      /**\n       * The time to live for the cache in milliseconds.\n       * @example\n       * 3600\n       */\n      ttl: number\n    }\n  | {\n      strategy?: \"stale-while-revalidate\"\n      /**\n       * The time to live for the cache in milliseconds.\n       * @example\n       * 3600\n       */\n      ttl?: number\n    }\n) & {\n  /**\n   * Whether the cache should be based on the directory the user was currently in or not.\n   * @defaultValue false\n   */\n  cacheByDirectory?: boolean\n  /**\n   * Hardcoded cache key that can be used to cache a single generator across\n   * multiple argument locations in a spec.\n   */\n  cacheKey?: string\n}",
           "examples": ["The kubernetes spec makes use of this."],
           "hasDocComment": true
         }
@@ -1426,19 +1426,19 @@
     },
     {
       "name": "CacheMaxAge",
-      "declaration": "type CacheMaxAge = {\n  strategy?: \"max-age\"\n  /**\n   * The time to live for the cache in milliseconds.\n   * @example\n   * 3600\n   */\n  ttl: number\n}",
+      "declaration": "type CacheMaxAge = {\n  strategy: \"max-age\"\n  /**\n   * The time to live for the cache in milliseconds.\n   * @example\n   * 3600\n   */\n  ttl: number\n}",
       "examples": [],
       "parameters": []
     },
     {
       "name": "CacheStaleWhileRevalidate",
-      "declaration": "type CacheStaleWhileRevalidate = {\n  strategy: \"stale-while-revalidate\"\n  /**\n   * The time to live for the cache in milliseconds.\n   * @example\n   * 3600\n   */\n  ttl?: number\n}",
+      "declaration": "type CacheStaleWhileRevalidate = {\n  strategy?: \"stale-while-revalidate\"\n  /**\n   * The time to live for the cache in milliseconds.\n   * @example\n   * 3600\n   */\n  ttl?: number\n}",
       "examples": [],
       "parameters": []
     },
     {
       "name": "Cache",
-      "declaration": "type Cache = (\n  | {\n      strategy?: \"max-age\"\n      /**\n       * The time to live for the cache in milliseconds.\n       * @example\n       * 3600\n       */\n      ttl: number\n    }\n  | {\n      strategy: \"stale-while-revalidate\"\n      /**\n       * The time to live for the cache in milliseconds.\n       * @example\n       * 3600\n       */\n      ttl?: number\n    }\n) & {\n  /**\n   * Whether the cache should be based on the directory the user was currently in or not.\n   * @defaultValue false\n   */\n  cacheByDirectory?: boolean\n}",
+      "declaration": "type Cache = (\n  | {\n      strategy: \"max-age\"\n      /**\n       * The time to live for the cache in milliseconds.\n       * @example\n       * 3600\n       */\n      ttl: number\n    }\n  | {\n      strategy?: \"stale-while-revalidate\"\n      /**\n       * The time to live for the cache in milliseconds.\n       * @example\n       * 3600\n       */\n      ttl?: number\n    }\n) & {\n  /**\n   * Whether the cache should be based on the directory the user was currently in or not.\n   * @defaultValue false\n   */\n  cacheByDirectory?: boolean\n  /**\n   * Hardcoded cache key that can be used to cache a single generator across\n   * multiple argument locations in a spec.\n   */\n  cacheKey?: string\n}",
       "examples": [],
       "parameters": []
     },

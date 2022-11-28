@@ -240,7 +240,7 @@ declare namespace Fig {
   type ExecuteShellCommandFunction = (commandToExecute: string, cwd?: string) => Promise<string>;
 
   type CacheMaxAge = {
-    strategy?: "max-age";
+    strategy: "max-age";
     /**
      * The time to live for the cache in milliseconds.
      * @example
@@ -250,7 +250,7 @@ declare namespace Fig {
   };
 
   type CacheStaleWhileRevalidate = {
-    strategy: "stale-while-revalidate";
+    strategy?: "stale-while-revalidate";
     /**
      * The time to live for the cache in milliseconds.
      * @example
@@ -265,6 +265,12 @@ declare namespace Fig {
      * @defaultValue false
      */
     cacheByDirectory?: boolean;
+
+    /**
+     * Hardcoded cache key that can be used to cache a single generator across
+     * multiple argument locations in a spec.
+     */
+    cacheKey?: string;
   };
 
   type TriggerOnChange = {
@@ -1200,8 +1206,8 @@ declare namespace Fig {
      * @remarks
      * For commands that take a long time to run, Fig gives you the option to cache their response. You can cache the response globally or just by the directory they were run in.
      * We currently have two cache strategies:
-     * - `max-age` (default): you just need to specify a `ttl` (time to live) for how long the cache will last (this is a number)
-     * - `stale-while-revalidate`: when cache becomes stale fig will return the stale data while fetching the updated one. This strategy also accepts a `ttl` to configure how long it takes for the cache to become stale.
+     * - `stale-while-revalidate` (default): when cache becomes stale fig will return the stale data while fetching the updated one. This strategy accepts a `ttl` (time to live) to configure how long it takes for the cache to become stale.
+     * - `max-age`: will show a loading indicator when cache is stale. You need to specify a `ttl` for how long it takes for the cache to become stale.
      * You can also optionally turn on the ability to just cache by directory (`cacheByDirectory: true`)
      *
      * @example
