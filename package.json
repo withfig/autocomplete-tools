@@ -11,16 +11,17 @@
     "eslint-plugin-prettier": "^3.3.1",
     "husky": "^8.0.0",
     "lint-staged": "^11.1.2",
-    "prettier": "2.2.1"
+    "prettier": "2.2.1",
+    "turbo": "^1.6.3"
   },
   "scripts": {
     "lint": "eslint .",
     "lint:fix": "yarn lint --fix",
-    "build": "yarn workspaces foreach -v --exclude root run build",
-    "test:since": "yarn workspaces foreach -vR --exclude root --since=$(git rev-parse head) run test",
-    "test": "yarn workspaces foreach -v --exclude root run test",
+    "build": "FORCE_COLOR=1 turbo run build",
+    "test": "FORCE_COLOR=1 turbo run test",
+    "test:overwrite": "FORCE_COLOR=1 turbo run test:overwrite",
     "postinstall": "husky install && yarn build",
-    "pre-commit": "lint-staged && yarn test:since",
+    "pre-commit": "lint-staged && yarn test",
     "clean": "git clean -Xdf ."
   },
   "packageManager": "yarn@3.2.4",
