@@ -17,7 +17,7 @@ const deepEqual = <T>(a: T, b: T): boolean => {
 const diffSimpleObject = <T>(original: T, updated: T): T => {
   const diff = { ...updated };
   for (const key in diff) {
-    if (key in original && deepEqual(original[key], updated[key])) {
+    if (original && key in original && deepEqual(original[key], updated[key])) {
       delete diff[key];
     }
   }

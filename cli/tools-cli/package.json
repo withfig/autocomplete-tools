@@ -6,19 +6,20 @@
   "scripts": {
     "build": "rm -rf build/ && tsc",
     "test": "ts-node test/index.ts",
+    "test:overwrite": "OVERWRITE=true yarn test",
     "prepack": "yarn build",
     "generate-spec": "ts-node generate-spec.ts generate-fig-spec"
   },
   "license": "MIT",
   "bin": "./build/bin.js",
   "dependencies": {
-    "@fig/autocomplete-helpers": "^1.0.6",
-    "@fig/autocomplete-merge": "^1.1.1",
+    "@fig/autocomplete-helpers": "workspace:^",
+    "@fig/autocomplete-merge": "workspace:^",
     "@types/semver": "^7.3.9",
     "chalk": "^4.1.0",
     "chokidar": "^3.5.1",
     "commander": "^8.1.0",
-    "create-completion-spec": "^1.1.9",
+    "create-completion-spec": "workspace:^",
     "esbuild": "^0.14.39",
     "fast-glob": "^3.2.7",
     "module-from-string": "^3.1.4",
@@ -31,10 +32,10 @@
     "build/"
   ],
   "devDependencies": {
-    "@fig/complete-commander": "^2.0.0",
+    "@fig/complete-commander": "workspace:^",
     "@types/node": "^14.14.33",
     "@types/prettier": "^2.4.1",
-    "@withfig/autocomplete-types": "^1.10.0",
+    "@withfig/autocomplete-types": "workspace:^",
     "ts-node": "^10.7.0"
   },
   "fig": {

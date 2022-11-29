@@ -827,7 +827,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@fig/autocomplete-helpers@^1.0.6, @fig/autocomplete-helpers@workspace:helpers":
+"@fig/autocomplete-helpers@workspace:^, @fig/autocomplete-helpers@workspace:helpers":
   version: 0.0.0-use.local
   resolution: "@fig/autocomplete-helpers@workspace:helpers"
   dependencies:
@@ -845,7 +845,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@fig/autocomplete-merge@^1.1.1, @fig/autocomplete-merge@workspace:merge":
+"@fig/autocomplete-merge@workspace:^, @fig/autocomplete-merge@workspace:merge":
   version: 0.0.0-use.local
   resolution: "@fig/autocomplete-merge@workspace:merge"
   dependencies:
@@ -874,7 +874,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@fig/complete-commander@^2.0.0, @fig/complete-commander@workspace:integrations/commander":
+"@fig/complete-commander@^2.0.0, @fig/complete-commander@workspace:^, @fig/complete-commander@workspace:integrations/commander":
   version: 0.0.0-use.local
   resolution: "@fig/complete-commander@workspace:integrations/commander"
   dependencies:
@@ -2089,17 +2089,17 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@withfig/autocomplete-tools@workspace:cli/tools-cli"
   dependencies:
-    "@fig/autocomplete-helpers": ^1.0.6
-    "@fig/autocomplete-merge": ^1.1.1
-    "@fig/complete-commander": ^2.0.0
+    "@fig/autocomplete-helpers": "workspace:^"
+    "@fig/autocomplete-merge": "workspace:^"
+    "@fig/complete-commander": "workspace:^"
     "@types/node": ^14.14.33
     "@types/prettier": ^2.4.1
     "@types/semver": ^7.3.9
-    "@withfig/autocomplete-types": ^1.10.0
+    "@withfig/autocomplete-types": "workspace:^"
     chalk: ^4.1.0
     chokidar: ^3.5.1
     commander: ^8.1.0
-    create-completion-spec: ^1.1.9
+    create-completion-spec: "workspace:^"
     esbuild: ^0.14.39
     fast-glob: ^3.2.7
     module-from-string: ^3.1.4
@@ -3165,7 +3165,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"create-completion-spec@^1.1.9, create-completion-spec@workspace:cli/create-completion-spec":
+"create-completion-spec@workspace:^, create-completion-spec@workspace:cli/create-completion-spec":
   version: 0.0.0-use.local
   resolution: "create-completion-spec@workspace:cli/create-completion-spec"
   dependencies:

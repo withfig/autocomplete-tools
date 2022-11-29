@@ -33,7 +33,7 @@
     "picocolors": "^1.0.0"
   },
   "devDependencies": {
-    "@fig/complete-commander": "^2.0.0",
+    "@fig/complete-commander": "workspace:^",
     "ts-node": "^10.7.0",
     "typescript": "^4.6.4"
   },
