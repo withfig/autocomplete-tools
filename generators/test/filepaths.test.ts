@@ -17,7 +17,9 @@ const defaultContext: Fig.GeneratorContext = {
   currentWorkingDirectory: "~/current_cwd/",
   currentProcess: "zsh",
   sshPrefix: "",
-  environmentVariables: {},
+  environmentVariables: {
+    HOME: "/home/user",
+  },
 };
 
 describe("Test getCurrentInsertedDirectory", () => {
@@ -47,6 +49,66 @@ describe("Test getCurrentInsertedDirectory", () => {
 
   it("returns the entire search term if it is an absolute path relative to /", () => {
     expect(getCurrentInsertedDirectory("~/current_cwd", "/etc/bin/tool")).to.equal("/etc/bin/");
+  });
+
+  it("returns the path with $HOME resolved", () => {
+    expect(
+      getCurrentInsertedDirectory("~/current_cwd", "$HOME/src/test/", {
+        HOME: "/home/user",
+      })
+    ).to.equal("/home/user/src/test/");
+  });
+
+  it("returns the path with $DIR resolved", () => {
+    expect(
+      getCurrentInsertedDirectory("~/current_cwd", "$DIR/src/test/", {
+        DIR: "/tmp/folder",
+      })
+    ).to.equal("/tmp/folder/src/test/");
+  });
+
+  it("returns the path with $DIR and $HOME resolved", () => {
+    expect(
+      getCurrentInsertedDirectory("~/current_cwd", "$HOME/src/$DIR/test/", {
+        DIR: "tmp/folder",
+        HOME: "/home/user",
+      })
+    ).to.equal("/home/user/src/tmp/folder/test/");
+  });
+
+  it("returns the path when just $HOME is specified", () => {
+    expect(
+      getCurrentInsertedDirectory("~/current_cwd", "$HOME", {
+        HOME: "/home/user",
+      })
+    ).to.equal("/home/");
+  });
+
+  it("returns the path when $DIR is not specified", () => {
+    expect(getCurrentInsertedDirectory("~/current_cwd", "$DIR")).to.equal("~/current_cwd/");
+  });
+
+  it("returns the path with the complex $DIR and $HOME resolved", () => {
+    expect(
+      // eslint-disable-next-line no-template-curly-in-string
+      getCurrentInsertedDirectory("~/current_cwd", "${HOME}/src/${DIR}/test/", {
+        HOME: "/home/user",
+        DIR: "tmp/folder",
+      })
+    ).to.equal("/home/user/src/tmp/folder/test/");
+  });
+
+  it("returns the path with the complex $DIR and $HOME resolved with default", () => {
+    expect(
+      getCurrentInsertedDirectory(
+        "~/current_cwd",
+        // eslint-disable-next-line no-template-curly-in-string
+        "${HOME:-/fallback}/src/${DIR:-fallback}/test/",
+        {
+          HOME: "/home/user",
+        }
+      )
+    ).to.equal("/home/user/src/fallback/test/");
   });
 });
 
