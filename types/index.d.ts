@@ -137,7 +137,12 @@ declare namespace Fig {
    */
   type ShellContext = {
     currentWorkingDirectory: string;
+    environmentVariables: Record<string, string>;
     currentProcess: string;
+    /**
+     * @hidden
+     * @deprecated
+     */
     sshPrefix: string;
   };
 

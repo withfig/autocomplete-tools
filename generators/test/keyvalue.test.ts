@@ -10,6 +10,7 @@ function testSuggestions(
       currentProcess: "",
       currentWorkingDirectory: "",
       sshPrefix: "",
+      environmentVariables: {},
     });
     expect(result).to.deep.equal(expected);
   };

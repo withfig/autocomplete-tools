@@ -55,9 +55,26 @@ const ensureTrailingSlash = (str: string) => (str.endsWith("/") ? str : `${str}/
  * @param searchTerm - The path inserted by the user, it can be relative to cwd or absolute
  * @returns The directory the user inserted, taking into account the cwd.
  */
-export const getCurrentInsertedDirectory = (cwd: string | null, searchTerm: string): string => {
+export const getCurrentInsertedDirectory = (
+  cwd: string | null,
+  searchTerm: string,
+  environmentVariables: Record<string, string> = {}
+): string => {
   if (cwd === null) return "/";
-  const dirname = searchTerm.slice(0, searchTerm.lastIndexOf("/") + 1);
+
+  // Replace simple $VAR variables
+  const resolvedSimpleVariables = searchTerm.replace(/\$([A-Za-z0-9_]+)/g, (key) => {
+    const envKey = key.slice(1);
+    return environmentVariables[envKey] || "";
+  });
+
+  // Replace complex ${VAR} variables
+  const resolvedComplexVariables = resolvedSimpleVariables.replace(
+    /\$\{([A-Za-z0-9_]+)(?::-([^}]+))?\}/g,
+    (_, envKey, defaultValue) => environmentVariables[envKey] ?? defaultValue ?? ""
+  );
+
+  const dirname = resolvedComplexVariables.slice(0, resolvedComplexVariables.lastIndexOf("/") + 1);
 
   if (dirname === "") {
     return ensureTrailingSlash(cwd);
@@ -162,7 +179,11 @@ function filepathsFn(options: FilepathsOptions = {}): Fig.Generator {
     custom: async (_, executeShellCommand, generatorContext) => {
       const { isDangerous, currentWorkingDirectory, searchTerm } = generatorContext;
       const currentInsertedDirectory =
-        getCurrentInsertedDirectory(rootDirectory ?? currentWorkingDirectory, searchTerm) ?? "/";
+        getCurrentInsertedDirectory(
+          rootDirectory ?? currentWorkingDirectory,
+          searchTerm,
+          generatorContext.environmentVariables
+        ) ?? "/";
 
       try {
         // Use \ls command to avoid any aliases set for ls.
