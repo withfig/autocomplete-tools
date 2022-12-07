@@ -17,6 +17,7 @@ const defaultContext: Fig.GeneratorContext = {
   currentWorkingDirectory: "~/current_cwd/",
   currentProcess: "zsh",
   sshPrefix: "",
+  environmentVariables: {},
 };
 
 describe("Test getCurrentInsertedDirectory", () => {

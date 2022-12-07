@@ -1223,7 +1223,7 @@
             }
           ],
           "optional": true,
-          "declaration": "custom?: (\n  tokens: string[],\n  executeShellCommand: (\n    commandToExecute: string,\n    cwd?: string\n  ) => Promise<string>,\n  generatorContext: {\n    currentWorkingDirectory: string\n    currentProcess: string\n    sshPrefix: string\n  } & {\n    isDangerous?: boolean\n    searchTerm: string\n  }\n) => Promise<Suggestion[]>",
+          "declaration": "custom?: (\n  tokens: string[],\n  executeShellCommand: (\n    commandToExecute: string,\n    cwd?: string\n  ) => Promise<string>,\n  generatorContext: {\n    currentWorkingDirectory: string\n    environmentVariables: Record<string, string>\n    currentProcess: string\n    /**\n     * @hidden\n     * @deprecated\n     */\n    sshPrefix: string\n  } & {\n    isDangerous?: boolean\n    searchTerm: string\n  }\n) => Promise<Suggestion[]>",
           "examples": [
             "In `cd` the custom function will combine the current working directory with everything up to the last `\"/\"` in the last token. It will then run `ls` at this path and generate a list of suggestions accordingly.\ne.g. if the user was currently in their home directory and typed \"cd desktop/abcdef\", then the custom function would return a list of directories at the `~/desktop` directory\nif the user was currently in their home directory and typed \"cd desktop/my_folder/second_folder/aaaaa\", then the custom function would return a list of directories at the `~/desktop/my_folder/second_folder` directory\nif the user was currently in their home directory and typed \"cd /usr/bin/\", then the custom function would return a list of directories at the `/usr/bin/` directory",
             "```ts\nconst generator: Fig.Generator = {\n  custom: async (tokens, executeShellCommand) => {\n    const out = await executeShellCommand(\"ls\");\n    return out.split(\"\\n\").map((elm) => ({ name: elm }));\n  },\n};\n```"
@@ -1328,14 +1328,14 @@
     },
     {
       "name": "ShellContext",
-      "declaration": "type ShellContext = {\n  currentWorkingDirectory: string\n  currentProcess: string\n  sshPrefix: string\n}",
+      "declaration": "type ShellContext = {\n  currentWorkingDirectory: string\n  environmentVariables: Record<string, string>\n  currentProcess: string\n  /**\n   * @hidden\n   * @deprecated\n   */\n  sshPrefix: string\n}",
       "summary": "Context about a current shell session.",
       "examples": [],
       "parameters": []
     },
     {
       "name": "GeneratorContext",
-      "declaration": "type GeneratorContext = {\n  currentWorkingDirectory: string\n  currentProcess: string\n  sshPrefix: string\n} & {\n  isDangerous?: boolean\n  searchTerm: string\n}",
+      "declaration": "type GeneratorContext = {\n  currentWorkingDirectory: string\n  environmentVariables: Record<string, string>\n  currentProcess: string\n  /**\n   * @hidden\n   * @deprecated\n   */\n  sshPrefix: string\n} & {\n  isDangerous?: boolean\n  searchTerm: string\n}",
       "examples": [],
       "parameters": []
     },

@@ -137,9 +137,13 @@ declare namespace Fig {
    */
   type ShellContext = {
     currentWorkingDirectory: string;
-    currentProcess: string;
-    sshPrefix: string;
     environmentVariables: Record<string, string>;
+    currentProcess: string;
+    /**
+     * @hidden
+     * @deprecated
+     */
+    sshPrefix: string;
   };
 
   type GeneratorContext = ShellContext & {
