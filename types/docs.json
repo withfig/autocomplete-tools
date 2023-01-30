@@ -442,6 +442,17 @@
             "The `-work` option from the `go` spec is parsed as a single flag when `parserDirectives.flagsArePosixNoncompliant` is set to true. Normally, this would be chained and parsed as `-w -o -r -k` if `flagsArePosixNoncompliant` is not set to true."
           ],
           "hasDocComment": true
+        },
+        {
+          "name": "cache",
+          "excluded": false,
+          "summary": "Specifies whether or not to cache the result of loadSpec and generateSpec",
+          "discussion": "Caching is good because it reduces the time to completion on subsequent calls to a dynamic subcommand, but when the data does not outlive the cache this allows a mechanism for opting out of it.",
+          "parameters": [],
+          "optional": true,
+          "declaration": "cache?: boolean",
+          "examples": [],
+          "hasDocComment": true
         }
       ],
       "inheritedMembers": [
