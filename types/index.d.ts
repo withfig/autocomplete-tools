@@ -627,6 +627,14 @@ declare namespace Fig {
       optionsMustPrecedeArguments?: boolean;
       optionArgSeparators?: SingleOrArray<string>;
     };
+
+    /**
+     * Specifies whether or not to cache the result of loadSpec and generateSpec
+     *
+     * @remarks
+     * Caching is good because it reduces the time to completion on subsequent calls to a dynamic subcommand, but when the data does not outlive the cache this allows a mechanism for opting out of it.
+     */
+    cache?: boolean;
   }
 
   /**
