@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "argparse_complete_fig"
-version = "1.0.0"
+version = "1.0.1"
 authors = [{ name = "Fig Team", email =  "hello@fig.io" }]
 maintainers = [{ name = "Sean Sullivan", email =  "sean@fig.io" }]
 description = "Autogenerate completions for CLI tools built with argparse"

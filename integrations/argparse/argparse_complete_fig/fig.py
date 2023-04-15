@@ -183,15 +183,17 @@ export default completionSpec;"""
 class GenerateFigSpecAction(argparse.Action):
     def __init__(
         self,
-        dest=argparse.SUPPRESS,
-        help="Generate fig completion spec for this parser."
+        option_strings,
+        help="Generate fig completion spec for this parser",
+        *args,
+        **kwargs,
     ):
         super(GenerateFigSpecAction, self).__init__(
-            option_strings=["--generate-fig-spec"],
-            dest=dest,
+            option_strings=option_strings,
+            dest=argparse.SUPPRESS,
             default=argparse.SUPPRESS,
             help=help,
-            nargs=0
+            nargs=0,
         )
 
     def __call__(self, parser, namespace, values, option_string=None):
@@ -206,4 +208,4 @@ class GenerateFigSpecAction(argparse.Action):
 
 
 def add_completion_spec_command(parser):
-    parser.add_argument(action=GenerateFigSpecAction)
+    parser.add_argument("--generate-fig-spec", action=GenerateFigSpecAction)

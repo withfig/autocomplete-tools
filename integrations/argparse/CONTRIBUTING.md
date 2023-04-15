@@ -9,14 +9,14 @@ Prereqs:
 ```
 (Note that `__token__` is NOT a placeholder)
 
-- Install `twine`
+- Setup required deps
 ```bash
-python3 -m pip install --upgrade twine
+make bootstrap
 ```
 
 1. Bump the version in `setup.cfg`
-2. `python3 -m build`
-3. `twine upload dist/*`
+2. `make build`
+3. `make publish`
 
 ### Test the package
 
