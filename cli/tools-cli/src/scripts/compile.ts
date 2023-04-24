@@ -1,4 +1,5 @@
 import { build } from "esbuild";
+import { NodeModulesPolyfillPlugin } from "@esbuild-plugins/node-modules-polyfill";
 import { exec } from "child_process";
 import chokidar from "chokidar";
 import { Command } from "commander";
@@ -38,6 +39,7 @@ async function processFiles(files: string[], isDev?: boolean) {
     outbase: "src",
     format: "esm",
     minify: true,
+    plugins: [NodeModulesPolyfillPlugin()],
     ...(isDev && { sourcemap: "inline" }),
   }).catch((e) => SpecLogger.log(`Error building ${fileName}: ${e.message}`, Level.ERROR));
   SpecLogger.log(`Built ${fileName}`);
