@@ -24,7 +24,7 @@
     "pre-commit": "lint-staged && yarn test",
     "clean": "git clean -Xdf ."
   },
-  "packageManager": "yarn@3.2.4",
+  "packageManager": "yarn@3.5.0",
   "workspaces": [
     "eslint/*",
     "types",
