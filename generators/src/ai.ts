@@ -25,6 +25,14 @@ export function ai({
 }): Fig.Generator {
   return {
     custom: async (tokens, executeShellCommand, generatorContext) => {
+      const enabled = await executeShellCommand(
+        "fig settings --format json autocomplete.ai.enabled"
+      );
+
+      if (!JSON.parse(enabled)) {
+        return [];
+      }
+
       if (message.length === 0) {
         console.warn("No message provided to AI generator");
         return [];
@@ -81,6 +89,7 @@ export function ai({
         json?.choices
           .map((c: any) => c?.message?.content)
           .filter((c: any) => typeof c === "string")
+          .map((c: string) => c.trim().replace(/\n/g, " "))
           .map((c: string) =>
             postProcess
               ? postProcess(c)
