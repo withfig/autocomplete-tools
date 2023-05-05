@@ -82,7 +82,7 @@ export function ai({
             : []),
           {
             role: "user",
-            content: messageString.slice(0, MAX_CHARS - len),
+            content: messageString.slice(0, messageString.length + MAX_CHARS - len),
           },
         ],
         temperature,
