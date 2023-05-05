@@ -65,7 +65,7 @@ export function ai({
             })
           : message;
 
-      const len = (promptString?.length ?? 0) + messageString.length;
+      const budget = MAX_CHARS - (promptString?.length ?? 0);
 
       const body = {
         model: "gpt-3.5-turbo",
@@ -82,7 +82,7 @@ export function ai({
             : []),
           {
             role: "user",
-            content: messageString.slice(0, messageString.length + MAX_CHARS - len),
+            content: messageString.slice(0, budget),
           },
         ],
         temperature,
