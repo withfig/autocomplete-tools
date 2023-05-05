@@ -28,7 +28,7 @@ export function ai({
 }: {
   name: string;
   prompt?: string | GeneratorFn<string>;
-  message: string | GeneratorFn<string>;
+  message: string | GeneratorFn<string | null> | null;
   postProcess?: (out: string) => Fig.Suggestion[];
   temperature?: number;
   splitOn?: string;
@@ -41,11 +41,6 @@ export function ai({
       );
 
       if (!JSON.parse(enabled)) {
-        return [];
-      }
-
-      if (message.length === 0) {
-        console.warn("No message provided to AI generator");
         return [];
       }
 
@@ -66,6 +61,11 @@ export function ai({
               generatorContext,
             })
           : message;
+
+      if (messageString === null || messageString.length === 0) {
+        console.warn("No message provided to AI generator");
+        return [];
+      }
 
       const budget = MAX_CHARS - (promptString?.length ?? 0);
 
