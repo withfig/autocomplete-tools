@@ -41,11 +41,16 @@ function generateParamsFromBlock(blocks: readonly tsdoc.DocParamBlock[] = []) {
   }));
 }
 
-function generateMember(memberNode: ts.TypeElement, sourceText: string): MemberDoc {
+function generateMember(memberNode: ts.TypeElement, sourceText: string): MemberDoc | null {
   const docComment = DocManager.parseFirstDocComment(memberNode, sourceText);
   const examples: string[] = [];
   let defaultValue;
   let category;
+
+  if (docComment?.modifierTagSet.hasTag(tagDefinitions.ignoreTag)) {
+    return null;
+  }
+
   for (const block of docComment?.customBlocks ?? []) {
     switch (block.blockTag.tagName) {
       case "@example":
@@ -65,6 +70,7 @@ function generateMember(memberNode: ts.TypeElement, sourceText: string): MemberD
       `Interface members of SyntaxKind: '${memberNode.kind}' are not yet supported, please update the docs generator to support them.`
     );
   }
+
   return {
     // memberNode may be an IndexSignature or another type which doesn't have a name
     name: memberNode.name.getText(),
@@ -117,7 +123,9 @@ function generateInterface(_interface: FoundNode<ts.InterfaceDeclaration>): Inte
     filename,
     hasDocComment: !!docComment,
     extends: heritageClauses,
-    members: interfaceNode.members.map((member) => generateMember(member, sourceText)),
+    members: interfaceNode.members
+      .map((member) => generateMember(member, sourceText))
+      .filter(Boolean) as MemberDoc[],
     inheritedMembers: [],
   };
 }
@@ -167,6 +175,10 @@ export function generate(sourceText: string) {
 
   walkCompilerAstAndFindComments(sourceFile, foundNodes);
   for (const foundNode of foundNodes) {
+    if (foundNode.docComment?.modifierTagSet.hasTag(tagDefinitions.ignoreTag)) {
+      continue;
+    }
+
     if (isInterfaceDeclarationFoundNode(foundNode)) {
       interfaces.push(generateInterface(foundNode));
     } else {

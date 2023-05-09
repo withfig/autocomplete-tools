@@ -426,6 +426,22 @@ declare namespace Fig {
      * ```
      */
     deprecated?: boolean | Omit<BaseSuggestion, "deprecated">;
+
+    /**
+     * Specifies which component to use to render the preview window.
+     *
+     * @remarks This should be the path within the `src` directory to the component without the extension.
+     *
+     * @example 'ls/filepathPreview'
+     */
+    previewComponent?: string;
+
+    /**
+     * This is a way to pass data to the Autocomplete Engine that is not formalized in the spec, do not use this in specs as it may change at any time
+     *
+     * @ignore
+     */
+    _internal?: Record<string, unknown>;
   }
 
   /**
