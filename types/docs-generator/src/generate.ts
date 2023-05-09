@@ -41,15 +41,11 @@ function generateParamsFromBlock(blocks: readonly tsdoc.DocParamBlock[] = []) {
   }));
 }
 
-function generateMember(memberNode: ts.TypeElement, sourceText: string): MemberDoc | null {
+function generateMember(memberNode: ts.TypeElement, sourceText: string): MemberDoc {
   const docComment = DocManager.parseFirstDocComment(memberNode, sourceText);
   const examples: string[] = [];
   let defaultValue;
   let category;
-
-  if (docComment?.modifierTagSet.hasTag(tagDefinitions.ignoreTag)) {
-    return null;
-  }
 
   for (const block of docComment?.customBlocks ?? []) {
     switch (block.blockTag.tagName) {
@@ -125,7 +121,7 @@ function generateInterface(_interface: FoundNode<ts.InterfaceDeclaration>): Inte
     extends: heritageClauses,
     members: interfaceNode.members
       .map((member) => generateMember(member, sourceText))
-      .filter(Boolean) as MemberDoc[],
+      .filter((memeber) => !memeber.excluded),
     inheritedMembers: [],
   };
 }
@@ -175,10 +171,6 @@ export function generate(sourceText: string) {
 
   walkCompilerAstAndFindComments(sourceFile, foundNodes);
   for (const foundNode of foundNodes) {
-    if (foundNode.docComment?.modifierTagSet.hasTag(tagDefinitions.ignoreTag)) {
-      continue;
-    }
-
     if (isInterfaceDeclarationFoundNode(foundNode)) {
       interfaces.push(generateInterface(foundNode));
     } else {

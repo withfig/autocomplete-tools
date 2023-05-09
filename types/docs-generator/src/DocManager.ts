@@ -26,10 +26,6 @@ export const tagDefinitions = {
     tagName: "@category",
     syntaxKind: tsdoc.TSDocTagSyntaxKind.InlineTag,
   }),
-  ignoreTag: new tsdoc.TSDocTagDefinition({
-    tagName: "@ignore",
-    syntaxKind: tsdoc.TSDocTagSyntaxKind.ModifierTag,
-  }),
 };
 
 const configuration = new tsdoc.TSDocConfiguration();

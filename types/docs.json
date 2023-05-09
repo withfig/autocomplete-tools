@@ -125,6 +125,17 @@
             "```js\ndeprecated: { insertValue: '--ansi never', description: 'The --no-ansi option has been deprecated in v2' }\n```"
           ],
           "hasDocComment": true
+        },
+        {
+          "name": "previewComponent",
+          "excluded": false,
+          "summary": "Specifies which component to use to render the preview window.",
+          "discussion": "This should be the path within the `src` directory to the component without the extension.",
+          "parameters": [],
+          "optional": true,
+          "declaration": "previewComponent?: string",
+          "examples": ["'ls/filepathPreview'"],
+          "hasDocComment": true
         }
       ],
       "inheritedMembers": []
@@ -279,6 +290,17 @@
           "examples": [
             "```js\ndeprecated: { insertValue: '--ansi never', description: 'The --no-ansi option has been deprecated in v2' }\n```"
           ],
+          "hasDocComment": true
+        },
+        {
+          "name": "previewComponent",
+          "excluded": false,
+          "summary": "Specifies which component to use to render the preview window.",
+          "discussion": "This should be the path within the `src` directory to the component without the extension.",
+          "parameters": [],
+          "optional": true,
+          "declaration": "previewComponent?: string",
+          "examples": ["'ls/filepathPreview'"],
           "hasDocComment": true
         }
       ]
@@ -576,6 +598,17 @@
             "```js\ndeprecated: { insertValue: '--ansi never', description: 'The --no-ansi option has been deprecated in v2' }\n```"
           ],
           "hasDocComment": true
+        },
+        {
+          "name": "previewComponent",
+          "excluded": false,
+          "summary": "Specifies which component to use to render the preview window.",
+          "discussion": "This should be the path within the `src` directory to the component without the extension.",
+          "parameters": [],
+          "optional": true,
+          "declaration": "previewComponent?: string",
+          "examples": ["'ls/filepathPreview'"],
+          "hasDocComment": true
         }
       ]
     },
@@ -831,6 +864,17 @@
             "```js\ndeprecated: { insertValue: '--ansi never', description: 'The --no-ansi option has been deprecated in v2' }\n```"
           ],
           "hasDocComment": true
+        },
+        {
+          "name": "previewComponent",
+          "excluded": false,
+          "summary": "Specifies which component to use to render the preview window.",
+          "discussion": "This should be the path within the `src` directory to the component without the extension.",
+          "parameters": [],
+          "optional": true,
+          "declaration": "previewComponent?: string",
+          "examples": ["'ls/filepathPreview'"],
+          "hasDocComment": true
         }
       ]
     },
@@ -1016,11 +1060,11 @@
         {
           "name": "debounce",
           "excluded": false,
-          "summary": "This will debounce every keystroke event for this particular arg.",
-          "discussion": "If there are no keystroke events after 100ms, Fig will execute all the generators in this arg and return the suggestions.",
+          "summary": "This will debounce every keystroke event for this particular arg.\n\nIf `true` the debounce time will be 200ms.\n\nIf a number, the debounce time will be that number of milliseconds.",
+          "discussion": "If set and there are no keystroke events after the period of time, Fig will execute all the generators in this arg and return the suggestions.",
           "parameters": [],
           "optional": true,
-          "declaration": "debounce?: boolean",
+          "declaration": "debounce?: boolean | number",
           "examples": [
             "`npm install` and `pip install` send debounced network requests after inactive typing from users."
           ],
@@ -1434,6 +1478,27 @@
           "description": "The directory in which to execute the command"
         }
       ]
+    },
+    {
+      "name": "ExecFunctionOptions",
+      "declaration": "type ExecFunctionOptions = (\n  | {\n      /**\n       * The command to execute, this will be executed in bash like a normal shell command.\n       * @example\n       * `echo hello world`\n       * @example\n       * `ls`\n       */\n      command: string\n    }\n  | {\n      /**\n       * This will execute the command without a shell, so you can use this to execute a binary.\n       * @example\n       * [\"ls\", \"-a\"]\n       */\n      args: string[]\n    }\n) & {\n  /**\n   * The directory in which to execute the command, if not specified, the current working directory will be used.\n   */\n  cwd?: string\n  /**\n   * Whether to clear the environment variables or not before executing the command.\n   * @default false\n   */\n  clearEnv?: boolean\n  /**\n   * The environment variables to set before executing the command.\n   * @example\n   * { PATH: \"/usr/bin\", HELLO: \"world\", FOO: null }\n   */\n  env?: Record<string, string | null>\n}",
+      "summary": "",
+      "examples": [],
+      "parameters": []
+    },
+    {
+      "name": "ExecFunctionResult",
+      "declaration": "type ExecFunctionResult = {\n  /**\n   * The output of the command on stdout.\n   */\n  stdout: string\n  /**\n   * The output of the command on stderr.\n   */\n  stderr: string\n  /**\n   * The exit code of the command.\n   */\n  exitCode: number\n}",
+      "summary": "The result of the `ExecuteShellCommandFunction`",
+      "examples": [],
+      "parameters": []
+    },
+    {
+      "name": "ExecFunction",
+      "declaration": "type ExecFunction = (\n  options: (\n    | {\n        /**\n         * The command to execute, this will be executed in bash like a normal shell command.\n         * @example\n         * `echo hello world`\n         * @example\n         * `ls`\n         */\n        command: string\n      }\n    | {\n        /**\n         * This will execute the command without a shell, so you can use this to execute a binary.\n         * @example\n         * [\"ls\", \"-a\"]\n         */\n        args: string[]\n      }\n  ) & {\n    /**\n     * The directory in which to execute the command, if not specified, the current working directory will be used.\n     */\n    cwd?: string\n    /**\n     * Whether to clear the environment variables or not before executing the command.\n     * @default false\n     */\n    clearEnv?: boolean\n    /**\n     * The environment variables to set before executing the command.\n     * @example\n     * { PATH: \"/usr/bin\", HELLO: \"world\", FOO: null }\n     */\n    env?: Record<string, string | null>\n  }\n) => Promise<{\n  /**\n   * The output of the command on stdout.\n   */\n  stdout: string\n  /**\n   * The output of the command on stderr.\n   */\n  stderr: string\n  /**\n   * The exit code of the command.\n   */\n  exitCode: number\n}>",
+      "summary": "",
+      "examples": [],
+      "parameters": []
     },
     {
       "name": "CacheMaxAge",
