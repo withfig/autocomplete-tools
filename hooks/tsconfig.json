@@ -11,5 +11,5 @@
     "declaration": true,
     "types": ["@withfig/autocomplete-types"]
   },
-  "exclude": ["node_modules/", "lib/"]
+  "exclude": ["node_modules/", "lib/", "test"]
 }

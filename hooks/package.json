@@ -1,12 +1,12 @@
 {
   "name": "@fig/autocomplete-hooks",
   "description": "Hooks for building autocomplete components",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "author": "The Fig Team",
   "license": "MIT",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
-  "lib": [
+  "files": [
     "lib/"
   ],
   "scripts": {
