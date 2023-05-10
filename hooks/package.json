@@ -1,0 +1,27 @@
+{
+  "name": "@fig/autocomplete-hooks",
+  "description": "Hooks for building autocomplete components",
+  "version": "1.0.0",
+  "author": "The Fig Team",
+  "license": "MIT",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "lib": [
+    "lib/"
+  ],
+  "scripts": {
+    "build": "tsc"
+  },
+  "dependencies": {
+    "@withfig/api-bindings": "^0.29.3",
+    "react": "^18.2.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.6",
+    "@withfig/autocomplete-types": "workspace:^",
+    "typescript": "^5.0.4"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

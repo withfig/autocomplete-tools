@@ -14,6 +14,7 @@ This repo contains the source for all of Fig tools related with [autocomplete](h
 - [`@fig/eslint-config-autocomplete`](eslint/config-autocomplete/README.md)
 - [`@withfig/eslint-plugin-fig-linter`](eslint/plugin-fig-linter/README.md)
 - [`@fig/autocomplete-generators`](generators/README.md)
+- [`@fig/autocomplete-hooks`](hooks/README.md)
 - [`@fig/autocomplete-helpers`](helpers/README.md)
 - [`argparse_complete_fig`](integrations/argparse/README.md)
 - [`cement_complete_fig`](integrations/cement/README.md)

@@ -32,6 +32,7 @@
     "shared",
     "generators",
     "helpers",
+    "hooks",
     "merge",
     "integrations/oclif",
     "integrations/commander",
