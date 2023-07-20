@@ -850,7 +850,7 @@ __metadata:
     "@withfig/autocomplete-types": ^1.15.0
     jest: ^28.0.3
     prettier: ^2.6.2
-    semver: ^7.3.5
+    semver: ^7.5.2
     ts-jest: ^28.0.0
     ts-node: ^10.4.0
     typescript: ^4.6.3
@@ -2244,7 +2244,7 @@ __metadata:
     fast-glob: ^3.2.7
     module-from-string: ^3.1.4
     prettier: ^2.4.1
-    semver: ^7.3.5
+    semver: ^7.5.2
     ts-node: ^10.7.0
     typescript: ^4.6.4
   bin:
@@ -8125,6 +8125,17 @@ __metadata:
   bin:
     semver: ./bin/semver.js
   checksum: 1b26ecf6db9e8292dd90df4e781d91875c0dcc1b1909e70f5d12959a23c7eebb8f01ea581c00783bbee72ceeaad9505797c381756326073850dc36ed284b21b9
+  languageName: node
+  linkType: hard
+
+"semver@npm:^7.5.2":
+  version: 7.5.4
+  resolution: "semver@npm:7.5.4"
+  dependencies:
+    lru-cache: ^6.0.0
+  bin:
+    semver: bin/semver.js
+  checksum: 12d8ad952fa353b0995bf180cdac205a4068b759a140e5d3c608317098b3575ac2f1e09182206bf2eb26120e1c0ed8fb92c48c592f6099680de56bb071423ca3
   languageName: node
   linkType: hard
 
