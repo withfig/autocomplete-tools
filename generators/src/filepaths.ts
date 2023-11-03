@@ -176,7 +176,7 @@ function filepathsFn(options: FilepathsOptions = {}): Fig.Generator {
     },
     getQueryTerm: (token) => token.slice(token.lastIndexOf("/") + 1),
 
-    custom: async (_, executeShellCommand, generatorContext) => {
+    custom: async (_, executeCommand, generatorContext) => {
       const { isDangerous, currentWorkingDirectory, searchTerm } = generatorContext;
       const currentInsertedDirectory =
         getCurrentInsertedDirectory(
@@ -187,8 +187,12 @@ function filepathsFn(options: FilepathsOptions = {}): Fig.Generator {
 
       try {
         // Use \ls command to avoid any aliases set for ls.
-        const data = await executeShellCommand("command ls -1ApL", currentInsertedDirectory);
-        const sortedFiles = sortFilesAlphabetically(data.split("\n"), [".DS_Store"]);
+        const data = await executeCommand({
+          command: "ls",
+          args: ["-1ApL"],
+          cwd: currentInsertedDirectory,
+        });
+        const sortedFiles = sortFilesAlphabetically(data.stdout.split("\n"), [".DS_Store"]);
 
         const generatorOutputArray: Fig.TemplateSuggestion[] = [];
         // Then loop through them and add them to the generatorOutputArray
