@@ -845,9 +845,10 @@ __metadata:
   dependencies:
     "@tsconfig/recommended": ^1.0.1
     "@types/jest": ^27.5.0
+    "@types/node": ^20.8.10
     "@types/prettier": ^2.6.0
     "@types/semver": ^7.3.9
-    "@withfig/autocomplete-types": ^1.15.0
+    "@withfig/autocomplete-types": "workspace:^"
     jest: ^28.0.3
     prettier: ^2.6.2
     semver: ^7.5.2
@@ -888,8 +889,9 @@ __metadata:
   dependencies:
     "@tsconfig/recommended": ^1.0.1
     "@types/jest": ^27.5.0
+    "@types/node": ^20.8.10
     "@types/semver": ^7.3.9
-    "@withfig/autocomplete-types": ^1.15.0
+    "@withfig/autocomplete-types": "workspace:^"
     jest: ^28.0.3
     prettier: ^2.6.2
     ts-jest: ^28.0.0
@@ -1960,6 +1962,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/node@npm:^20.8.10":
+  version: 20.8.10
+  resolution: "@types/node@npm:20.8.10"
+  dependencies:
+    undici-types: ~5.26.4
+  checksum: 7c61190e43e8074a1b571e52ff14c880bc67a0447f2fe5ed0e1a023eb8a23d5f815658edb98890f7578afe0f090433c4a635c7c87311762544e20dd78723e515
+  languageName: node
+  linkType: hard
+
 "@types/parse-json@npm:^4.0.0":
   version: 4.0.0
   resolution: "@types/parse-json@npm:4.0.0"
@@ -2252,11 +2263,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@withfig/autocomplete-types@^1.10.0, @withfig/autocomplete-types@^1.15.0, @withfig/autocomplete-types@^1.5.0, @withfig/autocomplete-types@workspace:^, @withfig/autocomplete-types@workspace:types":
+"@withfig/autocomplete-types@^1.10.0, @withfig/autocomplete-types@^1.5.0, @withfig/autocomplete-types@workspace:^, @withfig/autocomplete-types@workspace:types":
   version: 0.0.0-use.local
   resolution: "@withfig/autocomplete-types@workspace:types"
   dependencies:
     "@microsoft/tsdoc": ^0.14.1
+    "@types/node": ^20.8.10
     cspell: ^6.0.0
     picocolors: ^1.0.0
     prettier: ^2.6.2
@@ -9043,6 +9055,13 @@ __metadata:
     has-symbols: ^1.0.3
     which-boxed-primitive: ^1.0.2
   checksum: b7a1cf5862b5e4b5deb091672ffa579aa274f648410009c81cca63fed3b62b610c4f3b773f912ce545bb4e31edc3138975b5bc777fc6e4817dca51affb6380e9
+  languageName: node
+  linkType: hard
+
+"undici-types@npm:~5.26.4":
+  version: 5.26.5
+  resolution: "undici-types@npm:5.26.5"
+  checksum: 3192ef6f3fd5df652f2dc1cd782b49d6ff14dc98e5dced492aa8a8c65425227da5da6aafe22523c67f035a272c599bb89cfe803c1db6311e44bed3042fc25487
   languageName: node
   linkType: hard
 

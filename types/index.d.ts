@@ -90,7 +90,7 @@ declare namespace Fig {
     | Subcommand
     | ((
         token: string,
-        executeShellCommand: ExecuteShellCommandFunction
+        executeCommand: ExecuteCommandFunction
       ) => Promise<SpecLocation | SpecLocation[] | Subcommand>);
 
   /**
@@ -120,7 +120,7 @@ declare namespace Fig {
    * @remarks
    * This is used in completion specs that want to version themselves the same way CLI tools are versioned. See fig.io/docs
    *
-   * @param executeShellCommand -an async function that allows you to execute a shell command on the user's system and get the output as a string.
+   * @param executeCommand -an async function that allows you to execute a shell command on the user's system and get the output as a string.
    * @returns The version of a CLI tool
    *
    * @example
@@ -130,7 +130,7 @@ declare namespace Fig {
    * `v26`
    *
    */
-  type GetVersionCommand = (executeShellCommand: ExecuteShellCommandFunction) => Promise<string>;
+  type GetVersionCommand = (executeCommand: ExecuteCommandFunction) => Promise<string>;
 
   /**
    * Context about a current shell session.
@@ -163,6 +163,7 @@ declare namespace Fig {
    * @irreplaceable
    */
   type Modify<T, R> = Omit<T, keyof R> & R;
+
   /**
    * A `string` OR a `function` which can have a `T` argument and a `R` result.
    * @param param - A param of type `R`
@@ -231,18 +232,48 @@ declare namespace Fig {
         version?: string;
       });
 
+  type ExecuteCommandInput = {
+    /**
+     * The command to execute
+     */
+    command: string;
+    /**
+     * The arguments to the command to be run
+     */
+    args: string[];
+    /**
+     * The directory to run the command in
+     */
+    cwd?: string;
+    /**
+     * The environment variables to set when executing the command, `undefined` will unset the variable if it set
+     */
+    env?: Record<string, string | undefined>;
+  };
+
   /**
-   * An async function to execute a shell command
-   * @param commandToExecute - The shell command you want to execute
-   * @param cwd - The directory in which to execute the command
-   * @returns The output of the shell command as a string
-   *
-   * @remarks
-   * The `cwd` parameter will add a `cd [cwd] &&` before the command itself.
-   * @example
-   * `ExecuteShellCommandFunction("echo hello world")` will return `hello world`
+   * The output of running a command
    */
-  type ExecuteShellCommandFunction = (commandToExecute: string, cwd?: string) => Promise<string>;
+  type ExecuteCommandOutput = {
+    /**
+     * The stdout (1) of running a command
+     */
+    stdout: string;
+    /**
+     * The stderr (2) of running a command
+     */
+    stderr: string;
+    /**
+     * The exit status of running a command
+     */
+    status: number;
+  };
+
+  /**
+   * An async function to execute a command
+   * @returns The output of the command
+   */
+  type ExecuteCommandFunction = (args: ExecuteCommandInput) => Promise<ExecuteCommandOutput>;
 
   type CacheMaxAge = {
     strategy: "max-age";
@@ -570,7 +601,7 @@ declare namespace Fig {
      * Dynamically load another completion spec at runtime.
      *
      * @param tokens - a tokenized array of the text the user has typed in the shell.
-     * @param executeShellCommand - an async function that can execute a shell command on behalf of the user. The output is a string.
+     * @param executeCommand - an async function that can execute a shell command on behalf of the user. The output is a string.
      * @returns A `SpecLocation` object or an array of `SpecLocation` objects.
      *
      * @remarks
@@ -604,15 +635,15 @@ declare namespace Fig {
      * This API is often used by CLI tools where the structure of the CLI tool is not *static*. For instance, if the tool can be extended by plugins or otherwise shows different subcommands or options depending on the environment.
      *
      * @param tokens - a tokenized array of the text the user has typed in the shell.
-     * @param executeShellCommand - an async function that can execute a shell command on behalf of the user. The output is a string.
+     * @param executeCommand - an async function that can execute a shell command on behalf of the user. The output is a string.
      * @returns a `Fig.Spec` object
      *
      * @example
      * The `python` spec uses `generateSpec` to include the`django-admin` spec if `django manage.py` exists.
      * ```typescript
-     * generateSpec: async (tokens, executeShellCommand) => {
+     * generateSpec: async (tokens, executeCommand) => {
      *    // Load the contents of manage.py
-     *    const managePyContents = await executeShellCommand("cat manage.py");
+     *    const managePyContents = await executeCommand("cat manage.py");
      *    // Heuristic to determine if project uses django
      *    if (managePyContents.contains("django")) {
      *      return {
@@ -623,10 +654,7 @@ declare namespace Fig {
      *  },
      * ```
      */
-    generateSpec?: (
-      tokens: string[],
-      executeShellCommand: ExecuteShellCommandFunction
-    ) => Promise<Spec>;
+    generateSpec?: (tokens: string[], executeCommand: ExecuteCommandFunction) => Promise<Spec>;
 
     /**
      * Configure how the autocomplete engine will map the raw tokens to a given completion spec.
@@ -1043,7 +1071,7 @@ declare namespace Fig {
      * This is similar to how Fig is able to offer autocomplete for user defined shell aliases, but occurs at the completion spec level.
      *
      * @param token - The token that the user has just typed that is an alias for something else
-     * @param executeShellCommand -an async function that allows you to execute a shell command on the user's system and get the output as a string.
+     * @param executeCommand -an async function that allows you to execute a shell command on the user's system and get the output as a string.
      * @returns The expansion of the alias that Fig's bash parser will reparse as if it were typed out in full, rather than the alias.
      *
      * If for some reason you know exactly what it will be, you may also just pass in the expanded alias, not a function that returns the expanded alias.
@@ -1058,7 +1086,7 @@ declare namespace Fig {
      * Note: In both cases, the alias function is only used to expand a given alias NOT to generate the list of aliases. To generate a list of aliases, scripts etc, use a generator.
      */
     parserDirectives?: {
-      alias?: string | ((token: string, exec: ExecuteShellCommandFunction) => Promise<string>);
+      alias?: string | ((token: string, exec: ExecuteCommandFunction) => Promise<string>);
     };
   }
 
@@ -1097,17 +1125,22 @@ declare namespace Fig {
     filterTemplateSuggestions?: Function<TemplateSuggestion[], Suggestion[]>;
     /**
      *
-     * The script / shell command you wish to run on the user's device at their shell session's current working directory.
+     * The command you wish to run on the user's device at their shell session's current working directory.
+     *
      * @remarks
      * You can either specify
-     * 1. a string to be executed (like `ls` or `git branch`)
-     * 2. a function to generate the string to be executed. The function takes in an array of tokens of the user input and should output a string. You use a function when the script you run is dependent upon one of the tokens the user has already input (for instance an app name, a Kubernetes token etc.)
-     * After executing the script, the output will be passed to one of `splitOn` or `postProcess` for further processing to produce suggestion objects.
+     * 1. a command and args to be executed (like `["ls"]` or `["git", "branch"]`)
+     * 2. a function to generate the command and args to be executed. The function takes in an array of tokens of the user input and should output a array of string (command and args). You use a function when the script you run is dependent upon one of the tokens the user has already input (for instance an app name, a Kubernetes token etc.)
+     * After executing the script, the stdout output will be passed to one of `splitOn` or `postProcess` for further processing to produce suggestion objects.
      *
      * @example
-     * `git checkout <branch>` takes one argument which is a git branch. Its arg object has a generator with a `script: "git branch"`. The output of this shell command is then passed into the postProcess function to generate the final suggestions.
+     * `git checkout <branch>` takes one argument which is a git branch. Its arg object has a generator with a `script: ["git", "branch"]"`. The stdout output of this shell command is then passed into the postProcess function to generate the final suggestions.
      */
-    script?: StringOrFunction<string[], string>;
+    script?:
+      | string[]
+      | Function<string[], string[]>
+      | ExecuteCommandInput
+      | Function<string[], ExecuteCommandInput>;
     /**
      * Set the execution timeout of the command specified in the `script` prop.
      * @defaultValue 5000
@@ -1202,7 +1235,7 @@ declare namespace Fig {
      * This function is effectively `script` and `postProcess` combined. It is very useful in combination with `trigger` and `getQueryTerm` to generate suggestions as the user is typing inside a token. Read the description of `trigger` for more.
      *
      * @param tokens - a tokenized array of what the user has typed
-     * @param executeShellCommand - an async function that allows you to execute a shell command on the user's system and get the output as a string.
+     * @param executeCommand - an async function that allows you to execute a shell command on the user's system and get the output as a string.
      * @param shellContext - an object containing a user's currentWorkingDirectory, currentProcess, and if relevant, the sshPrefix string that can be used if the user is in an SSH session.
      *
      * @returns An array of suggestion objects
@@ -1216,8 +1249,8 @@ declare namespace Fig {
      * @example
      * ```ts
      * const generator: Fig.Generator = {
-     *   custom: async (tokens, executeShellCommand) => {
-     *     const out = await executeShellCommand("ls");
+     *   custom: async (tokens, executeCommand) => {
+     *     const out = await executeCommand("ls");
      *     return out.split("\n").map((elm) => ({ name: elm }));
      *   },
      * };
@@ -1225,7 +1258,7 @@ declare namespace Fig {
      */
     custom?: (
       tokens: string[],
-      executeShellCommand: ExecuteShellCommandFunction,
+      executeCommand: ExecuteCommandFunction,
       generatorContext: GeneratorContext
     ) => Promise<Suggestion[]>;
     /**

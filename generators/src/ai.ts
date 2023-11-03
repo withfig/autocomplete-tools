@@ -1,6 +1,6 @@
 export type GeneratorFn<T> = (args: {
   tokens: string[];
-  executeShellCommand: Fig.ExecuteShellCommandFunction;
+  executeCommand: Fig.ExecuteCommandFunction;
   generatorContext: Fig.GeneratorContext;
 }) => Promise<T> | T;
 
@@ -35,12 +35,13 @@ export function ai({
 }): Fig.Generator {
   return {
     scriptTimeout: 15000,
-    custom: async (tokens, executeShellCommand, generatorContext) => {
-      const enabled = await executeShellCommand(
-        "fig settings --format json autocomplete.ai.enabled"
-      );
+    custom: async (tokens, executeCommand, generatorContext) => {
+      const settingOutput = await executeCommand({
+        command: "fig",
+        args: ["settings", "--format", "json", "autocomplete.ai.enabled"],
+      });
 
-      if (!JSON.parse(enabled)) {
+      if (!JSON.parse(settingOutput.stdout)) {
         return [];
       }
 
@@ -48,7 +49,7 @@ export function ai({
         typeof prompt === "function"
           ? await prompt({
               tokens,
-              executeShellCommand,
+              executeCommand,
               generatorContext,
             })
           : prompt;
@@ -57,7 +58,7 @@ export function ai({
         typeof message === "function"
           ? await message({
               tokens,
-              executeShellCommand,
+              executeCommand,
               generatorContext,
             })
           : message;
@@ -91,13 +92,12 @@ export function ai({
       };
 
       const bodyJson = JSON.stringify(body);
-      const escapedBodyJson = bodyJson.replace(/'/g, "'\"'\"'");
 
-      const res = await executeShellCommand(
-        `fig _ request --route /ai/chat --method POST --body '${escapedBodyJson}'`
-      );
-
-      const json = JSON.parse(res);
+      const requestOutput = await executeCommand({
+        command: "fig",
+        args: ["_", "request", "--route", "/ai/chat", "--method", "POST", "--body", bodyJson],
+      });
+      const json = JSON.parse(requestOutput.stdout);
 
       const a =
         json?.choices

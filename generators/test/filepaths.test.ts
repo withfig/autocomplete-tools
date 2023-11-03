@@ -140,33 +140,19 @@ describe("Test sortFilesAlphabetically", () => {
 });
 
 describe("Test filepaths generators", () => {
-  let globalSSHString: string;
   let currentCWD: string;
-  let executeCommand: sinon.SinonStub;
+  let executeCommandStub: sinon.SinonStub;
 
-  async function executeCommandInDir(
-    command: string,
-    dir: string,
-    sshContextString?: string,
-    timeout?: number
-  ): Promise<string> {
-    const inputDir = dir.replace(/[\s()[\]]/g, "\\$&");
-    let commandString = `cd ${inputDir} && ${command} | cat`;
-
-    if (sshContextString) {
-      commandString = commandString.replace(/'/g, `'"'"'`);
-      commandString = `${sshContextString} '${commandString}'`;
-    }
-
-    return executeCommand(commandString, timeout && timeout > 0 ? timeout : undefined);
-  }
-
-  async function executeShellCommand(cmd: string, overrideCWD?: string): Promise<string> {
+  async function executeCommand(args: Fig.ExecuteCommandInput): Promise<Fig.ExecuteCommandOutput> {
     try {
-      return executeCommandInDir(cmd, overrideCWD ?? currentCWD, globalSSHString);
+      return executeCommandStub(args);
     } catch (err) {
       return new Promise((resolve) => {
-        resolve("");
+        resolve({
+          stdout: "",
+          stderr: "",
+          status: 1,
+        });
       });
     }
   }
@@ -176,20 +162,19 @@ describe("Test filepaths generators", () => {
     mockLSResults: string[],
     context = defaultContext
   ): Promise<string[]> {
-    executeCommand.resolves(mockLSResults.join("\n"));
-    return (await filepaths(options).custom!([], executeShellCommand, context)).map(toName);
+    executeCommandStub.resolves(mockLSResults.join("\n"));
+    return (await filepaths(options).custom!([], executeCommand, context)).map(toName);
   }
 
   beforeEach(() => {
-    executeCommand = sinon.stub();
+    executeCommandStub = sinon.stub();
     // these steps are approximately the ones performed by the engine before running a generator
-    globalSSHString = "";
     currentCWD = "~/current_cwd/";
     defaultContext.currentWorkingDirectory = currentCWD;
   });
 
   afterEach(() => {
-    executeCommand.resetHistory();
+    executeCommandStub.resetHistory();
   });
 
   after(() => {
@@ -224,8 +209,8 @@ describe("Test filepaths generators", () => {
     describe("should return filepaths suggestions", () => {
       const suggestions = ["a/", "c/", "l", "x"];
       it("should show all suggestions when no options or search term is specified", async () => {
-        executeCommand.resolves(suggestions.join("\n"));
-        expect(await filepaths.custom!([], executeShellCommand, defaultContext)).to.eql(
+        executeCommandStub.resolves(suggestions.join("\n"));
+        expect(await filepaths.custom!([], executeCommand, defaultContext)).to.eql(
           [
             { insertValue: "a/", name: "a/", type: "folder", context: { templateType: "folders" } },
             { insertValue: "c/", name: "c/", type: "folder", context: { templateType: "folders" } },
@@ -395,27 +380,13 @@ describe("Test filepaths generators", () => {
 
     describe("deprecated sshPrefix", () => {
       it("should call executeCommand with default user input dir ignoring ssh", async () => {
-        await filepaths.custom!([], executeShellCommand, {
+        await filepaths.custom!([], executeCommand, {
           ...defaultContext,
           sshPrefix: "ssh -i blabla",
         });
 
         expect(executeCommand).to.have.been.calledWith(
           "cd ~/current_cwd/ && command ls -1ApL | cat",
-          undefined
-        );
-      });
-
-      it("should call executeCommand with specified user input dir ignoring ssh but adding the global ssh string", async () => {
-        globalSSHString = "some_ssh_string";
-        await filepaths({ rootDirectory: "/etc" }).custom!([], executeShellCommand, {
-          ...defaultContext,
-          searchTerm: "some_path/",
-          sshPrefix: "ssh -i blabla",
-        });
-
-        expect(executeCommand).to.have.been.calledWith(
-          "some_ssh_string 'cd /etc/some_path/ && command ls -1ApL | cat'",
           undefined
         );
       });
@@ -427,10 +398,8 @@ describe("Test filepaths generators", () => {
       const passing: string[] = ["folder1.txt/", "folder2.txt/", "folder3/"];
       const failing: string[] = ["file1.test.js", "file2.js", "file3.mjs", "file4.ts"];
 
-      executeCommand.resolves(passing.concat(failing).join("\n"));
-      const results = (await folders().custom!([], executeShellCommand, defaultContext)).map(
-        toName
-      );
+      executeCommandStub.resolves(passing.concat(failing).join("\n"));
+      const results = (await folders().custom!([], executeCommand, defaultContext)).map(toName);
 
       expect(results).to.eql(passing.concat("../"));
     });
