@@ -1,3 +1,5 @@
+import { ensureTrailingSlash, shellExpand } from "./resolve";
+
 export interface FilepathsOptions {
   /**
    * Show suggestions with any of these extensions. Do not include the leading dot.
@@ -48,8 +50,6 @@ export function sortFilesAlphabetically(array: string[], skip: string[] = []): s
   ];
 }
 
-const ensureTrailingSlash = (str: string) => (str.endsWith("/") ? str : `${str}/`);
-
 /**
  * @param cwd - The current working directory when the user started typing the new path
  * @param searchTerm - The path inserted by the user, it can be relative to cwd or absolute
@@ -58,31 +58,19 @@ const ensureTrailingSlash = (str: string) => (str.endsWith("/") ? str : `${str}/
 export const getCurrentInsertedDirectory = (
   cwd: string | null,
   searchTerm: string,
-  environmentVariables: Record<string, string> = {}
+  context: Fig.ShellContext
 ): string => {
   if (cwd === null) return "/";
 
-  // Replace simple $VAR variables
-  const resolvedSimpleVariables = searchTerm.replace(/\$([A-Za-z0-9_]+)/g, (key) => {
-    const envKey = key.slice(1);
-    return environmentVariables[envKey] || "";
-  });
+  const resolvedPath = shellExpand(searchTerm, context);
 
-  // Replace complex ${VAR} variables
-  const resolvedComplexVariables = resolvedSimpleVariables.replace(
-    /\$\{([A-Za-z0-9_]+)(?::-([^}]+))?\}/g,
-    (_, envKey, defaultValue) => environmentVariables[envKey] ?? defaultValue ?? ""
-  );
-
-  const dirname = resolvedComplexVariables.slice(0, resolvedComplexVariables.lastIndexOf("/") + 1);
+  const dirname = resolvedPath.slice(0, resolvedPath.lastIndexOf("/") + 1);
 
   if (dirname === "") {
     return ensureTrailingSlash(cwd);
   }
 
-  return dirname.startsWith("~/") || dirname.startsWith("/")
-    ? dirname
-    : `${ensureTrailingSlash(cwd)}${dirname}`;
+  return dirname.startsWith("/") ? dirname : `${ensureTrailingSlash(cwd)}${dirname}`;
 };
 
 /**
@@ -182,11 +170,10 @@ function filepathsFn(options: FilepathsOptions = {}): Fig.Generator {
         getCurrentInsertedDirectory(
           rootDirectory ?? currentWorkingDirectory,
           searchTerm,
-          generatorContext.environmentVariables
+          generatorContext
         ) ?? "/";
 
       try {
-        // Use \ls command to avoid any aliases set for ls.
         const data = await executeCommand({
           command: "ls",
           args: ["-1ApL"],
