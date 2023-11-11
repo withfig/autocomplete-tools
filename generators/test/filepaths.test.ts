@@ -12,103 +12,124 @@ function toName(suggestion: Fig.Suggestion): string {
   return suggestion.name as string;
 }
 
+const defaultHome = "/home/user";
+const defaultCwd = `${defaultHome}/current_cwd`;
+
 const defaultContext: Fig.GeneratorContext = {
   searchTerm: "",
-  currentWorkingDirectory: "~/current_cwd/",
+  currentWorkingDirectory: defaultCwd,
   currentProcess: "zsh",
   sshPrefix: "",
   environmentVariables: {
-    HOME: "/home/user",
+    HOME: defaultHome,
   },
 };
 
+const defaultContextWithEnv = (env: Record<string, string>) => ({
+  ...defaultContext,
+  environmentVariables: {
+    ...defaultContext.environmentVariables,
+    ...env,
+  },
+});
+
 describe("Test getCurrentInsertedDirectory", () => {
   it("returns root for null cwd", () => {
-    expect(getCurrentInsertedDirectory(null, "foo/")).to.equal("/");
+    expect(getCurrentInsertedDirectory(null, "foo/", defaultContext)).to.equal("/");
   });
 
   it("returns merged path when both cwd and search term are specified", () => {
-    expect(getCurrentInsertedDirectory("~/current_cwd", "test/")).to.equal("~/current_cwd/test/");
+    expect(getCurrentInsertedDirectory(defaultCwd, "test/", defaultContext)).to.equal(
+      `${defaultCwd}/test/`
+    );
   });
 
   it("returns partial path when trailing slash is missing (1)", () => {
-    expect(getCurrentInsertedDirectory("~/current_cwd", "src/packages")).to.equal(
-      "~/current_cwd/src/"
+    expect(getCurrentInsertedDirectory(defaultCwd, "src/packages", defaultContext)).to.equal(
+      `${defaultCwd}/src/`
     );
   });
 
   it("returns partial path when trailing slash is missing (2)", () => {
-    expect(getCurrentInsertedDirectory("~/current_cwd", "src")).to.equal("~/current_cwd/");
-  });
-
-  it("returns the entire search term if it is an absolute path relative to ~", () => {
-    expect(getCurrentInsertedDirectory("~/current_cwd", "~/some_dir/src/test/")).to.equal(
-      "~/some_dir/src/test/"
+    expect(getCurrentInsertedDirectory(defaultCwd, "src", defaultContext)).to.equal(
+      `${defaultCwd}/`
     );
   });
 
+  it("returns the entire search term if it is an absolute path relative to ~", () => {
+    expect(
+      getCurrentInsertedDirectory(defaultCwd, "~/some_dir/src/test/", defaultContext)
+    ).to.equal(`${defaultHome}/some_dir/src/test/`);
+  });
+
   it("returns the entire search term if it is an absolute path relative to /", () => {
-    expect(getCurrentInsertedDirectory("~/current_cwd", "/etc/bin/tool")).to.equal("/etc/bin/");
+    expect(getCurrentInsertedDirectory(defaultCwd, "/etc/bin/tool", defaultContext)).to.equal(
+      "/etc/bin/"
+    );
   });
 
   it("returns the path with $HOME resolved", () => {
-    expect(
-      getCurrentInsertedDirectory("~/current_cwd", "$HOME/src/test/", {
-        HOME: "/home/user",
-      })
-    ).to.equal("/home/user/src/test/");
+    expect(getCurrentInsertedDirectory(defaultCwd, "$HOME/src/test/", defaultContext)).to.equal(
+      `${defaultHome}/src/test/`
+    );
   });
 
   it("returns the path with $DIR resolved", () => {
     expect(
-      getCurrentInsertedDirectory("~/current_cwd", "$DIR/src/test/", {
-        DIR: "/tmp/folder",
-      })
+      getCurrentInsertedDirectory(
+        defaultCwd,
+        "$DIR/src/test/",
+        defaultContextWithEnv({
+          DIR: "/tmp/folder",
+        })
+      )
     ).to.equal("/tmp/folder/src/test/");
   });
 
   it("returns the path with $DIR and $HOME resolved", () => {
     expect(
-      getCurrentInsertedDirectory("~/current_cwd", "$HOME/src/$DIR/test/", {
-        DIR: "tmp/folder",
-        HOME: "/home/user",
-      })
-    ).to.equal("/home/user/src/tmp/folder/test/");
+      getCurrentInsertedDirectory(
+        defaultCwd,
+        "$HOME/src/$DIR/test/",
+        defaultContextWithEnv({
+          DIR: "tmp/folder",
+        })
+      )
+    ).to.equal(`${defaultHome}/src/tmp/folder/test/`);
   });
 
   it("returns the path when just $HOME is specified", () => {
-    expect(
-      getCurrentInsertedDirectory("~/current_cwd", "$HOME", {
-        HOME: "/home/user",
-      })
-    ).to.equal("/home/");
+    expect(getCurrentInsertedDirectory(defaultHome, "$HOME", defaultContext)).to.equal("/home/");
   });
 
   it("returns the path when $DIR is not specified", () => {
-    expect(getCurrentInsertedDirectory("~/current_cwd", "$DIR")).to.equal("~/current_cwd/");
+    expect(getCurrentInsertedDirectory(defaultCwd, "$DIR", defaultContext)).to.equal(
+      `${defaultCwd}/`
+    );
   });
 
   it("returns the path with the complex $DIR and $HOME resolved", () => {
     expect(
-      // eslint-disable-next-line no-template-curly-in-string
-      getCurrentInsertedDirectory("~/current_cwd", "${HOME}/src/${DIR}/test/", {
-        HOME: "/home/user",
-        DIR: "tmp/folder",
-      })
-    ).to.equal("/home/user/src/tmp/folder/test/");
+      getCurrentInsertedDirectory(
+        defaultCwd,
+        // eslint-disable-next-line no-template-curly-in-string
+        "${HOME}/src/${DIR}/test/",
+        defaultContextWithEnv({
+          DIR: "tmp/folder",
+        })
+      )
+    ).to.equal(`${defaultHome}/src/tmp/folder/test/`);
   });
 
   it("returns the path with the complex $DIR and $HOME resolved with default", () => {
     expect(
       getCurrentInsertedDirectory(
-        "~/current_cwd",
+        defaultCwd,
         // eslint-disable-next-line no-template-curly-in-string
         "${HOME:-/fallback}/src/${DIR:-fallback}/test/",
-        {
-          HOME: "/home/user",
-        }
+        defaultContext
       )
-    ).to.equal("/home/user/src/fallback/test/");
+    ).to.equal(`${defaultHome}/src/fallback/test/`);
   });
 });
 
