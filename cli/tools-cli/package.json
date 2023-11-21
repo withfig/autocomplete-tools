@@ -19,7 +19,7 @@
     "@types/semver": "^7.5.5",
     "chalk": "^4.1.2",
     "chokidar": "^3.5.3",
-    "commander": "^8.3.0",
+    "commander": "^11.1.0",
     "create-completion-spec": "workspace:^",
     "esbuild": "^0.19.6",
     "fast-glob": "^3.3.2",
