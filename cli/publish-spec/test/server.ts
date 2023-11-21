@@ -101,3 +101,8 @@ process.on("SIGTERM", () => {
   console.log(pc.yellow(`Stopped listening on ${PORT}`));
   server.close();
 });
+
+process.on("SIGINT", () => {
+  console.log(pc.yellow(`Stopped listening on ${PORT}`));
+  server.close();
+});

@@ -36,77 +36,77 @@ export function analyze(path: string): string {
         typeArguments[index] ? typeArguments[index] : param.default!
       );
     }
-    return (ctx: ts.TransformationContext) => (typeNode: ts.TypeNode): ts.TypeNode => {
+    return (ctx: ts.TransformationContext) =>
+      (typeNode: ts.TypeNode): ts.TypeNode => {
+        const visit = (node: ts.Node): ts.Node => {
+          if (
+            ts.isTypeReferenceNode(node) &&
+            ts.isIdentifier(node.typeName) &&
+            typeParamsMap.get(node.typeName.escapedText)
+          ) {
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            return typeParamsMap.get(node.typeName.escapedText)!;
+          }
+          return ts.visitEachChild(node, visit, ctx);
+        };
+
+        return ts.visitNode(typeNode, visit) as ts.TypeNode;
+      };
+  };
+
+  const typeReferenceTransformer: ts.TransformerFactory<ts.SourceFile> =
+    (ctx: ts.TransformationContext) => (sourceNode: ts.SourceFile) => {
+      const sourceText = sourceNode.getFullText();
       const visit = (node: ts.Node): ts.Node => {
-        if (
-          ts.isTypeReferenceNode(node) &&
-          ts.isIdentifier(node.typeName) &&
-          typeParamsMap.get(node.typeName.escapedText)
-        ) {
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-          return typeParamsMap.get(node.typeName.escapedText)!;
+        if (ts.isTypeReferenceNode(node)) {
+          // early return if the current node parent has an irreplaced tag or if the current node is the same as on of the parents
+          const parent = getFirstParentPropertySignatureOrTypeAliasDeclaration(node);
+          let docComment: tsdoc.DocComment | undefined;
+          if (parent) {
+            docComment = DocManager.parseFirstDocComment(parent, sourceText);
+            if (docComment && docComment.modifierTagSet.hasTag(tagDefinitions.irreplacedTag)) {
+              return ts.visitEachChild(node, visit, ctx);
+            }
+          }
+
+          const type = checker.getTypeAtLocation(node.typeName);
+          const declaration = type.aliasSymbol?.declarations?.[0];
+          if (
+            declaration &&
+            ts.isTypeAliasDeclaration(declaration) &&
+            // @ts-expect-error: parent is not property of ts.Symbol
+            type.aliasSymbol.parent?.escapedName === "Fig"
+          ) {
+            const declarationDocComment = DocManager.parseFirstDocComment(declaration, sourceText);
+            if (
+              !declarationDocComment ||
+              !declarationDocComment.modifierTagSet.hasTag(tagDefinitions.irreplaceableTag)
+            ) {
+              let newType = declaration.type;
+              if (node.typeArguments && node.typeArguments.length > 0) {
+                const { transformed } = ts.transform(declaration.type, [
+                  typeArgumentsReplacer(declaration, node.typeArguments),
+                ]);
+                [newType] = transformed;
+              }
+
+              // if the @replaceFirstLevel is specified we just return the first level type reference
+              if (
+                docComment &&
+                docComment.modifierTagSet.hasTag(tagDefinitions.replaceFirstLevelTag)
+              ) {
+                return newType;
+              }
+              // we revisit the node since some replaced TypeReferences may be TypeReferences
+              return ts.visitNode(newType, visit);
+            }
+          }
         }
         return ts.visitEachChild(node, visit, ctx);
       };
 
-      return ts.visitNode(typeNode, visit);
+      return ts.visitNode(sourceNode, visit) as ts.SourceFile;
     };
-  };
-
-  const typeReferenceTransformer = (ctx: ts.TransformationContext) => (
-    sourceNode: ts.SourceFile
-  ) => {
-    const sourceText = sourceNode.getFullText();
-    const visit = (node: ts.Node): ts.Node => {
-      if (ts.isTypeReferenceNode(node)) {
-        // early return if the current node parent has an irreplaced tag or if the current node is the same as on of the parents
-        const parent = getFirstParentPropertySignatureOrTypeAliasDeclaration(node);
-        let docComment: tsdoc.DocComment | undefined;
-        if (parent) {
-          docComment = DocManager.parseFirstDocComment(parent, sourceText);
-          if (docComment && docComment.modifierTagSet.hasTag(tagDefinitions.irreplacedTag)) {
-            return ts.visitEachChild(node, visit, ctx);
-          }
-        }
-
-        const type = checker.getTypeAtLocation(node.typeName);
-        const declaration = type.aliasSymbol?.declarations?.[0];
-        if (
-          declaration &&
-          ts.isTypeAliasDeclaration(declaration) &&
-          // @ts-expect-error: parent is not property of ts.Symbol
-          type.aliasSymbol.parent?.escapedName === "Fig"
-        ) {
-          const declarationDocComment = DocManager.parseFirstDocComment(declaration, sourceText);
-          if (
-            !declarationDocComment ||
-            !declarationDocComment.modifierTagSet.hasTag(tagDefinitions.irreplaceableTag)
-          ) {
-            let newType = declaration.type;
-            if (node.typeArguments && node.typeArguments.length > 0) {
-              const { transformed } = ts.transform(declaration.type, [
-                typeArgumentsReplacer(declaration, node.typeArguments),
-              ]);
-              [newType] = transformed;
-            }
-
-            // if the @replaceFirstLevel is specified we just return the first level type reference
-            if (
-              docComment &&
-              docComment.modifierTagSet.hasTag(tagDefinitions.replaceFirstLevelTag)
-            ) {
-              return newType;
-            }
-            // we revisit the node since some replaced TypeReferences may be TypeReferences
-            return ts.visitNode(newType, visit);
-          }
-        }
-      }
-      return ts.visitEachChild(node, visit, ctx);
-    };
-
-    return ts.visitNode(sourceNode, visit);
-  };
 
   const { transformed } = ts.transform<ts.SourceFile>(sourceFile, [typeReferenceTransformer]);
   const printer = ts.createPrinter();

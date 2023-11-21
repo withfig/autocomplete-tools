@@ -21,7 +21,8 @@ async function runFixtures() {
 
     // eslint-disable-next-line no-await-in-loop
     const importedModule = await import(specVersionPath); // note this is CJS
-    const outputSpec = prettier.format(
+    // eslint-disable-next-line no-await-in-loop
+    const outputSpec = await prettier.format(
       JSON.stringify(
         getVersionFromVersionedSpec(
           importedModule.completion,

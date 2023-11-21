@@ -31,7 +31,7 @@ function runFixtures() {
       continue;
     }
     try {
-      const cmd = `node -r ts-node/register ${command} ${args.join(" ")} > ${output}`;
+      const cmd = `node -r tsx/cjs ${command} ${args.join(" ")} > ${output}`;
       child.execSync(cmd);
     } catch {
       report(fixture.name, "errored");

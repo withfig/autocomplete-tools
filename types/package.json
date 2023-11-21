@@ -6,23 +6,24 @@
   "types": "index.d.ts",
   "license": "MIT",
   "scripts": {
-    "generate-docs": "ts-node docs-generator/bin.ts ./docs.json",
-    "check-docs": "ts-node test/check-docs.ts",
-    "test": "yarn cspell && yarn check-docs",
-    "test:overwrite": "yarn generate-docs",
+    "generate-docs": "tsx docs-generator/bin.ts ./docs.json",
+    "check-docs": "tsx test/check-docs.mts",
+    "test": "pnpm run cspell && pnpm run check-docs",
+    "test:overwrite": "pnpm run generate-docs",
     "cspell": "cspell index.d.ts"
   },
   "files": [
     "index.d.ts"
   ],
   "devDependencies": {
-    "@microsoft/tsdoc": "^0.14.1",
-    "@types/node": "^20.8.10",
-    "cspell": "^6.0.0",
+    "@microsoft/tsdoc": "^0.14.2",
+    "@types/node": "^20.9.2",
+    "autocomplete-types-docs-generator": "workspace:^",
+    "cspell": "^8.0.0",
     "picocolors": "^1.0.0",
-    "prettier": "^2.6.2",
-    "ts-node": "^10.7.0",
-    "typescript": "^4.6.4"
+    "prettier": "^3.1.0",
+    "tsx": "^4.1.4",
+    "typescript": "~5.2.0"
   },
   "publishConfig": {
     "access": "public"

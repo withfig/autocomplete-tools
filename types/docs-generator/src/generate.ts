@@ -147,13 +147,13 @@ function generateTypeAlias(_typeAlias: FoundNode<ts.TypeAliasDeclaration>): Type
   };
 }
 
-export function generate(sourceText: string) {
+export async function generate(sourceText: string) {
   const interfaces = [];
   const typeAliases = [];
 
   const sourceFile = ts.createSourceFile(
     "docs.ts",
-    prettier.format(sourceText, {
+    await prettier.format(sourceText, {
       parser: "typescript",
       semi: false,
       bracketSpacing: false,

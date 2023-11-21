@@ -136,8 +136,17 @@ declare namespace Fig {
    * Context about a current shell session.
    */
   type ShellContext = {
+    /**
+     * The current directory the shell is in
+     */
     currentWorkingDirectory: string;
+    /**
+     * Exported environment variables from the shell
+     */
     environmentVariables: Record<string, string>;
+    /**
+     * The name of the current process
+     */
     currentProcess: string;
     /**
      * @hidden
@@ -225,9 +234,7 @@ declare namespace Fig {
   type Spec =
     | Subcommand
     | ((version?: string) => Subcommand)
-    | ((
-        version?: string
-      ) => {
+    | ((version?: string) => {
         versionedSpecPath: string;
         version?: string;
       });

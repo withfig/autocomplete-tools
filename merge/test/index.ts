@@ -7,7 +7,7 @@ const dirs = fs
   .readdirSync(fixturesPath, { withFileTypes: true })
   .filter((file) => file.isDirectory() && file.name !== ".DS_Store");
 
-function runFixtures() {
+async function runFixtures() {
   let hadErrors = false;
   for (const dir of dirs) {
     const fixtureDirPath = path.join(fixturesPath, dir.name);
@@ -27,7 +27,8 @@ function runFixtures() {
 
     const oldSpec = fs.readFileSync(oldSpecPath, { encoding: "utf-8" });
     const newSpec = fs.readFileSync(newSpecPath, { encoding: "utf-8" });
-    const updatedSpec = merge(oldSpec, newSpec, {
+    // eslint-disable-next-line no-await-in-loop
+    const updatedSpec = await merge(oldSpec, newSpec, {
       ...(preset && { preset }),
       ...(ignoreProps && Array.isArray(ignoreProps) && { ignore: { commonProps: ignoreProps } }),
     });
