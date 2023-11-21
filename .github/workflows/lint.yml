@@ -16,6 +16,6 @@ jobs:
           node-version: 20
       - uses: pnpm/action-setup@v2
       - name: Install dependencies and build # build is a postinstall script
-        run: pnpm --frozen-lockfile
+        run: pnpm install --frozen-lockfile
       - name: Lint packages
         run: pnpm lint
