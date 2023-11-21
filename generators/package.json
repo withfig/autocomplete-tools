@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsc",
     "pretest": "pnpm build",
-    "test": "mocha",
+    "test": "mocha --require tsx",
     "prepack": "pnpm build"
   },
   "author": "Federico Ciardi <fed.ciardi@gmail.com>",
@@ -24,6 +24,7 @@
     "mocha": "^10.2.0",
     "sinon": "^17.0.1",
     "sinon-chai": "^3.7.0",
+    "tsx": "^4.1.4",
     "typescript": "~5.2.0"
   },
   "publishConfig": {
