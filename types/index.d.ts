@@ -1096,6 +1096,11 @@ declare namespace Fig {
    */
   interface Generator {
     /**
+     * Assign a tag to generators so we can identify them
+     * @excluded
+     */
+    [Symbol.generatorTag]?: string;
+    /**
      * A template which is a single `TemplateString` or an array of `TemplateStrings`.
      *
      * @remarks
@@ -1278,4 +1283,8 @@ declare namespace Fig {
      */
     cache?: Cache;
   }
+}
+
+interface SymbolConstructor {
+  readonly generatorTag: unique symbol;
 }
