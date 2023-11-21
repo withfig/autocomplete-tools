@@ -10,4 +10,5 @@ cli/tools-cli/generated/
 cli/tools-cli/test/*/fixtures/
 helpers/test/fixtures/**/spec
 cli/create-completion-spec/bin/
+cli/create-completion-spec/boilerplate
 cli/publish-spec/test/fixtures/**
