@@ -5,10 +5,10 @@
   "author": "The Fig Team",
   "scripts": {
     "build": "rm -rf build/ && tsc",
-    "test": "ts-node test/index.ts",
-    "test:overwrite": "OVERWRITE=true yarn test",
-    "prepack": "yarn build",
-    "generate-spec": "ts-node generate-spec.ts generate-fig-spec"
+    "test": "tsx test/index.ts",
+    "test:overwrite": "OVERWRITE=true pnpm test",
+    "prepack": "pnpm build",
+    "generate-spec": "tsx generate-spec.ts generate-fig-spec"
   },
   "license": "MIT",
   "bin": "./build/bin.js",
@@ -16,17 +16,17 @@
     "@esbuild-plugins/node-modules-polyfill": "^0.2.2",
     "@fig/autocomplete-helpers": "workspace:^",
     "@fig/autocomplete-merge": "workspace:^",
-    "@types/semver": "^7.3.9",
-    "chalk": "^4.1.0",
-    "chokidar": "^3.5.1",
-    "commander": "^8.1.0",
+    "@types/semver": "^7.5.5",
+    "chalk": "^4.1.2",
+    "chokidar": "^3.5.3",
+    "commander": "^8.3.0",
     "create-completion-spec": "workspace:^",
-    "esbuild": "^0.14.39",
-    "fast-glob": "^3.2.7",
-    "module-from-string": "^3.1.4",
-    "prettier": "^2.4.1",
-    "semver": "^7.5.2",
-    "typescript": "^4.6.4"
+    "esbuild": "^0.19.6",
+    "fast-glob": "^3.3.2",
+    "module-from-string": "^3.3.0",
+    "prettier": "^3.1.0",
+    "semver": "^7.5.4",
+    "typescript": "~5.2.0"
   },
   "types": "build/index.d.ts",
   "files": [
@@ -34,10 +34,9 @@
   ],
   "devDependencies": {
     "@fig/complete-commander": "workspace:^",
-    "@types/node": "^14.14.33",
-    "@types/prettier": "^2.4.1",
+    "@types/node": "^20.9.2",
     "@withfig/autocomplete-types": "workspace:^",
-    "ts-node": "^10.7.0"
+    "tsx": "^4.1.4"
   },
   "fig": {
     "build": {

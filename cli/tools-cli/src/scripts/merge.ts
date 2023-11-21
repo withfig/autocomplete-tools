@@ -2,7 +2,7 @@ import fs from "fs";
 import { Command, Option } from "commander";
 import { merge, presets, PresetName } from "@fig/autocomplete-merge";
 
-function runProgram(
+async function runProgram(
   oldSpecPath: string,
   newSpecPath: string,
   options: {
@@ -23,7 +23,7 @@ function runProgram(
     preset,
   } = options;
 
-  const output = merge(
+  const output = await merge(
     fs.readFileSync(oldSpecPath, { encoding: "utf8" }),
     fs.readFileSync(newSpecPath, { encoding: "utf8" }),
     {

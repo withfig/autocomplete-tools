@@ -30,7 +30,7 @@ const visitFileNodes = (source: ts.SourceFile, visitor: ts.Visitor): ts.Node =>
   ts.transform(source, [
     (context: ts.TransformationContext) => (rootNode: ts.Node) => {
       const visit = (node: ts.Node): ts.VisitResult<ts.Node> =>
-        visitor(ts.visitEachChild(node, visit, context));
+        visitor(ts.visitEachChild(node, visit, context)) as ts.VisitResult<ts.Node>;
       return ts.visitNode(rootNode, visit);
     },
   ]).transformed[0];
@@ -83,7 +83,7 @@ const loadVersionedSpec = async (
   if (!fs.existsSync(specPath)) {
     // TODO: change the way the spec is printed, currently it won't support js variables
     return {
-      source: formatSource([
+      source: await formatSource([
         `const completion: Fig.Subcommand = ${JSON.stringify(defaultSpec, null, 4)}\n`,
         `const versions: Fig.VersionDiffMap = {};\n`,
         `export { versions };`,
@@ -109,24 +109,21 @@ async function addVersionToIndex(sourcePath: string, version: string) {
   const source = fs.readFileSync(sourcePath).toString();
   let didUpdate = false;
   const sourceFile = ts.createSourceFile(sourcePath, source, ts.ScriptTarget.ES2015, true);
-  const newSource = visitFileNodes(
-    sourceFile,
-    (node: ts.Node): ts.Node => {
-      if (
-        ts.isArrayLiteralExpression(node) &&
-        ts.isVariableDeclaration(node.parent) &&
-        ts.isIdentifier(node.parent.name) &&
-        node.parent.name.escapedText === "versionFiles"
-      ) {
-        didUpdate = true;
-        return ts.factory.updateArrayLiteralExpression(node, [
-          ...node.elements,
-          ts.factory.createStringLiteral(version),
-        ]);
-      }
-      return node;
+  const newSource = visitFileNodes(sourceFile, (node: ts.Node): ts.Node => {
+    if (
+      ts.isArrayLiteralExpression(node) &&
+      ts.isVariableDeclaration(node.parent) &&
+      ts.isIdentifier(node.parent.name) &&
+      node.parent.name.escapedText === "versionFiles"
+    ) {
+      didUpdate = true;
+      return ts.factory.updateArrayLiteralExpression(node, [
+        ...node.elements,
+        ts.factory.createStringLiteral(version),
+      ]);
     }
-  );
+    return node;
+  });
 
   if (!didUpdate) {
     throw new Error("Failed to add version to index");
@@ -134,7 +131,7 @@ async function addVersionToIndex(sourcePath: string, version: string) {
 
   const printer = ts.createPrinter({ newLine: ts.NewLineKind.LineFeed });
   const result = printer.printNode(ts.EmitHint.Unspecified, newSource, sourceFile);
-  fs.writeFileSync(sourcePath, formatSource(result));
+  fs.writeFileSync(sourcePath, await formatSource(result));
 }
 
 const cleanPath = (p: string) => p.replace(/[^a-zA-Z0-9_\-/.]/, "");
@@ -145,7 +142,7 @@ async function initVersionedSpec(specName: string, options: { cwd?: string }) {
   fs.mkdirSync(rootSpecPath, { recursive: true });
   fs.writeFileSync(
     `${rootSpecPath}/index.ts`,
-    formatSource(
+    await formatSource(
       [
         `import { createVersionedSpec } from "@fig/autocomplete-helpers";\n`,
         `const versionFiles = [];\n`,
@@ -220,7 +217,7 @@ async function addDiffAction(
   }
   fs.writeFileSync(
     currentSpecPath,
-    formatSource([
+    await formatSource([
       source.slice(0, insertIdx),
       `\nversions["${diffVersion}"] = ${JSON.stringify(diff, null, 4)}\n`,
       source.slice(insertIdx),

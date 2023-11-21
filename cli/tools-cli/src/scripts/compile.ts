@@ -1,29 +1,17 @@
 import { build } from "esbuild";
 import { NodeModulesPolyfillPlugin } from "@esbuild-plugins/node-modules-polyfill";
-import { exec } from "child_process";
 import chokidar from "chokidar";
 import { Command } from "commander";
 import glob from "fast-glob";
 import SpecLogger, { Level } from "./log";
+import { setSetting } from "./settings";
 
 // Folder names
 const SOURCE_FOLDER_NAME = "src";
 const DESTINATION_FOLDER_NAME = "build";
 
-function execWithError(command: string, logNodeErrors = false) {
-  exec(command, (error, stdout, stderr) => {
-    if (logNodeErrors && error) {
-      SpecLogger.log(`node error running "${command}": ${error.message}`, Level.ERROR);
-      return;
-    }
-    if (stderr) {
-      SpecLogger.log(`shell error running "${command}": ${stderr}`, Level.ERROR);
-    }
-  });
-}
-
 function invalidateCache() {
-  execWithError("fig settings autocomplete.developerModeNPMInvalidateCache true");
+  setSetting("autocomplete.developerModeNPMInvalidateCache", true);
 }
 
 /**

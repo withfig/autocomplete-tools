@@ -38,7 +38,7 @@ This repo contains the source for all of Fig tools related with [autocomplete](h
   - The git tag should be: `<package_name>@<new_numerical_version>`
   - Example: `git tag @fig/publish-spec@1.2.3`
 
-4) Run `yarn workspace <workspace name> npm publish`
+4) Run `pnpm publish ./<package>`
 
 > **IMPORTANT**: remember to tag the new package version following the current conventions (see the previous tags of a package)
 > this is important for some workflows we are running and to keep track of when releases were done.
@@ -47,7 +47,7 @@ This repo contains the source for all of Fig tools related with [autocomplete](h
 
 e.g.
 ```bash
-yarn workspace @withfig/autocomplete-types npm publish
+pnpm publish ./types
 ```
 
 > Note: `<workspace name>` is not the name of the folder, but the name specified inside the package.json of the package to publish.

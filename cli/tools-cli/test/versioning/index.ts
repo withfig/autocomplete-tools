@@ -58,7 +58,7 @@ export function runFixtures() {
     }
 
     fs.rmSync(updatedSpecPath, { recursive: true, force: true });
-    const cmd = `node -r ts-node/register ${cliPath} version add-diff old-spec ${newSpecPath} ${newVersion} --cwd ${fixtureDirPath} --new-path ${updatedSpecPath}`;
+    const cmd = `node -r tsx/cjs ${cliPath} version add-diff old-spec ${newSpecPath} ${newVersion} --cwd ${fixtureDirPath} --new-path ${updatedSpecPath}`;
 
     try {
       child.execSync(cmd);

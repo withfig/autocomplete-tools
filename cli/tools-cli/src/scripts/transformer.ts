@@ -2,12 +2,8 @@ import {
   factory,
   isVariableStatement,
   Node,
-  SourceFile,
   SyntaxKind,
   TransformerFactory,
-  updateVariableDeclaration,
-  updateVariableDeclarationList,
-  updateVariableStatement,
   VariableStatement,
   visitEachChild,
   visitNode,
@@ -23,7 +19,7 @@ const EXPORT_KEYWORD = SyntaxKind.ExportKeyword;
  *
  * @param context The current context
  */
-export const specTransformer: TransformerFactory<SourceFile> = (context) => (sourceFile) => {
+export const specTransformer: TransformerFactory<Node> = (context) => (sourceFile) => {
   let updated = false;
   const visitor = (node: Node): Node => {
     if (!updated && isVariableStatement(node)) {
@@ -36,18 +32,19 @@ export const specTransformer: TransformerFactory<SourceFile> = (context) => (sou
         updated = true;
 
         // Update the variable name to SPEC_NAME
-        const newVariableNode = updateVariableDeclaration(
+        const newVariableNode = factory.updateVariableDeclaration(
           variableNode,
           factory.createIdentifier(SPEC_NAME),
+          variableNode.exclamationToken,
           variableNode.type,
           variableNode.initializer
         );
-        const newDeclarationlist = updateVariableDeclarationList(declarationList, [
+        const newDeclarationlist = factory.updateVariableDeclarationList(declarationList, [
           newVariableNode,
         ]);
 
         // Remove the export keyword
-        return updateVariableStatement(node, [], newDeclarationlist);
+        return factory.updateVariableStatement(node, [], newDeclarationlist);
       }
     }
     return visitEachChild(node, visitor, context);

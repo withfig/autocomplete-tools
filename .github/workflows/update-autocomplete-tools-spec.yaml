@@ -9,11 +9,12 @@ jobs:
   push-to-fig-autocomplete:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+      - uses: pnpm/action-setup@v2
       - run: |
-          yarn
-          yarn workspace @withfig/autocomplete-tools generate-spec > generated.ts
+          pnpm install
+          pnpm run --filter ./cli/tools-cli generate-spec > generated.ts
       - name: 'Create Autocomplete PR'
         uses: withfig/push-to-fig-autocomplete-action@v1
         with:

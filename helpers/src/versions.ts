@@ -7,7 +7,7 @@ const deepEqual = <T>(a: T, b: T): boolean => {
   if (isPrimitive(a) && isPrimitive(b)) return a === b;
   if (Object.keys(a as "object").length !== Object.keys(b as "object").length) return false;
   for (const key in a) {
-    if (!(key in b && deepEqual(a[key], b[key]))) {
+    if (!(typeof b === "object" && b && key in b && deepEqual(a[key], b[key]))) {
       return false;
     }
   }
@@ -17,7 +17,12 @@ const deepEqual = <T>(a: T, b: T): boolean => {
 const diffSimpleObject = <T>(original: T, updated: T): T => {
   const diff = { ...updated };
   for (const key in diff) {
-    if (original && key in original && deepEqual(original[key], updated[key])) {
+    if (
+      original &&
+      typeof original === "object" &&
+      key in original &&
+      deepEqual(original[key], updated[key])
+    ) {
       delete diff[key];
     }
   }
@@ -124,7 +129,10 @@ const mergeOrderedArrays = <TDiff, T extends TDiff>(
   mergeFn: (current: T, diff: TDiff) => T | null
 ) =>
   diffs
-    .filter((diff): diff is TDiff => !("remove" in diff) || !diff.remove)
+    .filter(
+      (diff): diff is TDiff =>
+        !(typeof diff === "object" && diff && "remove" in diff) || !diff.remove
+    )
     .map((diff, idx) => mergeFn(current[idx], diff))
     .filter((merged): merged is T => merged !== null);
 
@@ -251,14 +259,14 @@ export const getVersionFromVersionedSpec = (
   return { spec, version: versionNames[versionIndex] };
 };
 
-export const createVersionedSpec = (specName: string, versionFiles: string[]): Fig.Spec => async (
-  version?: string
-) => {
-  const versionNames = versionFiles.sort(semver.compare);
-  const versionFileIndex = getBestVersionIndex(versionNames, version);
-  const versionFile = versionNames[versionFileIndex];
-  return {
-    versionedSpecPath: `${specName}/${versionFile}`,
-    version,
+export const createVersionedSpec =
+  (specName: string, versionFiles: string[]): Fig.Spec =>
+  async (version?: string) => {
+    const versionNames = versionFiles.sort(semver.compare);
+    const versionFileIndex = getBestVersionIndex(versionNames, version);
+    const versionFile = versionNames[versionFileIndex];
+    return {
+      versionedSpecPath: `${specName}/${versionFile}`,
+      version,
+    };
   };
-};

@@ -1,0 +1,14 @@
+packages:
+  - eslint/*
+  - types
+  - types/docs-generator
+  - shared
+  - generators
+  - helpers
+  - hooks
+  - merge
+  - integrations/oclif
+  - integrations/commander
+  - cli/create-completion-spec
+  - cli/publish-spec
+  - cli/tools-cli

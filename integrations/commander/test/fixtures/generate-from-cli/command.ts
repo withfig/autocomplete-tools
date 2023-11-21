@@ -10,8 +10,8 @@ program
   .description("example program for argument")
   .command("generateCompletionSpec")
   .description("Generate a fig spec for the current program")
-  .action(() => {
-    console.log(generateCompletionSpec(program));
+  .action(async () => {
+    console.log(await generateCompletionSpec(program));
   });
 program.command("remove", "Remove user"); // this should appear even if it is added after `generateCompletionSpec` command
 

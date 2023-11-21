@@ -24,16 +24,16 @@ Hey there! We are glad you want to contribute to some autocomplete package, here
 
 1. Open an issue to get some feedback from the Fig team on your problem so that you don't risk to waste hours of work
 2. Once you got some feedback you can fork the repo and clone in on your machine
-3. Run `yarn` in the root of the monorepo to get the deps installed
+3. Run `pnpm install` in the root of the monorepo to get the deps installed
 4. Work on the new feature/fix, be sure to follow conventions
-5. Add tests for the edits done , (run all the tests from the root of the repo using `yarn test` or from each specific package using `yarn workspace <package name> test`)
+5. Add tests for the edits done , (run all the tests from the root of the repo using `pnpm test` or from each specific package using `pnpm run --filter ./<package name> test`)
 6. Push to your fork
 7. Open a PR
 8. Enjoy the feat/fix live!
 
 ## Structure of the repo
 
-We are using yarn workspaces in this repo. All CLIs are under the cli/ folder, while most of the other packages are in the root of the repo.
+We are using pnpm workspaces in this repo. All CLIs are under the cli/ folder, while most of the other packages are in the root of the repo.
 Concerning `npm` commands there are some global ones available from the root of the monorepo and some other relative to the packages.
 
 ## What is a good PR?

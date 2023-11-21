@@ -273,8 +273,8 @@ function getObservedSet(
     return parentPropText === "subcommands"
       ? updatable.commandProps
       : parentPropText === "options"
-      ? updatable.optionProps
-      : updatable.argProps; // parentPropText === "args"
+        ? updatable.optionProps
+        : updatable.argProps; // parentPropText === "args"
   }
   return undefined;
 }
@@ -338,11 +338,11 @@ function getPreset({ preset, ignore = {} }: MergeOptions): Preset {
   return updatableProps;
 }
 
-export function merge(
+export async function merge(
   oldFileContent: string,
   newFileContent: string,
   options: MergeOptions
-): string {
+): Promise<string> {
   const updatableProps = getPreset(options);
 
   const [oldSourceFile, oldSourceFileDefaultExport] = setupFile("oldfile.ts", oldFileContent);

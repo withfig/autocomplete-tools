@@ -6,8 +6,8 @@
   "main": "lib/index.js",
   "scripts": {
     "build": "tsc",
-    "prepack": "yarn build",
-    "generate-spec": "ts-node generate-spec.ts generate-fig-spec"
+    "prepack": "pnpm build",
+    "generate-spec": "tsx generate-spec.ts generate-fig-spec"
   },
   "repository": {
     "type": "git",
@@ -29,13 +29,14 @@
   },
   "homepage": "https://github.com/withfig/autocomplete-tools#readme",
   "dependencies": {
-    "commander": "^9.2.0",
+    "commander": "^9.5.0",
     "picocolors": "^1.0.0"
   },
   "devDependencies": {
     "@fig/complete-commander": "workspace:^",
-    "ts-node": "^10.7.0",
-    "typescript": "^4.6.4"
+    "@types/node": "^20.9.3",
+    "tsx": "^4.1.4",
+    "typescript": "~5.2.0"
   },
   "publishConfig": {
     "access": "public"

@@ -6,10 +6,6 @@ dist-ssr
 .eslintcache
 .fig/
 build/
-.yarn/cache
-.yarn/unplugged
-.yarn/build-state.yml
-.yarn/install-state.gz
 *.log
 .python-version
 __pycache__/

@@ -14,7 +14,7 @@ program.action(async (outfile) => {
   console.info(`Using ${DECLARATIONS_PATH} as input file.`);
   fs.writeFile(
     absoluteOutfile,
-    prettier.format(JSON.stringify(generate(analyze(DECLARATIONS_PATH))), { parser: "json" })
+    await prettier.format(JSON.stringify(generate(analyze(DECLARATIONS_PATH))), { parser: "json" })
   );
 });
 program.parse();

@@ -3,25 +3,16 @@ import fs from "fs";
 import path from "path";
 import chalk from "chalk";
 import { Command } from "commander";
-import { execSync } from "child_process";
 import { runCompiler } from "./compile";
+import { isCwInstalled, setSetting } from "./settings";
 
 const AUTOCOMPLETE_LOG_FILE = path.join(os.homedir(), ".fig", "logs", "specs.log");
 
-function commandStatus(cmd: string): boolean {
-  try {
-    execSync(cmd);
-    return true;
-  } catch {
-    return false;
-  }
-}
-
 function disableDevMode() {
   console.log("\n\nFig dev mode disabled\n");
-  commandStatus("fig settings autocomplete.developerMode false");
-  commandStatus("fig settings autocomplete.developerModeNPM false");
-  commandStatus("fig settings autocomplete.developerModeNPMInvalidateCache true");
+  setSetting("autocomplete.developerMode", false);
+  setSetting("autocomplete.developerModeNPM", false);
+  setSetting("autocomplete.developerModeNPMInvalidateCache", true);
   process.exit(0);
 }
 
@@ -34,51 +25,44 @@ async function runProgram() {
   console.clear();
 
   if (os.type() === "Darwin") {
-    const globalFigAppPath = path.join("/", "Applications", "Fig.app");
-    const localFigAppPath = path.join(os.homedir(), "Applications", "Fig.app");
+    const globalFigAppPath = "/Applications/Fig.app";
+    const localFigAppPath = path.join(os.homedir(), "Applications/Fig.app");
+    const globalCwAppPath = "/Applications/CodeWhisperer.app";
+    const localCwAppPath = path.join(os.homedir(), "Applications/CodeWhisperer.app");
 
-    if (!fs.existsSync(globalFigAppPath) && !fs.existsSync(localFigAppPath)) {
+    if (
+      !fs.existsSync(globalFigAppPath) &&
+      !fs.existsSync(localFigAppPath) &&
+      !fs.existsSync(globalCwAppPath) &&
+      !fs.existsSync(localCwAppPath)
+    ) {
       console.log(
         "\n******\n\n",
-        chalk.bold(chalk.yellow(" WARNING: Fig App is not installed")),
+        chalk.bold(chalk.yellow(" WARNING: CodeWhisperer for command line app is not installed")),
         "\n\n",
-        chalk.bold(chalk.cyan(" Download Fig at:")),
-        "\n https://fig.io/",
-        "\n\n******\n"
-      );
-    } else if (!commandStatus("fig --version")) {
-      console.log(
-        "\n******\n\n",
-        chalk.bold(chalk.yellow(" WARNING: Fig Cli is not installed")),
-        "\n\n",
-        chalk.bold(
-          chalk.cyan(
-            " 1. Run the install and update script ( ◧ > Integrations > Developer > Run install and update script)"
-          )
-        ),
-        "\n",
-        chalk.bold(chalk.cyan(" 2. Create a new terminal session")),
+        chalk.bold(chalk.cyan(" Download CodeWhisperer for command line at:")),
+        "\n https://docs.aws.amazon.com/codewhisperer/latest/userguide/command-line-getting-started-installing.html",
         "\n\n******\n"
       );
     }
   } else if (os.type() === "Linux") {
-    if (!commandStatus("fig_desktop --version")) {
-      console.log(
-        "\n******\n\n",
-        chalk.bold(chalk.yellow(" WARNING: Fig App is not installed")),
-        "\n\n",
-        chalk.bold(chalk.cyan(" For early Linux support please join our Discord:")),
-        "\n https://fig.io/community",
-        "\n\n******\n"
-      );
-    }
-  } else if (!commandStatus("fig --version")) {
+    // if (!commandStatus("fig_desktop --version")) {
+    //   console.log(
+    //     "\n******\n\n",
+    //     chalk.bold(chalk.yellow(" WARNING: Fig App is not installed")),
+    //     "\n\n",
+    //     chalk.bold(chalk.cyan(" For early Linux support please join our Discord:")),
+    //     "\n https://fig.io/community",
+    //     "\n\n******\n"
+    //   );
+    // }
+  } else if (!isCwInstalled()) {
     console.log(
       "\n******\n\n",
-      chalk.bold(chalk.yellow(" WARNING: Fig App is not installed")),
+      chalk.bold(chalk.yellow(" WARNING: CodeWhisperer for command line app is not installed")),
       "\n\n",
-      chalk.bold(chalk.cyan(" For early Windows support please join our Discord:")),
-      "\n https://fig.io/community",
+      chalk.bold(chalk.cyan(" Download CodeWhisperer for command line at:")),
+      "\n https://docs.aws.amazon.com/codewhisperer/latest/userguide/command-line-getting-started-installing.html",
       "\n\n******\n"
     );
   }
@@ -99,11 +83,10 @@ async function runProgram() {
   process.addListener("SIGINT", cleanup);
   process.addListener("SIGQUIT", cleanup);
 
-  commandStatus("fig settings autocomplete.developerModeNPM true");
-  commandStatus(
-    `fig settings autocomplete.devCompletionsFolder ${path
-      .join(process.cwd(), "build")
-      .replace(/(\s)/g, "\\$1")}`
+  setSetting("autocomplete.developerModeNPM", true);
+  setSetting(
+    "autocomplete.devCompletionsFolder",
+    path.join(process.cwd(), "build").replace(/(\s)/g, "\\$1")
   );
   if (!fs.existsSync(path.dirname(AUTOCOMPLETE_LOG_FILE))) {
     fs.mkdirSync(path.dirname(AUTOCOMPLETE_LOG_FILE), { recursive: true });

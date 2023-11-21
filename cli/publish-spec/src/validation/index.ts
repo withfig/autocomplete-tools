@@ -15,8 +15,10 @@ interface Chainable<T = Record<string, never>> {
  * > NOTE: Order of validators in the chain matters!
  */
 export function validate(options: RunOptions): Chainable {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const validators: Validator<any>[] = [];
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   async function exec(): Promise<any> {
     const interactiveQuestions: prompts.PromptObject<string>[] = [];
     const validatedOptions = {};
