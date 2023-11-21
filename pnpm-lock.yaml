@@ -45,8 +45,8 @@ importers:
   cli/create-completion-spec:
     dependencies:
       commander:
-        specifier: ^9.5.0
-        version: 9.5.0
+        specifier: ^11.1.0
+        version: 11.1.0
       picocolors:
         specifier: ^1.0.0
         version: 1.0.0
@@ -67,8 +67,8 @@ importers:
   cli/publish-spec:
     dependencies:
       commander:
-        specifier: ^9.5.0
-        version: 9.5.0
+        specifier: ^11.1.0
+        version: 11.1.0
       esbuild:
         specifier: ^0.19.6
         version: 0.19.6
@@ -137,8 +137,8 @@ importers:
         specifier: ^3.5.3
         version: 3.5.3
       commander:
-        specifier: ^8.3.0
-        version: 8.3.0
+        specifier: ^11.1.0
+        version: 11.1.0
       create-completion-spec:
         specifier: workspace:^
         version: link:../create-completion-spec
@@ -302,8 +302,8 @@ importers:
         specifier: ^5.3.0
         version: 5.3.0
       commander:
-        specifier: ^8.3.0
-        version: 8.3.0
+        specifier: ^11.1.0
+        version: 11.1.0
       tsx:
         specifier: ^4.1.4
         version: 4.1.4
@@ -427,8 +427,8 @@ importers:
         specifier: ^0.14.2
         version: 0.14.2
       commander:
-        specifier: ^9.5.0
-        version: 9.5.0
+        specifier: ^11.1.0
+        version: 11.1.0
       prettier:
         specifier: ^3.1.0
         version: 3.1.0
@@ -3266,15 +3266,6 @@ packages:
   /commander@11.1.0:
     resolution: {integrity: sha512-yPVavfyCcRhmorC7rWlkHn15b4wDVgVmBA7kV4QVBsF7kv/9TKJAbAXVTxvTnwP8HHKjRCJDClKbciiYS7p0DQ==}
     engines: {node: '>=16'}
-    dev: true
-
-  /commander@8.3.0:
-    resolution: {integrity: sha512-OkTL9umf+He2DZkUq8f8J9of7yL6RJKI24dVITBmNfZBmri9zYZQrKkuXiKhyfPSu8tUhnVBB1iKXevvnlR4Ww==}
-    engines: {node: '>= 12'}
-
-  /commander@9.5.0:
-    resolution: {integrity: sha512-KRs7WVDKg86PWiuAqhDrAQnTXZKraVcCc6vFdL14qrZ/DcWwuRo7VoiYXalXO7S5GKpqYiVEwCbgFDfxNHKJBQ==}
-    engines: {node: ^12.20.0 || >=14}
 
   /comment-json@4.2.3:
     resolution: {integrity: sha512-SsxdiOf064DWoZLH799Ata6u7iV658A11PlWtZATDlXPpKGJnbJZ5Z24ybixAi+LUUqJ/GKowAejtC5GFUG7Tw==}
