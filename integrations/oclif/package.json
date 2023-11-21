@@ -15,10 +15,11 @@
     "@types/node": "^20.9.2",
     "@withfig/autocomplete-types": "workspace:^",
     "globby": "^14.0.0",
+    "tslib": "^2.6.2",
     "typescript": "~5.2.0"
   },
   "engines": {
-    "node": ">=8.0.0"
+    "node": ">=18.0.0"
   },
   "files": [
     "/lib",
