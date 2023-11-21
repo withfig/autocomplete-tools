@@ -24,7 +24,7 @@
     "pre-commit": "lint-staged && pnpm test",
     "clean": "git clean -Xdf ."
   },
-  "packageManager": "pnpm@8.0.0",
+  "packageManager": "pnpm@8.10.5",
   "workspaces": [
     "eslint/*",
     "types",
