@@ -23,7 +23,7 @@
   "author": "Fig Team",
   "dependencies": {
     "semver": "^7.5.4",
-    "typescript": "~5.2.2"
+    "typescript": "^5.3.3"
   },
   "devDependencies": {
     "@tsconfig/recommended": "^1.0.3",
