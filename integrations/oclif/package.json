@@ -1,7 +1,7 @@
 {
   "name": "@fig/complete-oclif",
   "description": "Generate Fig completion spec from oclif",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "author": "Matt Schrage @mattschrage",
   "bugs": "https://github.com/withfig/autocomplete-tools/issues",
   "dependencies": {
@@ -11,6 +11,7 @@
   "devDependencies": {
     "@types/node": "^20.10.5",
     "@withfig/autocomplete-types": "workspace:^",
+    "oclif": "^4.1.0",
     "tslib": "^2.6.2",
     "typescript": "^5.3.3"
   },
@@ -33,8 +34,8 @@
   "scripts": {
     "build": "tsc",
     "postpack": "rm -f oclif.manifest.json",
-    "prepack": "pnpm build && oclif-dev manifest && oclif-dev readme",
-    "version": "oclif-dev readme && git add README.md"
+    "prepack": "pnpm build && oclif manifest && oclif readme",
+    "version": "oclif readme && git add README.md"
   },
   "publishConfig": {
     "access": "public"
