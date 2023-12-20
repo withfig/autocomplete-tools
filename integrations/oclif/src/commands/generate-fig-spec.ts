@@ -1,9 +1,8 @@
-import { Command } from "@oclif/command";
-import { Command as ICommand } from "@oclif/config";
-import * as fs from "fs";
+import { Command } from "@oclif/core";
+import * as fs from "node:fs";
 import * as prettier from "prettier";
 
-function getFigArgs(args: ICommand.Arg[]): Fig.Arg[] {
+function getFigArgs(args: Command.Arg.Cached[]): Fig.Arg[] {
   const figArgs: Fig.Arg[] = [];
   for (const arg of args) {
     if (arg.hidden) continue;
@@ -18,12 +17,12 @@ function getFigArgs(args: ICommand.Arg[]): Fig.Arg[] {
   return figArgs;
 }
 
-function getFigOptions(options: [string, ICommand.Flag][]): Fig.Option[] {
+function getFigOptions(options: Command.Flag.Cached[]): Fig.Option[] {
   const figOptions: Fig.Option[] = [];
-  for (const [name, flag] of options) {
+  for (const flag of options) {
     if (flag.hidden) continue;
     figOptions.push({
-      name: flag.char ? [`-${flag.char}`, `--${name}`] : `--${name}`,
+      name: flag.char ? [`-${flag.char}`, `--${flag.name}`] : `--${flag.name}`,
       ...(flag.description && { description: flag.description }),
       ...(flag.type === "option" && {
         args: {
@@ -32,24 +31,24 @@ function getFigOptions(options: [string, ICommand.Flag][]): Fig.Option[] {
         },
       }),
       ...(flag.required === true && { isRequired: true }),
-      ...(flag.type === "boolean" && flag.allowNo && { exclusiveOn: [`--no-${name}`] }),
+      ...(flag.type === "boolean" && flag.allowNo && { exclusiveOn: [`--no-${flag.name}`] }),
     });
     if (flag.type === "boolean" && flag.allowNo) {
       figOptions.push({
-        name: `--no-${name}`,
+        name: `--no-${flag.name}`,
       });
     }
   }
   return figOptions;
 }
 
-function getFigSubcommands(commands: ICommand.Plugin[]): Fig.Subcommand[] {
+function getFigSubcommands(commands: Command.Loadable[]): Fig.Subcommand[] {
   const subcommands: Fig.Subcommand[] = [];
   for (const command of commands) {
     // skip this command or hidden commands
     if (command.id === "generate-fig-spec" || command.hidden) continue;
-    const options: Fig.Option[] = getFigOptions(Object.entries(command.flags));
-    const args: Fig.Arg[] = getFigArgs(command.args);
+    const options: Fig.Option[] = getFigOptions(Object.values(command.flags));
+    const args: Fig.Arg[] = getFigArgs(Object.values(command.args));
     subcommands.push({
       name: command.aliases.length > 0 ? [command.id, ...command.aliases] : command.id,
       ...(command.description && { description: command.description }),
@@ -63,16 +62,8 @@ function getFigSubcommands(commands: ICommand.Plugin[]): Fig.Subcommand[] {
 export class GenerateFigSpecCommand extends Command {
   static description = "Generate a Fig completion spec";
 
-  // static flags = {
-  //   help: flags.help({ char: "h" }),
-  //   output: flags.string({
-  //     char: "o",
-  //     description: "Output filepath",
-  //   }),
-  // };
-
   async run() {
-    const { flags: parsedFlags } = this.parse(GenerateFigSpecCommand);
+    const { flags: parsedFlags } = await this.parse(GenerateFigSpecCommand);
 
     const spec: Fig.Spec = {
       name: this.config.name,
@@ -89,6 +80,7 @@ export class GenerateFigSpecCommand extends Command {
     `,
       { parser: "typescript" }
     );
+
     if (parsedFlags.output) {
       fs.writeFileSync(parsedFlags.output, template);
     } else {
