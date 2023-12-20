@@ -17,9 +17,9 @@
     "react": "^18.2.0"
   },
   "devDependencies": {
-    "@types/react": "^18.2.37",
+    "@types/react": "^18.2.45",
     "@withfig/autocomplete-types": "workspace:^",
-    "typescript": "~5.2.0"
+    "typescript": "^5.3.3"
   },
   "publishConfig": {
     "access": "public"

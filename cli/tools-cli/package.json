@@ -16,17 +16,17 @@
     "@esbuild-plugins/node-modules-polyfill": "^0.2.2",
     "@fig/autocomplete-helpers": "workspace:^",
     "@fig/autocomplete-merge": "workspace:^",
-    "@types/semver": "^7.5.5",
+    "@types/semver": "^7.5.6",
     "chalk": "^4.1.2",
     "chokidar": "^3.5.3",
     "commander": "^11.1.0",
     "create-completion-spec": "workspace:^",
-    "esbuild": "^0.19.6",
+    "esbuild": "^0.19.10",
     "fast-glob": "^3.3.2",
     "module-from-string": "^3.3.0",
-    "prettier": "^3.1.0",
+    "prettier": "^3.1.1",
     "semver": "^7.5.4",
-    "typescript": "~5.2.0"
+    "typescript": "^5.3.3"
   },
   "types": "build/index.d.ts",
   "files": [
@@ -34,9 +34,9 @@
   ],
   "devDependencies": {
     "@fig/complete-commander": "workspace:^",
-    "@types/node": "^20.9.2",
+    "@types/node": "^20.10.5",
     "@withfig/autocomplete-types": "workspace:^",
-    "tsx": "^4.1.4"
+    "tsx": "^4.7.0"
   },
   "fig": {
     "build": {

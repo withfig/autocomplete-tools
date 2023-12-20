@@ -17,13 +17,13 @@
   ],
   "devDependencies": {
     "@microsoft/tsdoc": "^0.14.2",
-    "@types/node": "^20.9.2",
+    "@types/node": "^20.10.5",
     "autocomplete-types-docs-generator": "workspace:^",
-    "cspell": "^8.0.0",
+    "cspell": "^8.2.1",
     "picocolors": "^1.0.0",
-    "prettier": "^3.1.0",
-    "tsx": "^4.1.4",
-    "typescript": "~5.2.0"
+    "prettier": "^3.1.1",
+    "tsx": "^4.7.0",
+    "typescript": "^5.3.3"
   },
   "publishConfig": {
     "access": "public"

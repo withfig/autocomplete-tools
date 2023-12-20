@@ -12,8 +12,8 @@
   "license": "MIT",
   "main": "./index.js",
   "dependencies": {
-    "@typescript-eslint/eslint-plugin": "^6.12.0",
-    "@typescript-eslint/parser": "^6.12.0",
+    "@typescript-eslint/eslint-plugin": "^6.15.0",
+    "@typescript-eslint/parser": "^6.15.0",
     "@withfig/eslint-plugin-fig-linter": "workspace:^",
     "eslint-plugin-compat": "^4.2.0"
   },
