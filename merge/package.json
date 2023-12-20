@@ -12,16 +12,16 @@
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
   "dependencies": {
-    "prettier": "^3.1.0",
+    "prettier": "^3.1.1",
     "ts-morph": "^12.2.0",
-    "typescript": "~5.2.0"
+    "typescript": "^5.3.3"
   },
   "files": [
     "lib/"
   ],
   "devDependencies": {
-    "@types/node": "^20.9.2",
-    "tsx": "^4.1.4"
+    "@types/node": "^20.10.5",
+    "tsx": "^4.7.0"
   },
   "fig": {
     "build": {
