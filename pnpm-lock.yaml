@@ -326,6 +326,9 @@ importers:
       '@withfig/autocomplete-types':
         specifier: workspace:^
         version: link:../../types
+      tslib:
+        specifier: ^2.6.2
+        version: 2.6.2
       typescript:
         specifier: ^5.3.3
         version: 5.3.3
