@@ -3,6 +3,8 @@ import { NodeModulesPolyfillPlugin } from "@esbuild-plugins/node-modules-polyfil
 import chokidar from "chokidar";
 import { Command } from "commander";
 import glob from "fast-glob";
+import fs from "node:fs/promises";
+import path from "node:path";
 import SpecLogger, { Level } from "./log";
 import { setSetting } from "./settings";
 
@@ -15,21 +17,72 @@ function invalidateCache() {
 }
 
 /**
+ * Generate index files for spec build
+ */
+async function generateIndex(outdir: string, files: string[]) {
+  const parsedFiles = files.map(path.parse);
+
+  const diffVersionedSpecNames = parsedFiles
+    .filter(({ base }) => base === "index.ts")
+    .map(({ dir }) => dir.replace(/^src\//, ""));
+  diffVersionedSpecNames.sort();
+
+  const specNames = parsedFiles
+    .filter(({ dir, ext }) => dir === "src" && ext === ".ts")
+    .map(({ name }) => name)
+    .concat(diffVersionedSpecNames);
+  specNames.sort();
+
+  await fs.mkdir(outdir, { recursive: true });
+
+  Promise.all([
+    // index.js
+    await fs.writeFile(
+      path.join(outdir, "index.js"),
+      `var e=${JSON.stringify(specNames)},diffVersionedCompletions=${JSON.stringify(
+        diffVersionedSpecNames
+      )};export{e as default,diffVersionedCompletions};`
+    ),
+    // index.json
+    fs.writeFile(
+      path.join(outdir, "index.json"),
+      JSON.stringify({
+        completions: specNames,
+        diffVersionedCompletions: diffVersionedSpecNames,
+      })
+    ),
+    // index.d.ts
+    fs.writeFile(
+      path.join(outdir, "index.d.ts"),
+      `declare const completions: string[]
+declare const diffVersionedCompletions: string[]
+export { completions as default, diffVersionedCompletions }
+  `
+    ),
+  ]);
+}
+
+/**
  * Transpiles all passed files and prints the progress
  * @param specs Array of filepaths
  */
 async function processFiles(files: string[], isDev?: boolean, outdir?: string) {
   const fileName = files.length === 1 ? files[0] : `${files.length} specs`;
-  await build({
-    entryPoints: files,
-    outdir: outdir ?? DEFAULT_DESTINATION_FOLDER_NAME,
-    bundle: true,
-    outbase: "src",
-    format: "esm",
-    minify: true,
-    plugins: [NodeModulesPolyfillPlugin()],
-    ...(isDev && { sourcemap: "inline" }),
-  }).catch((e) => SpecLogger.log(`Error building ${fileName}: ${e.message}`, Level.ERROR));
+
+  await Promise.all([
+    build({
+      entryPoints: files,
+      outdir: outdir ?? DEFAULT_DESTINATION_FOLDER_NAME,
+      bundle: true,
+      outbase: "src",
+      format: "esm",
+      minify: true,
+      plugins: [NodeModulesPolyfillPlugin()],
+      ...(isDev && { sourcemap: "inline" }),
+    }).catch((e) => SpecLogger.log(`Error building ${fileName}: ${e.message}`, Level.ERROR)),
+    generateIndex(outdir ?? DEFAULT_DESTINATION_FOLDER_NAME, files),
+  ]);
+
   SpecLogger.log(`Built ${fileName}`);
   invalidateCache();
 }

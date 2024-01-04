@@ -1,18 +1,19 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "lib": ["es2015", "DOM"],
+    "target": "ESNext",
+    "lib": ["ESNext", "DOM"],
     "allowJs": false,
     "skipLibCheck": false,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
-    "module": "commonjs",
-    "moduleResolution": "node",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
     "rootDir": "src",
-    "outDir": "build/",
-    "types": ["@withfig/autocomplete-types", "node"]
+    "outDir": "build",
+    "types": ["@withfig/autocomplete-types", "node"],
+    "declaration": true
   },
-  "exclude": ["node_modules/", "generate-spec.ts", "test"]
+  "exclude": ["node_modules/", "generate-spec.ts", "test", "src/bin.ts"]
 }
