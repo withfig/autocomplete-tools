@@ -1,6 +1,6 @@
 {
   "name": "@withfig/autocomplete-tools",
-  "version": "2.9.0",
+  "version": "2.9.1",
   "description": "Command line tools for working with fig autocomplete specs",
   "author": "The Fig Team",
   "scripts": {
@@ -13,7 +13,7 @@
     "generate-spec": "tsx generate-spec.ts generate-fig-spec"
   },
   "license": "MIT",
-  "bin": "./build/bin.bundle.js",
+  "bin": "./build/bin.js",
   "main": "./build/index.js",
   "types": "./build/index.d.ts",
   "files": [
