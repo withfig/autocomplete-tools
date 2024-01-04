@@ -16,6 +16,9 @@ function invalidateCache() {
   setSetting("autocomplete.developerModeNPMInvalidateCache", true);
 }
 
+/**
+ * Generate index files for spec build
+ */
 async function generateIndex(outdir: string, files: string[]) {
   const parsedFiles = files.map(path.parse);
 
