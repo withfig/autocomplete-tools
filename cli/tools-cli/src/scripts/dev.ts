@@ -21,7 +21,7 @@ function cleanup() {
   fs.unwatchFile(AUTOCOMPLETE_LOG_FILE);
 }
 
-async function runProgram() {
+async function runProgram({ outdir }: { outdir?: string }) {
   console.clear();
 
   if (os.type() === "Darwin") {
@@ -70,7 +70,7 @@ async function runProgram() {
   console.log(
     `Welcome to ${chalk.magenta("Fig Dev Mode")}!\n\n`,
     `All completions will be loaded from ${chalk.bold(
-      `${process.cwd()}/build`
+      `${process.cwd()}/${outdir ?? "build"}`
     )}. (Note: other completions won't work while in dev mode).\n\n`,
     `1. Edit your spec(s) in the ${chalk.bold("src/")} directory.\n`,
     `2. Test changes ${chalk.bold("instantly")} on save in your terminal.\n`,
@@ -86,7 +86,7 @@ async function runProgram() {
   setSetting("autocomplete.developerModeNPM", true);
   setSetting(
     "autocomplete.devCompletionsFolder",
-    path.join(process.cwd(), "build").replace(/(\s)/g, "\\$1")
+    path.join(process.cwd(), outdir ?? "build").replace(/(\s)/g, "\\$1")
   );
   if (!fs.existsSync(path.dirname(AUTOCOMPLETE_LOG_FILE))) {
     fs.mkdirSync(path.dirname(AUTOCOMPLETE_LOG_FILE), { recursive: true });
@@ -103,11 +103,12 @@ async function runProgram() {
       previousLogContent = currentContent;
     }
   });
-  await runCompiler({ watch: true });
+  await runCompiler({ watch: true, outdir });
 }
 
 const program = new Command("dev")
   .description("watch for changes and compile specs")
+  .option("-o, --outdir <dir>", "Output directory")
   .action(runProgram);
 
 export default program;

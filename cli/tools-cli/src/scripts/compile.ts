@@ -8,7 +8,7 @@ import { setSetting } from "./settings";
 
 // Folder names
 const SOURCE_FOLDER_NAME = "src";
-const DESTINATION_FOLDER_NAME = "build";
+const DEFAULT_DESTINATION_FOLDER_NAME = "build";
 
 function invalidateCache() {
   setSetting("autocomplete.developerModeNPMInvalidateCache", true);
@@ -18,11 +18,11 @@ function invalidateCache() {
  * Transpiles all passed files and prints the progress
  * @param specs Array of filepaths
  */
-async function processFiles(files: string[], isDev?: boolean) {
+async function processFiles(files: string[], isDev?: boolean, outdir?: string) {
   const fileName = files.length === 1 ? files[0] : `${files.length} specs`;
   await build({
     entryPoints: files,
-    outdir: DESTINATION_FOLDER_NAME,
+    outdir: outdir ?? DEFAULT_DESTINATION_FOLDER_NAME,
     bundle: true,
     outbase: "src",
     format: "esm",
@@ -34,23 +34,25 @@ async function processFiles(files: string[], isDev?: boolean) {
   invalidateCache();
 }
 
-export async function runCompiler(options: { watch: boolean }) {
+export async function runCompiler({ watch, outdir }: { watch: boolean; outdir?: string }) {
   const SOURCE_FILE_GLOB = `${SOURCE_FOLDER_NAME}/**/*.ts`;
   const files = await glob(SOURCE_FILE_GLOB);
-  await processFiles(files);
 
-  if (options.watch) {
+  await processFiles(files, undefined, outdir);
+
+  if (watch) {
     const watcher = chokidar.watch(SOURCE_FILE_GLOB, { ignoreInitial: true });
 
     // Process the changed file
-    watcher.on("change", (file) => processFiles([file], true));
-    watcher.on("add", (file) => processFiles([file], true));
+    watcher.on("change", (file) => processFiles([file], true, outdir));
+    watcher.on("add", (file) => processFiles([file], true, outdir));
   }
 }
 
 const program = new Command("compile")
   .description("compile specs in the current directory")
   .option("-w, --watch", "Watch files and re-compile on change")
+  .option("-o, --outdir <dir>", "Output directory")
   .action(runCompiler);
 
 export default program;
