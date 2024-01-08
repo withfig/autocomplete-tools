@@ -1,7 +1,7 @@
 {
   "name": "@fig/complete-oclif",
   "description": "Generate Fig completion spec from oclif",
-  "version": "3.1.0",
+  "version": "3.1.1",
   "author": "Matt Schrage @mattschrage",
   "bugs": "https://github.com/withfig/autocomplete-tools/issues",
   "dependencies": {
@@ -19,7 +19,8 @@
     "/lib",
     "/oclif.manifest.json"
   ],
-  "homepage": "https://github.com/mattschrage/fig-oclif-plugin",
+  "homepage": "https://github.com/withfig/autocomplete-tools/tree/main/integrations/oclif",
+  "repository": "github:withfig/autocomplete-tools",
   "keywords": [
     "oclif-plugin"
   ],
