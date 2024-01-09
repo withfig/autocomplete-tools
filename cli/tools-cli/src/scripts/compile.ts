@@ -28,8 +28,8 @@ async function generateIndex(outdir: string, files: string[]) {
   diffVersionedSpecNames.sort();
 
   const specNames = parsedFiles
-    .filter(({ dir, ext }) => dir === "src" && ext === ".ts")
-    .map(({ name }) => name)
+    .filter(({ base, ext }) => base !== "index.ts" && ext === ".ts")
+    .map((p) => `${p.dir}/${p.name}`.replace(/^src\//, ""))
     .concat(diffVersionedSpecNames);
   specNames.sort();
 
