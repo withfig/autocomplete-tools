@@ -1,17 +1,17 @@
 {
   "name": "@fig/complete-oclif",
   "description": "Generate Fig completion spec from oclif",
-  "version": "3.1.1",
+  "version": "2.0.0",
   "author": "Matt Schrage @mattschrage",
   "bugs": "https://github.com/withfig/autocomplete-tools/issues",
   "dependencies": {
-    "@oclif/core": "^3.16.0",
+    "@oclif/core": "^2.8.11",
     "prettier": "^3.1.1"
   },
   "devDependencies": {
     "@types/node": "^20.10.6",
     "@withfig/autocomplete-types": "workspace:^",
-    "oclif": "^4.1.3",
+    "oclif": "^3.11.3",
     "tslib": "^2.6.2",
     "typescript": "^5.3.3"
   },
