@@ -9,7 +9,7 @@ function getFigArgs(args: Command.Arg.Cached[]): Fig.Arg[] {
     figArgs.push({
       name: arg.name,
       ...(arg.description && { description: arg.description }),
-      ...(arg.default && { default: arg.default }),
+      ...(arg.default && { default: `${arg.default}` }),
       ...(arg.options?.length && { suggestions: arg.options }),
       ...(arg.required === false && { isOptional: true }),
     });
@@ -27,7 +27,7 @@ function getFigOptions(options: Command.Flag.Cached[]): Fig.Option[] {
         args: {
           description: flag.helpValue,
           ...(flag.options?.length && { suggestions: flag.options }),
-          ...(flag.default && { default: flag.default }),
+          ...(flag.default && { default: `${flag.default}` }),
         },
       }),
       ...(flag.required === true && { isRequired: true }),
@@ -52,13 +52,8 @@ function getFigSubcommands(commands: Command.Loadable[]): Fig.Subcommand[] {
     const options: Fig.Option[] = getFigOptions(Object.values(command.flags));
     const args: Fig.Arg[] = getFigArgs(Object.values(command.args));
 
-    const name =
-      command.aliases.length > 0
-        ? Array.from(new Set([command.id, ...command.aliases]))
-        : command.id;
-
     subcommands.push({
-      name,
+      name: command.id,
       ...(command.description && { description: command.description }),
       ...(options.length && { options }),
       ...(args.length && { args }),

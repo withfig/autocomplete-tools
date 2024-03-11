@@ -1,7 +1,7 @@
 {
   "name": "@fig/complete-oclif",
   "description": "Generate Fig completion spec from oclif",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "author": "Matt Schrage @mattschrage",
   "bugs": "https://github.com/withfig/autocomplete-tools/issues",
   "dependencies": {
@@ -33,7 +33,7 @@
     ]
   },
   "scripts": {
-    "build": "tsc",
+    "build": "rm -rf lib && tsc",
     "postpack": "rm -f oclif.manifest.json",
     "prepack": "pnpm build && oclif manifest && oclif readme",
     "version": "oclif readme && git add README.md"
