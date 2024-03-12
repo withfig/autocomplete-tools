@@ -256,6 +256,11 @@ declare namespace Fig {
      * The environment variables to set when executing the command, `undefined` will unset the variable if it set
      */
     env?: Record<string, string | undefined>;
+    /**
+     * Duration of timeout in milliseconds, if the command takes longer than the timeout a error will be thrown.
+     * @defaultValue 5000
+     */
+    timeout?: number;
   };
 
   /**
