@@ -393,9 +393,6 @@ importers:
       '@types/node':
         specifier: ^20.10.6
         version: 20.10.6
-      autocomplete-types-docs-generator:
-        specifier: workspace:^
-        version: link:docs-generator
       cspell:
         specifier: ^8.3.2
         version: 8.3.2

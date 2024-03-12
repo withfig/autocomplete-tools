@@ -3,7 +3,8 @@ import path from "node:path";
 import { URL } from "node:url";
 import prettier from "prettier";
 import pc from "picocolors";
-import { analyze, generate } from "autocomplete-types-docs-generator";
+// eslint-disable-next-line import/no-relative-packages
+import { analyze, generate } from "../docs-generator/dist";
 
 const dirname = new URL(".", import.meta.url).pathname;
 const docsPath = path.resolve(dirname, "..", "index.d.ts");
