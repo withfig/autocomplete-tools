@@ -59,7 +59,7 @@
     "@types/node": "^20.10.6",
     "@types/node-fetch": "^2.6.10",
     "@types/prompts": "^2.4.9",
-    "express": "^4.18.2",
+    "express": "^4.19.2",
     "multer": "1.4.5-lts.1",
     "picocolors": "^1.0.0",
     "tsx": "^4.7.0",
