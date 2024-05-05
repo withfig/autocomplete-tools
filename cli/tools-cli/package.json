@@ -23,7 +23,7 @@
     "@esbuild-plugins/node-modules-polyfill": "^0.2.2",
     "@fig/autocomplete-helpers": "workspace:^",
     "@fig/autocomplete-merge": "workspace:^",
-    "@types/semver": "^7.5.6",
+    "@types/semver": "^7.5.8",
     "chalk": "^4.1.2",
     "chokidar": "^3.5.3",
     "commander": "^11.1.0",
@@ -32,7 +32,7 @@
     "fast-glob": "^3.3.2",
     "module-from-string": "^3.3.0",
     "prettier": "^3.1.1",
-    "semver": "^7.5.4",
+    "semver": "^7.6.0",
     "typescript": "^5.3.3"
   },
   "devDependencies": {
