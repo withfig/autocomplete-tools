@@ -17,7 +17,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-      - uses: pnpm/action-setup@v2
+      - uses: pnpm/action-setup@v3
       - name: Install dependencies and build # build is a postinstall script
         run: pnpm install --frozen-lockfile
       - name: Test packages
