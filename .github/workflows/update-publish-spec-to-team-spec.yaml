@@ -25,7 +25,7 @@ jobs:
           pnpm install
           pnpm run --filter ./cli/publish-spec generate-spec > generated.ts
       - name: 'Create Autocomplete PR'
-        uses: withfig/push-to-fig-autocomplete-action@v1
+        uses: withfig/push-to-fig-autocomplete-action@v2
         with:
           token: ${{ secrets.FIG_BOT_TOKEN }}
           autocomplete-spec-name: '@fig/publish-spec'
