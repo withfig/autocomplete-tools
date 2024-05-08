@@ -14,7 +14,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-      - uses: pnpm/action-setup@v3
+      - uses: pnpm/action-setup@v4
       - name: Install dependencies and build # build is a postinstall script
         run: pnpm install --frozen-lockfile
       - name: Lint packages
