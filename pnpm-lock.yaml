@@ -95,8 +95,8 @@ importers:
         specifier: ^20.10.6
         version: 20.10.6
       '@types/node-fetch':
-        specifier: ^2.6.10
-        version: 2.6.10
+        specifier: ^2.6.11
+        version: 2.6.11
       '@types/prompts':
         specifier: ^2.4.9
         version: 2.4.9
@@ -2510,8 +2510,8 @@ packages:
       '@types/express': 4.17.21
     dev: true
 
-  /@types/node-fetch@2.6.10:
-    resolution: {integrity: sha512-PPpPK6F9ALFTn59Ka3BaL+qGuipRfxNE8qVgkp0bVixeiR2c2/L+IVOiBdu9JhhT22sWnQEp6YyHGI2b2+CMcA==}
+  /@types/node-fetch@2.6.11:
+    resolution: {integrity: sha512-24xFj9R5+rfQJLRyM56qh+wnVSYhyXC2tkoBndtY0U+vubqNsYXGjufB2nn8Q6gt0LrARwL6UBtMCSVCwl4B1g==}
     dependencies:
       '@types/node': 20.10.6
       form-data: 4.0.0
