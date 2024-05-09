@@ -4,7 +4,7 @@ import path from "path";
 import chalk from "chalk";
 import { Command } from "commander";
 import { runCompiler } from "./compile";
-import { isCwInstalled, setSetting } from "./settings";
+import { isQInstalled, setSetting } from "./settings";
 
 const AUTOCOMPLETE_LOG_FILE = path.join(os.homedir(), ".fig", "logs", "specs.log");
 
@@ -27,42 +27,37 @@ async function runProgram({ outdir }: { outdir?: string }) {
   if (os.type() === "Darwin") {
     const globalFigAppPath = "/Applications/Fig.app";
     const localFigAppPath = path.join(os.homedir(), "Applications/Fig.app");
-    const globalCwAppPath = "/Applications/CodeWhisperer.app";
-    const localCwAppPath = path.join(os.homedir(), "Applications/CodeWhisperer.app");
+    const globalQAppPath = "/Applications/Amazon Q.app";
+    const localQAppPath = path.join(os.homedir(), "Applications/Amazon Q.app");
 
     if (
       !fs.existsSync(globalFigAppPath) &&
       !fs.existsSync(localFigAppPath) &&
-      !fs.existsSync(globalCwAppPath) &&
-      !fs.existsSync(localCwAppPath)
+      !fs.existsSync(globalQAppPath) &&
+      !fs.existsSync(localQAppPath)
     ) {
       console.log(
         "\n******\n\n",
-        chalk.bold(chalk.yellow(" WARNING: CodeWhisperer for command line app is not installed")),
+        chalk.bold(chalk.yellow(" WARNING: Amazon Q for command line app is not installed")),
         "\n\n",
-        chalk.bold(chalk.cyan(" Download CodeWhisperer for command line at:")),
-        "\n https://docs.aws.amazon.com/codewhisperer/latest/userguide/command-line-getting-started-installing.html",
+        chalk.bold(chalk.cyan(" Download Amazon Q for command line at:")),
+        "\n https://docs.aws.amazon.com/amazonq/latest/qdeveloper-ug/command-line-getting-started-installing.html",
         "\n\n******\n"
       );
     }
   } else if (os.type() === "Linux") {
-    // if (!commandStatus("fig_desktop --version")) {
-    //   console.log(
-    //     "\n******\n\n",
-    //     chalk.bold(chalk.yellow(" WARNING: Fig App is not installed")),
-    //     "\n\n",
-    //     chalk.bold(chalk.cyan(" For early Linux support please join our Discord:")),
-    //     "\n https://fig.io/community",
-    //     "\n\n******\n"
-    //   );
-    // }
-  } else if (!isCwInstalled()) {
     console.log(
       "\n******\n\n",
-      chalk.bold(chalk.yellow(" WARNING: CodeWhisperer for command line app is not installed")),
+      chalk.bold(chalk.yellow(" WARNING: Amazon Q for command line on Linux is not supported yet")),
+      "\n\n"
+    );
+  } else if (!isQInstalled()) {
+    console.log(
+      "\n******\n\n",
+      chalk.bold(chalk.yellow(" WARNING: Amazon Q for command line is not installed")),
       "\n\n",
-      chalk.bold(chalk.cyan(" Download CodeWhisperer for command line at:")),
-      "\n https://docs.aws.amazon.com/codewhisperer/latest/userguide/command-line-getting-started-installing.html",
+      chalk.bold(chalk.cyan(" Download Amazon Q for command line at:")),
+      "\n https://docs.aws.amazon.com/amazonq/latest/qdeveloper-ug/command-line-getting-started-installing.html",
       "\n\n******\n"
     );
   }
