@@ -20,7 +20,7 @@
     "lib/"
   ],
   "devDependencies": {
-    "@types/node": "^20.10.6",
+    "@types/node": "^20.12.11",
     "tsx": "^4.9.3"
   },
   "fig": {
