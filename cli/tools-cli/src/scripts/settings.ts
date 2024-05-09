@@ -25,11 +25,20 @@ export function isCwInstalled(): boolean {
   return IS_CW_INSTALLED;
 }
 
-export function setSetting(key: string, value: unknown) {
-  if (isFigInstalled()) {
-    commandStatus("fig", ["settings", key, JSON.stringify(value)]);
+let IS_Q_INSTALLED: boolean | undefined;
+export function isQInstalled(): boolean {
+  if (IS_Q_INSTALLED === undefined) {
+    IS_Q_INSTALLED = commandStatus("q", ["--version"]);
   }
-  if (isCwInstalled()) {
+  return IS_Q_INSTALLED;
+}
+
+export function setSetting(key: string, value: unknown) {
+  if (isQInstalled()) {
+    commandStatus("q", ["settings", key, JSON.stringify(value)]);
+  } else if (isCwInstalled()) {
     commandStatus("cw", ["settings", key, JSON.stringify(value)]);
+  } else if (isFigInstalled()) {
+    commandStatus("fig", ["settings", key, JSON.stringify(value)]);
   }
 }
