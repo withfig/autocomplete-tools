@@ -9,6 +9,9 @@
     "fig",
     "autocomplete"
   ],
+  "engines": {
+    "node": ">=20"
+  },
   "license": "MIT",
   "main": "./index.js",
   "peerDependencies": {
