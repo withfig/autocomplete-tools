@@ -45,8 +45,8 @@ importers:
   cli/create-completion-spec:
     dependencies:
       commander:
-        specifier: ^11.1.0
-        version: 11.1.0
+        specifier: ^12.0.0
+        version: 12.0.0
       picocolors:
         specifier: ^1.0.0
         version: 1.0.0
@@ -67,8 +67,8 @@ importers:
   cli/publish-spec:
     dependencies:
       commander:
-        specifier: ^11.1.0
-        version: 11.1.0
+        specifier: ^12.0.0
+        version: 12.0.0
       esbuild:
         specifier: ^0.21.1
         version: 0.21.1
@@ -137,8 +137,8 @@ importers:
         specifier: ^3.6.0
         version: 3.6.0
       commander:
-        specifier: ^11.1.0
-        version: 11.1.0
+        specifier: ^12.0.0
+        version: 12.0.0
       create-completion-spec:
         specifier: workspace:^
         version: link:../create-completion-spec
@@ -305,8 +305,8 @@ importers:
         specifier: ^5.3.0
         version: 5.3.0
       commander:
-        specifier: ^11.1.0
-        version: 11.1.0
+        specifier: ^12.0.0
+        version: 12.0.0
       tsx:
         specifier: ^4.9.3
         version: 4.9.4
@@ -418,8 +418,8 @@ importers:
         specifier: ^0.14.2
         version: 0.14.2
       commander:
-        specifier: ^11.1.0
-        version: 11.1.0
+        specifier: ^12.0.0
+        version: 12.0.0
       prettier:
         specifier: ^3.2.5
         version: 3.2.5
@@ -3845,11 +3845,11 @@ packages:
   /commander@11.1.0:
     resolution: {integrity: sha512-yPVavfyCcRhmorC7rWlkHn15b4wDVgVmBA7kV4QVBsF7kv/9TKJAbAXVTxvTnwP8HHKjRCJDClKbciiYS7p0DQ==}
     engines: {node: '>=16'}
+    dev: true
 
   /commander@12.0.0:
     resolution: {integrity: sha512-MwVNWlYjDTtOjX5PiD7o5pK0UrFU/OYgcJfjjK4RaHZETNtjJqrZa9Y9ds88+A+f+d5lv+561eZ+yCKoS3gbAA==}
     engines: {node: '>=18'}
-    dev: true
 
   /commander@7.1.0:
     resolution: {integrity: sha512-pRxBna3MJe6HKnBGsDyMv8ETbptw3axEdYHoqNh7gu5oDcew8fs0xnivZGm06Ogk8zGAJ9VX+OPEr2GXEQK4dg==}
