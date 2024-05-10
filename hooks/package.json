@@ -13,11 +13,11 @@
     "build": "tsc"
   },
   "dependencies": {
-    "@withfig/api-bindings": "^0.29.4",
-    "react": "^18.2.0"
+    "@withfig/api-bindings": "^0.30.5",
+    "react": "^18.3.1"
   },
   "devDependencies": {
-    "@types/react": "^18.2.46",
+    "@types/react": "^18.3.1",
     "@withfig/autocomplete-types": "workspace:^",
     "typescript": "^5.3.3"
   },

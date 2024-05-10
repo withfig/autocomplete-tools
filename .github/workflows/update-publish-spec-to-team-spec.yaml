@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Repository Dispatch
-      uses: peter-evans/repository-dispatch@v1
+      uses: peter-evans/repository-dispatch@v3
       with:
         token: ${{ secrets.FIG_BOT_TOKEN }}
         repository: withfig/publish-spec-to-team
@@ -20,12 +20,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
-      - uses: pnpm/action-setup@v2
+      - uses: pnpm/action-setup@v4
       - run: |
           pnpm install
           pnpm run --filter ./cli/publish-spec generate-spec > generated.ts
       - name: 'Create Autocomplete PR'
-        uses: withfig/push-to-fig-autocomplete-action@v1
+        uses: withfig/push-to-fig-autocomplete-action@v2
         with:
           token: ${{ secrets.FIG_BOT_TOKEN }}
           autocomplete-spec-name: '@fig/publish-spec'

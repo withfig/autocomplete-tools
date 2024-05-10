@@ -12,7 +12,7 @@
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
   "dependencies": {
-    "prettier": "^3.1.1",
+    "prettier": "^3.2.5",
     "ts-morph": "^12.2.0",
     "typescript": "^5.3.3"
   },
@@ -20,8 +20,8 @@
     "lib/"
   ],
   "devDependencies": {
-    "@types/node": "^20.10.6",
-    "tsx": "^4.7.0"
+    "@types/node": "^20.12.11",
+    "tsx": "^4.9.3"
   },
   "fig": {
     "build": {

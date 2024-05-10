@@ -1,6 +1,6 @@
 {
   "name": "@withfig/autocomplete-tools",
-  "version": "2.9.2",
+  "version": "2.10.0",
   "description": "Command line tools for working with fig autocomplete specs",
   "author": "The Fig Team",
   "scripts": {
@@ -23,23 +23,23 @@
     "@esbuild-plugins/node-modules-polyfill": "^0.2.2",
     "@fig/autocomplete-helpers": "workspace:^",
     "@fig/autocomplete-merge": "workspace:^",
-    "@types/semver": "^7.5.6",
+    "@types/semver": "^7.5.8",
     "chalk": "^4.1.2",
-    "chokidar": "^3.5.3",
+    "chokidar": "^3.6.0",
     "commander": "^11.1.0",
     "create-completion-spec": "workspace:^",
-    "esbuild": "^0.19.11",
+    "esbuild": "^0.20.2",
     "fast-glob": "^3.3.2",
     "module-from-string": "^3.3.0",
-    "prettier": "^3.1.1",
-    "semver": "^7.5.4",
+    "prettier": "^3.2.5",
+    "semver": "^7.6.0",
     "typescript": "^5.3.3"
   },
   "devDependencies": {
     "@fig/complete-commander": "workspace:^",
-    "@types/node": "^20.10.6",
+    "@types/node": "^20.12.11",
     "@withfig/autocomplete-types": "workspace:^",
-    "tsx": "^4.7.0"
+    "tsx": "^4.9.3"
   },
   "fig": {
     "build": {

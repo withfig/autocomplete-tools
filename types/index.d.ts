@@ -669,6 +669,13 @@ declare namespace Fig {
     generateSpec?: (tokens: string[], executeCommand: ExecuteCommandFunction) => Promise<Spec>;
 
     /**
+     * Generating a spec can be expensive, but due to current guarantees they are not cached.
+     * This function generates a cache key which is used to cache the result of generateSpec.
+     * If `undefined` is returned, the cache will not be used.
+     */
+    generateSpecCacheKey?: Function<{ tokens: string[] }, string | undefined> | string;
+
+    /**
      * Configure how the autocomplete engine will map the raw tokens to a given completion spec.
      *
      * @param flagsArePosixNoncompliant - Indicates that flags with one hyphen may have *more* than one character. Enabling this directive, turns off support for option chaining.

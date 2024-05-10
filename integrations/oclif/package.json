@@ -6,10 +6,10 @@
   "bugs": "https://github.com/withfig/autocomplete-tools/issues",
   "dependencies": {
     "@oclif/core": "^2.8.11",
-    "prettier": "^3.1.1"
+    "prettier": "^3.2.5"
   },
   "devDependencies": {
-    "@types/node": "^20.10.6",
+    "@types/node": "^20.12.11",
     "@withfig/autocomplete-types": "workspace:^",
     "oclif": "^3.11.3",
     "tslib": "^2.6.2",
