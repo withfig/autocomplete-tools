@@ -218,7 +218,7 @@ const subcommandProcessor: Processor<Fig.SubcommandDiff, Fig.Subcommand> = makeN
     merge: (c, d) => mergeNamedArrayDiff(toArray(c), toArray(d), optionProcessor.merge),
   },
   args: argArrayProcessor,
-});
+} as const);
 
 const getBestVersionIndex = (versions: string[], target?: string): number => {
   if (!target) return versions.length - 1;
