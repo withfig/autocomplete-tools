@@ -221,11 +221,11 @@ importers:
         specifier: ^10.4.0
         version: 10.4.0
       sinon:
-        specifier: ^17.0.2
-        version: 17.0.2
+        specifier: ^18.0.0
+        version: 18.0.0
       sinon-chai:
         specifier: ^3.7.0
-        version: 3.7.0(chai@4.4.1)(sinon@17.0.2)
+        version: 3.7.0(chai@4.4.1)(sinon@18.0.0)
       tsx:
         specifier: ^4.9.3
         version: 4.9.4
@@ -7697,8 +7697,8 @@ packages:
     engines: {node: '>= 0.6'}
     dev: true
 
-  /nise@5.1.9:
-    resolution: {integrity: sha512-qOnoujW4SV6e40dYxJOb3uvuoPHtmLzIk4TFo+j0jPJoC+5Z9xja5qH5JZobEPsa8+YYphMrOSwnrshEhG2qww==}
+  /nise@6.0.0:
+    resolution: {integrity: sha512-K8ePqo9BFvN31HXwEtTNGzgrPpmvgciDsFz8aztFjt4LqKO/JeFD8tBOeuDiCMXrIl/m1YvfH8auSpxfaD09wg==}
     dependencies:
       '@sinonjs/commons': 3.0.1
       '@sinonjs/fake-timers': 11.2.2
@@ -9099,24 +9099,24 @@ packages:
       - supports-color
     dev: true
 
-  /sinon-chai@3.7.0(chai@4.4.1)(sinon@17.0.2):
+  /sinon-chai@3.7.0(chai@4.4.1)(sinon@18.0.0):
     resolution: {integrity: sha512-mf5NURdUaSdnatJx3uhoBOrY9dtL19fiOtAdT1Azxg3+lNJFiuN0uzaU3xX1LeAfL17kHQhTAJgpsfhbMJMY2g==}
     peerDependencies:
       chai: ^4.0.0
       sinon: '>=4.0.0'
     dependencies:
       chai: 4.4.1
-      sinon: 17.0.2
+      sinon: 18.0.0
     dev: true
 
-  /sinon@17.0.2:
-    resolution: {integrity: sha512-uihLiaB9FhzesElPDFZA7hDcNABzsVHwr3YfmM9sBllVwab3l0ltGlRV1XhpNfIacNDLGD1QRZNLs5nU5+hTuA==}
+  /sinon@18.0.0:
+    resolution: {integrity: sha512-+dXDXzD1sBO6HlmZDd7mXZCR/y5ECiEiGCBSGuFD/kZ0bDTofPYc6JaeGmPSF+1j1MejGUWkORbYOLDyvqCWpA==}
     dependencies:
       '@sinonjs/commons': 3.0.1
       '@sinonjs/fake-timers': 11.2.2
       '@sinonjs/samsam': 8.0.0
       diff: 5.2.0
-      nise: 5.1.9
+      nise: 6.0.0
       supports-color: 7.2.0
     dev: true
 
