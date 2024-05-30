@@ -17,7 +17,11 @@ const completionSpec: Fig.Spec = {
       args: { name: "type", default: "blue" },
     },
     { name: ["-n", "--number"], args: { name: "type", default: "1" } },
+    { name: ["-s", "--string"], args: { name: "type", default: "hello" } },
+    { name: ["-b", "--bool"], args: { name: "type", default: "true" } },
     { name: ["-a", "--arr"], args: { name: "type", default: "1,2,3" } },
+    { name: ["-o", "--obj"], args: { name: "type" } },
+    { name: ["-m", "--map"], args: { name: "type" } },
     {
       name: ["-h", "--help"],
       description: "display help for command",

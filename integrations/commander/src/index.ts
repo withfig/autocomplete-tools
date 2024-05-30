@@ -11,6 +11,7 @@ const DEFAULT_FIG_SUBCOMMAND_NAME = "generate-fig-spec";
 function convertDefaultValue(v: unknown) {
   if (typeof v === "string") return v;
   if (Array.isArray(v)) return v.join(",");
+  if (typeof v === "object") return undefined;
   return String(v);
 }
 
