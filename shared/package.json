@@ -23,11 +23,11 @@
   "license": "MIT",
   "devDependencies": {
     "@tsconfig/recommended": "^1.0.6",
-    "@types/node": "^20.12.12",
+    "@types/node": "^20.12.13",
     "@types/semver": "^7.5.8",
     "@withfig/autocomplete-types": "workspace:^",
     "prettier": "^3.2.5",
-    "typescript": "^5.3.3",
+    "typescript": "^5.4.5",
     "vitest": "^1.6.0"
   },
   "publishConfig": {

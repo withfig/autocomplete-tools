@@ -22,16 +22,16 @@
   },
   "author": "Fig Team",
   "dependencies": {
-    "semver": "^7.6.0",
-    "typescript": "^5.3.3"
+    "semver": "^7.6.2",
+    "typescript": "^5.4.5"
   },
   "devDependencies": {
     "@tsconfig/recommended": "^1.0.6",
-    "@types/node": "^20.12.12",
+    "@types/node": "^20.12.13",
     "@types/semver": "^7.5.8",
     "@withfig/autocomplete-types": "workspace:^",
     "prettier": "^3.2.5",
-    "tsx": "^4.9.3",
+    "tsx": "^4.11.0",
     "vitest": "^1.6.0"
   },
   "publishConfig": {

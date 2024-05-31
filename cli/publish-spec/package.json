@@ -47,7 +47,7 @@
   "homepage": "https://github.com/withfig/autocomplete-tools#readme",
   "dependencies": {
     "commander": "^11.1.0",
-    "esbuild": "^0.21.1",
+    "esbuild": "^0.21.4",
     "node-fetch": "^3.3.2",
     "prettier": "^3.2.5",
     "prompts": "^2.4.2"
@@ -56,14 +56,14 @@
     "@fig/complete-commander": "workspace:^",
     "@types/express": "^4.17.21",
     "@types/multer": "^1.4.11",
-    "@types/node": "^20.12.12",
+    "@types/node": "^20.12.13",
     "@types/node-fetch": "^2.6.11",
     "@types/prompts": "^2.4.9",
     "express": "^4.19.2",
     "multer": "1.4.5-lts.1",
-    "picocolors": "^1.0.0",
-    "tsx": "^4.9.3",
-    "typescript": "^5.3.3"
+    "picocolors": "^1.0.1",
+    "tsx": "^4.11.0",
+    "typescript": "^5.4.5"
   },
   "publishConfig": {
     "access": "public"

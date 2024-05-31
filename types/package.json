@@ -17,12 +17,12 @@
   ],
   "devDependencies": {
     "@microsoft/tsdoc": "^0.14.2",
-    "@types/node": "^20.12.12",
-    "cspell": "^8.3.2",
-    "picocolors": "^1.0.0",
+    "@types/node": "^20.12.13",
+    "cspell": "^8.8.3",
+    "picocolors": "^1.0.1",
     "prettier": "^3.2.5",
-    "tsx": "^4.9.3",
-    "typescript": "^5.3.3"
+    "tsx": "^4.11.0",
+    "typescript": "^5.4.5"
   },
   "publishConfig": {
     "access": "public"

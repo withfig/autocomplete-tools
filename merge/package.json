@@ -1,6 +1,6 @@
 {
   "name": "@fig/autocomplete-merge",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "Package to merge two specs together",
   "author": "The Fig Team",
   "scripts": {
@@ -13,15 +13,17 @@
   "types": "./lib/index.d.ts",
   "dependencies": {
     "prettier": "^3.2.5",
-    "ts-morph": "^12.2.0",
-    "typescript": "^5.3.3"
+    "ts-morph": "^22.0.0",
+    "typescript": "^5.4.5"
   },
   "files": [
     "lib/"
   ],
   "devDependencies": {
-    "@types/node": "^20.12.12",
-    "tsx": "^4.9.3"
+    "@tsconfig/recommended": "^1.0.6",
+    "@types/node": "^20.12.13",
+    "@withfig/autocomplete-types": "workspace:^",
+    "tsx": "^4.11.0"
   },
   "fig": {
     "build": {

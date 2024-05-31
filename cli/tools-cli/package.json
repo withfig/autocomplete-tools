@@ -28,18 +28,18 @@
     "chokidar": "^3.6.0",
     "commander": "^11.1.0",
     "create-completion-spec": "workspace:^",
-    "esbuild": "^0.21.1",
+    "esbuild": "^0.21.4",
     "fast-glob": "^3.3.2",
     "module-from-string": "^3.3.0",
     "prettier": "^3.2.5",
-    "semver": "^7.6.0",
-    "typescript": "^5.3.3"
+    "semver": "^7.6.2",
+    "typescript": "^5.4.5"
   },
   "devDependencies": {
     "@fig/complete-commander": "workspace:^",
-    "@types/node": "^20.12.12",
+    "@types/node": "^20.12.13",
     "@withfig/autocomplete-types": "workspace:^",
-    "tsx": "^4.9.3"
+    "tsx": "^4.11.0"
   },
   "fig": {
     "build": {

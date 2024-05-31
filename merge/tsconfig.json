@@ -1,14 +1,8 @@
 {
+  "extends": "@tsconfig/recommended/tsconfig.json",
   "compilerOptions": {
-    "target": "es5",
-    "lib": ["es2015"],
     "outDir": "./lib",
-    "declaration": true,
-    "esModuleInterop": true,
-    "strict": true,
-    "module": "commonjs",
-    "moduleResolution": "node",
-    "skipLibCheck": true
+    "declaration": true
   },
   "exclude": ["node_modules", "test", "lib"]
 }
