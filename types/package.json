@@ -16,7 +16,7 @@
     "index.d.ts"
   ],
   "devDependencies": {
-    "@microsoft/tsdoc": "^0.14.2",
+    "@microsoft/tsdoc": "^0.15.0",
     "@types/node": "^20.13.0",
     "cspell": "^8.8.3",
     "picocolors": "^1.0.1",
