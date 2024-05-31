@@ -1,3 +1,4 @@
+import { describe, it, expect } from "vitest";
 import { createVersionedSpec } from "../src/versions";
 
 type VersionedSpec = (version?: string) => unknown;

@@ -18,7 +18,7 @@
     "build:cjs": "tsc --declaration --outDir dist/cjs",
     "build:esm": "tsc --declaration --module esnext --outDir dist/esm",
     "prepack": "pnpm build",
-    "test": "tsx test/index.ts && jest"
+    "test": "tsx test/index.ts && vitest --run"
   },
   "author": "Fig Team",
   "dependencies": {
@@ -27,14 +27,12 @@
   },
   "devDependencies": {
     "@tsconfig/recommended": "^1.0.6",
-    "@types/jest": "^29.5.11",
     "@types/node": "^20.12.12",
     "@types/semver": "^7.5.8",
     "@withfig/autocomplete-types": "workspace:^",
-    "jest": "^29.7.0",
     "prettier": "^3.2.5",
-    "ts-jest": "^29.1.2",
-    "tsx": "^4.9.3"
+    "tsx": "^4.9.3",
+    "vitest": "^1.6.0"
   },
   "publishConfig": {
     "access": "public"
