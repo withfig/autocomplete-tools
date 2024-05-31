@@ -5,15 +5,15 @@
   "author": "Matt Schrage @mattschrage",
   "bugs": "https://github.com/withfig/autocomplete-tools/issues",
   "dependencies": {
-    "@oclif/core": "^2.8.11",
+    "@oclif/core": "^2.16.0",
     "prettier": "^3.2.5"
   },
   "devDependencies": {
-    "@types/node": "^20.12.12",
+    "@types/node": "^20.12.13",
     "@withfig/autocomplete-types": "workspace:^",
-    "oclif": "^3.11.3",
+    "oclif": "^3.17.2",
     "tslib": "^2.6.2",
-    "typescript": "^5.3.3"
+    "typescript": "^5.4.5"
   },
   "files": [
     "/lib",

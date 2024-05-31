@@ -30,13 +30,13 @@
   "homepage": "https://github.com/withfig/autocomplete-tools#readme",
   "dependencies": {
     "commander": "^11.1.0",
-    "picocolors": "^1.0.0"
+    "picocolors": "^1.0.1"
   },
   "devDependencies": {
     "@fig/complete-commander": "workspace:^",
-    "@types/node": "^20.12.12",
-    "tsx": "^4.9.3",
-    "typescript": "^5.3.3"
+    "@types/node": "^20.12.13",
+    "tsx": "^4.11.0",
+    "typescript": "^5.4.5"
   },
   "publishConfig": {
     "access": "public"
