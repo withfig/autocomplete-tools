@@ -58,8 +58,8 @@ importers:
         specifier: ^20.13.0
         version: 20.13.0
       tsx:
-        specifier: ^4.11.0
-        version: 4.11.0
+        specifier: ^4.11.2
+        version: 4.11.2
       typescript:
         specifier: ^5.4.5
         version: 5.4.5
@@ -110,8 +110,8 @@ importers:
         specifier: ^1.0.1
         version: 1.0.1
       tsx:
-        specifier: ^4.11.0
-        version: 4.11.0
+        specifier: ^4.11.2
+        version: 4.11.2
       typescript:
         specifier: ^5.4.5
         version: 5.4.5
@@ -171,8 +171,8 @@ importers:
         specifier: workspace:^
         version: link:../../types
       tsx:
-        specifier: ^4.11.0
-        version: 4.11.0
+        specifier: ^4.11.2
+        version: 4.11.2
 
   eslint/config-autocomplete:
     dependencies:
@@ -227,8 +227,8 @@ importers:
         specifier: ^3.7.0
         version: 3.7.0(chai@4.4.1)(sinon@18.0.0)
       tsx:
-        specifier: ^4.11.0
-        version: 4.11.0
+        specifier: ^4.11.2
+        version: 4.11.2
       typescript:
         specifier: ^5.4.5
         version: 5.4.5
@@ -258,8 +258,8 @@ importers:
         specifier: ^3.2.5
         version: 3.2.5
       tsx:
-        specifier: ^4.11.0
-        version: 4.11.0
+        specifier: ^4.11.2
+        version: 4.11.2
       vitest:
         specifier: ^1.6.0
         version: 1.6.0(@types/node@20.13.0)
@@ -302,8 +302,8 @@ importers:
         specifier: ^11.1.0
         version: 11.1.0
       tsx:
-        specifier: ^4.11.0
-        version: 4.11.0
+        specifier: ^4.11.2
+        version: 4.11.2
       typescript:
         specifier: ^5.4.5
         version: 5.4.5
@@ -355,8 +355,8 @@ importers:
         specifier: workspace:^
         version: link:../types
       tsx:
-        specifier: ^4.11.0
-        version: 4.11.0
+        specifier: ^4.11.2
+        version: 4.11.2
 
   shared:
     devDependencies:
@@ -400,8 +400,8 @@ importers:
         specifier: ^3.2.5
         version: 3.2.5
       tsx:
-        specifier: ^4.11.0
-        version: 4.11.0
+        specifier: ^4.11.2
+        version: 4.11.2
       typescript:
         specifier: ^5.4.5
         version: 5.4.5
@@ -8369,8 +8369,8 @@ packages:
   /tslib@2.6.2:
     resolution: {integrity: sha512-AEYxH93jGFPn/a2iVAwW87VuUIkR1FVUKB77NwMF7nBTDkDrrT/Hpt/IrCJ0QXhW27jTBDcf5ZY7w6RiqTMw2Q==}
 
-  /tsx@4.11.0:
-    resolution: {integrity: sha512-vzGGELOgAupsNVssAmZjbUDfdm/pWP4R+Kg8TVdsonxbXk0bEpE1qh0yV6/QxUVXaVlNemgcPajGdJJ82n3stg==}
+  /tsx@4.11.2:
+    resolution: {integrity: sha512-V5DL5v1BuItjsQ2FN9+4OjR7n5cr8hSgN+VGmm/fd2/0cgQdBIWHcQ3bFYm/5ZTmyxkTDBUIaRuW2divgfPe0A==}
     engines: {node: '>=18.0.0'}
     hasBin: true
     dependencies:
