@@ -18,7 +18,7 @@
   "devDependencies": {
     "@microsoft/tsdoc": "^0.15.0",
     "@types/node": "^20.13.0",
-    "cspell": "^8.8.3",
+    "cspell": "^8.8.4",
     "picocolors": "^1.0.1",
     "prettier": "^3.2.5",
     "tsx": "^4.11.2",
