@@ -54,10 +54,10 @@ function generateOption(_option: Option & Record<string, any>): Fig.Option {
     defaultValue,
   } = _option;
 
-  const name = [];
-  if (short) name.push(short);
-  if (long) name.push(long);
-  const option: Fig.Option = { name };
+  const name = new Set<string>();
+  if (short) name.add(short);
+  if (long) name.add(long);
+  const option: Fig.Option = { name: Array.from(name) };
 
   if (description) option.description = description;
   if (mandatory) option.isRequired = true;
@@ -145,7 +145,7 @@ function generateCommand(
   } = _command as ExtendedCommand;
 
   if (_name === figSpecCommandName) return undefined;
-  const name = _aliases.length > 0 ? [_name, ..._aliases] : _name;
+  const name = _aliases.length > 0 ? Array.from(new Set([_name, ..._aliases])) : _name;
   const command: Fig.Subcommand = { name };
 
   if (_description) command.description = _description;
