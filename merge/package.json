@@ -12,7 +12,7 @@
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
   "dependencies": {
-    "prettier": "^3.2.5",
+    "prettier": "^3.3.1",
     "ts-morph": "^22.0.0",
     "typescript": "^5.4.5"
   },
