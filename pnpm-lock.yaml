@@ -58,8 +58,8 @@ importers:
         specifier: ^20.14.2
         version: 20.14.2
       tsx:
-        specifier: ^4.11.2
-        version: 4.11.2
+        specifier: ^4.15.2
+        version: 4.15.2
       typescript:
         specifier: ^5.4.5
         version: 5.4.5
@@ -110,8 +110,8 @@ importers:
         specifier: ^1.0.1
         version: 1.0.1
       tsx:
-        specifier: ^4.11.2
-        version: 4.11.2
+        specifier: ^4.15.2
+        version: 4.15.2
       typescript:
         specifier: ^5.4.5
         version: 5.4.5
@@ -171,8 +171,8 @@ importers:
         specifier: workspace:^
         version: link:../../types
       tsx:
-        specifier: ^4.11.2
-        version: 4.11.2
+        specifier: ^4.15.2
+        version: 4.15.2
 
   eslint/config-autocomplete:
     dependencies:
@@ -227,8 +227,8 @@ importers:
         specifier: ^3.7.0
         version: 3.7.0(chai@4.4.1)(sinon@18.0.0)
       tsx:
-        specifier: ^4.11.2
-        version: 4.11.2
+        specifier: ^4.15.2
+        version: 4.15.2
       typescript:
         specifier: ^5.4.5
         version: 5.4.5
@@ -258,8 +258,8 @@ importers:
         specifier: ^3.3.1
         version: 3.3.1
       tsx:
-        specifier: ^4.11.2
-        version: 4.11.2
+        specifier: ^4.15.2
+        version: 4.15.2
       vitest:
         specifier: ^1.6.0
         version: 1.6.0(@types/node@20.14.2)
@@ -302,8 +302,8 @@ importers:
         specifier: ^11.1.0
         version: 11.1.0
       tsx:
-        specifier: ^4.11.2
-        version: 4.11.2
+        specifier: ^4.15.2
+        version: 4.15.2
       typescript:
         specifier: ^5.4.5
         version: 5.4.5
@@ -355,8 +355,8 @@ importers:
         specifier: workspace:^
         version: link:../types
       tsx:
-        specifier: ^4.11.2
-        version: 4.11.2
+        specifier: ^4.15.2
+        version: 4.15.2
 
   shared:
     devDependencies:
@@ -400,8 +400,8 @@ importers:
         specifier: ^3.3.1
         version: 3.3.1
       tsx:
-        specifier: ^4.11.2
-        version: 4.11.2
+        specifier: ^4.15.2
+        version: 4.15.2
       typescript:
         specifier: ^5.4.5
         version: 5.4.5
@@ -797,7 +797,6 @@ packages:
     cpu: [ppc64]
     os: [aix]
     requiresBuild: true
-    dev: false
     optional: true
 
   /@esbuild/android-arm64@0.20.2:
@@ -815,7 +814,6 @@ packages:
     cpu: [arm64]
     os: [android]
     requiresBuild: true
-    dev: false
     optional: true
 
   /@esbuild/android-arm@0.15.18:
@@ -842,7 +840,6 @@ packages:
     cpu: [arm]
     os: [android]
     requiresBuild: true
-    dev: false
     optional: true
 
   /@esbuild/android-x64@0.20.2:
@@ -860,7 +857,6 @@ packages:
     cpu: [x64]
     os: [android]
     requiresBuild: true
-    dev: false
     optional: true
 
   /@esbuild/darwin-arm64@0.20.2:
@@ -878,7 +874,6 @@ packages:
     cpu: [arm64]
     os: [darwin]
     requiresBuild: true
-    dev: false
     optional: true
 
   /@esbuild/darwin-x64@0.20.2:
@@ -896,7 +891,6 @@ packages:
     cpu: [x64]
     os: [darwin]
     requiresBuild: true
-    dev: false
     optional: true
 
   /@esbuild/freebsd-arm64@0.20.2:
@@ -914,7 +908,6 @@ packages:
     cpu: [arm64]
     os: [freebsd]
     requiresBuild: true
-    dev: false
     optional: true
 
   /@esbuild/freebsd-x64@0.20.2:
@@ -932,7 +925,6 @@ packages:
     cpu: [x64]
     os: [freebsd]
     requiresBuild: true
-    dev: false
     optional: true
 
   /@esbuild/linux-arm64@0.20.2:
@@ -950,7 +942,6 @@ packages:
     cpu: [arm64]
     os: [linux]
     requiresBuild: true
-    dev: false
     optional: true
 
   /@esbuild/linux-arm@0.20.2:
@@ -968,7 +959,6 @@ packages:
     cpu: [arm]
     os: [linux]
     requiresBuild: true
-    dev: false
     optional: true
 
   /@esbuild/linux-ia32@0.20.2:
@@ -986,7 +976,6 @@ packages:
     cpu: [ia32]
     os: [linux]
     requiresBuild: true
-    dev: false
     optional: true
 
   /@esbuild/linux-loong64@0.15.18:
@@ -1013,7 +1002,6 @@ packages:
     cpu: [loong64]
     os: [linux]
     requiresBuild: true
-    dev: false
     optional: true
 
   /@esbuild/linux-mips64el@0.20.2:
@@ -1031,7 +1019,6 @@ packages:
     cpu: [mips64el]
     os: [linux]
     requiresBuild: true
-    dev: false
     optional: true
 
   /@esbuild/linux-ppc64@0.20.2:
@@ -1049,7 +1036,6 @@ packages:
     cpu: [ppc64]
     os: [linux]
     requiresBuild: true
-    dev: false
     optional: true
 
   /@esbuild/linux-riscv64@0.20.2:
@@ -1067,7 +1053,6 @@ packages:
     cpu: [riscv64]
     os: [linux]
     requiresBuild: true
-    dev: false
     optional: true
 
   /@esbuild/linux-s390x@0.20.2:
@@ -1085,7 +1070,6 @@ packages:
     cpu: [s390x]
     os: [linux]
     requiresBuild: true
-    dev: false
     optional: true
 
   /@esbuild/linux-x64@0.20.2:
@@ -1103,7 +1087,6 @@ packages:
     cpu: [x64]
     os: [linux]
     requiresBuild: true
-    dev: false
     optional: true
 
   /@esbuild/netbsd-x64@0.20.2:
@@ -1121,7 +1104,6 @@ packages:
     cpu: [x64]
     os: [netbsd]
     requiresBuild: true
-    dev: false
     optional: true
 
   /@esbuild/openbsd-x64@0.20.2:
@@ -1139,7 +1121,6 @@ packages:
     cpu: [x64]
     os: [openbsd]
     requiresBuild: true
-    dev: false
     optional: true
 
   /@esbuild/sunos-x64@0.20.2:
@@ -1157,7 +1138,6 @@ packages:
     cpu: [x64]
     os: [sunos]
     requiresBuild: true
-    dev: false
     optional: true
 
   /@esbuild/win32-arm64@0.20.2:
@@ -1175,7 +1155,6 @@ packages:
     cpu: [arm64]
     os: [win32]
     requiresBuild: true
-    dev: false
     optional: true
 
   /@esbuild/win32-ia32@0.20.2:
@@ -1193,7 +1172,6 @@ packages:
     cpu: [ia32]
     os: [win32]
     requiresBuild: true
-    dev: false
     optional: true
 
   /@esbuild/win32-x64@0.20.2:
@@ -1211,7 +1189,6 @@ packages:
     cpu: [x64]
     os: [win32]
     requiresBuild: true
-    dev: false
     optional: true
 
   /@eslint-community/eslint-utils@4.4.0(eslint@8.57.0):
@@ -4317,7 +4294,6 @@ packages:
       '@esbuild/win32-arm64': 0.21.4
       '@esbuild/win32-ia32': 0.21.4
       '@esbuild/win32-x64': 0.21.4
-    dev: false
 
   /escalade@3.1.2:
     resolution: {integrity: sha512-ErCHMCae19vR8vQGe50xIsVomy19rg6gFu3+r3jkEO46suLMWBksvVyoGgQV+jOfl84ZSOSlmv6Gxa89PmTGmA==}
@@ -8504,12 +8480,12 @@ packages:
   /tslib@2.6.3:
     resolution: {integrity: sha512-xNvxJEOUiWPGhUuUdQgAJPKOOJfGnIyKySOc09XkKsgdUV/3E2zvwZYdejjmRgPCgcym1juLH3226yA7sEFJKQ==}
 
-  /tsx@4.11.2:
-    resolution: {integrity: sha512-V5DL5v1BuItjsQ2FN9+4OjR7n5cr8hSgN+VGmm/fd2/0cgQdBIWHcQ3bFYm/5ZTmyxkTDBUIaRuW2divgfPe0A==}
+  /tsx@4.15.2:
+    resolution: {integrity: sha512-kIZTOCmR37nEw0qxQks2dR+eZWSXydhTGmz7yx94vEiJtJGBTkUl0D/jt/5fey+CNdm6i3Cp+29WKRay9ScQUw==}
     engines: {node: '>=18.0.0'}
     hasBin: true
     dependencies:
-      esbuild: 0.20.2
+      esbuild: 0.21.4
       get-tsconfig: 4.7.5
     optionalDependencies:
       fsevents: 2.3.3
