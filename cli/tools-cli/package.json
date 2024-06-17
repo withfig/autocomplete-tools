@@ -39,7 +39,7 @@
     "@fig/complete-commander": "workspace:^",
     "@types/node": "^20.14.2",
     "@withfig/autocomplete-types": "workspace:^",
-    "tsx": "^4.15.4"
+    "tsx": "^4.15.6"
   },
   "fig": {
     "build": {
