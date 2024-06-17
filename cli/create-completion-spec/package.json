@@ -34,7 +34,7 @@
   },
   "devDependencies": {
     "@fig/complete-commander": "workspace:^",
-    "@types/node": "^20.14.2",
+    "@types/node": "^20.14.3",
     "tsx": "^4.15.6",
     "typescript": "^5.4.5"
   },
