@@ -12,7 +12,7 @@
     "husky": "^9.0.11",
     "lint-staged": "^15.2.5",
     "prettier": "3.3.2",
-    "turbo": "^1.13.3"
+    "turbo": "^2.0.4"
   },
   "scripts": {
     "lint": "eslint .",
@@ -24,7 +24,7 @@
     "pre-commit": "lint-staged && pnpm test",
     "clean": "git clean -Xdf ."
   },
-  "packageManager": "pnpm@8.10.5",
+  "packageManager": "pnpm@9.4.0",
   "workspaces": [
     "eslint/*",
     "types",
