@@ -20,7 +20,7 @@
     "@types/node": "^20.14.3",
     "cspell": "^8.8.4",
     "picocolors": "^1.0.1",
-    "prettier": "^3.3.1",
+    "prettier": "^3.3.2",
     "tsx": "^4.15.6",
     "typescript": "^5.4.5"
   },
