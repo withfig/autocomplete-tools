@@ -29,7 +29,7 @@
   },
   "homepage": "https://github.com/withfig/autocomplete-tools#readme",
   "dependencies": {
-    "commander": "^11.1.0",
+    "commander": "^12.1.0",
     "picocolors": "^1.0.1"
   },
   "devDependencies": {
