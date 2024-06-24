@@ -27,7 +27,7 @@
     "@types/semver": "^7.5.8",
     "@withfig/autocomplete-types": "workspace:^",
     "prettier": "^3.3.2",
-    "typescript": "^5.4.5",
+    "typescript": "^5.5.2",
     "vitest": "^1.6.0"
   },
   "publishConfig": {
