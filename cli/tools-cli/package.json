@@ -24,7 +24,7 @@
     "@fig/autocomplete-helpers": "workspace:^",
     "@fig/autocomplete-merge": "workspace:^",
     "@types/semver": "^7.5.8",
-    "chalk": "^4.1.2",
+    "chalk": "^5.3.0",
     "chokidar": "^3.6.0",
     "commander": "^11.1.0",
     "create-completion-spec": "workspace:^",
