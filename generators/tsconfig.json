@@ -9,7 +9,7 @@
     "strict": true,
     "skipLibCheck": true,
     "declaration": true,
-    "types": ["@withfig/autocomplete-types", "mocha", "node", "chai"]
+    "types": ["@withfig/autocomplete-types", "node"]
   },
   "exclude": ["node_modules/", "lib/", "test"]
 }
