@@ -1,12 +1,7 @@
-import chai from "chai";
-import sinonChai from "sinon-chai";
-// import sinon from "sinon";
 // import { filepaths, FilepathsOptions, folders } from "..";
+import { describe, expect, it } from "vitest";
 import { getCurrentInsertedDirectory, sortFilesAlphabetically } from "../src/filepaths";
 // import { testQueryTerm, testTrigger } from "./keyvalue.test";
-
-const { expect } = chai;
-chai.use(sinonChai);
 
 // function toName(suggestion: Fig.Suggestion): string {
 //   return suggestion.name as string;
