@@ -55,8 +55,8 @@ importers:
         specifier: workspace:^
         version: link:../../integrations/commander
       '@types/node':
-        specifier: ^20.14.3
-        version: 20.14.3
+        specifier: ^20.14.9
+        version: 20.14.9
       tsx:
         specifier: ^4.15.7
         version: 4.15.7
@@ -92,8 +92,8 @@ importers:
         specifier: ^1.4.11
         version: 1.4.11
       '@types/node':
-        specifier: ^20.14.3
-        version: 20.14.3
+        specifier: ^20.14.9
+        version: 20.14.9
       '@types/node-fetch':
         specifier: ^2.6.11
         version: 2.6.11
@@ -165,8 +165,8 @@ importers:
         specifier: workspace:^
         version: link:../../integrations/commander
       '@types/node':
-        specifier: ^20.14.3
-        version: 20.14.3
+        specifier: ^20.14.9
+        version: 20.14.9
       '@withfig/autocomplete-types':
         specifier: workspace:^
         version: link:../../types
@@ -200,8 +200,8 @@ importers:
   generators:
     devDependencies:
       '@types/node':
-        specifier: ^20.14.3
-        version: 20.14.3
+        specifier: ^20.14.9
+        version: 20.14.9
       '@withfig/autocomplete-types':
         specifier: workspace:^
         version: link:../types
@@ -213,7 +213,7 @@ importers:
         version: 5.5.2
       vitest:
         specifier: ^1.6.0
-        version: 1.6.0(@types/node@20.14.3)
+        version: 1.6.0(@types/node@20.14.9)
 
   helpers:
     dependencies:
@@ -228,8 +228,8 @@ importers:
         specifier: ^1.0.6
         version: 1.0.6
       '@types/node':
-        specifier: ^20.14.3
-        version: 20.14.3
+        specifier: ^20.14.9
+        version: 20.14.9
       '@types/semver':
         specifier: ^7.5.8
         version: 7.5.8
@@ -244,7 +244,7 @@ importers:
         version: 4.15.7
       vitest:
         specifier: ^1.6.0
-        version: 1.6.0(@types/node@20.14.3)
+        version: 1.6.0(@types/node@20.14.9)
 
   hooks:
     dependencies:
@@ -272,8 +272,8 @@ importers:
         version: 3.3.2
     devDependencies:
       '@types/node':
-        specifier: ^20.14.3
-        version: 20.14.3
+        specifier: ^20.14.9
+        version: 20.14.9
       '@withfig/autocomplete-types':
         specifier: workspace:^
         version: link:../../types
@@ -294,20 +294,20 @@ importers:
     dependencies:
       '@oclif/core':
         specifier: ^2.16.0
-        version: 2.16.0(@types/node@20.14.3)(typescript@5.5.2)
+        version: 2.16.0(@types/node@20.14.9)(typescript@5.5.2)
       prettier:
         specifier: ^3.3.2
         version: 3.3.2
     devDependencies:
       '@types/node':
-        specifier: ^20.14.3
-        version: 20.14.3
+        specifier: ^20.14.9
+        version: 20.14.9
       '@withfig/autocomplete-types':
         specifier: workspace:^
         version: link:../../types
       oclif:
         specifier: ^3.17.2
-        version: 3.17.2(@types/node@20.14.3)(encoding@0.1.13)(mem-fs@2.3.0)(typescript@5.5.2)
+        version: 3.17.2(@types/node@20.14.9)(encoding@0.1.13)(mem-fs@2.3.0)(typescript@5.5.2)
       tslib:
         specifier: ^2.6.3
         version: 2.6.3
@@ -331,8 +331,8 @@ importers:
         specifier: ^1.0.6
         version: 1.0.6
       '@types/node':
-        specifier: ^20.14.3
-        version: 20.14.3
+        specifier: ^20.14.9
+        version: 20.14.9
       '@withfig/autocomplete-types':
         specifier: workspace:^
         version: link:../types
@@ -346,8 +346,8 @@ importers:
         specifier: ^1.0.6
         version: 1.0.6
       '@types/node':
-        specifier: ^20.14.3
-        version: 20.14.3
+        specifier: ^20.14.9
+        version: 20.14.9
       '@types/semver':
         specifier: ^7.5.8
         version: 7.5.8
@@ -362,7 +362,7 @@ importers:
         version: 5.5.2
       vitest:
         specifier: ^1.6.0
-        version: 1.6.0(@types/node@20.14.3)
+        version: 1.6.0(@types/node@20.14.9)
 
   types:
     devDependencies:
@@ -370,8 +370,8 @@ importers:
         specifier: ^0.15.0
         version: 0.15.0
       '@types/node':
-        specifier: ^20.14.3
-        version: 20.14.3
+        specifier: ^20.14.9
+        version: 20.14.9
       cspell:
         specifier: ^8.9.1
         version: 8.9.1
@@ -1360,8 +1360,8 @@ packages:
   '@types/node@15.14.9':
     resolution: {integrity: sha512-qjd88DrCxupx/kJD5yQgZdcYKZKSIGBVDIBE1/LTGcNm3d2Np/jxojkdePDdfnBHJc5W7vSMpbJ1aB7p/Py69A==}
 
-  '@types/node@20.14.3':
-    resolution: {integrity: sha512-Nuzqa6WAxeGnve6SXqiPAM9rA++VQs+iLZ1DDd56y0gdvygSZlQvZuvdFPR3yLqkVxPu4WrO02iDEyH1g+wazw==}
+  '@types/node@20.14.9':
+    resolution: {integrity: sha512-06OCtnTXtWOZBJlRApleWndH4JsRVs1pDCc8dLSQp+7PpUpX3ePdHyeNSFTeSe7FtKyQkrlPvHwJOW3SLd8Oyg==}
 
   '@types/normalize-package-data@2.4.4':
     resolution: {integrity: sha512-37i+OaWTh9qeK4LSHPsyRC7NahnGotNuZvjLSgcPzblpHB3rrCJxAOgI5gCdKm7coonsaX1Of0ILiTcnZjbfxA==}
@@ -5668,7 +5668,7 @@ snapshots:
       - bluebird
       - supports-color
 
-  '@oclif/core@2.16.0(@types/node@20.14.3)(typescript@5.5.2)':
+  '@oclif/core@2.16.0(@types/node@20.14.9)(typescript@5.5.2)':
     dependencies:
       '@types/cli-progress': 3.11.5
       ansi-escapes: 4.3.2
@@ -5693,7 +5693,7 @@ snapshots:
       strip-ansi: 6.0.1
       supports-color: 8.1.1
       supports-hyperlinks: 2.3.0
-      ts-node: 10.9.2(@types/node@20.14.3)(typescript@5.5.2)
+      ts-node: 10.9.2(@types/node@20.14.9)(typescript@5.5.2)
       tslib: 2.6.3
       widest-line: 3.1.0
       wordwrap: 1.0.0
@@ -5704,18 +5704,18 @@ snapshots:
       - '@types/node'
       - typescript
 
-  '@oclif/plugin-help@5.2.20(@types/node@20.14.3)(typescript@5.5.2)':
+  '@oclif/plugin-help@5.2.20(@types/node@20.14.9)(typescript@5.5.2)':
     dependencies:
-      '@oclif/core': 2.16.0(@types/node@20.14.3)(typescript@5.5.2)
+      '@oclif/core': 2.16.0(@types/node@20.14.9)(typescript@5.5.2)
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
       - '@types/node'
       - typescript
 
-  '@oclif/plugin-not-found@2.4.3(@types/node@20.14.3)(typescript@5.5.2)':
+  '@oclif/plugin-not-found@2.4.3(@types/node@20.14.9)(typescript@5.5.2)':
     dependencies:
-      '@oclif/core': 2.16.0(@types/node@20.14.3)(typescript@5.5.2)
+      '@oclif/core': 2.16.0(@types/node@20.14.9)(typescript@5.5.2)
       chalk: 4.1.2
       fast-levenshtein: 3.0.0
     transitivePeerDependencies:
@@ -5724,9 +5724,9 @@ snapshots:
       - '@types/node'
       - typescript
 
-  '@oclif/plugin-warn-if-update-available@2.1.1(@types/node@20.14.3)(typescript@5.5.2)':
+  '@oclif/plugin-warn-if-update-available@2.1.1(@types/node@20.14.9)(typescript@5.5.2)':
     dependencies:
-      '@oclif/core': 2.16.0(@types/node@20.14.3)(typescript@5.5.2)
+      '@oclif/core': 2.16.0(@types/node@20.14.9)(typescript@5.5.2)
       chalk: 4.1.2
       debug: 4.3.5(supports-color@8.1.1)
       http-call: 5.3.0
@@ -5952,22 +5952,22 @@ snapshots:
   '@types/body-parser@1.19.5':
     dependencies:
       '@types/connect': 3.4.38
-      '@types/node': 20.14.3
+      '@types/node': 20.14.9
 
   '@types/cacheable-request@6.0.3':
     dependencies:
       '@types/http-cache-semantics': 4.0.4
       '@types/keyv': 3.1.4
-      '@types/node': 20.14.3
+      '@types/node': 20.14.9
       '@types/responselike': 1.0.3
 
   '@types/cli-progress@3.11.5':
     dependencies:
-      '@types/node': 20.14.3
+      '@types/node': 20.14.9
 
   '@types/connect@3.4.38':
     dependencies:
-      '@types/node': 20.14.3
+      '@types/node': 20.14.9
 
   '@types/estree@1.0.5': {}
 
@@ -5975,7 +5975,7 @@ snapshots:
 
   '@types/express-serve-static-core@4.19.3':
     dependencies:
-      '@types/node': 20.14.3
+      '@types/node': 20.14.9
       '@types/qs': 6.9.15
       '@types/range-parser': 1.2.7
       '@types/send': 0.17.4
@@ -5995,7 +5995,7 @@ snapshots:
 
   '@types/keyv@3.1.4':
     dependencies:
-      '@types/node': 20.14.3
+      '@types/node': 20.14.9
 
   '@types/mime@1.3.5': {}
 
@@ -6007,12 +6007,12 @@ snapshots:
 
   '@types/node-fetch@2.6.11':
     dependencies:
-      '@types/node': 20.14.3
+      '@types/node': 20.14.9
       form-data: 4.0.0
 
   '@types/node@15.14.9': {}
 
-  '@types/node@20.14.3':
+  '@types/node@20.14.9':
     dependencies:
       undici-types: 5.26.5
 
@@ -6020,7 +6020,7 @@ snapshots:
 
   '@types/prompts@2.4.9':
     dependencies:
-      '@types/node': 20.14.3
+      '@types/node': 20.14.9
       kleur: 3.0.3
 
   '@types/prop-types@15.7.12': {}
@@ -6036,25 +6036,25 @@ snapshots:
 
   '@types/responselike@1.0.3':
     dependencies:
-      '@types/node': 20.14.3
+      '@types/node': 20.14.9
 
   '@types/semver@7.5.8': {}
 
   '@types/send@0.17.4':
     dependencies:
       '@types/mime': 1.3.5
-      '@types/node': 20.14.3
+      '@types/node': 20.14.9
 
   '@types/serve-static@1.15.7':
     dependencies:
       '@types/http-errors': 2.0.4
-      '@types/node': 20.14.3
+      '@types/node': 20.14.9
       '@types/send': 0.17.4
 
   '@types/vinyl@2.0.12':
     dependencies:
       '@types/expect': 1.20.4
-      '@types/node': 20.14.3
+      '@types/node': 20.14.9
 
   '@typescript-eslint/eslint-plugin@7.11.0(@typescript-eslint/parser@7.11.0(eslint@8.57.0)(typescript@5.4.5))(eslint@8.57.0)(typescript@5.4.5)':
     dependencies:
@@ -8954,12 +8954,12 @@ snapshots:
       define-properties: 1.2.1
       es-object-atoms: 1.0.0
 
-  oclif@3.17.2(@types/node@20.14.3)(encoding@0.1.13)(mem-fs@2.3.0)(typescript@5.5.2):
+  oclif@3.17.2(@types/node@20.14.9)(encoding@0.1.13)(mem-fs@2.3.0)(typescript@5.5.2):
     dependencies:
-      '@oclif/core': 2.16.0(@types/node@20.14.3)(typescript@5.5.2)
-      '@oclif/plugin-help': 5.2.20(@types/node@20.14.3)(typescript@5.5.2)
-      '@oclif/plugin-not-found': 2.4.3(@types/node@20.14.3)(typescript@5.5.2)
-      '@oclif/plugin-warn-if-update-available': 2.1.1(@types/node@20.14.3)(typescript@5.5.2)
+      '@oclif/core': 2.16.0(@types/node@20.14.9)(typescript@5.5.2)
+      '@oclif/plugin-help': 5.2.20(@types/node@20.14.9)(typescript@5.5.2)
+      '@oclif/plugin-not-found': 2.4.3(@types/node@20.14.9)(typescript@5.5.2)
+      '@oclif/plugin-warn-if-update-available': 2.1.1(@types/node@20.14.9)(typescript@5.5.2)
       async-retry: 1.3.3
       aws-sdk: 2.1632.0
       concurrently: 7.6.0
@@ -9270,7 +9270,7 @@ snapshots:
       '@protobufjs/path': 1.1.2
       '@protobufjs/pool': 1.1.0
       '@protobufjs/utf8': 1.1.0
-      '@types/node': 20.14.3
+      '@types/node': 20.14.9
       long: 5.2.3
 
   proxy-addr@2.0.7:
@@ -9881,14 +9881,14 @@ snapshots:
       '@ts-morph/common': 0.24.0
       code-block-writer: 13.0.1
 
-  ts-node@10.9.2(@types/node@20.14.3)(typescript@5.5.2):
+  ts-node@10.9.2(@types/node@20.14.9)(typescript@5.5.2):
     dependencies:
       '@cspotcode/source-map-support': 0.8.1
       '@tsconfig/node10': 1.0.11
       '@tsconfig/node12': 1.0.11
       '@tsconfig/node14': 1.0.3
       '@tsconfig/node16': 1.0.4
-      '@types/node': 20.14.3
+      '@types/node': 20.14.9
       acorn: 8.11.3
       acorn-walk: 8.3.2
       arg: 4.1.3
@@ -10115,13 +10115,13 @@ snapshots:
       remove-trailing-separator: 1.1.0
       replace-ext: 1.0.1
 
-  vite-node@1.6.0(@types/node@20.14.3):
+  vite-node@1.6.0(@types/node@20.14.9):
     dependencies:
       cac: 6.7.14
       debug: 4.3.5(supports-color@8.1.1)
       pathe: 1.1.2
       picocolors: 1.0.1
-      vite: 5.2.12(@types/node@20.14.3)
+      vite: 5.2.12(@types/node@20.14.9)
     transitivePeerDependencies:
       - '@types/node'
       - less
@@ -10132,16 +10132,16 @@ snapshots:
       - supports-color
       - terser
 
-  vite@5.2.12(@types/node@20.14.3):
+  vite@5.2.12(@types/node@20.14.9):
     dependencies:
       esbuild: 0.20.2
       postcss: 8.4.38
       rollup: 4.18.0
     optionalDependencies:
-      '@types/node': 20.14.3
+      '@types/node': 20.14.9
       fsevents: 2.3.3
 
-  vitest@1.6.0(@types/node@20.14.3):
+  vitest@1.6.0(@types/node@20.14.9):
     dependencies:
       '@vitest/expect': 1.6.0
       '@vitest/runner': 1.6.0
@@ -10160,11 +10160,11 @@ snapshots:
       strip-literal: 2.1.0
       tinybench: 2.8.0
       tinypool: 0.8.4
-      vite: 5.2.12(@types/node@20.14.3)
-      vite-node: 1.6.0(@types/node@20.14.3)
+      vite: 5.2.12(@types/node@20.14.9)
+      vite-node: 1.6.0(@types/node@20.14.9)
       why-is-node-running: 2.2.2
     optionalDependencies:
-      '@types/node': 20.14.3
+      '@types/node': 20.14.9
     transitivePeerDependencies:
       - less
       - lightningcss

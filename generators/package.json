@@ -15,7 +15,7 @@
     "lib/"
   ],
   "devDependencies": {
-    "@types/node": "^20.14.3",
+    "@types/node": "^20.14.9",
     "@withfig/autocomplete-types": "workspace:^",
     "tsx": "^4.15.7",
     "typescript": "^5.5.2",
