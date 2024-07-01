@@ -23,7 +23,7 @@
     "@tsconfig/recommended": "^1.0.7",
     "@types/node": "^20.14.3",
     "@withfig/autocomplete-types": "workspace:^",
-    "tsx": "^4.15.7"
+    "tsx": "^4.16.0"
   },
   "fig": {
     "build": {
