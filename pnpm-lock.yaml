@@ -58,8 +58,8 @@ importers:
         specifier: ^20.14.3
         version: 20.14.3
       tsx:
-        specifier: ^4.15.7
-        version: 4.15.7
+        specifier: ^4.16.0
+        version: 4.16.0
       typescript:
         specifier: ^5.5.3
         version: 5.5.3
@@ -110,8 +110,8 @@ importers:
         specifier: ^1.0.1
         version: 1.0.1
       tsx:
-        specifier: ^4.15.7
-        version: 4.15.7
+        specifier: ^4.16.0
+        version: 4.16.0
       typescript:
         specifier: ^5.5.3
         version: 5.5.3
@@ -171,8 +171,8 @@ importers:
         specifier: workspace:^
         version: link:../../types
       tsx:
-        specifier: ^4.15.7
-        version: 4.15.7
+        specifier: ^4.16.0
+        version: 4.16.0
 
   eslint/config-autocomplete:
     dependencies:
@@ -206,8 +206,8 @@ importers:
         specifier: workspace:^
         version: link:../types
       tsx:
-        specifier: ^4.15.7
-        version: 4.15.7
+        specifier: ^4.16.0
+        version: 4.16.0
       typescript:
         specifier: ^5.5.3
         version: 5.5.3
@@ -240,8 +240,8 @@ importers:
         specifier: ^3.3.2
         version: 3.3.2
       tsx:
-        specifier: ^4.15.7
-        version: 4.15.7
+        specifier: ^4.16.0
+        version: 4.16.0
       vitest:
         specifier: ^1.6.0
         version: 1.6.0(@types/node@20.14.3)
@@ -284,8 +284,8 @@ importers:
         specifier: ^11.1.0
         version: 11.1.0
       tsx:
-        specifier: ^4.15.7
-        version: 4.15.7
+        specifier: ^4.16.0
+        version: 4.16.0
       typescript:
         specifier: ^5.5.3
         version: 5.5.3
@@ -337,8 +337,8 @@ importers:
         specifier: workspace:^
         version: link:../types
       tsx:
-        specifier: ^4.15.7
-        version: 4.15.7
+        specifier: ^4.16.0
+        version: 4.16.0
 
   shared:
     devDependencies:
@@ -382,8 +382,8 @@ importers:
         specifier: ^3.3.2
         version: 3.3.2
       tsx:
-        specifier: ^4.15.7
-        version: 4.15.7
+        specifier: ^4.16.0
+        version: 4.16.0
       typescript:
         specifier: ^5.5.3
         version: 5.5.3
@@ -1734,6 +1734,7 @@ packages:
   axobject-query@3.2.3:
     resolution: {integrity: sha512-8IRNqqgCWlKXJXAW2U24xAUBiHrtt493LaSvFiULNehvZ0JULE38pjCS7aJu1ieQeyUnT0et9aPszh4WI9l4ng==}
     engines: {node: '>= 0.4'}
+    deprecated: The build step was forgotten for this version; please upgrade to ^3.2.4
 
   balanced-match@1.0.2:
     resolution: {integrity: sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==}
@@ -4646,8 +4647,8 @@ packages:
   tslib@2.6.3:
     resolution: {integrity: sha512-xNvxJEOUiWPGhUuUdQgAJPKOOJfGnIyKySOc09XkKsgdUV/3E2zvwZYdejjmRgPCgcym1juLH3226yA7sEFJKQ==}
 
-  tsx@4.15.7:
-    resolution: {integrity: sha512-u3H0iSFDZM3za+VxkZ1kywdCeHCn+8/qHQS1MNoO2sONDgD95HlWtt8aB23OzeTmFP9IU4/8bZUdg58Uu5J4cg==}
+  tsx@4.16.0:
+    resolution: {integrity: sha512-MPgN+CuY+4iKxGoJNPv+1pyo5YWZAQ5XfsyobUG+zoKG7IkvCPLZDEyoIb8yLS2FcWci1nlxAqmvPlFWD5AFiQ==}
     engines: {node: '>=18.0.0'}
     hasBin: true
 
@@ -9886,7 +9887,7 @@ snapshots:
 
   tslib@2.6.3: {}
 
-  tsx@4.15.7:
+  tsx@4.16.0:
     dependencies:
       esbuild: 0.21.5
       get-tsconfig: 4.7.5
