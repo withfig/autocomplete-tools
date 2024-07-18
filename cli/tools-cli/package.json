@@ -37,7 +37,7 @@
   },
   "devDependencies": {
     "@fig/complete-commander": "workspace:^",
-    "@types/node": "^20.14.3",
+    "@types/node": "^20.14.11",
     "@withfig/autocomplete-types": "workspace:^",
     "tsx": "^4.16.2"
   },
