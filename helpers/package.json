@@ -22,7 +22,7 @@
   },
   "author": "Fig Team",
   "dependencies": {
-    "semver": "^7.6.2",
+    "semver": "^7.6.3",
     "typescript": "^5.5.3"
   },
   "devDependencies": {
