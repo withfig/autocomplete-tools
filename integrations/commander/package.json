@@ -38,7 +38,7 @@
     "prettier": "^3.3.2"
   },
   "devDependencies": {
-    "@types/node": "^20.14.3",
+    "@types/node": "^22.0.0",
     "@withfig/autocomplete-types": "workspace:^",
     "chalk": "^5.3.0",
     "commander": "^11.1.0",
