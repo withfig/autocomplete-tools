@@ -28,7 +28,7 @@
     "@withfig/autocomplete-types": "workspace:^",
     "prettier": "^3.3.2",
     "typescript": "^5.5.3",
-    "vitest": "^2.0.3"
+    "vitest": "^2.0.4"
   },
   "publishConfig": {
     "access": "public"
