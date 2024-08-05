@@ -21,7 +21,7 @@
     "cspell": "^8.12.1",
     "picocolors": "^1.0.1",
     "prettier": "^3.3.3",
-    "tsx": "^4.16.2",
+    "tsx": "^4.16.5",
     "typescript": "^5.5.4"
   },
   "publishConfig": {
