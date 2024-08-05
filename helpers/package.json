@@ -31,7 +31,7 @@
     "@types/semver": "^7.5.8",
     "@withfig/autocomplete-types": "workspace:^",
     "prettier": "^3.3.3",
-    "tsx": "^4.16.2",
+    "tsx": "^4.16.5",
     "vitest": "^2.0.4"
   },
   "publishConfig": {
