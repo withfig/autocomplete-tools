@@ -55,8 +55,8 @@ importers:
         specifier: workspace:^
         version: link:../../integrations/commander
       '@types/node':
-        specifier: ^22.1.0
-        version: 22.1.0
+        specifier: ^22.5.2
+        version: 22.5.2
       tsx:
         specifier: ^4.19.0
         version: 4.19.0
@@ -89,11 +89,11 @@ importers:
         specifier: ^4.17.21
         version: 4.17.21
       '@types/multer':
-        specifier: ^1.4.11
-        version: 1.4.11
+        specifier: ^1.4.12
+        version: 1.4.12
       '@types/node':
-        specifier: ^22.1.0
-        version: 22.1.0
+        specifier: ^22.5.2
+        version: 22.5.2
       '@types/node-fetch':
         specifier: ^2.6.11
         version: 2.6.11
@@ -165,8 +165,8 @@ importers:
         specifier: workspace:^
         version: link:../../integrations/commander
       '@types/node':
-        specifier: ^22.1.0
-        version: 22.1.0
+        specifier: ^22.5.2
+        version: 22.5.2
       '@withfig/autocomplete-types':
         specifier: workspace:^
         version: link:../../types
@@ -200,8 +200,8 @@ importers:
   generators:
     devDependencies:
       '@types/node':
-        specifier: ^22.1.0
-        version: 22.1.0
+        specifier: ^22.5.2
+        version: 22.5.2
       '@withfig/autocomplete-types':
         specifier: workspace:^
         version: link:../types
@@ -213,7 +213,7 @@ importers:
         version: 5.5.4
       vitest:
         specifier: ^2.0.5
-        version: 2.0.5(@types/node@22.1.0)
+        version: 2.0.5(@types/node@22.5.2)
 
   helpers:
     dependencies:
@@ -228,8 +228,8 @@ importers:
         specifier: ^1.0.7
         version: 1.0.7
       '@types/node':
-        specifier: ^22.1.0
-        version: 22.1.0
+        specifier: ^22.5.2
+        version: 22.5.2
       '@types/semver':
         specifier: ^7.5.8
         version: 7.5.8
@@ -244,7 +244,7 @@ importers:
         version: 4.19.0
       vitest:
         specifier: ^2.0.5
-        version: 2.0.5(@types/node@22.1.0)
+        version: 2.0.5(@types/node@22.5.2)
 
   hooks:
     dependencies:
@@ -256,8 +256,8 @@ importers:
         version: 18.3.1
     devDependencies:
       '@types/react':
-        specifier: ^18.3.3
-        version: 18.3.3
+        specifier: ^18.3.5
+        version: 18.3.5
       '@withfig/autocomplete-types':
         specifier: workspace:^
         version: link:../types
@@ -272,8 +272,8 @@ importers:
         version: 3.3.3
     devDependencies:
       '@types/node':
-        specifier: ^22.1.0
-        version: 22.1.0
+        specifier: ^22.5.2
+        version: 22.5.2
       '@withfig/autocomplete-types':
         specifier: workspace:^
         version: link:../../types
@@ -294,20 +294,20 @@ importers:
     dependencies:
       '@oclif/core':
         specifier: ^2.16.0
-        version: 2.16.0(@types/node@22.1.0)(typescript@5.5.4)
+        version: 2.16.0(@types/node@22.5.2)(typescript@5.5.4)
       prettier:
         specifier: ^3.3.3
         version: 3.3.3
     devDependencies:
       '@types/node':
-        specifier: ^22.1.0
-        version: 22.1.0
+        specifier: ^22.5.2
+        version: 22.5.2
       '@withfig/autocomplete-types':
         specifier: workspace:^
         version: link:../../types
       oclif:
         specifier: ^3.17.2
-        version: 3.17.2(@types/node@22.1.0)(encoding@0.1.13)(mem-fs@2.3.0)(typescript@5.5.4)
+        version: 3.17.2(@types/node@22.5.2)(encoding@0.1.13)(mem-fs@2.3.0)(typescript@5.5.4)
       tslib:
         specifier: ^2.7.0
         version: 2.7.0
@@ -331,8 +331,8 @@ importers:
         specifier: ^1.0.7
         version: 1.0.7
       '@types/node':
-        specifier: ^22.1.0
-        version: 22.1.0
+        specifier: ^22.5.2
+        version: 22.5.2
       '@withfig/autocomplete-types':
         specifier: workspace:^
         version: link:../types
@@ -346,8 +346,8 @@ importers:
         specifier: ^1.0.7
         version: 1.0.7
       '@types/node':
-        specifier: ^22.1.0
-        version: 22.1.0
+        specifier: ^22.5.2
+        version: 22.5.2
       '@types/semver':
         specifier: ^7.5.8
         version: 7.5.8
@@ -362,7 +362,7 @@ importers:
         version: 5.5.4
       vitest:
         specifier: ^2.0.5
-        version: 2.0.5(@types/node@22.1.0)
+        version: 2.0.5(@types/node@22.5.2)
 
   types:
     devDependencies:
@@ -370,8 +370,8 @@ importers:
         specifier: ^0.15.0
         version: 0.15.0
       '@types/node':
-        specifier: ^22.1.0
-        version: 22.1.0
+        specifier: ^22.5.2
+        version: 22.5.2
       cspell:
         specifier: ^8.14.2
         version: 8.14.2
@@ -425,8 +425,8 @@ packages:
     resolution: {integrity: sha512-Ja18XcETdEl5mzzACGd+DKgaGJzPTCow7EglgwTmHdwokzDFYh/MHua6lU6DV/hjF2IaOJ4oX2nqnjG7RElKOw==}
     engines: {node: '>=6.9.0'}
 
-  '@babel/runtime@7.25.0':
-    resolution: {integrity: sha512-7dRy4DwXwtzBrPbZflqxnvfxLF8kdZXPkhymtDeFoFqE6ldzjQFgYTtYIFARcLEYDrqfBfYcZt1WqFxRoyC9Rw==}
+  '@babel/runtime@7.25.6':
+    resolution: {integrity: sha512-VBj9MYyDb9tuLq7yzqjgzt6Q+IBQLrGZfdjOekyEirZPHxXWoTSGUTMrpsfi58Up73d13NfYLv8HT9vmznjzhQ==}
     engines: {node: '>=6.9.0'}
 
   '@cspell/cspell-bundled-dicts@8.14.2':
@@ -1357,8 +1357,8 @@ packages:
   '@types/minimatch@3.0.5':
     resolution: {integrity: sha512-Klz949h02Gz2uZCMGwDUSDS1YBlTdDDgbWHi+81l29tQALUtvz4rAYi5uoVhE5Lagoq6DeqAUlbrHvW/mXDgdQ==}
 
-  '@types/multer@1.4.11':
-    resolution: {integrity: sha512-svK240gr6LVWvv3YGyhLlA+6LRRWA4mnGIU7RcNmgjBYFl6665wcXrRfxGp5tEPVHUNm5FMcmq7too9bxCwX/w==}
+  '@types/multer@1.4.12':
+    resolution: {integrity: sha512-pQ2hoqvXiJt2FP9WQVLPRO+AmiIm/ZYkavPlIQnx282u4ZrVdztx0pkh3jjpQt0Kz+YI0YhSG264y08UJKoUQg==}
 
   '@types/node-fetch@2.6.11':
     resolution: {integrity: sha512-24xFj9R5+rfQJLRyM56qh+wnVSYhyXC2tkoBndtY0U+vubqNsYXGjufB2nn8Q6gt0LrARwL6UBtMCSVCwl4B1g==}
@@ -1366,8 +1366,8 @@ packages:
   '@types/node@15.14.9':
     resolution: {integrity: sha512-qjd88DrCxupx/kJD5yQgZdcYKZKSIGBVDIBE1/LTGcNm3d2Np/jxojkdePDdfnBHJc5W7vSMpbJ1aB7p/Py69A==}
 
-  '@types/node@22.1.0':
-    resolution: {integrity: sha512-AOmuRF0R2/5j1knA3c6G3HOk523Ga+l+ZXltX8SF1+5oqcXijjfTd8fY3XRZqSihEu9XhtQnKYLmkFaoxgsJHw==}
+  '@types/node@22.5.2':
+    resolution: {integrity: sha512-acJsPTEqYqulZS/Yp/S3GgeE6GZ0qYODUR8aVr/DkhHQ8l9nd4j5x1/ZJy9/gHrRlFMqkO6i0I3E27Alu4jjPg==}
 
   '@types/normalize-package-data@2.4.4':
     resolution: {integrity: sha512-37i+OaWTh9qeK4LSHPsyRC7NahnGotNuZvjLSgcPzblpHB3rrCJxAOgI5gCdKm7coonsaX1Of0ILiTcnZjbfxA==}
@@ -1384,8 +1384,8 @@ packages:
   '@types/range-parser@1.2.7':
     resolution: {integrity: sha512-hKormJbkJqzQGhziax5PItDUTMAM9uE2XXQmM37dyd4hVM+5aVl7oVxMVUiVQn2oCQFN/LKCZdvSM0pFRqbSmQ==}
 
-  '@types/react@18.3.3':
-    resolution: {integrity: sha512-hti/R0pS0q1/xx+TsI73XIqk26eBsISZ2R0wUijXIngRK9R/e7Xw/cXVxQK7R5JjW+SV4zGcn5hXjudkN/pLIw==}
+  '@types/react@18.3.5':
+    resolution: {integrity: sha512-WeqMfGJLGuLCqHGYRGHxnKrXcTitc6L/nBUWfWPcTarG3t9PsquqUMuVeXZeca+mglY4Vo5GZjCi0A3Or2lnxA==}
 
   '@types/responselike@1.0.3':
     resolution: {integrity: sha512-H/+L+UkTV33uf49PH5pCAUBVPNj2nDBXTN+qS1dOwyyg24l3CcicicCA7ca+HMvJBZcFgl5r8e+RR6elsb4Lyw==}
@@ -2985,8 +2985,8 @@ packages:
   is-core-module@2.13.1:
     resolution: {integrity: sha512-hHrIjvZsftOsvKSn2TRYl63zvxsgE0K+0mYMoH6gD4omR5IWB2KynivBQczo3+wF1cCkjzvptnI9Q0sPU66ilw==}
 
-  is-core-module@2.15.0:
-    resolution: {integrity: sha512-Dd+Lb2/zvk9SKy1TGCt1wFJFo/MWBPMX5x7KcvLajWTGuomczdQX61PvY5yK6SVACwpoexWo81IfFyoKY2QnTA==}
+  is-core-module@2.15.1:
+    resolution: {integrity: sha512-z0vtXSwucUJtANQWldhbtbt7BnL0vxiFjIdDLAatwhDYty2bad6s+rijD6Ri4YuYJubLzIJLUidCh09e1djEVQ==}
     engines: {node: '>= 0.4'}
 
   is-data-view@1.0.1:
@@ -4626,8 +4626,8 @@ packages:
   unbox-primitive@1.0.2:
     resolution: {integrity: sha512-61pPlCD9h51VoreyJ0BReideM3MDKMKnh6+V9L08331ipq6Q8OFXZYiqP6n/tbHx4s5I9uRhcye6BrbkizkBDw==}
 
-  undici-types@6.13.0:
-    resolution: {integrity: sha512-xtFJHudx8S2DSoujjMd1WeWvn7KKWFRESZTMeL1RptAYERu29D6jphMjjY+vn96jvN3kVPDNxU/E13VTaXj6jg==}
+  undici-types@6.19.8:
+    resolution: {integrity: sha512-ve2KP6f/JnbPBFyobGHuerC9g1FYGn/F8n1LWTwNxCEzd6IfqTwUQcNXgEtmmQ6DlRrC1hrSrBnCZPokRrDHjw==}
 
   unique-filename@1.1.1:
     resolution: {integrity: sha512-Vmp0jIp2ln35UTXuryvjzkjGdRyf9b2lTXuSYUiPmzRcl3FDtYqAwOnTJkAngD9SWhnoJzDbTKwaOrZ+STtxNQ==}
@@ -4951,7 +4951,7 @@ snapshots:
     dependencies:
       regenerator-runtime: 0.14.1
 
-  '@babel/runtime@7.25.0':
+  '@babel/runtime@7.25.6':
     dependencies:
       regenerator-runtime: 0.14.1
 
@@ -5535,7 +5535,7 @@ snapshots:
       - bluebird
       - supports-color
 
-  '@oclif/core@2.16.0(@types/node@22.1.0)(typescript@5.5.4)':
+  '@oclif/core@2.16.0(@types/node@22.5.2)(typescript@5.5.4)':
     dependencies:
       '@types/cli-progress': 3.11.5
       ansi-escapes: 4.3.2
@@ -5560,7 +5560,7 @@ snapshots:
       strip-ansi: 6.0.1
       supports-color: 8.1.1
       supports-hyperlinks: 2.3.0
-      ts-node: 10.9.2(@types/node@22.1.0)(typescript@5.5.4)
+      ts-node: 10.9.2(@types/node@22.5.2)(typescript@5.5.4)
       tslib: 2.7.0
       widest-line: 3.1.0
       wordwrap: 1.0.0
@@ -5571,18 +5571,18 @@ snapshots:
       - '@types/node'
       - typescript
 
-  '@oclif/plugin-help@5.2.20(@types/node@22.1.0)(typescript@5.5.4)':
+  '@oclif/plugin-help@5.2.20(@types/node@22.5.2)(typescript@5.5.4)':
     dependencies:
-      '@oclif/core': 2.16.0(@types/node@22.1.0)(typescript@5.5.4)
+      '@oclif/core': 2.16.0(@types/node@22.5.2)(typescript@5.5.4)
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
       - '@types/node'
       - typescript
 
-  '@oclif/plugin-not-found@2.4.3(@types/node@22.1.0)(typescript@5.5.4)':
+  '@oclif/plugin-not-found@2.4.3(@types/node@22.5.2)(typescript@5.5.4)':
     dependencies:
-      '@oclif/core': 2.16.0(@types/node@22.1.0)(typescript@5.5.4)
+      '@oclif/core': 2.16.0(@types/node@22.5.2)(typescript@5.5.4)
       chalk: 4.1.2
       fast-levenshtein: 3.0.0
     transitivePeerDependencies:
@@ -5591,9 +5591,9 @@ snapshots:
       - '@types/node'
       - typescript
 
-  '@oclif/plugin-warn-if-update-available@2.1.1(@types/node@22.1.0)(typescript@5.5.4)':
+  '@oclif/plugin-warn-if-update-available@2.1.1(@types/node@22.5.2)(typescript@5.5.4)':
     dependencies:
-      '@oclif/core': 2.16.0(@types/node@22.1.0)(typescript@5.5.4)
+      '@oclif/core': 2.16.0(@types/node@22.5.2)(typescript@5.5.4)
       chalk: 4.1.2
       debug: 4.3.6
       http-call: 5.3.0
@@ -5817,22 +5817,22 @@ snapshots:
   '@types/body-parser@1.19.5':
     dependencies:
       '@types/connect': 3.4.38
-      '@types/node': 22.1.0
+      '@types/node': 22.5.2
 
   '@types/cacheable-request@6.0.3':
     dependencies:
       '@types/http-cache-semantics': 4.0.4
       '@types/keyv': 3.1.4
-      '@types/node': 22.1.0
+      '@types/node': 22.5.2
       '@types/responselike': 1.0.3
 
   '@types/cli-progress@3.11.5':
     dependencies:
-      '@types/node': 22.1.0
+      '@types/node': 22.5.2
 
   '@types/connect@3.4.38':
     dependencies:
-      '@types/node': 22.1.0
+      '@types/node': 22.5.2
 
   '@types/estree@1.0.5': {}
 
@@ -5840,7 +5840,7 @@ snapshots:
 
   '@types/express-serve-static-core@4.19.3':
     dependencies:
-      '@types/node': 22.1.0
+      '@types/node': 22.5.2
       '@types/qs': 6.9.15
       '@types/range-parser': 1.2.7
       '@types/send': 0.17.4
@@ -5860,32 +5860,32 @@ snapshots:
 
   '@types/keyv@3.1.4':
     dependencies:
-      '@types/node': 22.1.0
+      '@types/node': 22.5.2
 
   '@types/mime@1.3.5': {}
 
   '@types/minimatch@3.0.5': {}
 
-  '@types/multer@1.4.11':
+  '@types/multer@1.4.12':
     dependencies:
       '@types/express': 4.17.21
 
   '@types/node-fetch@2.6.11':
     dependencies:
-      '@types/node': 22.1.0
+      '@types/node': 22.5.2
       form-data: 4.0.0
 
   '@types/node@15.14.9': {}
 
-  '@types/node@22.1.0':
+  '@types/node@22.5.2':
     dependencies:
-      undici-types: 6.13.0
+      undici-types: 6.19.8
 
   '@types/normalize-package-data@2.4.4': {}
 
   '@types/prompts@2.4.9':
     dependencies:
-      '@types/node': 22.1.0
+      '@types/node': 22.5.2
       kleur: 3.0.3
 
   '@types/prop-types@15.7.12': {}
@@ -5894,32 +5894,32 @@ snapshots:
 
   '@types/range-parser@1.2.7': {}
 
-  '@types/react@18.3.3':
+  '@types/react@18.3.5':
     dependencies:
       '@types/prop-types': 15.7.12
       csstype: 3.1.3
 
   '@types/responselike@1.0.3':
     dependencies:
-      '@types/node': 22.1.0
+      '@types/node': 22.5.2
 
   '@types/semver@7.5.8': {}
 
   '@types/send@0.17.4':
     dependencies:
       '@types/mime': 1.3.5
-      '@types/node': 22.1.0
+      '@types/node': 22.5.2
 
   '@types/serve-static@1.15.7':
     dependencies:
       '@types/http-errors': 2.0.4
-      '@types/node': 22.1.0
+      '@types/node': 22.5.2
       '@types/send': 0.17.4
 
   '@types/vinyl@2.0.12':
     dependencies:
       '@types/expect': 1.20.4
-      '@types/node': 22.1.0
+      '@types/node': 22.5.2
 
   '@typescript-eslint/eslint-plugin@7.11.0(@typescript-eslint/parser@7.11.0(eslint@8.57.0)(typescript@5.4.5))(eslint@8.57.0)(typescript@5.4.5)':
     dependencies:
@@ -7195,7 +7195,7 @@ snapshots:
 
   eslint-plugin-jsx-a11y@6.8.0(eslint@8.57.0):
     dependencies:
-      '@babel/runtime': 7.25.0
+      '@babel/runtime': 7.25.6
       aria-query: 5.3.0
       array-includes: 3.1.8
       array.prototype.flatmap: 1.3.2
@@ -7918,7 +7918,7 @@ snapshots:
     dependencies:
       hasown: 2.0.2
 
-  is-core-module@2.15.0:
+  is-core-module@2.15.1:
     dependencies:
       hasown: 2.0.2
 
@@ -8718,12 +8718,12 @@ snapshots:
       define-properties: 1.2.1
       es-object-atoms: 1.0.0
 
-  oclif@3.17.2(@types/node@22.1.0)(encoding@0.1.13)(mem-fs@2.3.0)(typescript@5.5.4):
+  oclif@3.17.2(@types/node@22.5.2)(encoding@0.1.13)(mem-fs@2.3.0)(typescript@5.5.4):
     dependencies:
-      '@oclif/core': 2.16.0(@types/node@22.1.0)(typescript@5.5.4)
-      '@oclif/plugin-help': 5.2.20(@types/node@22.1.0)(typescript@5.5.4)
-      '@oclif/plugin-not-found': 2.4.3(@types/node@22.1.0)(typescript@5.5.4)
-      '@oclif/plugin-warn-if-update-available': 2.1.1(@types/node@22.1.0)(typescript@5.5.4)
+      '@oclif/core': 2.16.0(@types/node@22.5.2)(typescript@5.5.4)
+      '@oclif/plugin-help': 5.2.20(@types/node@22.5.2)(typescript@5.5.4)
+      '@oclif/plugin-not-found': 2.4.3(@types/node@22.5.2)(typescript@5.5.4)
+      '@oclif/plugin-warn-if-update-available': 2.1.1(@types/node@22.5.2)(typescript@5.5.4)
       async-retry: 1.3.3
       aws-sdk: 2.1632.0
       concurrently: 7.6.0
@@ -9022,7 +9022,7 @@ snapshots:
       '@protobufjs/path': 1.1.2
       '@protobufjs/pool': 1.1.0
       '@protobufjs/utf8': 1.1.0
-      '@types/node': 22.1.0
+      '@types/node': 22.5.2
       long: 5.2.3
 
   proxy-addr@2.0.7:
@@ -9182,7 +9182,7 @@ snapshots:
 
   resolve@2.0.0-next.5:
     dependencies:
-      is-core-module: 2.15.0
+      is-core-module: 2.15.1
       path-parse: 1.0.7
       supports-preserve-symlinks-flag: 1.0.0
 
@@ -9629,14 +9629,14 @@ snapshots:
       '@ts-morph/common': 0.24.0
       code-block-writer: 13.0.1
 
-  ts-node@10.9.2(@types/node@22.1.0)(typescript@5.5.4):
+  ts-node@10.9.2(@types/node@22.5.2)(typescript@5.5.4):
     dependencies:
       '@cspotcode/source-map-support': 0.8.1
       '@tsconfig/node10': 1.0.11
       '@tsconfig/node12': 1.0.11
       '@tsconfig/node14': 1.0.3
       '@tsconfig/node16': 1.0.4
-      '@types/node': 22.1.0
+      '@types/node': 22.5.2
       acorn: 8.11.3
       acorn-walk: 8.3.2
       arg: 4.1.3
@@ -9764,7 +9764,7 @@ snapshots:
       has-symbols: 1.0.3
       which-boxed-primitive: 1.0.2
 
-  undici-types@6.13.0: {}
+  undici-types@6.19.8: {}
 
   unique-filename@1.1.1:
     dependencies:
@@ -9859,13 +9859,13 @@ snapshots:
       remove-trailing-separator: 1.1.0
       replace-ext: 1.0.1
 
-  vite-node@2.0.5(@types/node@22.1.0):
+  vite-node@2.0.5(@types/node@22.5.2):
     dependencies:
       cac: 6.7.14
       debug: 4.3.6
       pathe: 1.1.2
       tinyrainbow: 1.2.0
-      vite: 5.2.12(@types/node@22.1.0)
+      vite: 5.2.12(@types/node@22.5.2)
     transitivePeerDependencies:
       - '@types/node'
       - less
@@ -9876,16 +9876,16 @@ snapshots:
       - supports-color
       - terser
 
-  vite@5.2.12(@types/node@22.1.0):
+  vite@5.2.12(@types/node@22.5.2):
     dependencies:
       esbuild: 0.20.2
       postcss: 8.4.38
       rollup: 4.18.0
     optionalDependencies:
-      '@types/node': 22.1.0
+      '@types/node': 22.5.2
       fsevents: 2.3.3
 
-  vitest@2.0.5(@types/node@22.1.0):
+  vitest@2.0.5(@types/node@22.5.2):
     dependencies:
       '@ampproject/remapping': 2.3.0
       '@vitest/expect': 2.0.5
@@ -9903,11 +9903,11 @@ snapshots:
       tinybench: 2.8.0
       tinypool: 1.0.0
       tinyrainbow: 1.2.0
-      vite: 5.2.12(@types/node@22.1.0)
-      vite-node: 2.0.5(@types/node@22.1.0)
+      vite: 5.2.12(@types/node@22.5.2)
+      vite-node: 2.0.5(@types/node@22.5.2)
       why-is-node-running: 2.3.0
     optionalDependencies:
-      '@types/node': 22.1.0
+      '@types/node': 22.5.2
     transitivePeerDependencies:
       - less
       - lightningcss
