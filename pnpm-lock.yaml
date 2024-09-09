@@ -48,8 +48,8 @@ importers:
         specifier: ^11.1.0
         version: 11.1.0
       picocolors:
-        specifier: ^1.0.1
-        version: 1.0.1
+        specifier: ^1.1.0
+        version: 1.1.0
     devDependencies:
       '@fig/complete-commander':
         specifier: workspace:^
@@ -107,8 +107,8 @@ importers:
         specifier: 1.4.5-lts.1
         version: 1.4.5-lts.1
       picocolors:
-        specifier: ^1.0.1
-        version: 1.0.1
+        specifier: ^1.1.0
+        version: 1.1.0
       tsx:
         specifier: ^4.19.0
         version: 4.19.0
@@ -376,8 +376,8 @@ importers:
         specifier: ^8.14.2
         version: 8.14.2
       picocolors:
-        specifier: ^1.0.1
-        version: 1.0.1
+        specifier: ^1.1.0
+        version: 1.1.0
       prettier:
         specifier: ^3.3.3
         version: 3.3.3
@@ -3863,8 +3863,8 @@ packages:
     resolution: {integrity: sha512-vE7JKRyES09KiunauX7nd2Q9/L7lhok4smP9RZTDeD4MVs72Dp2qNFVz39Nz5a0FVEW0BJR6C0DYrq6unoziZA==}
     engines: {node: '>= 14.16'}
 
-  picocolors@1.0.1:
-    resolution: {integrity: sha512-anP1Z8qwhkbmu7MFP5iTt+wQKXgwzf7zTyGlcdzabySa9vd0Xt392U0rVmz9poOaBj0uHJKyyo9/upk0HrEQew==}
+  picocolors@1.1.0:
+    resolution: {integrity: sha512-TQ92mBOW0l3LeMeyLV6mzy/kWr8lkd/hp3mTg7wYK7zJhuBStmGMBG0BdeDZS/dZx1IukaX6Bk11zcln25o1Aw==}
 
   picomatch@2.3.1:
     resolution: {integrity: sha512-JU3teHTNjmE2VCGFzuY8EXzCDVwEqB2a8fsIvwaStHhAWJEeVd1o1QD80CU6+ZdEXXSLbSsuLwJjkCBWqRQUVA==}
@@ -4936,7 +4936,7 @@ snapshots:
   '@babel/code-frame@7.24.6':
     dependencies:
       '@babel/highlight': 7.24.6
-      picocolors: 1.0.1
+      picocolors: 1.1.0
 
   '@babel/helper-validator-identifier@7.24.6': {}
 
@@ -4945,7 +4945,7 @@ snapshots:
       '@babel/helper-validator-identifier': 7.24.6
       chalk: 2.4.2
       js-tokens: 4.0.0
-      picocolors: 1.0.1
+      picocolors: 1.1.0
 
   '@babel/runtime@7.24.6':
     dependencies:
@@ -8941,7 +8941,7 @@ snapshots:
 
   pathval@2.0.0: {}
 
-  picocolors@1.0.1: {}
+  picocolors@1.1.0: {}
 
   picomatch@2.3.1: {}
 
@@ -8960,7 +8960,7 @@ snapshots:
   postcss@8.4.38:
     dependencies:
       nanoid: 3.3.7
-      picocolors: 1.0.1
+      picocolors: 1.1.0
       source-map-js: 1.2.0
 
   preferred-pm@3.1.3:
@@ -9802,7 +9802,7 @@ snapshots:
     dependencies:
       browserslist: 4.23.0
       escalade: 3.1.2
-      picocolors: 1.0.1
+      picocolors: 1.1.0
 
   uri-js@4.4.1:
     dependencies:

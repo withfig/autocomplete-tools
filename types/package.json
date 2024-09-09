@@ -19,7 +19,7 @@
     "@microsoft/tsdoc": "^0.15.0",
     "@types/node": "^22.5.2",
     "cspell": "^8.14.2",
-    "picocolors": "^1.0.1",
+    "picocolors": "^1.1.0",
     "prettier": "^3.3.3",
     "tsx": "^4.19.0",
     "typescript": "^5.5.4"
