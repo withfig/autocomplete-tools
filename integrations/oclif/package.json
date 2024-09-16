@@ -9,7 +9,7 @@
     "prettier": "^3.3.3"
   },
   "devDependencies": {
-    "@types/node": "^22.5.2",
+    "@types/node": "^22.5.5",
     "@withfig/autocomplete-types": "workspace:^",
     "oclif": "^3.17.2",
     "tslib": "^2.7.0",
