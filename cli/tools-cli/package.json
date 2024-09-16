@@ -25,7 +25,7 @@
     "@fig/autocomplete-merge": "workspace:^",
     "@types/semver": "^7.5.8",
     "chalk": "^4.1.2",
-    "chokidar": "^3.6.0",
+    "chokidar": "^4.0.0",
     "commander": "^11.1.0",
     "create-completion-spec": "workspace:^",
     "esbuild": "^0.23.1",
