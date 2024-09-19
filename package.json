@@ -12,7 +12,7 @@
     "husky": "^9.1.4",
     "lint-staged": "^15.2.10",
     "prettier": "3.3.3",
-    "turbo": "^2.1.1"
+    "turbo": "^2.1.2"
   },
   "scripts": {
     "lint": "eslint .",
