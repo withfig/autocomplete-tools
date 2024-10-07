@@ -21,7 +21,7 @@
   ],
   "devDependencies": {
     "@tsconfig/recommended": "^1.0.7",
-    "@types/node": "^22.5.2",
+    "@types/node": "^22.7.4",
     "@withfig/autocomplete-types": "workspace:^",
     "tsx": "^4.19.0"
   },
