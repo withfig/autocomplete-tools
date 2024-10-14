@@ -36,7 +36,7 @@
     "@fig/complete-commander": "workspace:^",
     "@types/node": "^22.5.2",
     "tsx": "^4.19.0",
-    "typescript": "^5.5.4"
+    "typescript": "^5.6.3"
   },
   "publishConfig": {
     "access": "public"
