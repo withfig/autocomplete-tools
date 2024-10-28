@@ -20,7 +20,7 @@
     "lib/"
   ],
   "devDependencies": {
-    "@tsconfig/recommended": "^1.0.7",
+    "@tsconfig/recommended": "^1.0.8",
     "@types/node": "^22.5.2",
     "@withfig/autocomplete-types": "workspace:^",
     "tsx": "^4.19.0"
