@@ -32,7 +32,7 @@
     "@withfig/autocomplete-types": "workspace:^",
     "prettier": "^3.3.3",
     "tsx": "^4.19.0",
-    "vitest": "^2.1.4"
+    "vitest": "^2.1.5"
   },
   "publishConfig": {
     "access": "public"
