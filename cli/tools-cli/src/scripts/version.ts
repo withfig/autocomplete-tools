@@ -202,7 +202,7 @@ async function addDiffAction(
   const versionExports = findInFile(
     ts.createSourceFile(currentSpecPath, source, ts.ScriptTarget.ES2015, true),
     (node: ts.Node) => {
-      if (ts.isExportSpecifier(node) && node.name.escapedText === "versions") {
+      if (ts.isExportSpecifier(node) && node.name.getText() === "versions") {
         return node.parent.parent;
       }
       return null;
