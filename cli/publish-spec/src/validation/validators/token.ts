@@ -21,7 +21,7 @@ export const validateToken: Validator<TokenValidation> = async (options: RunOpti
       message:
         "A Fig API token to push a spec to a team but none was found, please insert one manually:",
       name: "token",
-      validate: (v: string) => !!v ?? "A Token is required to push the spec to a team",
+      validate: (v: string) => !!v || "A Token is required to push the spec to a team",
     });
   }
 };

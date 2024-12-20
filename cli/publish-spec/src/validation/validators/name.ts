@@ -31,7 +31,7 @@ export const validateName: Validator<NameValidation> = async (options: RunOption
       type: "text",
       message: "Choose a name for the spec:",
       name: "name",
-      validate: (v: string) => !v.includes(" ") ?? ValidationErrorEnum.nameWithSpace,
+      validate: (v: string) => !v.includes(" ") || ValidationErrorEnum.nameWithSpace,
     });
   }
 };
