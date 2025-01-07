@@ -10,7 +10,7 @@
   "main": "dist/index.js",
   "devDependencies": {
     "@microsoft/tsdoc": "^0.15.0",
-    "commander": "^11.1.0",
+    "commander": "^13.0.0",
     "prettier": "^3.3.3",
     "typescript": "^5.5.4"
   }
