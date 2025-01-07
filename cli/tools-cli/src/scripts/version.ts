@@ -1,12 +1,12 @@
+import fs from "node:fs";
+import path from "node:path";
 import { Command } from "commander";
 import semver from "semver";
 import { applySpecDiff, diffSpecs } from "@fig/autocomplete-helpers";
 import { importFromStringSync } from "module-from-string";
 import prettier from "prettier";
-import fs from "fs";
 import ts from "typescript";
 import { build } from "esbuild";
-import path from "path";
 
 export const copyDirectorySync = (oldPath: string, newPath: string) => {
   if (!fs.existsSync(newPath)) {

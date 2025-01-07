@@ -1,9 +1,11 @@
-import fs from "fs";
-import path from "path";
+import fs from "node:fs";
+import path from "node:path";
+import url from "node:url";
 import prettier from "prettier";
 import { getVersionFromVersionedSpec } from "../src/versions";
 
-const fixturesPath = path.join(__dirname, "fixtures");
+const dirname = path.dirname(url.fileURLToPath(import.meta.url));
+const fixturesPath = path.join(dirname, "fixtures");
 const dirs = fs
   .readdirSync(fixturesPath, { withFileTypes: true })
   .filter((file) => file.isDirectory() && file.name !== ".DS_Store");

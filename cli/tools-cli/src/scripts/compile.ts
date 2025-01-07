@@ -1,10 +1,11 @@
+import fs from "node:fs/promises";
+import fsSync from "node:fs";
+import path from "node:path";
 import { build } from "esbuild";
 import { NodeModulesPolyfillPlugin } from "@esbuild-plugins/node-modules-polyfill";
 import chokidar from "chokidar";
 import { Command } from "commander";
 import glob from "fast-glob";
-import fs from "node:fs/promises";
-import path from "node:path";
 import SpecLogger, { Level } from "./log";
 import { setSetting } from "./settings";
 
@@ -33,33 +34,55 @@ async function generateIndex(outdir: string, files: string[]) {
     .concat(diffVersionedSpecNames);
   specNames.sort();
 
-  await fs.mkdir(outdir, { recursive: true });
+  const modules = files
+    .filter((p) => fsSync.statSync(p).isFile())
+    .map(path.parse)
+    .map((p) => `${p.dir}/${p.name}`.replace(/^src\//, ""));
 
-  Promise.all([
-    // index.js
-    await fs.writeFile(
-      path.join(outdir, "index.js"),
-      `var e=${JSON.stringify(specNames)},diffVersionedCompletions=${JSON.stringify(
-        diffVersionedSpecNames
-      )};export{e as default,diffVersionedCompletions};`
-    ),
-    // index.json
-    fs.writeFile(
-      path.join(outdir, "index.json"),
-      JSON.stringify({
-        completions: specNames,
-        diffVersionedCompletions: diffVersionedSpecNames,
-      })
-    ),
-    // index.d.ts
-    fs.writeFile(
-      path.join(outdir, "index.d.ts"),
-      `declare const completions: string[]
+  await fs.mkdir(outdir, { recursive: true });
+  await fs.mkdir(path.join(outdir, "dynamic"), { recursive: true });
+
+  // index.js
+  await fs.writeFile(
+    path.join(outdir, "index.js"),
+    `var e=${JSON.stringify(specNames)},diffVersionedCompletions=${JSON.stringify(
+      diffVersionedSpecNames
+    )};export{e as default,diffVersionedCompletions};`
+  );
+  // index.json
+  await fs.writeFile(
+    path.join(outdir, "index.json"),
+    JSON.stringify({
+      completions: specNames,
+      diffVersionedCompletions: diffVersionedSpecNames,
+    })
+  );
+  // index.d.ts
+  await fs.writeFile(
+    path.join(outdir, "index.d.ts"),
+    `declare const completions: string[]
 declare const diffVersionedCompletions: string[]
 export { completions as default, diffVersionedCompletions }
-  `
-    ),
-  ]);
+`
+  );
+  // dynamic/index.js
+  await fs.writeFile(
+    path.join(outdir, "dynamic/index.js"),
+    `var e={${modules
+      .map((mod) => `${JSON.stringify(mod)}:()=>import(${JSON.stringify(`../${mod}.js`)})`)
+      .join(",")}};export{e as default};`
+  );
+  // dynamic/index.d.ts
+  await fs.writeFile(
+    path.join(outdir, "dynamic/index.d.ts"),
+    `declare const completions: {
+    [key: string]: () => Promise<{
+        default: any;
+    }>
+}
+export { completions as default }
+`
+  );
 }
 
 /**

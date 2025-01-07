@@ -1,10 +1,12 @@
-import fs from "fs";
-import child from "child_process";
-import path from "path";
+import fs from "node:fs";
+import child from "node:child_process";
+import path from "node:path";
+import url from "node:url";
 import { copyDirectorySync } from "../../src/scripts/version";
 
-const cliPath = path.join(__dirname, "..", "..", "src", "bin.ts");
-const fixturesPath = path.join(__dirname, "fixtures");
+const dirname = path.dirname(url.fileURLToPath(import.meta.url));
+const cliPath = path.join(dirname, "..", "..", "src", "bin.ts");
+const fixturesPath = path.join(dirname, "fixtures");
 const dirs = fs
   .readdirSync(fixturesPath, { withFileTypes: true })
   .filter((file) => file.isDirectory() && file.name !== ".DS_Store");
@@ -58,7 +60,7 @@ export function runFixtures() {
     }
 
     fs.rmSync(updatedSpecPath, { recursive: true, force: true });
-    const cmd = `node -r tsx/cjs ${cliPath} version add-diff old-spec ${newSpecPath} ${newVersion} --cwd ${fixtureDirPath} --new-path ${updatedSpecPath}`;
+    const cmd = `tsx ${cliPath} version add-diff old-spec ${newSpecPath} ${newVersion} --cwd ${fixtureDirPath} --new-path ${updatedSpecPath}`;
 
     try {
       child.execSync(cmd);
