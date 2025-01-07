@@ -1,29 +1,21 @@
 {
   "name": "@fig/autocomplete-helpers",
-  "version": "1.0.7",
+  "version": "2.0.0",
   "description": "Helper functions for fig completion specs",
-  "main": "./dist/cjs/index.js",
-  "module": "./dist/esm/index.js",
-  "typings": "./dist/cjs/index.d.ts",
-  "exports": {
-    "require": "./dist/cjs/index.js",
-    "import": "./dist/esm/index.js"
-  },
+  "type": "module",
+  "exports": "./dist/index.js",
   "files": [
     "dist/"
   ],
   "scripts": {
     "clean": "rm -rf dist/",
-    "build": "pnpm clean && pnpm build:cjs && pnpm build:esm",
-    "build:cjs": "tsc --declaration --outDir dist/cjs",
-    "build:esm": "tsc --declaration --module esnext --outDir dist/esm",
+    "build": "pnpm clean && tsc",
     "prepack": "pnpm build",
     "test": "tsx test/index.ts && vitest --run"
   },
   "author": "Fig Team",
   "dependencies": {
-    "semver": "^7.6.3",
-    "typescript": "^5.5.4"
+    "semver": "^7.6.3"
   },
   "devDependencies": {
     "@tsconfig/recommended": "^1.0.7",
@@ -32,6 +24,7 @@
     "@withfig/autocomplete-types": "workspace:^",
     "prettier": "^3.3.3",
     "tsx": "^4.19.2",
+    "typescript": "^5.5.4",
     "vitest": "^2.1.4"
   },
   "publishConfig": {

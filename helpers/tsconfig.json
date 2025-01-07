@@ -2,11 +2,11 @@
   "extends": "@tsconfig/recommended",
   "compilerOptions": {
     "lib": ["ESNext", "DOM"],
-    "moduleResolution": "node",
-    "esModuleInterop": true,
+    "moduleResolution": "node16",
+    "module": "node16",
+    "outDir": "dist",
     "sourceMap": true,
     "allowSyntheticDefaultImports": true,
-    "baseUrl": "./",
     "declaration": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
@@ -14,6 +14,6 @@
     "noUnusedParameters": true,
     "types": ["@withfig/autocomplete-types", "node"]
   },
-  "exclude": ["node_modules/", "dist/", "test/"],
-  "include": ["./"],
+  "exclude": ["node_modules", "dist", "test"],
+  "include": ["src"],
 }

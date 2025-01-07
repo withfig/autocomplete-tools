@@ -1,4 +1,4 @@
-import fs from "fs";
+import fs from "node:fs";
 import { Command, Option } from "commander";
 import { merge, presets, PresetName } from "@fig/autocomplete-merge";
 

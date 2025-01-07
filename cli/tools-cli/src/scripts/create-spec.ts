@@ -1,7 +1,7 @@
+import path from "node:path";
+import readline from "node:readline";
 import { createCompletionSpec } from "create-completion-spec";
 import { Command } from "commander";
-import readline from "readline";
-import path from "path";
 import chalk from "chalk";
 
 const program = new Command("create-spec")

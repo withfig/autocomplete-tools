@@ -1911,5 +1911,4 @@ versions["1.3.1"] = {
   ],
 };
 
-exports.versions = versions;
-exports.completion = completion;
+export { versions, completion };
