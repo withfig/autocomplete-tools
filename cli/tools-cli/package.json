@@ -34,7 +34,7 @@
     "module-from-string": "^3.3.1",
     "prettier": "^3.3.3",
     "semver": "^7.6.3",
-    "typescript": "^5.5.4"
+    "typescript": "^5.7.3"
   },
   "devDependencies": {
     "@fig/complete-commander": "workspace:^",
