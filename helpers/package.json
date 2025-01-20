@@ -19,7 +19,7 @@
   },
   "devDependencies": {
     "@tsconfig/recommended": "^1.0.7",
-    "@types/node": "^22.5.2",
+    "@types/node": "^22.10.7",
     "@types/semver": "^7.5.8",
     "@withfig/autocomplete-types": "workspace:^",
     "prettier": "^3.3.3",
