@@ -15,7 +15,7 @@
   },
   "author": "Fig Team",
   "dependencies": {
-    "semver": "^7.6.3"
+    "semver": "^7.7.1"
   },
   "devDependencies": {
     "@tsconfig/recommended": "^1.0.7",
